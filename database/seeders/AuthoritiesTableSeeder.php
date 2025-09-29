@@ -1,17 +1,10 @@
 <?php
 
-namespace Database\Seeders;
-
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Authority;
 
 class AuthoritiesTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $params = [
@@ -27,7 +20,7 @@ class AuthoritiesTableSeeder extends Seeder
             ],
             [
                 'user_id' => 1,
-                'reason' => ' ',
+                'reason' => '',
                 'status' => 0,
             ],
             [
@@ -38,9 +31,14 @@ class AuthoritiesTableSeeder extends Seeder
         ];
 
         foreach ($params as $param) {
-            $param['created_at'] = now();
-            $param['updated_at'] = now();
-            DB::table('authorities')->insert($param);
+            Authority::firstOrCreate(
+                // 重複チェック条件
+                ['user_id' => $param['user_id']],
+                [
+                    'reason'     => $param['reason'],
+                    'status'     => $param['status'],
+                ]
+            );
         }
     }
 }

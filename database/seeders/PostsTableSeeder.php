@@ -2,16 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Post;
 
 class PostsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $params = [
@@ -24,7 +19,7 @@ class PostsTableSeeder extends Seeder
                 'region' => '東京都',
                 'vaccination' => 'テキストテキストテキストテキストテキストテキスト',
                 'medical_history' => 'なし',
-                'description' => 'descriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescription',
+                'description' => str_repeat('description', 10),
                 'start_date' => now(),
                 'status' => 0
             ],
@@ -35,7 +30,7 @@ class PostsTableSeeder extends Seeder
                 'age' => 4,
                 'cost' => 0,
                 'region' => '東京都',
-                'vaccination' => '11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
+                'vaccination' => str_repeat('1', 150),
                 'medical_history' => '不明',
                 'description' => '',
                 'start_date' => now(),
@@ -64,16 +59,14 @@ class PostsTableSeeder extends Seeder
                 'region' => '東京都',
                 'vaccination' => 'テキストテキストテキストテキストテキストテキスト',
                 'medical_history' => 'なし',
-                'description' => 'descriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescription',
+                'description' => str_repeat('description', 10),
                 'start_date' => now(),
                 'status' => 2
             ],
         ];
 
         foreach ($params as $param) {
-            $param['created_at'] = now();
-            $param['updated_at'] = now();
+            Post::create($param);
         }
-        DB::table('posts')->insert($param);
     }
 }

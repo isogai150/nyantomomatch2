@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class UsersTableSeeder extends Seeder
 {
@@ -20,28 +21,29 @@ class UsersTableSeeder extends Seeder
         $users = ['user1', 'user2'];
 
         foreach ($users as $user) {
-            DB::table('users')->insert([
-                'name' => $user,
-                'email' => $user.'@email.com',
-                'password' => Hash::make('password'),
-                'role' => 0,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            //firstOrCreate：検索して、なければ作成するメソッド
+            User::firstOrCreate(
+                ['email' => $user.'@email.com'],
+                [
+                    'name' => $user,
+                    'password' => Hash::make('password'),
+                    'role' => 0,
+                ]
+            );
         }
 
         // 投稿権限ユーザー
         $authorizedUsers = ['user3', 'user4'];
 
         foreach ($authorizedUsers as $authorizedUser) {
-            DB::table('users')->insert([
-                'name' => $authorizedUser,
-                'email' => $authorizedUser.'@email.com',
-                'password' => Hash::make('password'),
-                'role' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            User::firstOrCreate(
+                ['email' => $authorizedUser.'@email.com'],
+                [
+                    'name' => $authorizedUser,
+                    'password' => Hash::make('password'),
+                    'role' => 1,
+                ]
+            );
         }
     }
 }

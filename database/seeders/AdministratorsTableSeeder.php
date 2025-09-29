@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use App\Models\Administrator;
 
 class AdministratorsTableSeeder extends Seeder
 {
@@ -14,12 +15,12 @@ class AdministratorsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('administrators')->insert([
-            'name' => 'test',
-            'email' => 'test@email.com',
-            'password' => Hash::make('password'),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        Administrator::firstOrCreate(
+            ['email' => 'test@email.com'],
+            [
+                'name' => 'test',
+                'password' => Hash::make('password'),
+            ]
+        );
     }
 }
