@@ -21,7 +21,6 @@ class UsersTableSeeder extends Seeder
         $users = ['user1', 'user2'];
 
         foreach ($users as $user) {
-            //firstOrCreate：検索して、なければ作成するメソッド
             User::firstOrCreate(
                 ['email' => $user.'@email.com'],
                 [
