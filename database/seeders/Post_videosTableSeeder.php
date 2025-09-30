@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PostVideosTableSeeder extends Seeder
+class Post_videosTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,10 +16,9 @@ class PostVideosTableSeeder extends Seeder
     public function run()
     {
         $videos = [
-            // 投稿ID 3 に動画1本
+
             ['post_id' => 3, 'video_path' => 'public/videos/seeder/854183-hd_1920_1080_25fps.mp4'],
 
-            // 投稿ID 4 に動画1本
             ['post_id' => 4, 'video_path' => 'public/videos/seeder/855282-hd_1280_720_25fps.mp4'],
         ];
 

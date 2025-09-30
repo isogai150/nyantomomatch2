@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class TransferDocumentsTableSeeder extends Seeder
+class Transfer_documentsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

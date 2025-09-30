@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PostImagesTableSeeder extends Seeder
+class Post_imagesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -27,6 +27,6 @@ class PostImagesTableSeeder extends Seeder
             $image['created_at'] = now();
             $image['updated_at'] = now();
             DB::table('post_images')->insert($image);
-        }
+        };
     }
 }
