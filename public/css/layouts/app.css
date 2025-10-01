@@ -1,10 +1,60 @@
 @charset "UTF-8";
 
+/* ==================================================== */
+/* 共通 */
+/* ==================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  width: 100%;
+}
+
+li {
+  list-style-type: none;
+}
+
+.flex {
+  display: flex;
+}
+
+a {
+  font-size: 16px;
+  color: #503322;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ==================================================== */
+/* header */
+/* ==================================================== */
+
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1% 4%;
+  background-color: #FFFDF2;
+  opacity: 0.5;
+  position: fixed;
+}
+
+.header-left {
+  align-items: center;
+}
+
+.header-logo {
+  width: 45px;
+  height: 45px;
+}
+
+.header-text {
+  width: 180px;
+  height: 25px;
 }
 
 /* ハンバーガーボタン */
@@ -64,6 +114,10 @@
 }
 
 /* ボタンが開いた時 */
+.hamburger.active {
+  position: absolute;
+}
+
 .hamburger.active span:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
 }
@@ -74,4 +128,55 @@
 
 .hamburger.active span:nth-child(3) {
   transform: rotate(-45deg) translate(6px, -6px);
+}
+
+
+/* ==================================================== */
+/* footer */
+/* ==================================================== */
+
+.footer-top {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1% 4%;
+  background-color: #fff;
+  opacity: 0.5;
+  border-bottom: 2px solid #D3C6B7;
+}
+
+.footer-left {
+  align-items: center;
+}
+
+.footer-logo {
+  width: 45px;
+  height: 45px;
+}
+
+.footer-text {
+  width: 180px;
+  height: 25px;
+}
+
+.footer-raight {
+  width: 31%;
+}
+
+.footer-raight ul {
+  display: flex;
+}
+
+.footer-raight li {
+margin-right: 4%;
+}
+
+.footer-raight li:last-child {
+  margin-right: 0;
+}
+
+.footer-bottm {
+  text-align: center;
+  padding: 1% 0;
 }

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>にゃん×とも×まっち</title>
+  {{-- ファピコン --}}
   <link rel="icon" href="public/images/favicon/favicon24x24.ico">
 
   <link rel="icon" href="{{ asset('images/favicon/favicon24x24.ico') }}">
@@ -15,11 +16,12 @@
 <body>
   <header>
     <div class="header-content">
-      <div class="header-raight">
-        <img src="{{ asset('images/logo/20250922_1357_にゃんともマッチ_logo_simple_compose_01k5qwesjqenp97krbkk8gfe7m.png') }}" alt="ヘッダーロゴ">
-        <img src="{{ asset('images/logo/20250922_1357_にゃんともマッチ_text_simple_compose_01k5qwesjqenp97krbkk8gfe7m.png') }}" alt="ヘッダーテキスト">
+      <div class="header-left flex">
+        {{-- ロゴクリックしたらtopページへ戻る --}}
+        <a href="#"><img class="header-logo" src="{{ asset('images/logo/20250922_1357_にゃんともマッチ_logo_simple_compose_01k5qwesjqenp97krbkk8gfe7m.png') }}" alt="ヘッダーロゴ"></a>
+        <a href="#"><img class="header-text" src="{{ asset('images/logo/20250922_1357_にゃんともマッチ_text_simple_compose_01k5qwesjqenp97krbkk8gfe7m.png') }}" alt="ヘッダーテキスト"></a>
       </div>
-      <div class="header-left">
+      <div class="header-raight">
         <div class="hamburger-menu">
           <button id="hamburger-btn" class="hamburger">
             <span></span><span></span><span></span>
@@ -44,6 +46,7 @@
               <li><a href="#">ログイン</a></li>
               @endif --}}
 
+              {{-- 機能できたらこちらは削除する --}}
               @if(Auth::check())
               <li><a href="#">マイページ</a></li>
               <li><a href="#">DM一覧</a></li>
@@ -66,19 +69,21 @@
 
   <footer>
     <div class="footer-content">
-      <div class="footer-raight">
-        <img src="{{ asset('images/logo/20250922_1357_にゃんともマッチ_logo_simple_compose_01k5qwesjqenp97krbkk8gfe7m.png') }}" alt="フッターロゴ">
-        <img src="{{ asset('images/logo/20250922_1357_にゃんともマッチ_text_simple_compose_01k5qwesjqenp97krbkk8gfe7m.png') }}" alt="フッターテキスト">
-      </div>
-      <div class="footer-left">
-        <nav>
-          <ul>
-            <li><a href="#">トップページ</a></li>
-            <li><a href="#">お問い合わせ</a></li>
-            <li><a href="#">利用規約</a></li>
-            <li><a href="#">プライバシーポリシー</a></li>
-          </ul>
-        </nav>
+      <div class="footer-top flex">
+        <div class="footer-left flex">
+          <img class="footer-logo" src="{{ asset('images/logo/20250922_1357_にゃんともマッチ_logo_simple_compose_01k5qwesjqenp97krbkk8gfe7m.png') }}" alt="フッターロゴ">
+          <img class="footer-text" src="{{ asset('images/logo/20250922_1357_にゃんともマッチ_text_simple_compose_01k5qwesjqenp97krbkk8gfe7m.png') }}" alt="フッターテキスト">
+        </div>
+        <div class="footer-raight">
+          <nav>
+            <ul>
+              <li><a href="#">トップページ</a></li>
+              <li><a href="#">お問い合わせ</a></li>
+              <li><a href="#">利用規約</a></li>
+              <li><a href="#">プライバシーポリシー</a></li>
+            </ul>
+          </nav>
+        </div>
       </div>
       <div class="footer-bottm">
         <p>Copyright&copy2024 にゃん×とも×まっち.</p>
