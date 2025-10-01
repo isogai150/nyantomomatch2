@@ -17,7 +17,8 @@
   <header>
     <div class="header-content">
       <div class="header-logo">
-        <img class="logo" src="{{ asset('images/logo/20250922_1357_にゃんともマッチ_logo_simple_compose_01k5qwesjqenp97krbkk8gfe7m.png') }}" alt="ヘッダーロゴ">
+        {{-- ロゴクリック時にtopページに戻る --}}
+        <a href="#"><img class="logo" src="{{ asset('images/logo/20250922_1357_にゃんともマッチ_logo_simple_compose_01k5qwesjqenp97krbkk8gfe7m.png') }}" alt="ヘッダーロゴ"></a>
       </div>
       <div class="header-nav">
         <nav>
