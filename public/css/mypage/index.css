@@ -1,10 +1,104 @@
 @charset "UTF-8";
 
-main-content {
+.main-content {
   padding: 10% 0;
+  max-width: 1000px;
+  width: 100%; /* 小さい画面では100% */
+  margin: 0 auto;
 }
 
-/* background */
-.bg-custom {
-    background-color: #FFFDF2;
+/* font-size */
+p {
+    font-size: 16px
+    color #503322;
 }
+
+h2 {
+    font-size: 24px;
+    font-weight: 600;/* semibold */
+    color: #503322;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: 600;/* semibold */
+    color: #503322;
+    margin-bottom: 10px;
+}
+
+main {
+    background-color: #FFFDF2;
+    border-bottom: 2px solid #D3C6B7;
+    margin: 0;
+    padding: 0;
+}
+
+.pege-ttl {
+    width: 100%;
+    margin: 0 0 30px 0;
+    padding: 0;
+}
+
+.profile {
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 245px;
+    margin-bottom: 30px;
+    padding: 64px 0 0 140px;
+    border: 1px solid #D3C6B7;
+    border-radius: 20px;
+}
+
+#prf-name {
+    font-size: 24px;
+    font-weight: 600;/* semibold */
+    color: #503322;
+    margin-bottom: 25px;
+}
+.prf-status {
+    border: 1px solid #503322;
+    border-radius: 5px;
+    margin: 0 70px 0 0;
+    width: 140px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+  }
+
+#prf-description {
+    font-size: 20px;
+    font-weight: 600;/* semibold */
+    color: #503322;
+    margin-bottom: 20px;
+}
+
+  .container-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+.information {
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 495px;
+    margin-bottom: 30px;
+    padding: 30px 0 0 30px;
+    border: 1px solid #D3C6B7;
+    border-radius: 20px;
+}
+
+.authority {
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 730px;
+    margin-bottom: 64px;
+    padding: 30px 0 0 30px;
+    border: 1px solid #D3C6B7;
+    border-radius: 20px;
+}
+
+
+
+

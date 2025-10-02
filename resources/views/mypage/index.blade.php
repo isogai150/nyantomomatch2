@@ -9,7 +9,9 @@
 {{-- ここの中にコードを書く --}}
   <div class="pege-ttl">
     <h2>マイページ</h2>
-    <h3>プロフィール情報の確認・編集ができます</h3>
+    <div>
+      <h3>プロフィール情報の確認・編集ができます</h3>
+    </div>
   </div>
 
   <div class="profile">
@@ -17,10 +19,20 @@
       {{-- <img src="{{ asset('images/' . $user->image_path) }}" alt="ユーザーアイコン"> --}}
     </div>
 
-    <h2>ユーザー名</h2>
-    <p>ユーザーステータス</p>
-    <p>自己紹介</p>
-    <p>登録日</p>
+    <div class="container-flex">
+      <div class="prf-name" id="prf-name">
+        <h2>ユーザー名</h2>
+      </div>
+      <div class="prf-status">
+        <p>投稿権限ユーザー</p>
+      </div>
+    </div>
+    <div class="prf-description" id="prf-description">
+      <h3>猫が大好きで、いつか里親になりたいと思っています。</h3>
+    </div>
+    <div class="prf-create">
+      <p>登録日</p>
+    </div>
     {{-- <h2>{{ $user->name }}</h2> --}}
     {{-- <p>{{ $user->role }}</p> --}}
     {{-- <p>{{ $user->description }}</p> --}}
@@ -42,8 +54,8 @@
         {{-- <input type="text" class="form-control" name="email" id="email" value="{{ old('email') ?? $user->email }}" /> --}}
       </div>
       <div class="form-group">
-        <h3>自己紹介（飼育経験濃霧・現在の居住環境・家族構成など入力できる範囲で入力してください）</h3>
-        <input type="text" class="form-control" name="description" id="description" value="コメントコメント" />
+        <h3>自己紹介（飼育経験年数・現在の居住環境・家族構成など入力できる範囲で入力してください）</h3>
+        <textarea name="description" rows="10" cols="136" placeholder="こちらに長いテキストを入力してください..."></textarea>
         {{-- <input type="text" class="form-control" name="description" id="description" value="{{ old('description') ?? $user->description }}" /> --}}
       </div>
       <div class="profile-right">
