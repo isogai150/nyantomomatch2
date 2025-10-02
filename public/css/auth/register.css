@@ -36,14 +36,19 @@
 
 .fontsbold {
   font-weight:bold;
+  margin-right: 70%;
+  margin-left: 10%;
 }
+
+
 
 .textbox {
   border-width:1.5px;
   border-radius: 5px;
-  width:50%;
-  /* height:1.5rem; */
+  width:70%;
   padding: 1.2%;
+  margin-right: 70%;
+  margin-left: 15%;
 }
 
 span {
