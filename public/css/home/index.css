@@ -1,123 +1,143 @@
-@charset "UTF-8";
-/* ==================================================== */
-/* メイン画面 */
-/* ==================================================== */
-
-.main-content {
-  width: 100%;
-}
-
-.title {
+/* ===================== main-top ===================== */
+.main-top {
   text-align: center;
-  background: #FFFDF2;
+  padding: 120px 20px 40px;
+  background-color: #FFFDF2;
 }
 
-h1 {
-  font-size: 76px;
-  font-weight: bold;
+.title h1 {
+  font-size: 2rem;
   color: #503322;
-  padding-top: 10%;
-  margin-bottom: 4%;
 }
 
-h1 span {
-  color: #F6D8B3;
-  font-size: 68px
+.title h1 span {
+  display: block;
+  font-size: 1.5rem;
+  color: #D3C6B7;
 }
 
-p {
-  font-size: 24px;
-  color: #503322;
-  padding-bottom: 4%;
+.title p {
+  margin-top: 15px;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
+/* ===================== 検索・並べ替え ===================== */
 .post-searchs {
-  padding: 4% 4%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
 }
 
-.post-search {
-  width: 50%;
+.post-search input.text {
+  padding: 8px;
+  width: 200px;
 }
 
-h2 {
-  font-size: 24px;
-  margin-bottom: 4%;
-}
-
-.text {
-  width: 445px;
-  height: 40px;
-  font-size: 16px;
-  border-radius: 5px;
-}
-
-.submit {
-  height: 32px;
-  cursor: pointer;
-  background: #F6D8B3;
-  color: #503322;
-  border: none;
-  border-radius: 5px;
-  width: 145px;
-  height: 40px;
-  font-size: 16px;
+.post-search input.submit {
+  padding: 8px 12px;
 }
 
 .post-sort select {
-  background: #F6D8B3;
-  width: 120px;
-  height: 36px;
+  padding: 8px;
+}
+
+/* ===================== カードグリッド ===================== */
+.catpost-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.catpost-card {
+  background-color: #fff;
+  border: 1px solid #D3C6B7;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.catpost-card:hover {
+  transform: translateY(-5px);
+}
+
+.post-image {
+  position: relative;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
   border: none;
-  margin-top: 48%;
-  font-size: 16px;
-  border-radius: 5px;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
-/* モーダルウィンドウ */
+.favorite-btn.active {
+  color: red;
+}
+
+.post-information {
+  padding: 10px;
+}
+
+.post-information-top h3 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.post-information-center ul {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  margin: 5px 0;
+}
+
+.detail-btn {
+  display: block;
+  margin-top: 10px;
+  padding: 6px 10px;
+  background-color: #D3C6B7;
+  color: #503322;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+/* ===================== モーダル ===================== */
 .modal {
-display: none;
-position: fixed;
-z-index: 1000;
-left: 0;
-top: 0;
-width: 100%;
-height: 100%;
-background: rgba(0,0,0,0.6);
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
 }
-
 
 .modal-content {
-background: #fff;
-margin: 15% auto;
-padding: 30px;
-border-radius: 10px;
-width: 300px;
-text-align: center;
-position: relative;
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
 }
 
-
-.close {
-position: absolute;
-top: 10px;
-right: 15px;
-font-size: 20px;
-cursor: pointer;
-}
-
-
-.modal-content .btn {
-display: block;
-margin: 10px auto;
-padding: 10px 15px;
-background: #F6D8B3;
-color: #000;
-text-decoration: none;
-border-radius: 5px;
-}
-
-.modal-content .btn:hover {
-background: #F6D8B3;
+.modal .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
