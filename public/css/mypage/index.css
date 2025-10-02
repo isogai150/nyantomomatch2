@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+main-content {
+  padding: 10% 0;
+}
+
+/* background */
+.bg-custom {
+    background-color: #FFFDF2;
+}

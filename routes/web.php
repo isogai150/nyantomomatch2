@@ -21,5 +21,9 @@ Route::get('/admin', function () {
     return view('admin/layouts/app');
 });
 
+Route::get('/mypage', function () {
+    return view('mypage/index');
+});
+
 Auth::routes();
 
