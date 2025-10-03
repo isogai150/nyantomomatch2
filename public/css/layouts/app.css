@@ -41,6 +41,7 @@ a {
   background-color: #FFFDF2;
   opacity: 0.5;
   position: fixed;
+  border-bottom: 2px solid #D3C6B7;
 }
 
 .header-left {
@@ -130,6 +131,11 @@ a {
   transform: rotate(-45deg) translate(6px, -6px);
 }
 
+main {
+  border-bottom: 2px solid #D3C6B7;
+  margin-top: 0;
+}
+
 
 /* ==================================================== */
 /* footer */
@@ -179,4 +185,108 @@ margin-right: 4%;
 .footer-bottm {
   text-align: center;
   padding: 1% 0;
+}
+
+/* スマホ用 (390px以下) */
+@media screen and (max-width: 390px) {
+  /* ------------------------------
+    header
+  ------------------------------ */
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    position: fixed;
+  }
+
+  .header-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .header-logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .header-text {
+    width: 140px;
+    height: auto;
+  }
+
+  /* ハンバーガーを右上固定 */
+  .header-raight {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .hamburger {
+    width: 28px;
+    height: 22px;
+  }
+
+  .hamburger-menu nav {
+    width: 200px;
+    padding: 40px 15px;
+  }
+
+  .hamburger-menu nav ul li a {
+    font-size: 14px;
+  }
+
+  /* ------------------------------
+    main
+  ------------------------------ */
+   main {
+    margin-top: 60px; /* headerの高さ分 */
+  }
+  /* ------------------------------
+    footer
+  ------------------------------ */
+  .footer-top {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+    gap: 10px;
+  }
+
+  .footer-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .footer-logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .footer-text {
+    width: 140px;
+    height: auto;
+  }
+
+  .footer-raight {
+    width: 100%;
+  }
+
+  .footer-raight ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-raight li {
+    margin-right: 0;
+  }
+
+  .footer-raight li a {
+    font-size: 14px;
+  }
+
+  .footer-bottm {
+    font-size: 12px;
+    padding: 10px 0;
+  }
 }

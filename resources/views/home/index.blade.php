@@ -86,7 +86,7 @@
   {{-- 未ログイン時のみ表示 --}}
   @guest
     <div class="cta-section">
-      <h2>猫の里親になりませんか？<br>登録は無料です。</h2>
+      <h2>猫の里親になりませんか？<br><span class="bottom-text">登録は無料です。</span></h2>
       <a href="{{ route('register') }}" class="cta-btn">今すぐ登録する</a>
     </div>
   @endguest

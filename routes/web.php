@@ -12,3 +12,5 @@ Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show')
 
 // お気に入り
 Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+
+Auth::routes();

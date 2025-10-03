@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TransferDocument extends Model
 {
     use HasFactory;
+
+    public function transfer()
+    {
+        return $this->belongsTo(Transfer::class);
+    }
 }
