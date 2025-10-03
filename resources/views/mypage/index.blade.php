@@ -19,7 +19,7 @@
       {{-- <img src="{{ asset('images/' . $user->image_path) }}" alt="ユーザーアイコン"> --}}
     </div>
 
-    <div class="container-flex">
+    <div class="profile-flex">
       <div class="prf-name" id="prf-name">
         <h2>ユーザー名</h2>
       </div>
@@ -40,7 +40,12 @@
   </div>
 
   <div class="information">
-    <h3>基本情報</h3>
+    <div class="information-flex">
+      <div class="h3-b30px">
+        <h3>基本情報</h3>
+      </div>
+      <input type="submit" value="編集" class="btn-primary-s">
+    </div>
     {{-- <form action="{{ route('mypege.edit', ['user' => $user->user_id]) }}" method="POST"> --}}
     @csrf
       <div class="form-group">
@@ -50,42 +55,54 @@
       </div>
       <div class="form-group">
         <h3>メールアドレス</h3>
-        <input type="text" class="form-control" name="email" id="email" value="@gmail.com" />
+        <input type="email" class="form-control" name="email" id="email" value="@gmail.com" />
         {{-- <input type="text" class="form-control" name="email" id="email" value="{{ old('email') ?? $user->email }}" /> --}}
       </div>
       <div class="form-group">
         <h3>自己紹介（飼育経験年数・現在の居住環境・家族構成など入力できる範囲で入力してください）</h3>
-        <textarea name="description" rows="10" cols="136" placeholder="こちらに長いテキストを入力してください..."></textarea>
+        <textarea name="description" class="form-textarea" rows="10" placeholder="こちらに長いテキストを入力してください...">
+          猫が大好きで、いつか里親になりたいと思っています。責任を持って最後まで大切に育てたいと考えています。コメントコメントコメント
+        </textarea>
         {{-- <input type="text" class="form-control" name="description" id="description" value="{{ old('description') ?? $user->description }}" /> --}}
       </div>
-      <div class="profile-right">
-        <input type="submit" value="編集" class="btn btn-primary">
-      </div>
-    </form>
+    {{-- </form> --}}
   </div>
 
   <div class="authority">
-    <h3>投稿権限申請フォーム</h3>
+    <div class="h3-b30px">
+      <h3>投稿権限申請フォーム</h3>
+    </div>
     <div class="authority-outline">
-      <h3>投稿権限について</h3>
-      <p>
-        投稿権限を取得すると、猫の里親募集投稿を作成・管理できるようになります。 申請には審査があり、承認まで数日かかる場合があります。
-      </p>
+      <div class="h3-text-blue">
+        <h3>投稿権限について</h3>
+      </div>
+      <div class="p-text-blue">
+        <p>
+          投稿権限を取得すると、猫の里親募集投稿を作成・管理できるようになります。 申請には審査があり、承認まで数日かかる場合があります。
+        </p>
+      </div>
     </div>
     {{-- <form action="{{ route('request-post-permission', ['user' => $user->user_id]) }}" method="POST"> --}}
     @csrf
-      <div class="form-group">
-        <h3>申請理由</h3>
-        <input type="text" class="form-control" name="reason" id="reason" value="" />
-        <p>0/500文字</p>
-      </div>
+    <div class="form-group">
+      <h3>申請理由</h3>
+      <textarea name="description" class="form-textarea" rows="10" placeholder="こちらに長いテキストを入力してください...">
+        ここに申請理由を記入
+      </textarea>
+      <p class="textarea-finish">0/500文字</p>
+    </div>
+    <div>
+      <h3>利用規約に同意する</h3>
+      <label>
+        <input type="checkbox"  id="agree" name="agree" value="1">
+        投稿権限の利用規約および責任について同意します。
+      </label>
+      <a href="#">利用規約を確認する</a>
       <div>
-        <h3>利用規約に同意する</h3>
-        <p>投稿権限の利用規約および責任について同意します。</p>
-        <a href="#">利用規約を確認する</a>
-        <input type="submit" value="申請を送信する" class="btn btn-primary">
+        <input type="submit" value="申請を送信する" class="btn-primaryｰl">
       </div>
-    </form>
+    </div>
+    {{-- </form> --}}
   </div>
 </div>
 @endsection
