@@ -41,6 +41,7 @@ a {
   background-color: #FFFDF2;
   opacity: 0.5;
   position: fixed;
+  border-bottom: 2px solid #D3C6B7;
 }
 
 .header-left {
@@ -128,6 +129,10 @@ a {
 
 .hamburger.active span:nth-child(3) {
   transform: rotate(-45deg) translate(6px, -6px);
+}
+
+main {
+  border-bottom: 2px solid #D3C6B7;
 }
 
 
