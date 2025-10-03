@@ -1,7 +1,5 @@
 @charset "UTF-8";
 
-
-
 /* ==================================================== */
 /* 共通 */
 /* ==================================================== */
@@ -22,8 +20,10 @@
   margin: 0 25%;
 }
 /* ==================================================== */
-/*  */
+/* PC用画面 */
 /* ==================================================== */
+
+/* 新規登録 */
 .titlefont {
   font-size: 24px;
   font-weight:bold;
@@ -31,19 +31,21 @@
   margin-bottom: 5%;
 }
 
+/* アカウントを作成して、猫との素敵な出会いを始めましょう */
 .subtitle {
   text-align: center;
   margin-bottom: 10%;
 }
 
-.fontsbold {
+/* テキストボックス上のラベルタイトル */
+.labelfonts {
   font-weight:bold;
   margin-bottom: 2%;
   margin-left: 15%;
+
 }
 
-
-
+/* テキストボックス */
 .textbox {
   border-width:1.5px;
   border-radius: 5px;
@@ -54,6 +56,14 @@
   margin-left: 15%;
 }
 
+
+/* バリデーションメッセージ */
+.alert-danger {
+  text-align: center;
+  color: red;
+}
+
+/* 利用規約、プライバシーポリシー、ログインの文字 */
 span {
   color: #F44336;
   text-decoration: none
@@ -63,24 +73,19 @@ span:hover {
   text-decoration: underline;
 }
 
-
+/* 利用規約 と プライバシーポリシー に同意します */
 .terms-text {
-  text-align: center;
+  /* text-align: center; */
   margin-top: 10%;
   margin-bottom: 5%;
+  margin-left: 8%;
 }
 
-
+/* ログインボタン */
 .botten {
-  text-align: center;
-}
-
-input[type="submit"]{
-  /* font-family:'sans-serif';
-  display:block; */
   font-size: 20px;
   font-weight:bold;
-  text-align: center;
+  /* text-align: center; */
   border-radius:10px;
   background-color:#F6D8B3;
   color:#503322;
@@ -88,10 +93,65 @@ input[type="submit"]{
   width: 50%;
   padding: 3% 0;
   margin-bottom: 5%;
+  margin-left: 15%;
+}
+
+/* すでにアカウントをお持ちの方はログイン */
+.login-prompt {
+  margin-left: 11%;
 }
 
 
+.br-sp {
+  display: none;
+}
+/* ==================================================== */
+/* スマホ用画面 */
+/* ==================================================== */
+
+@media (max-width: 390px) {
+
+
+.main-content {
+  padding-top: 10%;
+  padding-bottom: 0%;
+}
+
+.background {
+  border: 2px solid #D3C6B7;
+  background-color:#FFFDF2;
+  border-radius: 20px;
+  /* background-size:80%; */
+  padding: 5% 0;
+  margin: 20% 10%;
+}
+
+.br-sp {
+  display: block;
+}
+
+.terms-text {
+  text-align: center;
+  margin-right: 30%;
+}
+
+.botten {
+  font-size: 16px;
+  font-weight:bold;
+  /* text-align: center; */
+  border-radius:10px;
+  background-color:#F6D8B3;
+  color:#503322;
+  border: none;
+  width: 50%;
+  padding: 3% 0;
+  margin-bottom: 5%;
+  margin-left: 15%;
+}
 
 .login-prompt {
   text-align: center;
+  margin-right: 30%;
+}
+
 }

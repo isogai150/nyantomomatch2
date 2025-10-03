@@ -10,6 +10,8 @@
 
 
 
+
+
 <div class="background">
   <div class="allfonts">
 
@@ -18,60 +20,63 @@
     </div>
 
     <div class="subtitle">
-      <p>アカウントを作成して、猫との素敵な出会いを始めましょう</p>
+      <p>アカウントを作成して、<br class="br-sp">猫との素敵な出会いを始めましょう</p>
     </div>
 
-    <div class="main">
-      <form action="" method="GET">
-        <div class="fontsbold">
-          <p>氏名<br>
-        </div>
-      <input type="text" class="textbox" name="name" placeholder="氏名を入力してください"></p>
+    <form action="{{ route('register') }}" method="POST">
+      @csrf
+      <div class="labelfonts">
+        <label for="name">ユーザー名</label>
+      </div>
+        <input type="text" class="textbox" id="name" name="name" placeholder="氏名を入力してください" value="{{ old('name') }}" />
 
-      <form action="" method="GET">
-        <div class="fontsbold">
-          <p>メールアドレス</p>
-        </div>
-      <input type="email" class="textbox" name="name" placeholder="メールアドレスを入力してください"></p>
+      <div class="labelfonts">
+        <label for="email">メールアドレス</label>
+      </div>
+        <input type="email" class="textbox" id="email" name="email" placeholder="メールアドレスを入力してください" value="{{ old('email') }}" />
 
-      <form action="" method="GET">
-        <div class="fontsbold">
-          <p>パスワード</p>
-        </div>
-      <input type="password" class="textbox" name="name" placeholder="8文字以上のパスワードを入力してください"></p>
+      <div class="labelfonts">
+        <label for="password">パスワード</label>
+      </div>
+        <input type="password" class="textbox" id="password" name="password" placeholder="8文字以上のパスワードを入力してください">
 
-      <form action="" method="GET">
-        <div class="fontsbold">
-          <p>パスワード確認</p>
+      <div class="labelfonts">
+        <label for="password-confirm">パスワード（確認）</label>
         </div>
-      <input type="password" class="textbox" name="name" placeholder="パスワードを再入力してください"></p>
+        <input type="password" class="textbox" id="password-confirm" name="password_confirmation" placeholder="パスワードを再入力してください">
 
-      <form action="" method="GET">
-        <div class="fontsbold">
-          <p>都道府県</p>
+      {{-- ======================================== --}}
+      {{-- バリデーションメッセージを表示するためのもの --}}
+      @if($errors->any())
+        <div class="alert-danger">
+          @foreach($errors->all() as $message)
+            <p>{{ $message }}</p>
+          @endforeach
         </div>
-      <input type="text" class="textbox" name="name" placeholder="都道府県を入力してください"></p>
-    </div>
+          @endif
+      {{-- ======================================== --}}
 
-    <div class="terms-text">
-      <p><a href=""><span>利用規約</span></a>
-        と
+      <div class="labelfonts">
+
+      <div class="terms-text">
+        <p><a href=""><span>利用規約</span></a>
+        <br class="br-sp">と<br class="br-sp">
         <a href=""><span>プライバシーポリシー</span></a>
-        に同意します</p>
-    </div>
+        <br class="br-sp">に同意します</p>
+      </div>
 
-    <div class="botten">
-      <form action="" method="GET">
-        <input type="submit" value="アカウント作成">
-      </form>
-    </div>
+        <button type="submit" class="botten">アカウント作成</button>
+
+    </form>
 
   <div class="login-prompt">
-    <p>すでにアカウントをお持ちの方は<a href=""><span>ログイン</span></a></p>
+    <p>すでにアカウントを<br class="br-sp">お持ちの方は<br class="br-sp"><a href=""><span>ログイン</span></a></p>
   </div>
 
   </div>
 </div>
+
+
 
 
 

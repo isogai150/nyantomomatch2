@@ -125,7 +125,7 @@ return [
     'prohibited_unless' => ':otherが:valuesにない限り、:attributeフィールドは禁止されています。',
     'prohibits' => ':attributeフィールドは、:otherの存在を禁止します。',
     'regex' => ':attributeの形式が無効です。',
-    'required' => ':attributeフィールドは必須です。',
+    'required' => ':attributeは必須です。',
     'required_array_keys' => ':attributeフィールドには、:valuesのエントリが含まれている必要があります。',
     'required_if' => ':otherが:valueの場合、:attributeフィールドは必須です。',
     'required_if_accepted' => ':otherが承認された場合、:attributeフィールドは必須です。',
@@ -180,8 +180,9 @@ return [
     */
 
     'attributes' => [
-        // 'email' => 'メールアドレス',
-        // 'password' => 'パスワード',
+        'name' => 'ユーザー名',
+        'email' => 'メールアドレス',
+        'password' => 'パスワード',
         // など、属性名 (プレースホルダー) の日本語名を追加できます
     ],
 
