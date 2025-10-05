@@ -39,4 +39,26 @@ class Post extends Model
     {
         return $this->hasMany(Transfer::class);
     }
+
+    //アクセサ
+    public function getStatusLabelAttribute()
+{
+    return match ($this->status) {
+        0 => '里親募集中',
+        1 => 'お見合い中',
+        2 => '譲渡成立',
+        default => '不明',
+    };
+}
+
+public function getStatusClassAttribute()
+{
+    return match ($this->status) {
+        0 => 'status-available',
+        1 => 'status-talking',
+        2 => 'status-matched',
+        default => 'status-unknown',
+    };
+}
+
 }

@@ -36,31 +36,48 @@
   </div>
 
   <div class="main-center">
+    {{-- @dd($catposts) --}}
     @foreach ($catposts as $catpost)
+    {{-- @dd($catpost); --}}
       <div class="catpost-card">
         <div class="post-image">
           {{-- 投稿画像（最初の1枚を表示） --}}
           @if ($catpost->images->isNotEmpty())
-            <img src="{{ asset('storage/' . $catpost->images->first()->path) }}" alt="投稿画像">
+            {{-- Seeder時（開発中） --}}
+            <img src="{{ asset(str_replace('public/', '', $catpost->images->first()->image_path)) }}" alt="投稿画像">
+
+            {{-- 本番用（storage:linkを使用してストレージパスへ変更予定） --}}
+            {{-- <img src="{{ Storage::url($catpost->images->first()->image_path) }}" alt="投稿画像"> --}}
           @else
-            <img src="{{ asset('images/no_image.png') }}" alt="No Image">
+            <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image">
           @endif
 
-          {{-- お気に入りボタン --}}
+          {{-- お気に入りボタン（開発確認用） --}}
+          {{-- 認証実装前なので一時的に常時表示 --}}
+          <form action="#" method="POST">
+            @csrf
+            <button type="button" class="favorite-btn">♡</button>
+          </form>
+
+          {{-- 本来のコード（認証後に戻す） --}}
+          {{--
           @if(Auth::check())
             <form action="{{ route('favorites.toggle', $catpost->id) }}" method="POST">
               @csrf
               <button type="submit" class="favorite-btn">
-                {{ Auth::user()->favoritePosts->contains($catpost->id) ? '❤ お気に入り解除' : '♡ お気に入り' }}
+                {{ Auth::user()->favoritePosts->contains($catpost->id) ? '❤' : '♡' }}
               </button>
             </form>
           @endif
+          --}}
         </div>
+
         <div class="post-information">
           <div class="post-information-top">
             <h3>{{ $catpost->title }}</h3>
-            <p>{{ $catpost->status }}</p>
+            <p class="{{ $catpost->status_class }}">{{ $catpost->status_label }}</p>
           </div>
+
           <div class="post-information-center">
             <ul>
               <li>{{ $catpost->age }}</li>
@@ -68,19 +85,12 @@
               <li>{{ $catpost->region }}</li>
             </ul>
           </div>
-          @if(Auth::check())
-            <a href="{{ route('posts.show', $catpost->id) }}" class="detail-btn">詳細を見る</a>
-          @else
-            <button class="detail-btn modal-open" data-post="{{ $catpost->id }}">詳細を見る</button>
-          @endif
+
+          {{-- 詳細ボタン --}}
+          <a href="{{ route('posts.show', $catpost->id) }}" class="detail-btn">詳細を見る</a>
         </div>
       </div>
     @endforeach
-  </div>
-
-  {{-- ページネーション --}}
-  <div class="pagination">
-    {{ $catposts->links() }}
   </div>
 
   {{-- 未ログイン時のみ表示 --}}
