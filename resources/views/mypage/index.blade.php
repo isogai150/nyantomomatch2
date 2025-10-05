@@ -14,95 +14,88 @@
     </div>
   </div>
 
+{{-- プロフィール --}}
   <div class="profile">
-    <div class="imgfile">
-      {{-- <img src="{{ asset('images/' . $user->image_path) }}" alt="ユーザーアイコン"> --}}
-    </div>
-
-    <div class="profile-flex">
-      <div class="prf-name" id="prf-name">
-        <h2>ユーザー名</h2>
+    <div class="profile-wrapper">
+      <div class="prf-imgfile">
+        @if($user->image_path)
+          <img src="{{ asset('images/' . $user->image_path) }}" alt="{{ $user->name }}" class="profile-image">
+        @else
+          <img src="{{ asset('images/noimage/noimage.png') }}" alt="デフォルト画像" class="profile-image">
+        @endif
       </div>
-      <div class="prf-status">
-        <p>投稿権限ユーザー</p>
+      <div class="prf-content">
+        <div class="prf-name">
+          <h2>{{ $user->name }}
+          <span class="prf-status">{{ $user->role }}</span></h2>
+        </div>
+        <div class="prf-description">
+          <h3>{{ $user->description }}</h3>
+        </div>
+        <div class="prf-create">
+          <p>{{ $user->create_at }}</p>
+        </div>
       </div>
     </div>
-    <div class="prf-description" id="prf-description">
-      <h3>猫が大好きで、いつか里親になりたいと思っています。</h3>
-    </div>
-    <div class="prf-create">
-      <p>登録日</p>
-    </div>
-    {{-- <h2>{{ $user->name }}</h2> --}}
-    {{-- <p>{{ $user->role }}</p> --}}
-    {{-- <p>{{ $user->description }}</p> --}}
-    {{-- <p>{{ $user->created_at }}</p> --}}
   </div>
 
+{{-- 基本情報 --}}
   <div class="information">
     <div class="information-flex">
       <div class="h3-b30px">
         <h3>基本情報</h3>
       </div>
-      <input type="submit" value="編集" class="btn-primary-s">
+      <form action="{{ route('mypege.edit', ['user' => $user->user_id]) }}" method="POST">
+        @csrf
+        <input type="submit" value="編集" class="btn-primary-s">
     </div>
-    {{-- <form action="{{ route('mypege.edit', ['user' => $user->user_id]) }}" method="POST"> --}}
-    @csrf
-      <div class="form-group">
-        <h3>氏名</h3>
-        <input type="text" class="form-control" name="name" id="name" value="山田太郎" />
-        {{-- <input type="text" class="form-control" name="name" id="name" value="{{ old('name') ?? $user->name }}" /> --}}
-      </div>
-      <div class="form-group">
-        <h3>メールアドレス</h3>
-        <input type="email" class="form-control" name="email" id="email" value="@gmail.com" />
-        {{-- <input type="text" class="form-control" name="email" id="email" value="{{ old('email') ?? $user->email }}" /> --}}
-      </div>
-      <div class="form-group">
-        <h3>自己紹介（飼育経験年数・現在の居住環境・家族構成など入力できる範囲で入力してください）</h3>
-        <textarea name="description" class="form-textarea" rows="10" placeholder="こちらに長いテキストを入力してください...">
-          猫が大好きで、いつか里親になりたいと思っています。責任を持って最後まで大切に育てたいと考えています。コメントコメントコメント
-        </textarea>
-        {{-- <input type="text" class="form-control" name="description" id="description" value="{{ old('description') ?? $user->description }}" /> --}}
-      </div>
-    {{-- </form> --}}
+        <div class="form-group">
+          <h3>氏名</h3>
+          <input type="text" class="form-control" name="name" id="name" value="{{ old('name') ?? $user->name }}" />
+        </div>
+        <div class="form-group">
+          <h3>メールアドレス</h3>
+          <input type="email" class="form-control" name="email" id="email" value="{{ old('email') ?? $user->email }}" />
+        </div>
+        <div class="form-group">
+          <h3>自己紹介（飼育経験年数・現在の居住環境・家族構成など入力できる範囲で入力してください）</h3>
+          <textarea class="form-textarea" name="description" id="description" rows="10" placeholder="こちらに長いテキストを入力してください...">
+            {{ old('description', $user->description) ?? $user->description  }}
+          </textarea>
+        </div>
+      </form>
   </div>
 
+{{-- 投稿権限申請フォーム --}}
   <div class="authority">
     <div class="h3-b30px">
       <h3>投稿権限申請フォーム</h3>
     </div>
     <div class="authority-outline">
-      <div class="h3-text-blue">
-        <h3>投稿権限について</h3>
-      </div>
-      <div class="p-text-blue">
-        <p>
-          投稿権限を取得すると、猫の里親募集投稿を作成・管理できるようになります。 申請には審査があり、承認まで数日かかる場合があります。
-        </p>
-      </div>
+      <h3 class="text-blue">投稿権限について</h3>
+      <p class="text-blue">
+        投稿権限を取得すると、猫の里親募集投稿を作成・管理できるようになります。 申請には審査があり、承認まで数日かかる場合があります。
+      </p>
     </div>
-    {{-- <form action="{{ route('request-post-permission', ['user' => $user->user_id]) }}" method="POST"> --}}
-    @csrf
-    <div class="form-group">
-      <h3>申請理由</h3>
-      <textarea name="description" class="form-textarea" rows="10" placeholder="こちらに長いテキストを入力してください...">
-        ここに申請理由を記入
-      </textarea>
-      <p class="textarea-finish">0/500文字</p>
-    </div>
-    <div>
-      <h3>利用規約に同意する</h3>
-      <label>
-        <input type="checkbox"  id="agree" name="agree" value="1">
-        投稿権限の利用規約および責任について同意します。
-      </label>
-      <a href="#">利用規約を確認する</a>
-      <div>
-        <input type="submit" value="申請を送信する" class="btn-primaryｰl">
+    <form action="{{ route('request-post-permission', ['user' => $user->user_id]) }}" method="POST">
+      @csrf
+      <div class="form-group">
+        <h3>申請理由</h3>
+        <textarea class="form-textarea" name="reason" id="reason" rows="10" placeholder="こちらに長いテキストを入力してください...">
+          {{ old('reason', $authority->reason) ?? $authority->reason  }}
+        </textarea>
+        <p class="textarea-finish">0/500文字</p>
       </div>
-    </div>
-    {{-- </form> --}}
+      <div class="agree">
+        <label>
+        <input type="checkbox" id="agree" name="agree" value="1">
+        利用規約に同意する
+        </label>
+        <p class="agree-text">
+          投稿権限の利用規約および責任について同意します。
+        <a href="#">利用規約を確認する</a></p>
+      </div>
+        <input type="submit" value="申請を送信する" class="btn-primary-l">
+    </form>
   </div>
-</div>
 @endsection
