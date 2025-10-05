@@ -57,4 +57,38 @@ class PostController extends Controller
 
         return view('posts.show', compact('post'));
     }
+
+        // 投稿一覧
+    public function index(Request $request)
+    {
+        $query = Post::query()->whereNull('deleted_at');
+
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('region', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $sort = $request->get('sort', 'new');
+        if ($sort === 'old') {
+            $query->orderBy('created_at', 'asc');
+        } elseif ($sort === 'popular') {
+            $query->withCount('favorites')->orderBy('favorites_count', 'desc');
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $catposts = $query->with('images')->paginate(10);
+        return view('home.index', compact('catposts'));
+    }
+
+    // 投稿詳細
+    public function show($id)
+    {
+        $post = Post::with(['user', 'images', 'videos'])->findOrFail($id);
+        // dd($post); // ← データ確認用
+
+        return view('posts.show', compact('post'));
+    }
 }
