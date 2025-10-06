@@ -1,0 +1,123 @@
+@charset "UTF-8";
+/* ==================================================== */
+/* メイン画面 */
+/* ==================================================== */
+
+.main-content {
+  width: 100%;
+}
+
+.title {
+  text-align: center;
+  background: #FFFDF2;
+}
+
+h1 {
+  font-size: 76px;
+  font-weight: bold;
+  color: #503322;
+  padding-top: 10%;
+  margin-bottom: 4%;
+}
+
+h1 span {
+  color: #F6D8B3;
+  font-size: 68px
+}
+
+p {
+  font-size: 24px;
+  color: #503322;
+  padding-bottom: 4%;
+}
+
+.post-searchs {
+  padding: 4% 4%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.post-search {
+  width: 50%;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 4%;
+}
+
+.text {
+  width: 445px;
+  height: 40px;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.submit {
+  height: 32px;
+  cursor: pointer;
+  background: #F6D8B3;
+  color: #503322;
+  border: none;
+  border-radius: 5px;
+  width: 145px;
+  height: 40px;
+  font-size: 16px;
+}
+
+.post-sort select {
+  background: #F6D8B3;
+  width: 120px;
+  height: 36px;
+  border: none;
+  margin-top: 48%;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+/* モーダルウィンドウ */
+.modal {
+display: none;
+position: fixed;
+z-index: 1000;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+background: rgba(0,0,0,0.6);
+}
+
+
+.modal-content {
+background: #fff;
+margin: 15% auto;
+padding: 30px;
+border-radius: 10px;
+width: 300px;
+text-align: center;
+position: relative;
+}
+
+
+.close {
+position: absolute;
+top: 10px;
+right: 15px;
+font-size: 20px;
+cursor: pointer;
+}
+
+
+.modal-content .btn {
+display: block;
+margin: 10px auto;
+padding: 10px 15px;
+background: #F6D8B3;
+color: #000;
+text-decoration: none;
+border-radius: 5px;
+}
+
+.modal-content .btn:hover {
+background: #F6D8B3;
+}
