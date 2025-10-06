@@ -346,53 +346,116 @@
 }
 
 /* ==========================
-   レスポンシブ対応
+   スマホ対応（390px以下）
 ========================== */
-@media screen and (max-width: 1024px) {
-  .post-detail-content {
-    flex-direction: column;
-  }
-  .post-main, .post-sidebar {
-    flex: 0 0 100%;
-  }
-  .post-sidebar {
-    margin-top: 4%;
-  }
-  .user-main img {
-    width: 8vw;
-    height: 8vw;
-  }
-}
+@media screen and (max-width: 390px) {
 
-@media screen and (max-width: 480px) {
+  /* 全体 */
   .post-detail-container {
-    padding: 6% 4%;
+    padding: 8% 5%;
   }
 
+  /* メイン画像 */
   .main-photo {
-    max-height: 50vw;
+    max-height: 55vw;
   }
 
+  /* サムネイル */
   .thumbnail {
-    width: 28%;
+    width: 42%;
     height: auto;
   }
 
-  .post-title {
-    font-size: 1.4rem;
+  /* タイトル・ステータス */
+  .top-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2%;
+  }
+  .top-title h1 {
+    font-size: 1.2rem;
+    line-height: 1.4;
+  }
+  .status-available,
+  .status-talking,
+  .status-matched,
+  .status-unknown {
+    font-size: 0.8rem;
+    padding: 2% 4%;
+    min-width: auto;
   }
 
+  /* 猫情報リスト */
+  .post-list ul {
+    flex-direction: column;
+    gap: 2%;
+  }
   .post-list li {
+    width: 100%;
     font-size: 0.9rem;
+    padding: 3% 4%;
+    text-align: center;
   }
 
+  /* 本文部分 */
+  .post-meta p,
+  .post-description p,
+  .cost-contents p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* サイドバー */
+  .post-sidebar {
+    flex: 0 0 100%;
+    margin-top: 6%;
+  }
+
+  .contact-box h3,
+  .user-info h3 {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  /* ボタン */
   .contact-btn,
   .favorite-btn {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    padding: 5%;
+  }
+
+  /* 投稿者情報 */
+  .user-info {
+    margin-top: 6%;
+    padding: 6%;
+  }
+
+  .user-main {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4%;
   }
 
   .user-main img {
-    width: 14vw;
-    height: 14vw;
+    width: 10vw;
+    height: 10vw;
+    margin-bottom: 2%;
+  }
+
+  .user-name {
+    font-size: 1rem;
+  }
+
+  .user-description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .publication-info {
+    margin-top: 5%;
+    font-size: 0.8rem;
+    text-align: center;
   }
 }
