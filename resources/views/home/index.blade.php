@@ -52,15 +52,7 @@
             <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image">
           @endif
 
-          {{-- お気に入りボタン（開発確認用） --}}
-          {{-- 認証実装前なので一時的に常時表示 --}}
-          <form action="#" method="POST">
-            @csrf
-            <button type="button" class="favorite-btn">♡</button>
-          </form>
-
-          {{-- 本来のコード（認証後に戻す） --}}
-          {{--
+          {{-- お気に入りボタン --}}
           @if(Auth::check())
             <form action="{{ route('favorites.toggle', $catpost->id) }}" method="POST">
               @csrf
@@ -69,7 +61,7 @@
               </button>
             </form>
           @endif
-          --}}
+
         </div>
 
         <div class="post-information">

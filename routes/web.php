@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FavoriteController;
+use Illuminate\Support\Facades\Auth;
 
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
