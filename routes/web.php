@@ -18,7 +18,7 @@ Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->
 // マイページ
 Route::get('/mypage', [UserController::class, 'index'])->name('mypage.index');
 
-Route::post('/mypage', [UserController::class, 'edit']);
+Route::post('/mypage/{user}/edit', [UserController::class, 'edit']);
 
 
 Auth::routes();

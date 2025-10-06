@@ -20,7 +20,7 @@
     <div class="profile-wrapper">
       <div class="prf-imgfile">
         @if($user->image_path)
-          <img src="{{ asset('images/seeder' . $user->image_path) }}" alt="{{ $user->name }}" class="profile-image">
+          <img src="{{ asset('images/sheeder/' . $user->image_path) }}" alt="{{ $user->name }}" class="profile-image">
         @else
           <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="デフォルト画像" class="profile-image">
         @endif
@@ -28,13 +28,13 @@
       <div class="prf-content">
         <div class="prf-name">
           <h2>{{ $user->name }}
-          <span class="prf-status">{{ $user->role }}</span></h2>
+          <span class="prf-status">{{ $user->role_label }}</span></h2>
         </div>
         <div class="prf-description">
           <h3>{{ $user->description }}</h3>
         </div>
         <div class="prf-create">
-          <p>{{ $user->create_at }}</p>
+          <p>登録日: {{ $user->created_at->format('Y年m月d日') }}</p>
         </div>
       </div>
     </div>
@@ -42,16 +42,6 @@
 
 {{-- 基本情報 --}}
   <div class="information">
-
-    {{-- バリデーションメッセージを表示するためのもの --}}
-    @if($errors->any())
-    <div class="alert alert-danger">
-      @foreach($errors->all() as $message)
-      <p>{{ $message }}</p>
-      @endforeach
-    </div>
-    @endif
-    
     <form action="{{ route('mypage.index', ['user' => $user->user_id]) }}" method="POST">
       @csrf
       <div class="information-flex">
@@ -63,16 +53,25 @@
       <div class="form-group">
         <h3>氏名</h3>
         <input type="text" class="form-control" name="name" id="name" value="{{ old('name') ?? $user->name }}" />
+        @error('name')
+          <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
       </div>
       <div class="form-group">
         <h3>メールアドレス</h3>
         <input type="email" class="form-control" name="email" id="email" value="{{ old('email') ?? $user->email }}" />
+        @error('email')
+          <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
       </div>
       <div class="form-group">
         <h3>自己紹介（飼育経験年数・現在の居住環境・家族構成など入力できる範囲で入力してください）</h3>
         <textarea class="form-textarea" name="description" id="description" rows="10" placeholder="こちらに長いテキストを入力してください...">
           {{ old('description', $user->description) ?? $user->description  }}
         </textarea>
+        @error('description')
+          <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
       </div>
     </form>
   </div>
@@ -96,6 +95,9 @@
           {{-- {{ old('reason', $authority->reason) }} --}}
         </textarea>
         <p class="textarea-finish">0/500文字</p>
+        @error('reason')
+          <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
       </div>
       <div class="agree">
         <label>
@@ -105,6 +107,9 @@
         <p class="agree-text">
           投稿権限の利用規約および責任について同意します。
         <a href="#">利用規約を確認する</a></p>
+        @error('agree')
+          <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
       </div>
       <input type="submit" value="申請を送信する" class="btn-primary-l">
     {{-- </form> --}}

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Requests\User\EditUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -20,21 +21,24 @@ class UserController extends Controller
 
     public function edit(User $user, EditUser $request)
     {
-        // 編集内容のユーザー情報を取得
-        $this->checkRelation($user);
 
-        //usersテーブルの列に入力内容をセット
-        //左：usersテーブルの列
-        //右：入力内容
-        $user->title = $request->name;
-        $user->status = $request->email;
-        $user->due_date = $request->description;
-
-        //saveメソッドで、データを保存してる
-        $task->save();
-
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->description = $request->description;
+        
+        // パスワードが入力されている場合のみ更新
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+        
+        if ($request->filled('image_path')) {
+            $user->image_path = $request->image_path;
+        }
+        
+        $user->save();
+        
         return redirect()->route('mypage.index', [
-            'user' => $user,
+            'user' => $user
         ]);
     }
 }

@@ -68,4 +68,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transfer::class, 'userB_id');
     }
+
+    //アクセサ
+    public function getRoleLabelAttribute()
+    {
+        return match ($this->role) {
+            0 => '一般ユーザー',
+            1 => '投稿権限ユーザー',
+        };
+    }
 }
