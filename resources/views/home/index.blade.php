@@ -72,14 +72,14 @@
 
           <div class="post-information-center">
             <ul>
-              <li>{{ $catpost->age }}</li>
-              <li>{{ $catpost->gender }}</li>
+              <li>{{ $catpost->unit_age }}</li>
+              <li>{{ $catpost->gender_class }}</li>
               <li>{{ $catpost->region }}</li>
             </ul>
           </div>
 
           {{-- 詳細ボタン --}}
-          <a href="{{ route('posts.show', $catpost->id) }}" class="detail-btn">詳細を見る</a>
+          <a href="{{ route('posts.detail', $catpost->id) }}" class="detail-btn">詳細を見る</a>
         </div>
       </div>
     @endforeach
