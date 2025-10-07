@@ -18,8 +18,8 @@
     <div class="header-content">
       <div class="header-left flex">
         {{-- ロゴクリックしたらtopページへ戻る --}}
-        <a href="{{ route('posts.index') }}"><img class="header-logo" src="{{ asset('images/logo/20250922_1357_にゃんともマッチ_logo_simple_compose_01k5qwesjqenp97krbkk8gfe7m.png') }}" alt="ヘッダーロゴ"></a>
-        <a href="{{ route('posts.index') }}"><img class="header-text" src="{{ asset('images/logo/20250922_1357_にゃんともマッチ_text_simple_compose_01k5qwesjqenp97krbkk8gfe7m.png') }}" alt="ヘッダーテキスト"></a>
+        <a href="#"><img class="header-logo" src="{{ asset('images/logo/20250922_1357_にゃんともマッチ_logo_simple_compose_01k5qwesjqenp97krbkk8gfe7m.png') }}" alt="ヘッダーロゴ"></a>
+        <a href="#"><img class="header-text" src="{{ asset('images/logo/20250922_1357_にゃんともマッチ_text_simple_compose_01k5qwesjqenp97krbkk8gfe7m.png') }}" alt="ヘッダーテキスト"></a>
       </div>
       <div class="header-raight">
         <div class="hamburger-menu">
@@ -51,7 +51,11 @@
               <li><a href="#">マイページ</a></li>
               <li><a href="#">DM一覧</a></li>
               <li><a href="#">お気に入り</a></li>
-              <li><a href="3">ログアウト</a></li>
+              <li><a href="#" id="logout-btn">ログアウト</a></li>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+                @csrf
+                </form>
+
               @else
               <li><a href="#">新規登録</a></li>
               <li><a href="#">ログイン</a></li>
