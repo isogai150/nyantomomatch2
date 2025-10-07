@@ -41,7 +41,7 @@ class ProfileImageController extends Controller
         $user->image_path = $imageName;
         $user->save();
 
-        return redirect()->back()->with('success', '更新しました');
+        return redirect()->back()->with('success', 'プロフィール画像を更新しました。');
     }
 }
 

@@ -27,10 +27,12 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // マイページ
 Route::get('/mypage', [UserController::class, 'index'])->name('mypage.index');
-Route::put('/mypage/{user}', [UserController::class, 'edit'])->name('mypage.edit');
+Route::put('/mypage/{user}/edit', [UserController::class, 'edit'])->name('mypage.edit');
 // ユーザーアイコン
 Route::put('/profile/image', [ProfileImageController::class, 'update'])
     ->name('profile.image.update')
     ->middleware('auth');
+ //退会
+Route::post('/withdraw', [UserController::class, 'withdraw'])->name('user.withdraw');
 
 Auth::routes();

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    // マイページ表示
     public function index()
     {
         $user = Auth::user();
@@ -19,6 +20,7 @@ class UserController extends Controller
         ]);
     }
 
+    // マイページ更新
     public function edit(User $user, EditUser $request)
     {
         $user->name = $request->name;
@@ -39,5 +41,22 @@ class UserController extends Controller
         return redirect()->route('mypage.index', [
             'user' => $user
         ]);
+    }
+
+    // ユーザー退会処理
+    public function withdraw(Request $request)
+    {
+        $user = Auth::user();
+
+        // 論理削除（deleted_atに現在時刻をセット）
+        $user->delete();
+
+        // ログアウト処理
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // トップページに遷移
+        return redirect('/')->with('status', '退会処理が完了しました。');
     }
 }

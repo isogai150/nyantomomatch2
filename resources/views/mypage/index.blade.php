@@ -40,21 +40,19 @@ use Illuminate\Support\Facades\Storage;
         </label>
         <!-- 非表示のファイル入力 -->
         <input type="file" name="image" id="imageInput" accept="image/*" style="display: none;">
-      </form>
-      {{-- 画像エラーメッセージの表示 --}}
-      @if(session('success'))
-      <div class="alert alert-success">
-        {{ session('success') }}
-      </div>
-      @endif
-      @if($errors->any())
-        <div class="alert alert-danger">
-          @foreach($errors->all() as $error)
-            <p>{{ $error }}</p>
-          @endforeach
+        </form>
+
+        {{-- 画像エラーメッセージの表示 --}}
+        @if(session('success'))
+        <div class="alert alert-success">
+          {{ session('success') }}
         </div>
-      @endif
-    </div>
+        @endif
+        @error('image')
+          <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+        </div>
+
       <div class="prf-content">
         <div class="prf-name">
           <h2>{{ $user->name }}
@@ -67,12 +65,20 @@ use Illuminate\Support\Facades\Storage;
           <p>登録日: {{ $user->created_at->format('Y年m月d日') }}</p>
         </div>
       </div>
+
+      <!-- 退会ボタン -->
+      <div class="btn-primary-s4">
+        <form method="POST" action="{{ route('user.withdraw') }}" onsubmit="return confirmWithdrawal()">
+          @csrf
+          <input type="submit" value="退会する" class="btn btn-danger btn-primary-s">
+        </form>
+      </div>
     </div>
   </div>
 
 {{-- 基本情報 --}}
   <div class="information">
-    <form action="{{ route('mypage.index', ['user' => $user->user_id]) }}" method="POST">
+    <form action="{{ route('mypage.edit', ['user' => $user->id]) }}" method="POST">
       @csrf
       @method('put')
       <div class="information-flex">
@@ -149,6 +155,7 @@ use Illuminate\Support\Facades\Storage;
 
 @section('script')
 <script>
+// ユーザーアイコン画像
 document.getElementById('imageInput').addEventListener('change', function(e) {
   const file = e.target.files[0];
 
@@ -173,5 +180,12 @@ document.getElementById('imageInput').addEventListener('change', function(e) {
     }
   }
 });
+
+// ユーザー退会処理
+// return true: フォーム送信、return false: フォーム送信キャンセル
+function confirmWithdrawal() {
+    return confirm('本当に退会しますか？\nこの操作は取り消せません。');
+}
+
 </script>
 @endsection
