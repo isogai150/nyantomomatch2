@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/dm/show.css') }}">
+<link rel="stylesheet" href="{{ asset('css/dm/detail.css') }}">
 @endsection
 
 @section('content')
@@ -32,4 +32,5 @@
 @endsection
 
 @section('script')
+<script src="{{ asset('js/dm/detail.js') }}"></script>
 @endsection
