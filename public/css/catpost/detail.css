@@ -175,8 +175,7 @@
   flex-wrap: wrap;
 }
 .post-list li {
-  margin-bottom: 2%;
-  padding: 0.6vw 1.2vw;
+  padding: 0.6vw 0;
   font-size: 1.2vw;
   color: #503322;
   background: #FFF;
@@ -187,14 +186,6 @@
 
 .post-list li span {
   font-weight: normal;
-}
-
-.medical {
-  margin-bottom: 2%;
-}
-
-.description {
-  margin-bottom: 2%;
 }
 
 /* ==========================
@@ -214,8 +205,21 @@
 .post-description p,
 .cost-contents p {
   line-height: 1.8;
+  font-size: 1.2vw;
   word-break: break-word;
   overflow-wrap: break-word;
+}
+
+.post-meta p span {
+  font-weight: normal;
+}
+
+.post-description p span {
+  font-weight: normal;
+}
+
+.cost-contents p span {
+  font-weight: normal;
 }
 
 /* ==========================

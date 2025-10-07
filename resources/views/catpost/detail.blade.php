@@ -52,27 +52,22 @@
 
                 <div class="post-meta">
                     <div class="region-contents">
-                        <p>所在地</p>
-                        <p>{{ $post->region }}</p>
+                        <p>所在地<br><span>{{ $post->region }}</span></p>
                     </div>
                     <div class="vaccination-contents">
-                        <p>予防接種</p>
-                        <p>{!! nl2br(e($post->vaccination ?? '未記入')) !!}</p>
+                        <p>予防接種<br><span>{!! nl2br(e($post->vaccination ?? '未記入')) !!}</span></p>
                     </div>
                     <div class="medical-history-contents">
-                        <p>病歴</p>
-                        <p class="medical">{!! nl2br(e($post->medical_history ?? '未記入')) !!}</p>
+                        <p>病歴<br><span>{!! nl2br(e($post->medical_history ?? '未記入')) !!}</span></p>
                     </div>
                 </div>
 
                 <div class="post-description">
-                    <p>詳細情報</p>
-                    <p class="description">{!! nl2br(e($post->description ?? '詳細情報がありません。')) !!}</p>
+                    <p>詳細情報<br><span>{!! nl2br(e($post->description ?? '詳細情報がありません。')) !!}</span></p>
                 </div>
 
                 <div class="cost-contents">
-                    <p>譲渡費用</p>
-                    <p>{!! nl2br(e($post->cost_class ?? '未記入')) !!}</p>
+                    <p>譲渡費用<br><span>{!! nl2br(e($post->cost_class ?? '未記入')) !!}</span></p>
                 </div>
             </div>
 
