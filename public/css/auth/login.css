@@ -74,25 +74,27 @@ span:hover {
   text-decoration: underline;
 }
 
-
-/* ============================================================================================================================ */
-/* ============================================================================================================================ */
-
-.password-help {
-color: #F44336;
-
-}
-
+/* パスワードを忘れた方 */
 .password-forget {
+  /* border-radius:10px; */
+  /* background-color:#F6D8B3; */
+  /* border: none; */
+  width: 40%;
+  padding-bottom: 2.5%;
+  margin-bottom: 10%;
   text-align: center;
-
+  margin-left: auto;
 }
 
-/* ============================================================================================================================ */
-/* ============================================================================================================================ */
+.password-forget a {
+  font-size: 16px;
+  color: #F44336;
+  text-decoration: none;
+}
 
-
-
+.password-forget a:hover {
+  text-decoration: underline;
+}
 
 /* アカウント作成ボタン */
 .botten {
@@ -105,6 +107,14 @@ color: #F44336;
   width: 100%;
   padding: 3% 0;
   margin-bottom: 5%;
+  text-decoration: none;
+}
+
+.botten:hover {
+  /* text-decoration: underline; */
+
+  /* カーソルホバー時に設定した透明度で反応させる */
+  opacity: 0.8;
 }
 
 /* すでにアカウントをお持ちの方はログイン */
@@ -124,25 +134,29 @@ color: #F44336;
 /* ==================================================== */
 @media (max-width: 390px) {
 
-.background {
-  margin: 10%;
-  padding: 10% 0;
-}
+  .background {
+    margin: 10%;
+    padding: 10% 0;
+  }
 
-.form-container {
-  width: 90%;
-  margin: 0 auto;
-}
+  .form-container {
+    width: 90%;
+    margin: 0 auto;
+  }
 
-/* 入力欄を少し大きくしてタップしやすいように設定した */
-.textbox {
-  padding: 3% 2%;
-}
+  /* パスワードを忘れた方 */
+  .password-forget a {
+    font-size: 14px;
+  }
 
-/* 利用規約等、一部長文の改行：スマホ用は表示している */
-.br-sp {
-  display: block;
-}
+  /* 入力欄を少し大きくしてタップしやすいように設定した */
+  .textbox {
+    padding: 3% 2%;
+  }
 
+  /* 利用規約等、一部長文の改行：スマホ用は表示している */
+  .br-sp {
+    display: block;
+  }
 
 }

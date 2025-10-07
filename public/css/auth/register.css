@@ -94,6 +94,13 @@ span:hover {
   margin-bottom: 5%;
 }
 
+.botten:hover {
+  /* text-decoration: underline; */
+
+  /* カーソルホバー時に設定した透明度で反応させる */
+  opacity: 0.8;
+}
+
 /* すでにアカウントをお持ちの方はログイン */
 .login-prompt {
   width: 70%;
@@ -110,25 +117,24 @@ span:hover {
 /* ==================================================== */
 @media (max-width: 390px) {
 
-.background {
-  margin: 10%;
-  padding: 10% 0;
-}
+  .background {
+    margin: 10%;
+    padding: 10% 0;
+  }
 
-.form-container {
-  width: 90%;
-  margin: 0 auto;
-}
+  .form-container {
+    width: 90%;
+    margin: 0 auto;
+  }
 
-/* 入力欄を少し大きくしてタップしやすいように設定した */
-.textbox {
-  padding: 3% 2%;
-}
+  /* 入力欄を少し大きくしてタップしやすいように設定した */
+  .textbox {
+    padding: 3% 2%;
+  }
 
-/* 利用規約等、一部長文の改行：スマホ用は表示している */
-.br-sp {
-  display: block;
-}
-
+  /* 利用規約等、一部長文の改行：スマホ用は表示している */
+  .br-sp {
+    display: block;
+  }
 
 }
