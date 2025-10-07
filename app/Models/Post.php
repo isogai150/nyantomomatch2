@@ -41,6 +41,7 @@ class Post extends Model
     }
 
     //アクセサ
+    // status
     public function getStatusLabelAttribute()
 {
     return match ($this->status) {
@@ -51,6 +52,7 @@ class Post extends Model
     };
 }
 
+// status
 public function getStatusClassAttribute()
 {
     return match ($this->status) {
@@ -59,6 +61,29 @@ public function getStatusClassAttribute()
         2 => 'status-matched',
         default => 'status-unknown',
     };
+}
+
+//年齢
+public function getUnitAgeAttribute()
+{
+    return $this->age .'歳';
+}
+
+//性別
+public function getGenderClassAttribute()
+{
+    return match ($this->gender) {
+        0 => '未入力',
+        1 => 'オス',
+        2 => 'メス',
+        default => '未入力',
+    };
+}
+
+// 費用
+public function getCostClassAttribute()
+{
+    return $this->cost .'円';
 }
 
 }

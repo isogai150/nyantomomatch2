@@ -45,7 +45,6 @@
           @if ($catpost->images->isNotEmpty())
             {{-- Seeder時（開発中） --}}
             <img src="{{ asset(str_replace('public/', '', $catpost->images->first()->image_path)) }}" alt="投稿画像">
-
             {{-- 本番用（storage:linkを使用してストレージパスへ変更予定） --}}
             {{-- <img src="{{ Storage::url($catpost->images->first()->image_path) }}" alt="投稿画像"> --}}
           @else
@@ -60,8 +59,10 @@
                 {{ Auth::user()->favoritePosts->contains($catpost->id) ? '❤' : '♡' }}
               </button>
             </form>
+          @else
+            {{-- 未ログイン時：クリックでモーダル表示 --}}
+            <button type="button" class="favorite-btn modal-open">♡</button>
           @endif
-
         </div>
 
         <div class="post-information">
@@ -72,14 +73,20 @@
 
           <div class="post-information-center">
             <ul>
-              <li>{{ $catpost->age }}</li>
-              <li>{{ $catpost->gender }}</li>
+              <li>{{ $catpost->unit_age }}</li>
+              <li>{{ $catpost->gender_class }}</li>
               <li>{{ $catpost->region }}</li>
             </ul>
           </div>
 
           {{-- 詳細ボタン --}}
-          <a href="{{ route('posts.show', $catpost->id) }}" class="detail-btn">詳細を見る</a>
+          @if(Auth::check())
+            {{-- ログイン済み：通常遷移 --}}
+            <a href="{{ route('posts.detail', $catpost->id) }}" class="detail-btn">詳細を見る</a>
+          @else
+            {{-- 未ログイン：モーダル表示 --}}
+            <button type="button" class="detail-btn modal-open" data-id="{{ $catpost->id }}">詳細を見る</button>
+          @endif
         </div>
       </div>
     @endforeach
