@@ -1,0 +1,227 @@
+@charset "UTF-8";
+/* ベーススタイル */
+.main-content {
+    font-family: sans-serif;
+    background-color: #fcf8f3; /* 全体の背景色（薄いベージュ/クリーム色） */
+    margin: 0;
+    padding: 40px 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ヘッダーとタイトル */
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.page-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+/* 新規投稿ボタン */
+.new-post-button {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #ffe0b2; /* 薄いオレンジ/ベージュ */
+    color: #a0522d; /* 茶色がかった文字色 */
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.new-post-button:hover {
+    background-color: #ffd491;
+}
+
+.new-post-button i {
+    margin-right: 5px;
+    font-size: 0.9rem;
+}
+
+/* --- サマリーカードセクション --- */
+.summary-cards {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.summary-card {
+    flex: 1;
+    min-width: 250px;
+    padding: 20px;
+    background-color: #ffffff; /* 白背景 */
+    border: 1px solid #f0e6da; /* わずかな枠線 */
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.summary-recruiting {
+    /* 募集中カードに特に色を付ける場合はここで設定 */
+}
+
+.summary-count {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #c97f4f; /* メインカラーに近い色 */
+    margin: 0 0 5px 0;
+}
+
+.summary-label {
+    font-size: 0.9rem;
+    color: #777;
+    margin: 0;
+}
+
+/* --- 投稿カードリスト --- */
+.post-list {
+    display: grid;
+    /* 3列レイアウト。画面幅が狭い場合は自動で調整 */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.post-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-image {
+    /* サムネイル画像エリアの再現 */
+    height: 180px; /* 画像の高さ */
+    background-color: #f7f7f7; /* 薄いグレーのプレースホルダー */
+    /* 画像がないため、白い背景に濃い目のシャドウで浮き出しを表現 */
+    box-shadow: inset 0 -50px 30px -10px rgba(0, 0, 0, 0.03); 
+}
+
+.card-body {
+    padding: 15px 20px 20px;
+}
+
+.title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.post-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+/* 削除ボタン */
+.delete-button {
+    background-color: #f44336; /* 赤色 */
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* メタ情報（年齢、性別、場所、いいね） */
+.post-meta {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.meta-item {
+    margin-right: 10px;
+}
+
+.heart-count {
+    color: #e91e63; /* ハートの色 */
+}
+
+.post-date {
+    font-size: 0.85rem;
+    color: #999;
+    margin-bottom: 20px;
+}
+
+/* アクションボタン（詳細、編集） */
+.card-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.action-button {
+    flex: 1;
+    padding: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.detail-button {
+    background-color: #ffffff; /* 白背景 */
+    color: #c97f4f; /* テキスト色 */
+    border-color: #c97f4f;
+}
+
+.edit-button {
+    background-color: #fcd5b5; /* 薄いオレンジ/ベージュ */
+    color: #a0522d;
+    border-color: #fcd5b5;
+}
+
+.detail-button:hover {
+    background-color: #f8f8f8;
+}
+
+.edit-button:hover {
+    background-color: #fbc69a;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 1000px) {
+    .post-list {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .summary-cards {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 500px) {
+    .post-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .post-list {
+        grid-template-columns: 1fr;
+    }
+}
