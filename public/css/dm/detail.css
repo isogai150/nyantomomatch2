@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+/* ===============================
+   DM全体
+   =============================== */
 .dm-wrapper {
   width: 80%;
   max-width: 900px;
@@ -12,32 +15,34 @@
   height: 75vh;
 }
 
+/* ===============================
+   ヘッダー
+   =============================== */
 .dm-header {
   background-color: #FFF9E9;
   border-bottom: 2px solid #D3C6B7;
   padding: 2% 4%;
 }
-
 .dm-user-info {
   display: flex;
   align-items: center;
   gap: 3%;
 }
-
 .dm-user-icon {
   width: 40px;
   height: 40px;
   background-color: #E3D9C6;
   border-radius: 50%;
 }
-
 .dm-user-name {
   font-size: 1.1rem;
   font-weight: bold;
   color: #503322;
 }
 
-/* メッセージ表示部分 */
+/* ===============================
+   メッセージエリア
+   =============================== */
 .dm-messages {
   flex: 1;
   padding: 3% 4%;
@@ -46,22 +51,18 @@
   flex-direction: column;
   gap: 2%;
 }
-
 .dm-message {
   display: flex;
   flex-direction: column;
   max-width: 75%;
   word-wrap: break-word;
 }
-
 .dm-message.other {
   align-self: flex-start;
 }
-
 .dm-message.mine {
   align-self: flex-end;
 }
-
 .dm-text {
   padding: 2% 3%;
   border-radius: 10px;
@@ -69,11 +70,9 @@
   color: #503322;
   font-size: 0.95rem;
 }
-
 .dm-message.mine .dm-text {
   background-color: #E8CBA8;
 }
-
 .dm-time {
   font-size: 0.75rem;
   color: #7A6A58;
@@ -81,7 +80,9 @@
   margin-top: 2%;
 }
 
-/* 送信フォーム */
+/* ===============================
+   入力フォーム
+   =============================== */
 .dm-form {
   display: flex;
   align-items: center;
@@ -90,7 +91,6 @@
   padding: 2%;
   background-color: #FFF9E9;
 }
-
 .dm-form textarea {
   width: 80%;
   height: 50px;
@@ -100,7 +100,6 @@
   padding: 1%;
   font-size: 1rem;
 }
-
 .dm-form button {
   width: 15%;
   height: 50px;
@@ -112,31 +111,25 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
-
 .dm-form button:hover {
   background-color: #d8b893;
 }
 
-/* スマホ対応 */
+/* ===============================
+   スマホ対応
+   =============================== */
 @media screen and (max-width: 600px) {
   .dm-wrapper {
     width: 95%;
     height: 80vh;
     margin-top: 25%;
   }
-
-  .dm-user-name {
-    font-size: 1rem;
-  }
-
   .dm-text {
     font-size: 0.9rem;
   }
-
   .dm-form textarea {
     width: 70%;
   }
-
   .dm-form button {
     width: 25%;
     font-size: 0.9rem;
