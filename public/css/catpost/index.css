@@ -1,0 +1,154 @@
+@charset "UTF-8";
+
+/* ==================================================== */
+/* 共通 */
+/* ==================================================== */
+
+.main-content {
+  width: 90%;
+  margin: 0 auto;
+}
+
+/* 総投稿数・譲渡完了・募集中の項目：：縦から横並びに変更 */
+.summary-boxes {
+  display: flex;
+  justify-content: space-between;
+  margin: 2% 0;
+}
+
+/* ==================================================== */
+/* PC用画面 */
+/* ==================================================== */
+
+/* 総投稿数・譲渡完了・募集中の項目：：外枠の作成 */
+.summary-item {
+  flex: 1;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 5% 0;
+  margin: 0 2%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  font-size: 20px;
+  font-weight:bold;
+}
+
+.backgroundcolor-position {
+  padding: 8% 0;
+  background-color: #FFFDF2;
+}
+
+/* 投稿管理 */
+.titlefont {
+  font-size: 24px;
+  font-weight:bold;
+  margin-bottom: 2%;
+}
+
+/* あなたが投稿した里親募集の一覧です */
+.subtitle {
+  font-size: 20px;
+  font-weight:bold;
+  margin-bottom: 2%;
+}
+
+/* ＋新しい投稿ボタン */
+.newpost {
+  border-radius:10px;
+  background-color:#F6D8B3;
+  color:#503322;
+  border: none;
+  width: 15%;
+  padding: 2% 0;
+  margin-bottom: 3%;
+  text-align: center;
+  font-weight:bold;
+  margin-left: auto;
+}
+
+.newpost:hover {
+  /* カーソルホバー時に設定した透明度で反応させる */
+  opacity: 0.8;
+}
+
+/* ======================================================================================== */
+
+.post-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.post-card {
+  background: #fff;
+  border-radius: 12px;
+  width: calc(33% - 20px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-image img, .no-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  background: #f0f0f0;
+}
+
+.post-body {
+  padding: 15px;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.btn-detail, .btn-edit, .btn-delete {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-detail { background: #eee; }
+.btn-edit { background: #ffe6b3; }
+.btn-delete { background: #ff6961; color: #fff; }
+
+.delete-form { display: inline; }
+
+/* ==================================================== */
+/* スマホ用画面 */
+/* ==================================================== */
+@media (max-width: 390px) {
+
+  .backgroundcolor-position {
+    padding: 20% 0;
+    background-color: #FFFDF2;
+  }
+
+  /* 投稿管理 */
+  .titlefont {
+    font-size: 20px;
+  }
+
+  /* あなたが投稿した里親募集の一覧です */
+  .subtitle {
+    font-size: 16px;
+  }
+
+  /* ＋新しい投稿ボタン */
+  .newpost {
+    width: 40%;
+    padding: 3% 0;
+  }
+
+  /* 総投稿数・譲渡完了・募集中の項目：：外枠の作成 */
+  .summary-item {
+    padding: 5% 0;
+  }
+
+}
