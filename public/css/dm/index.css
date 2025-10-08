@@ -31,16 +31,120 @@ h3 {
     font-size: 20px;
     font-weight: 600;/* semibold */
     color: #503322;
-    margin-top: 2%;
     margin-bottom: 1%;
     line-height: 1.1;
 }
+
+.alert-danger {
+    font-size: 14px;
+    color: #F44336;
+}
+
+
+/* ページtitle */
+.pege-ttl {
+    width: 100%;
+    margin-bottom: 3%;
+    padding: 0;
+}
+
+/* 検索コンテナ */
+.search-container {
+    margin-bottom: 24px;
+}
+
+.search-form {
+    width: 100%;
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* 検索アイコン */
+.search-icon {
+    position: absolute;
+    left: 16px;
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: #503322;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+/* 検索入力欄 */
+.search-input {
+    width: 100%;
+    padding: 14px 48px 14px 48px;
+    font-size: 16px;
+    border: 1px solid #503322;
+    border-radius: 5px;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: #ffc3a0;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.search-input::placeholder {
+    color: #999;
+}
+
+/* クリアボタン */
+.clear-button {
+    position: absolute;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.clear-button:hover {
+    background-color: #d0d0d0;
+}
+
+.clear-button svg {
+    width: 14px;
+    height: 14px;
+    stroke: #503322;
+    stroke-width: 2;
+    stroke-linecap: round;
+    fill: none;
+}
+
+/* 検索結果情報 */
+.search-result-info {
+    background-color: #f6d8b3;
+    border: 1px solid #ffc3a0;
+    border-radius: 5px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 16px;
+    color: #503322;
+}
+
 
 /* コンテナ */
 .container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 30px;
+    padding: 0;
 }
 
 /* メッセージリスト */
@@ -164,7 +268,7 @@ h3 {
     width: 20px;
     height: 20px;
     fill: none;
-    stroke: #999;
+    stroke: #f6d8b3;
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -193,38 +297,63 @@ h3 {
 
 .empty-text {
     font-size: 16px;
-    color: #999;
+    color: #ffc3a0;
 }
 
 /* レスポンシブ対応 */
 @media (max-width: 390px) {
-    .container {
-        padding: 16px;
+    .main-content {
+        padding: 20% 4% 5%;
     }
-    
+
+    p {
+        font-size: 14px;
+    }
+
+    h2 {
+        font-size: 18px;
+        margin-bottom: 5%;
+    }
+
+    h3 {
+        font-size: 16px;
+        margin-bottom: 3%;
+    }
+
     .page-title {
         font-size: 24px;
         margin-bottom: 20px;
     }
-    
+
+    .search-input {
+        padding: 12px 44px 12px 44px;
+        font-size: 14px;
+    }
+
+    .search-icon {
+        left: 14px;
+        width: 18px;
+        height: 18px;
+    }
+
     .message-item {
         padding: 16px;
     }
-    
+
     .user-avatar,
     .user-avatar-placeholder {
         width: 48px;
         height: 48px;
     }
-    
+
     .user-avatar-placeholder span {
         font-size: 20px;
     }
-    
+
     .user-name {
         font-size: 16px;
     }
-    
+
     .last-message {
         font-size: 13px;
     }

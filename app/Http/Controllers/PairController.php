@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Dm\DmSearchRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,9 +14,10 @@ use Carbon\Carbon;
 class PairController extends Controller
 {
 
-    public function index()
+    public function index(DmSearchRequest $request)
     {
         $userId = Auth::id();
+        $searchQuery = $request->input('search');
 
         // ログインユーザーが関わるペアを取得
         $pairs = Pair::where('userA_id', $userId)
@@ -42,7 +44,30 @@ class PairController extends Controller
             $lastMessage = $messages->first();
 
             // 時間差を計算
-            $timeAgo = $this->getTimeAgo($lastMessage->updated_at);
+            $timeAgo = $this->getTimeAgo($lastMessage->created_at);
+
+            // 検索フィルタリング（あいまい検索）
+            if ($searchQuery) {
+                $searchLower = mb_strtolower($searchQuery);
+                $userName = mb_strtolower($otherUser->name);
+
+                // ユーザー名での検索
+                $userNameMatch = mb_strpos($userName, $searchLower) !== false;
+
+                // メッセージ内容での検索
+                $messageMatch = false;
+                foreach ($messages as $message) {
+                    if (mb_strpos(mb_strtolower($message->content), $searchLower) !== false) {
+                        $messageMatch = true;
+                        break;
+                    }
+                }
+
+                // どちらにも一致しない場合はスキップ
+                if (!$userNameMatch && !$messageMatch) {
+                    continue;
+                }
+            }
 
             $conversationUsers[] = [
                 'user' => $otherUser,
@@ -50,7 +75,7 @@ class PairController extends Controller
                 'last_message' => $lastMessage->content,
                 'time_ago' => $timeAgo,
                 'message_count' => $messages->count(),
-                'last_message_time' => $lastMessage->updated_at,
+                'last_message_time' => $lastMessage->created_at,
             ];
         }
 
