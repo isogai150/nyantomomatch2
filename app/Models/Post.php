@@ -86,4 +86,26 @@ public function getCostClassAttribute()
     return $this->cost .'円';
 }
 
+
+
+// ====================自分の投稿一覧表示機能：関係情報ここから追記====================
+
+// フィールド指定（今後の安全なデータ保存のため）
+protected $fillable = [
+    'user_id',
+    'title',
+    'age',
+    'gender',
+    'region',
+    'status',
+    'cost',
+];
+
+// created_at などの日付フィールドをCarbonで扱いやすくする
+protected $casts = [
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+];
+
+// ==================== ここまで追記 ====================
 }

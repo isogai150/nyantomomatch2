@@ -15,6 +15,24 @@ Route::get('/posts/{post}', [PostController::class, 'detail'])->name('posts.deta
 // 投稿一覧
 Route::get('/catpost', [PostController::class, 'index'])->name('catpost.index');
 
+
+// ===========================================================================================
+
+// 自分の投稿一覧表示機能
+// Route::get('/catpost', [PostController::class, 'catpost'])->name('catpost.index');
+Route::get('/my/catpost', [PostController::class, 'myCatpost'])->name('mycatpost.index');
+
+// 編集画面表示
+Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+
+// 編集内容の更新
+Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+// ===========================================================================================
+
+
 // お気に入り
 Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 

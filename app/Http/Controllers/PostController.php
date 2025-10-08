@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -50,4 +51,38 @@ class PostController extends Controller
 
         return view('catpost.detail', compact('post'));
     }
+
+// =================================================================================
+   // 自分の投稿一覧表示機能
+
+    // public function myCatpost()
+    // {
+    //     $user = Auth::user();
+
+    //     // ログインユーザーの投稿のみ取得
+    //     $myCatposts = Post::with('images')
+    //         ->where('user_id', $user->id)
+    //         ->whereNull('deleted_at')
+    //         ->orderBy('created_at', 'desc')
+    //         ->get();
+
+    //     return view('catpost.index', compact('myCatposts'));
+    // }
+
+    public function myCatpost()
+    {
+        $user = Auth::user();
+
+        // 自分の投稿＋画像を取得
+        $myCatposts = Post::with('images')
+            ->withCount('favorites')
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('catpost.index', compact('myCatposts'));
+    }
+
+// =================================================================================
+
 }

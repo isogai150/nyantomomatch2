@@ -1,0 +1,221 @@
+@charset "UTF-8";
+
+/* ==================================================== */
+/* 共通 */
+/* ==================================================== */
+
+.main-content {
+  width: 90%;
+  margin: 0 auto;
+}
+
+/* 総投稿数・譲渡完了・募集中の項目：：縦から横並びに変更 */
+.summary-boxes {
+  display: flex;
+  justify-content: space-between;
+  margin: 2% 0;
+}
+
+/* ==================================================== */
+/* PC用画面 */
+/* ==================================================== */
+
+/* 総投稿数・譲渡完了・募集中の項目：：外枠の作成 */
+.summary-item {
+  flex: 1;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 5% 0;
+  margin: 0 2%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  font-size: 20px;
+  font-weight:bold;
+}
+
+.backgroundcolor-position {
+  padding: 8% 0;
+  background-color: #FFFDF2;
+}
+
+/* 投稿管理 */
+.titlefont {
+  font-size: 24px;
+  font-weight:bold;
+  margin-bottom: 2%;
+}
+
+/* あなたが投稿した里親募集の一覧です */
+.subtitle {
+  font-size: 20px;
+  font-weight:bold;
+  margin-bottom: 2%;
+}
+
+/* ＋新しい投稿ボタン */
+.newpost {
+  border-radius:10px;
+  background-color:#F6D8B3;
+  color:#503322;
+  border: none;
+  width: 15%;
+  padding: 2% 0;
+  margin-bottom: 3%;
+  text-align: center;
+  font-weight:bold;
+  margin-left: auto;
+}
+
+.newpost:hover {
+  /* カーソルホバー時に設定した透明度で反応させる */
+  opacity: 0.8;
+}
+
+/* ======================================================================================== */
+
+/* ==================================================== */
+/* 投稿カード一覧（PC3列固定・%ベースで調整） */
+/* ==================================================== */
+
+.post-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 3% 2%; /* 縦3%、横2%で間隔を調整 */
+  margin-top: 2%;
+}
+
+.post-card {
+  flex: 1 1 30%; /* 3列に近い幅で可変（＝33%より少し小さめ） */
+  max-width: 31%; /* 最大幅を調整して3列を安定化 */
+  background: #ffffff;
+  border-radius: 2%;
+  box-shadow: 0 0.3% 1% rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-2%);
+}
+
+/* 画像部分 */
+.post-image img,
+.no-image {
+  width: 100%;
+  height: 25vh; /* 高さを画面比で指定（約200px相当） */
+  object-fit: cover;
+  background: #f8f3f3;
+}
+
+/* 本文部分 */
+.post-body {
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+/* 投稿アクション */
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4%;
+}
+
+.btn-detail,
+.btn-edit,
+.btn-delete {
+  border: none;
+  border-radius: 10%;
+  padding: 3% 5%;
+  cursor: pointer;
+  font-size: 90%;
+}
+
+.btn-detail {
+  background: #eee;
+}
+.btn-edit {
+  background: #ffe6b3;
+}
+.btn-delete {
+  background: #ff6961;
+  color: #fff;
+}
+
+/* いいね数 */
+.favorites {
+  display: flex;
+  align-items: center;
+  font-size: 90%;
+  color: #5c4d3a;
+  margin-top: 3%;
+}
+
+.heart {
+  color: #e74c3c;
+  margin-right: 1.5%;
+}
+
+
+/* ==================================================== */
+/* スマホ用画面 */
+/* ==================================================== */
+@media (max-width: 390px) {
+
+  .backgroundcolor-position {
+    padding: 20% 0;
+    background-color: #FFFDF2;
+  }
+
+  /* 投稿管理 */
+  .titlefont {
+    font-size: 20px;
+  }
+
+  /* あなたが投稿した里親募集の一覧です */
+  .subtitle {
+    font-size: 16px;
+  }
+
+  /* ＋新しい投稿ボタン */
+  .newpost {
+    width: 40%;
+    padding: 3% 0;
+  }
+
+  /* 総投稿数・譲渡完了・募集中の項目：：外枠の作成 */
+  .summary-item {
+    padding: 5% 0;
+  }
+
+  .post-list {
+    flex-direction: column;
+    gap: 5%;
+  }
+
+  .post-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .post-image img,
+  .no-image {
+    height: 30vh;
+  }
+
+  .post-body {
+    padding: 6%;
+  }
+
+  .btn-detail,
+  .btn-edit,
+  .btn-delete {
+    font-size: 85%;
+    padding: 4% 6%;
+  }
+}
