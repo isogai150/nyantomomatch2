@@ -5,6 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileImageController;
+use App\Http\Controllers\PairController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 
@@ -34,5 +35,12 @@ Route::put('/profile/image', [ProfileImageController::class, 'update'])
     ->middleware('auth');
  //退会
 Route::post('/withdraw', [UserController::class, 'withdraw'])->name('user.withdraw');
+
+// DM一覧表示
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/dm', [PairController::class, 'index'])->name('dm.index');
+    Route::get('/dm/{pairId}', [PairController::class, 'show'])->name('dm.show');
+});
 
 Auth::routes();

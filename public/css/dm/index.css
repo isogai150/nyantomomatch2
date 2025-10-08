@@ -1,0 +1,231 @@
+@charset "UTF-8";
+
+.main-content {
+    padding: 10% 0 5% 0;
+    max-width: 1000px;
+    width: 100%; /* 小さい画面では100% */
+    margin: 0 auto;
+}
+
+main {
+    background-color: #FFFDF2;
+    color: #503322;
+    line-height: 1.6;
+}
+
+/* font */
+p {
+    font-size: 16px;
+    color: #503322;
+    line-height: 1.5;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 600;/* semibold */
+    color: #503322;
+    margin-bottom: 2%;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: 600;/* semibold */
+    color: #503322;
+    margin-top: 2%;
+    margin-bottom: 1%;
+    line-height: 1.1;
+}
+
+/* コンテナ */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+/* メッセージリスト */
+.message-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* メッセージアイテム（角丸の四角） */
+.message-item {
+    display: flex;
+    align-items: center;
+    padding: 30px;
+    background-color: #ffffff;
+    border: 1px solid #D3C6B7;
+    border-radius: 20px; /* 角丸 */
+    text-decoration: none;
+    color: #503322;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.message-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    border-color: #D3C6B7;
+}
+
+/* ユーザーアイコン */
+.user-icon {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    margin-right: 16px;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-avatar-placeholder {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-avatar-placeholder span {
+    font-size: 24px;
+    font-weight: bold;
+    color: #D3C6B7;
+}
+
+/* メッセージコンテンツ */
+.message-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.user-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #503322;
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.last-message {
+    font-size: 16px;
+    color: #503322;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.message-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 16px;
+    color: #503322;
+}
+
+.time-ago {
+    display: inline-block;
+}
+
+.message-count {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.message-icon {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* 矢印アイコン */
+.arrow-icon {
+    flex-shrink: 0;
+    margin-left: 16px;
+}
+
+.arrow-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: #999;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* 空の状態 */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.empty-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 16px;
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.empty-text {
+    font-size: 16px;
+    color: #999;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 390px) {
+    .container {
+        padding: 16px;
+    }
+    
+    .page-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    
+    .message-item {
+        padding: 16px;
+    }
+    
+    .user-avatar,
+    .user-avatar-placeholder {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .user-avatar-placeholder span {
+        font-size: 20px;
+    }
+    
+    .user-name {
+        font-size: 16px;
+    }
+    
+    .last-message {
+        font-size: 13px;
+    }
+}

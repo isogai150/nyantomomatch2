@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -73,12 +74,44 @@ class User extends Authenticatable
         return $this->hasMany(Transfer::class, 'userB_id');
     }
 
-    //アクセサ
+    // アクセサ //
+
+    // マイページ：ユーザーステータス
     public function getRoleLabelAttribute()
     {
         return match ($this->role) {
             0 => '一般ユーザー',
             1 => '投稿権限ユーザー',
         };
+    }
+
+    // マイページ：自己紹介文
+    // 全文のdescriptionを取得
+    protected function fullDescription(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->description ?? '',
+        );
+    }
+
+    // 短縮版のdescriptionを取得（最初の句点まで、または60文字）
+    protected function shortDescription(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $description = $this->description ?? '';
+
+                // 句点の位置を検索
+                $pos = mb_strpos($description, '。');
+
+                if ($pos !== false) {
+                    // 句点が見つかった場合は句点まで（句点を含む）
+                    return mb_substr($description, 0, $pos + 1);
+                } else {
+                    // 句点がない場合は60文字まで
+                    return mb_substr($description, 0, 60);
+                }
+            }
+        );
     }
 }

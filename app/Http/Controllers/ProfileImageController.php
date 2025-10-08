@@ -17,7 +17,6 @@ class ProfileImageController extends Controller
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB以下
         ], [
-            'image.required' => '画像を選択してください。',
             'image.image' => '有効な画像ファイルを選択してください。',
             'image.mimes' => 'JPEG、PNG、JPG、GIF形式の画像のみアップロード可能です。',
             'image.max' => '画像サイズは2MB以下にしてください。',

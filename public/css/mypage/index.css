@@ -153,6 +153,10 @@ label:hover .image-overlay {
     width: 100%;
 }
 
+.br-sp {
+    display: none;
+}
+
 /* 基本情報 */
 .information {
     background-color: #FFFFFF;
@@ -312,6 +316,10 @@ label:hover .image-overlay {
         display: block;
         margin: 10px 0 0 0;
         width: fit-content;
+    }
+
+    .br-sp {
+    display: block;
     }
 
     .agree label {

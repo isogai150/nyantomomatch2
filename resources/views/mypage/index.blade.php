@@ -59,10 +59,10 @@ use Illuminate\Support\Facades\Storage;
           <span class="prf-status">{{ $user->role_label }}</span></h2>
         </div>
         <div class="prf-description">
-          <h3>{{ $user->description }}</h3>
+          <h3>{{ $user->short_description }}</h3>
         </div>
         <div class="prf-create">
-          <p>登録日: {{ $user->created_at->format('Y年m月d日') }}</p>
+          <p>登録日:<br class="br-sp"> {{ $user->created_at->format('Y年m月d日') }}</p>
         </div>
       </div>
 
@@ -104,7 +104,7 @@ use Illuminate\Support\Facades\Storage;
       <div class="form-group">
         <h3>自己紹介（飼育経験年数・現在の居住環境・家族構成など入力できる範囲で入力してください）</h3>
         <textarea class="form-textarea" name="description" id="description" rows="10" placeholder="こちらに長いテキストを入力してください...">
-          {{ old('description', $user->description) ?? $user->description  }}
+          {{ old('description', $user->full_description) ?? $user->full_description  }}
         </textarea>
         @error('description')
           <div class="alert alert-danger">{{ $message }}</div>
@@ -124,7 +124,7 @@ use Illuminate\Support\Facades\Storage;
         投稿権限を取得すると、猫の里親募集投稿を作成・管理できるようになります。 申請には審査があり、承認まで数日かかる場合があります。
       </p>
     </div>
-    {{-- <form action="{{ route('request-post-permission', ['user' => $user->user_id]) }}" method="POST">
+    {{-- <form action="{{ route('request-post-permission', ['user' => $user->id]) }}" method="POST">
       @csrf --}}
       <div class="form-group">
         <h3>申請理由</h3>
