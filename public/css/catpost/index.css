@@ -73,18 +73,20 @@
 
 /* ======================================================================================== */
 
-/* ==================================================== */
-/* 投稿カード一覧（PC3列固定・%ベースで調整） */
-/* ==================================================== */
+.title {
+  font-size: 20px;
+}
 
+/* 投稿一覧表示を横3列に調整 */
 .post-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  gap: 3% 2%; /* 縦3%、横2%で間隔を調整 */
+  gap: 3% 2%;
   margin-top: 2%;
 }
 
+/* 投稿一覧表示の枠を作成 */
 .post-card {
   flex: 1 1 30%; /* 3列に近い幅で可変（＝33%より少し小さめ） */
   max-width: 31%; /* 最大幅を調整して3列を安定化 */
@@ -98,16 +100,19 @@
 }
 
 .post-card:hover {
-  transform: translateY(-2%);
+  transform: translateY(-1.5%);
 }
 
 /* 画像部分 */
 .post-image img,
 .no-image {
   width: 100%;
-  height: 25vh; /* 高さを画面比で指定（約200px相当） */
+  max-height: 50vh;
+  height: auto;
   object-fit: cover;
-  background: #f8f3f3;
+  object-position: center;
+  background: #ffffff;
+  margin-top: 3%;
 }
 
 /* 本文部分 */
@@ -117,34 +122,6 @@
   flex-direction: column;
   flex-grow: 1;
   justify-content: space-between;
-}
-
-/* 投稿アクション */
-.post-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 4%;
-}
-
-.btn-detail,
-.btn-edit,
-.btn-delete {
-  border: none;
-  border-radius: 10%;
-  padding: 3% 5%;
-  cursor: pointer;
-  font-size: 90%;
-}
-
-.btn-detail {
-  background: #eee;
-}
-.btn-edit {
-  background: #ffe6b3;
-}
-.btn-delete {
-  background: #ff6961;
-  color: #fff;
 }
 
 /* いいね数 */
@@ -160,6 +137,44 @@
   color: #e74c3c;
   margin-right: 1.5%;
 }
+
+/* ================================================ */
+/* ボタン編集中 */
+/* ================================================ */
+
+/* 詳細・編集・削除ボタンの配置 */
+/* .post-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4%;
+} */
+
+/* 詳細・編集・削除ボタンのデザイン */
+/* .btn-detail,
+.btn-edit,
+.btn-delete {
+  border: none;
+  border-radius: 10%;
+  padding: 3% 5%;
+  cursor: pointer;
+  font-size: 90%;
+} */
+
+/* 詳細ボタン */
+/* .btn-detail {
+  background: #eee;
+} */
+
+/* 編集ボタン */
+/* .btn-edit {
+  background: #ffe6b3;
+} */
+
+/* 削除ボタン */
+/* .btn-delete {
+  background: #ff6961;
+  color: #fff;
+} */
 
 
 /* ==================================================== */
@@ -212,10 +227,10 @@
     padding: 6%;
   }
 
-  .btn-detail,
+  /* .btn-detail,
   .btn-edit,
   .btn-delete {
     font-size: 85%;
     padding: 4% 6%;
-  }
+  } */
 }

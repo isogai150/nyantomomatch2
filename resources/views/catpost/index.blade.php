@@ -9,8 +9,6 @@
 
 {{-- ここの中にコードを書く --}}
 
-{{-- ============================================================================ --}}
-{{-- ============================================================================ --}}
 <div class="main-content">
 
     <div class="titlefont">
@@ -24,6 +22,10 @@
     <div class="newpost">
         <a href="">＋　新しい投稿</a>
     </div>
+
+{{-- ============================================================================ --}}
+{{-- 総投稿数・譲渡完了・募集中 --}}
+{{-- ============================================================================ --}}
 
     <div class="summary-boxes">
         <div class="summary-item">
@@ -41,22 +43,30 @@
     </div>
 
 {{-- ============================================================== --}}
-{{-- 下部の自分の投稿一覧表示 --}}
+{{-- 自分の投稿一覧表示 --}}
 {{-- ============================================================== --}}
-{{-- 残りの編集部分 --}}
+
   <div class="post-list">
     @forelse($myCatposts as $post)
       <div class="post-card">
         <div class="post-image">
+          {{-- 投稿の画像 --}}
           @if($post->images->isNotEmpty())
-            <img src="{{ asset('storage/' . $post->images->first()->image_path) }}" alt="猫画像">
+            <img id="main-image" src="{{ asset(str_replace('public/', '', $post->images->first()->image_path)) }}">
           @else
-            <div class="no-image">No Image</div>
+            <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"
+                    class="no-image">
           @endif
         </div>
 
+{{-- ============================================================== --}}
+{{-- 一覧の詳細部分 --}}
+{{-- ============================================================== --}}
+
         <div class="post-body">
+          <div class="title">
           <h3>{{ $post->title }}</h3>
+          </div>
 
           {{-- 性別の表示変換 --}}
           @php
@@ -73,8 +83,67 @@
             <p>投稿日: {{ $post->created_at->format('Y年n月j日') }}</p>
           </div>
 
-          {{-- ❤️いいね数追加 --}}
-          <p class="favorites"><span class="heart">❤️</span>{{ $post->favorites_count ?? 0 }}</p>
+          {{-- いいね数追加 --}}
+          <p class="favorites"><span class="heart">❤</span>{{ $post->favorites_count ?? 0 }}</p>
+        </div>
+
+{{-- =============================================================================================== --}}
+
+          <div class="post-actions">
+            <a href="{{ route('posts.edit', $post->id) }}" class="btn-edit">編集</a>
+            <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="delete-form">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="btn-delete">削除</button>
+            <a href="{{ route('posts.detail', $post->id) }}" class="btn-detail">詳細</a>
+            </form>
+          </div>
+
+
+{{-- =============================================================================================== --}}
+
+        </div>
+    @empty
+        <p>投稿がありません。</p>
+    @endforelse
+    </div>
+</div>
+
+
+{{-- ============================================================================ --}}
+{{-- ============================================================================ --}}
+{{-- コピー --}}
+  {{-- <div class="post-list">
+    @forelse($myCatposts as $post)
+      <div class="post-card">
+        <div class="post-image">
+          @if($post->images->isNotEmpty())
+            <img src="{{ asset('storage/' . $post->images->first()->image_path) }}" alt="猫画像">
+          @else
+            <div class="no-image">No Image</div>
+          @endif
+        </div>
+
+        <div class="post-body">
+          <h3>{{ $post->title }}</h3>
+
+          {{-- 性別の表示変換 --}}
+          {{-- @php
+            $gender = match($post->gender) {
+                1 => 'オス',
+                2 => 'メス',
+                default => '未入力',
+            };
+          @endphp
+
+          <p>{{ $post->age }}歳　{{ $gender }}　{{ $post->region }}</p>
+
+          <div class="post-info">
+            <p>投稿日: {{ $post->created_at->format('Y年n月j日') }}</p>
+          </div> --}}
+
+          {{-- いいね数追加 --}}
+          {{-- <p class="favorites"><span class="heart">❤</span>{{ $post->favorites_count ?? 0 }}</p>
         </div>
 
           <div class="post-actions">
@@ -90,49 +159,8 @@
     @empty
         <p>投稿がありません。</p>
     @endforelse
-    </div>
-</div>
-
-
-{{-- ============================================================================ --}}
-{{-- ============================================================================ --}}
-{{-- コピー --}}
-    {{-- <div class="post-list">
-    @forelse($myCatposts as $post)
-    <div class="post-card">
-        <div class="post-image">
-        @if($post->images->first())
-            <img src="{{ asset('storage/' . $post->images->first()->path) }}" alt="猫画像">
-            @else
-            <div class="no-image">No Image</div>
-            @endif
-        </div>
-
-        <div class="post-body">
-            <h3>{{ $post->title }}</h3>
-            <p>{{ $post->age }}歳　{{ $post->gender }}　{{ $post->region }}</p>
-
-            <div class="post-info">
-                <span>テスト {{ $post->favorites_count ?? 0 }}</span>
-                <p>投稿日: {{ $post->created_at->format('Y年n月j日') }}</p>
-            </div>
-
-            <div class="post-actions">
-                <a href="{{ route('posts.detail', $post->id) }}" class="btn-detail">詳細</a>
-                <a href="{{ route('posts.edit', $post->id) }}" class="btn-edit">編集</a>
-                <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="delete-form">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn-delete">削除</button>
-            </form>
-            </div>
-        </div>
-    </div>
-    @empty
-        <p>投稿がありません。</p>
-    @endforelse
-    </div>
-</div> --}}
+    </div> --}}
+{{-- </div> --}}
 {{-- ============================================================================ --}}
 
 </div>
