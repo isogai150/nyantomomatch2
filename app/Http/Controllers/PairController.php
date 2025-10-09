@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Dm\DmSearchRequest;
 use Illuminate\Http\Request;
-use App\Models\Pair;     // DMルーム（1対1チャットの親）
-use App\Models\Message;  // メッセージテーブル
-use App\Models\User;     // ユーザーテーブル
+use App\Models\Pair;
+use App\Models\Message;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -14,72 +14,91 @@ use App\Models\Post;
 
 class PairController extends Controller
 {
-    // DM詳細表示
-    public function show($dm)
-    {
-        // Pairテーブルから指定されたDMルームを取得（存在しない場合は404エラー）
-        $dm = Pair::with(['userA', 'userB'])->findOrFail($dm);
 
-        // ログイン中のユーザーが userA か userB かを判定して「相手ユーザー」を特定
-        $partner = $dm->userA->id === auth()->id() ? $dm->userB : $dm->userA;
+    //DM詳細表示
+public function show($dm)
+{
+    // Pairテーブルから対象のDMを取得
+    // with() を使って関連データ（userA, userB, post.images）もまとめて取得
+    // → N+1問題（毎回SQLを発行する非効率な処理）を防ぐ
+    // N+1とは親レコード１に対して複数の子レコードを一度で取得する
+    $dm = Pair::with(['userA', 'userB', 'post.images'])->findOrFail($dm);
 
-        $post = $dm->post_id;
+    // 三項演算子を使って、変数 $partner に「相手のユーザー情報」を格納
+    // 現在ログイン中のユーザーIDが userA_id と一致するかどうかを判定
+    // 一致する場合 → 相手は userB
+    // 一致しない場合 → 相手は userA
+    $partner = $dm->userA->id === auth()->id() ? $dm->userB : $dm->userA;
 
-        // このDMに紐づく全メッセージを取得（古い順に並べる）
-        // → Pairモデルに「messages()」のリレーションが定義されている前提
-        $messages = $dm->messages()
-            ->orderBy('created_at', 'asc') // 第1引数にカラム名、第2引数に並び順
-            ->get();
+    // このDMに紐づくメッセージ一覧を取得
+    // → Pairモデルで定義した「messages()」リレーションを使用
+    // orderBy()：取得するデータの並び順を指定
+    // created_at（作成日時）を「asc（昇順＝古い順）」で並び替え
+    $messages = $dm->messages()
+        ->orderBy('created_at', 'asc')
+        ->get();
 
-        //「dm.detail」ビューにデータを渡す
-        // compact() は ['dm' => $dm, 'partner' => $partner, 'messages' => $messages] と同義
-        return view('dm.detail', compact('dm', 'partner', 'post', 'messages'));
-    }
+    // 投稿データを取得（Pair に紐づく Post モデル）
+    // → このあとBladeで $post->images などを使用できる
+    $post = $dm->post;
 
-    // Ajaxでメッセージ一覧を取得（3秒ごとに呼び出される）
-    public function fetch($dm)
-    {
-        // PairのID（＝dm_id）が一致するメッセージをすべて取得（古い順）
-        $messages = Message::where('dm_id', $dm)
-            ->orderBy('created_at', 'asc')
-            ->get()
-            // map()：取得したコレクションをフロント用に整形して返す
-            ->map(function ($msg) {
-                return [
-                    'user_id' => $msg->user_id,
-                    'content' => e($msg->content),
-                    'created_at' => $msg->created_at->format('Y/m/d H:i'),
-                ];
-            });
+    // Bladeビューを返す
+    // 第1引数：表示するテンプレート（dm/detail.blade.php）
+    // 第2引数：ビューに渡すデータを配列で渡す（compactは変数名をキーにして連想配列化）
+    // compact('dm', 'partner', 'post', 'messages')
+    // は ['dm' => $dm, 'partner' => $partner, ...] と同義
+    return view('dm.detail', compact('dm', 'partner', 'post', 'messages'));
+}
 
-        // JSON形式で返す（Ajaxで受け取れる）
-        return response()->json(['messages' => $messages]);
-    }
 
-    // Ajaxでメッセージを送信する処理
-    public function send(Request $request, $dmId)
-    {
-        // 入力チェック（未入力や文字数制限のエラー防止）
-        $request->validate([
-            'message' => 'required|string|max:500',
-        ]);
 
-        // メッセージを新規作成してDBに登録
-        $message = Message::create([
-            'dm_id' => $dmId,             // どのDMルームに紐づくか
-            'user_id' => auth()->id(),    // 送信者ID（現在ログイン中のユーザー）
-            'content' => $request->message, // 本文
-        ]);
+// Ajaxでメッセージを取得（3秒ごとに呼び出し）
+public function fetch($dm)
+{
+    // Messageテーブルから「pair_id（＝DMルームID）」が一致するメッセージを取得
+    // orderBy() で古い順（昇順）に並び替える
+    $messages = Message::where('pair_id', $dm)
+        ->orderBy('created_at', 'asc')
+        ->get()
+        // map()：コレクションの各要素（＝1件のメッセージ）を整形して新しい配列として返す
+        ->map(function ($msg) {
+            return [
+                // 送信者のユーザーID
+                'user_id' => $msg->user_id,
+                // 本文（e()でHTMLエスケープして安全に表示）
+                'content' => e($msg->content),
+                // 作成日時を「Y/m/d H:i」形式に整形
+                'created_at' => $msg->created_at->format('Y/m/d H:i'),
+            ];
+        });
 
-        // フロント（JavaScript側）が扱いやすい形で返す
-        return response()->json([
-            'message' => [
-                'user_id' => $message->user_id,
-                'content' => e($message->content),
-                'created_at' => $message->created_at->format('Y/m/d H:i'),
-            ]
-        ]);
-    }
+    // JSON形式で返す（JavaScript側で res.messages から利用できる）
+    return response()->json(['messages' => $messages]);
+}
+
+// Ajaxでメッセージを送信
+public function send(MessageSendRequest $request, $dm)
+{
+    // 新規メッセージを作成してDBに登録
+    // pair_id（DMルームID）と user_id（送信者）を紐づける
+    $message = Message::create([
+        'pair_id' => $dm,
+        'user_id' => auth()->id(),
+        'content' => $request->message,
+    ]);
+
+    // フロント側（JavaScript）で扱いやすい形でJSONを返す
+    return response()->json([
+        'message' => [
+            'user_id' => $message->user_id,
+            'content' => e($message->content),
+            'created_at' => $message->created_at->format('Y/m/d H:i'),
+        ]
+    ]);
+}
+
+
+
 
     //DM一覧表示
     public function index(DmSearchRequest $request)

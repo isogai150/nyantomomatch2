@@ -1,92 +1,162 @@
 @charset "UTF-8";
 
-/* ===============================
-   DM全体
-   =============================== */
+/* 全体 */
 .dm-wrapper {
-  width: 100%;
-  margin: 0 auto;
-  padding-top: 4%;
+  width: 85%;
+  max-width: 960px;
+  margin: 6% auto;
   background-color: #FFFDF2;
   border: 2px solid #D3C6B7;
-  border-radius: 8px;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
-  height: 75vh;
+  overflow: hidden;
+  font-family: "Noto Sans JP", sans-serif;
 }
 
-/* ===============================
-   ヘッダー
-   =============================== */
+/* ヘッダー部分 */
 .dm-header {
-  background-color: #FFF;
+  background-color: #FFF9E9;
   border-bottom: 2px solid #D3C6B7;
-  padding: 2% 4%;
+  padding: 1.5% 3%;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 2%;
 }
+
+.back-page a {
+  color: #503322;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.back-page a:hover {
+  text-decoration: underline;
+}
+
 .dm-user-info {
   display: flex;
   align-items: center;
-  gap: 6%;
-  width: 20%;
+  gap: 0.8rem;
 }
+
 .dm-user-icon {
   width: 40px;
   height: 40px;
   background-color: #E3D9C6;
   border-radius: 50%;
 }
+
 .dm-user-name {
-  font-size: 1.1rem;
   font-weight: bold;
   color: #503322;
+  font-size: 1.1rem;
 }
 
-/* ===============================
-   メッセージエリア
-   =============================== */
+/* 投稿情報部分 */
+.dm-post-info {
+  display: flex;
+  align-items: center;
+  gap: 3%;
+  border-bottom: 2px solid #D3C6B7;
+  background-color: #FFFCF3;
+  padding: 2.5% 4%;
+}
+
+.dm-post-img-area {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #D3C6B7;
+}
+
+.dm-post-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dm-post-text-area {
+  flex: 1;
+}
+
+.dm-post-title {
+  font-size: 1.1rem;
+  color: #503322;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.dm-post-desc {
+  font-size: 0.9rem;
+  color: #705840;
+  margin-bottom: 10px;
+}
+
+.dm-post-buttons .btn-detail {
+  display: inline-block;
+  padding: 6px 14px;
+  background-color: #E8CBA8;
+  color: #503322;
+  font-weight: bold;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.dm-post-buttons .btn-detail:hover {
+  background-color: #d8b893;
+}
+
+/* メッセージエリア */
 .dm-messages {
   flex: 1;
   padding: 3% 4%;
   overflow-y: auto;
+  background-color: #FFFEFA;
   display: flex;
   flex-direction: column;
-  gap: 2%;
+  gap: 1.5%;
 }
+
 .dm-message {
   display: flex;
   flex-direction: column;
   max-width: 75%;
   word-wrap: break-word;
 }
+
 .dm-message.other {
   align-self: flex-start;
 }
+
 .dm-message.mine {
   align-self: flex-end;
 }
+
 .dm-text {
-  padding: 2% 3%;
+  padding: 8px 12px;
   border-radius: 10px;
-  background-color: #F6D8B3;
+  background-color: #FFF6D1;
   color: #503322;
   font-size: 0.95rem;
+  white-space: pre-wrap;
 }
+
 .dm-message.mine .dm-text {
-  background-color: #F6D8B3;
+  background-color: #E8CBA8;
 }
+
 .dm-time {
   font-size: 0.75rem;
   color: #7A6A58;
   text-align: right;
-  margin-top: 2%;
+  margin-top: 4px;
 }
 
-/* ===============================
-   入力フォーム
-   =============================== */
+/* フォーム部分 */
 .dm-form {
   display: flex;
   align-items: center;
@@ -95,19 +165,22 @@
   padding: 2%;
   background-color: #FFF9E9;
 }
+
 .dm-form textarea {
   width: 80%;
-  height: 50px;
+  height: 60px;
   border: 1px solid #D3C6B7;
   border-radius: 6px;
   resize: none;
   padding: 1%;
   font-size: 1rem;
+  color: #503322;
 }
+
 .dm-form button {
   width: 15%;
-  height: 50px;
-  background-color: #F6D8B3;
+  height: 60px;
+  background-color: #E8CBA8;
   border: none;
   border-radius: 6px;
   color: #503322;
@@ -115,27 +188,32 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
+
 .dm-form button:hover {
-  background-color: #F6D8B3;
+  background-color: #d8b893;
 }
 
-/* ===============================
-   スマホ対応
-   =============================== */
+/* レスポンシブ対応 */
 @media screen and (max-width: 600px) {
   .dm-wrapper {
     width: 95%;
-    height: 80vh;
     margin-top: 25%;
   }
-  .dm-text {
-    font-size: 0.9rem;
+  .dm-post-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .dm-post-img-area {
+    width: 100%;
+    height: 200px;
+  }
+  .dm-post-text-area {
+    width: 100%;
   }
   .dm-form textarea {
     width: 70%;
   }
   .dm-form button {
     width: 25%;
-    font-size: 0.9rem;
   }
 }
