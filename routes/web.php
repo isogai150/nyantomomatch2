@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileImageController;
 use App\Http\Controllers\PairController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
@@ -28,5 +30,19 @@ Route::get('/dm/{dm}/message/reception', [PairController::class, 'fetch'])->name
 
 // メッセージ送信（Ajax）
 Route::post('/dm/{dm}/message/create', [DmController::class, 'send'])->name('dm.message.send');
+
+// マイページ
+Route::get('/mypage', [UserController::class, 'index'])->name('mypage.index');
+
+Route::put('/mypage/edit/{user}', [UserController::class, 'edit'])->name('mypage.edit');
+
+// ユーザーアイコン
+Route::put('/profile/image', [ProfileImageController::class, 'update'])->name('profile.image.update');
+
+// ユーザー退会
+Route::delete('/withdraw', [UserController::class, 'withdraw'])->name('user.withdraw');
+
+// DM一覧表示
+Route::get('/dm', [PairController::class, 'index'])->name('dm.index');
 
 Auth::routes();
