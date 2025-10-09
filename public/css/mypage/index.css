@@ -113,7 +113,7 @@ label:hover .image-overlay {
 }
 
 .prf-content {
-    flex: 680px;
+    flex: 600px;
 }
 
 .prf-name h2 {
@@ -122,6 +122,9 @@ label:hover .image-overlay {
 
 .prf-description h3 {
     margin: 1.5% 0 2%;
+    overflow-wrap: break-word;  /* 長い単語を折り返す */
+    word-break: break-word;     /* より自然な位置で折り返す */
+    white-space: normal;
 }
 
 .prf-status {
@@ -137,8 +140,8 @@ label:hover .image-overlay {
 .btn-primary-s4 {
     padding: 0.8% 3.6%;
     font-size: 16px;
-    background-color: #F6D8B3;
-    color: #503322;
+    background-color: #F44336;
+    color: #ffffff;
     border: none;
     border-radius: 5px;
     cursor: pointer;

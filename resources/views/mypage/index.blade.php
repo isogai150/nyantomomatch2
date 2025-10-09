@@ -70,7 +70,8 @@ use Illuminate\Support\Facades\Storage;
       <div class="btn-primary-s4">
         <form method="POST" action="{{ route('user.withdraw') }}" onsubmit="return confirmWithdrawal()">
           @csrf
-          <input type="submit" value="退会する" class="btn btn-danger btn-primary-s">
+          @method('DELETE')
+          <input type="submit" value="退会する" class="btn btn-danger btn-primary-s4">
         </form>
       </div>
     </div>
@@ -186,6 +187,5 @@ document.getElementById('imageInput').addEventListener('change', function(e) {
 function confirmWithdrawal() {
     return confirm('本当に退会しますか？\nこの操作は取り消せません。');
 }
-
 </script>
 @endsection

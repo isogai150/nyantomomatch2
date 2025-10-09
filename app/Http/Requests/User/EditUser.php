@@ -37,8 +37,8 @@ class EditUser extends FormRequest
             'password' => 'nullable|string|min:8|max:20|alpha_num|confirmed',
             'image_path' => 'nullable|string|min:8|max:20|alpha_num',
             'description' => 'nullable|string|max:500',
-            'reason' => 'required|string|max:500',
-            'agree' => 'required|accepted',
+            // 'reason' => 'required|string|max:500',
+            // 'agree' => 'required|accepted',
         ];
     }
 

@@ -23,20 +23,22 @@ class UserController extends Controller
     // マイページ更新
     public function edit(User $user, EditUser $request)
     {
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->description = $request->description;
+
+        $user = Auth::user();
+
+        // 更新データを準備
+        $updateData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'description' => $request->description,
+        ];
 
         // パスワードが入力されている場合のみ更新
         if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
+            $updateData['password'] = Hash::make($request->password);
         }
 
-        if ($request->filled('image_path')) {
-            $user->image_path = $request->image_path;
-        }
-
-        $user->save();
+        $user->update($updateData);
 
         return redirect()->route('mypage.index', [
             'user' => $user
