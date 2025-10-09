@@ -3,17 +3,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'description',
+        'image_path',
+    ];
     protected $hidden = ['password', 'remember_token'];
-    protected $casts = ['email_verified_at' => 'datetime'];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'deleted_at' => 'datetime', // deleted_atをdatetimeとしてキャスト
+    ];
 
     // 投稿
     public function posts()
@@ -67,5 +78,46 @@ class User extends Authenticatable
     public function transfersAsB()
     {
         return $this->hasMany(Transfer::class, 'userB_id');
+    }
+
+    // アクセサ //
+
+    // マイページ：ユーザーステータス
+    public function getRoleLabelAttribute()
+    {
+        return match ($this->role) {
+            0 => '一般ユーザー',
+            1 => '投稿権限ユーザー',
+        };
+    }
+
+    // マイページ：自己紹介文
+    // 全文のdescriptionを取得
+    protected function fullDescription(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->description ?? '',
+        );
+    }
+
+    // 短縮版のdescriptionを取得（最初の句点まで、または60文字）
+    protected function shortDescription(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $description = $this->description ?? '';
+
+                // 句点の位置を検索
+                $pos = mb_strpos($description, '。');
+
+                if ($pos !== false) {
+                    // 句点が見つかった場合は句点まで（句点を含む）
+                    return mb_substr($description, 0, $pos + 1);
+                } else {
+                    // 句点がない場合は60文字まで
+                    return mb_substr($description, 0, 60);
+                }
+            }
+        );
     }
 }
