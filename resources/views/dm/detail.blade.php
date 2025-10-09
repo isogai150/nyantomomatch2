@@ -1,4 +1,4 @@
-@extends('layouts.app') {{-- 共通レイアウトを継承 --}}
+@extends('layouts.app')
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/dm/detail.css') }}">
