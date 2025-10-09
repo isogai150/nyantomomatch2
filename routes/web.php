@@ -29,7 +29,7 @@ Route::get('/dm/{dm}', [PairController::class, 'show'])->name('dm.show');
 Route::get('/dm/{dm}/message/reception', [PairController::class, 'fetch'])->name('dm.message.fetch');
 
 // メッセージ送信（Ajax）
-Route::post('/dm/{dm}/message/create', [DmController::class, 'send'])->name('dm.message.send');
+Route::post('/dm/{dm}/message/create', [PairController::class, 'send'])->name('dm.message.send');
 
 // マイページ
 Route::get('/mypage', [UserController::class, 'index'])->name('mypage.index');

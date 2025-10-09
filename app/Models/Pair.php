@@ -28,4 +28,9 @@ class Pair extends Model
     {
         return $this->hasMany(MessageReport::class);
     }
+
+    public function posts()
+    {
+        return $this->belongsTo(Post::class);
+    }
 }

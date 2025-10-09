@@ -1,13 +1,17 @@
 @extends('layouts.app') {{-- 共通レイアウトを継承 --}}
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/dm/show.css') }}">
+<link rel="stylesheet" href="{{ asset('css/dm/detail.css') }}">
 @endsection
 
 @section('content')
 <div class="dm-wrapper">
   {{-- ======= ヘッダー部分 ======= --}}
   <div class="dm-header">
+    <div class="back-page">
+      {{-- herfの中身は投稿一覧ページのルーティング名が入る --}}
+      <a href="#">＜　戻る</a>
+    </div>
     <div class="dm-user-info">
       <div class="dm-user-icon"></div>
       <div class="dm-user-name">{{ $partner->name ?? '相手のユーザー' }}</div>
