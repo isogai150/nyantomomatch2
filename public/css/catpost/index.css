@@ -175,6 +175,71 @@
   background: #ff6961;
   color: #fff;
 } */
+/* ==================================================== */
+/* 投稿アクションボタンの配置とデザイン */
+/* ==================================================== */
+.post-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3%;
+}
+
+.action-top {
+  display: flex;
+
+justify-content: space-around;
+  margin-bottom: 5%;
+}
+.btn-edit {
+  margin-right: 30px;
+}
+.btn-edit,
+.btn-delete,
+.btn-detail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+/* 編集ボタン */
+.btn-edit {
+  background-color: #F6D8B3;
+  color: #503322;
+  border-radius: 10px;
+  padding: 2vh 4vw;
+}
+.btn-edit:hover {
+  opacity: 0.8;
+}
+
+/* 削除ボタン */
+.btn-delete {
+  background-color: #FF6961;
+  color: #fff;
+  border-radius: 10px;
+  padding: 2vh 4vw;
+}
+.btn-delete:hover {
+  background-color: #FF4C4C;
+}
+
+/* 詳細ボタン */
+.btn-detail {
+  background: none;
+  border: 2px solid #503322;
+  color: #503322;
+  border-radius: 10px;
+  padding: 2vh 10vw;
+}
+.btn-detail:hover {
+  background-color: #f8f5f0;
+}
 
 
 /* ==================================================== */
