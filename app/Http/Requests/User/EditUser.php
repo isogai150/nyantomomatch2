@@ -35,7 +35,7 @@ class EditUser extends FormRequest
                 Rule::unique('users', 'email')->ignore($user_id)
             ],
             'password' => 'nullable|string|min:8|max:20|alpha_num|confirmed',
-            'image_path' => 'nullable|string|min:8|max:20|alpha_num',
+            // 'image_path' => 'nullable|string|min:8|max:20|alpha_num',
             'description' => 'nullable|string|max:500',
             // 'reason' => 'required|string|max:500',
             // 'agree' => 'required|accepted',
@@ -50,7 +50,7 @@ class EditUser extends FormRequest
             'name' => '氏名',
             'email' => 'メールアドレス',
             'password' => 'パスワード',
-            'image_path' => 'プロフィール画像',
+            // 'image_path' => 'プロフィール画像',
             'description' => '自己紹介文',
             'reason' => '申請理由',
             'agree' => '「利用規約に同意する」',

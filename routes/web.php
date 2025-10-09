@@ -28,16 +28,16 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // マイページ
 Route::get('/mypage', [UserController::class, 'index'])->name('mypage.index');
-Route::put('/mypage/edit/{user}', [UserController::class, 'edit'])->name('mypage.edit');
+Route::put('/mypage/{user}/edit', [UserController::class, 'edit'])->name('mypage.edit');
 
 // ユーザーアイコン
-Route::put('/profile/image', [ProfileImageController::class, 'update'])->name('profile.image.update');
+Route::put('/profile/image', [UserController::class, 'updateImage'])->name('profile.image.update');
 
 // ユーザー退会
 Route::delete('/withdraw', [UserController::class, 'withdraw'])->name('user.withdraw');
 
 // DM一覧表示
 Route::get('/dm', [PairController::class, 'index'])->name('dm.index');
-Route::get('/dm/{pairId}', [PairController::class, 'show'])->name('dm.show');
+// Route::get('/dm/{pairId}', [PairController::class, 'show'])->name('dm.show');
 
 Auth::routes();

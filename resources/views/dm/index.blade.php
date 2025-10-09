@@ -65,7 +65,7 @@ use Illuminate\Support\Facades\Storage;
 
         <div class="message-list">
             @forelse($conversationUsers as $conversationData)
-                <a href="{{ route('dm.show', $conversationData['pair_id']) }}" class="message-item">
+                <a href="#" class="message-item">
                     <!-- ユーザーアイコン -->
                     <div class="user-icon">
                         @if($conversationData['user']->image_path)
