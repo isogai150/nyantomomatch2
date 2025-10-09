@@ -77,27 +77,37 @@
             };
           @endphp
 
-          <p>{{ $post->age }}歳　{{ $gender }}　{{ $post->region }}</p>
-
-          <div class="post-info">
-            <p>投稿日: {{ $post->created_at->format('Y年n月j日') }}</p>
-          </div>
+          {{-- 年齢・性別・都道府県 --}}
+          <p><br>{{ $post->age }}歳　{{ $gender }}　{{ $post->region }}</p>
 
           {{-- いいね数追加 --}}
           <p class="favorites"><span class="heart">❤</span>{{ $post->favorites_count ?? 0 }}</p>
+
+
+          {{-- 投稿日 --}}
+          <div class="post-info">
+            <p><br>投稿日: {{ $post->created_at->format('Y年n月j日') }}</p>
+          </div>
         </div>
+
 
 {{-- =============================================================================================== --}}
 
           <div class="post-actions">
+
+            {{-- 編集ボタン --}}
             <a href="{{ route('posts.edit', $post->id) }}" class="btn-edit">編集</a>
+
+            {{-- 削除ボタン --}}
             <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="delete-form">
               @csrf
               @method('DELETE')
               <button type="submit" class="btn-delete">削除</button>
+
+          </div>
+            {{-- 詳細ボタン --}}
             <a href="{{ route('posts.detail', $post->id) }}" class="btn-detail">詳細</a>
             </form>
-          </div>
 
 
 {{-- =============================================================================================== --}}
