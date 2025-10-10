@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\Post;
+use App\Http\Requests\Dm\MessageSendRequest;
 
 class PairController extends Controller
 {
@@ -39,7 +40,7 @@ public function show($dm)
         ->get();
 
     // 投稿データを取得（Pair に紐づく Post モデル）
-    // → このあとBladeで $post->images などを使用できる
+    // このあとBladeで $post->images などを使用できる
     $post = $dm->post;
 
     // Bladeビューを返す
@@ -56,6 +57,7 @@ public function show($dm)
 public function fetch($dm)
 {
     // Messageテーブルから「pair_id（＝DMルームID）」が一致するメッセージを取得
+    // where（第一引数が対象のカラム, 第二引数が取得するid）
     // orderBy() で古い順（昇順）に並び替える
     $messages = Message::where('pair_id', $dm)
         ->orderBy('created_at', 'asc')

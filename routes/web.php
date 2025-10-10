@@ -34,6 +34,7 @@ Route::post('/dm/{dm}/message/create', [PairController::class, 'send'])->name('d
 // マイページ
 Route::get('/mypage', [UserController::class, 'index'])->name('mypage.index');
 
+//マイページ更新
 Route::put('/mypage/edit/{user}', [UserController::class, 'edit'])->name('mypage.edit');
 
 // ユーザーアイコン
@@ -45,4 +46,5 @@ Route::delete('/withdraw', [UserController::class, 'withdraw'])->name('user.with
 // DM一覧表示
 Route::get('/dm', [PairController::class, 'index'])->name('dm.index');
 
+//ユーザー認証系
 Auth::routes();
