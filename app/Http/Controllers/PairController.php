@@ -112,5 +112,6 @@ class PairController extends Controller
             return floor($diffInDays / 365) . '年前';
         }
     }
+
 }
 

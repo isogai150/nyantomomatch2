@@ -38,6 +38,6 @@ Route::delete('/withdraw', [UserController::class, 'withdraw'])->name('user.with
 
 // DM一覧表示
 Route::get('/dm', [PairController::class, 'index'])->name('dm.index');
-// Route::get('/dm/{pairId}', [PairController::class, 'show'])->name('dm.show');
+
 
 Auth::routes();

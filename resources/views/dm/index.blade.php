@@ -46,7 +46,7 @@ use Illuminate\Support\Facades\Storage;
                     value="{{ request('search') }}"
                     autocomplete="off">
                 @if(request('search'))
-                    <button type="button" class="clear-button" onclick="clearSearch()">
+                    <button type="button" class="clear-button" data-clear-url="{{ route('dm.index') }}">
                         <svg viewBox="0 0 24 24">
                             <path d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
@@ -65,7 +65,7 @@ use Illuminate\Support\Facades\Storage;
 
         <div class="message-list">
             @forelse($conversationUsers as $conversationData)
-                <a href="#" class="message-item">
+                <a href="{{ route('dm.show', [$dm]) }}" class="message-item">
                     <!-- ユーザーアイコン -->
                     <div class="user-icon">
                         @if($conversationData['user']->image_path)
@@ -126,19 +126,9 @@ use Illuminate\Support\Facades\Storage;
 @endsection
 
 @section('script')
-<script>
-    // エンターキーで検索実行
-    document.querySelector('.search-input').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            this.form.submit();
-        }
-    });
-
-    // 検索クリア機能
-    function clearSearch() {
-        window.location.href = "{{ route('dm.index') }}";
-    }
-</script>
+<script src="{{ asset('js/dm/index.js') }}"></script>
 @endsection
+
+
+
 

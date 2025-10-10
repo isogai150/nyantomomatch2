@@ -68,7 +68,7 @@ use Illuminate\Support\Facades\Storage;
 
       <!-- 退会ボタン -->
       <div class="btn-primary-s4">
-        <form method="POST" action="{{ route('user.withdraw') }}" onsubmit="return confirmWithdrawal()">
+        <form method="POST" action="{{ route('user.withdraw') }}" id="withdrawalForm">
           @csrf
           @method('DELETE')
           <input type="submit" value="退会する" class="btn btn-danger btn-primary-s4">
@@ -155,37 +155,5 @@ use Illuminate\Support\Facades\Storage;
 @endsection
 
 @section('script')
-<script>
-// ユーザーアイコン画像
-document.getElementById('imageInput').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-
-  if (file) {
-    // 画像プレビュー
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      document.getElementById('previewImage').src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-
-    // 自動で送信（オプション）
-    // document.getElementById('imageUploadForm').submit();
-
-    // または確認ダイアログを表示
-    if (confirm('この画像にアップロードしますか？')) {
-      document.getElementById('imageUploadForm').submit();
-    } else {
-      // キャンセルした場合は元の画像に戻す
-      e.target.value = '';
-      location.reload();
-    }
-  }
-});
-
-// ユーザー退会処理
-// return true: フォーム送信、return false: フォーム送信キャンセル
-function confirmWithdrawal() {
-    return confirm('本当に退会しますか？\nこの操作は取り消せません。');
-}
-</script>
+<script src="{{ asset('js/mypage/index.js') }}"></script>
 @endsection
