@@ -160,8 +160,8 @@
   font-size: 0.75rem;
   color: #F6D8B3;
   text-align: right;
-  margin-top: 0.9rem;
-  margin-bottom: 1%;
+  margin-top: 0.2rem;
+  margin-bottom: 1rem;
 }
 
 /* フォーム部分 */
@@ -203,9 +203,12 @@
 
 /* レスポンシブ対応 */
 @media screen and (max-width: 600px) {
+.dm-header {
+  padding: 16% 4% 2%;
+}
+
   .dm-wrapper {
-    width: 95%;
-    margin-top: 25%;
+    width: 100%;
   }
   .dm-post-info {
     flex-direction: column;
@@ -214,10 +217,16 @@
   .dm-post-img-area {
     width: 100%;
     aspect-ratio: 16 / 9;
+    margin-bottom: 1rem;
   }
   .dm-post-text-area {
     width: 100%;
   }
+
+  .dm-post-buttons {
+    text-align: center;
+  }
+
   .dm-form textarea {
     width: 70%;
   }
