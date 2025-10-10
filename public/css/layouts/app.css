@@ -39,7 +39,6 @@ a {
   margin: 0 auto;
   padding: 1% 4%;
   background-color: #FFFDF2;
-  opacity: 0.5;
   position: fixed;
   border-bottom: 2px solid #D3C6B7;
 }
@@ -148,7 +147,6 @@ main {
   margin: 0 auto;
   padding: 1% 4%;
   background-color: #fff;
-  opacity: 0.5;
   border-bottom: 2px solid #D3C6B7;
 }
 

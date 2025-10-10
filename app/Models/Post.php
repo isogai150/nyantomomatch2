@@ -40,6 +40,11 @@ class Post extends Model
         return $this->hasMany(Transfer::class);
     }
 
+    public function pairs()
+    {
+        return $this->hasMany(Pair::class);
+    }
+
     //アクセサ
     // status
     public function getStatusLabelAttribute()
