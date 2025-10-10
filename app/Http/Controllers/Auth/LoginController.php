@@ -56,3 +56,4 @@ public function logout(Request $request)
         return redirect()->route('posts.index');
     }
 }
+
