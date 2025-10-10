@@ -65,11 +65,11 @@ use Illuminate\Support\Facades\Storage;
 
         <div class="message-list">
             @forelse($conversationUsers as $conversationData)
-                <a href="{{ route('dm.show', [$dm]) }}" class="message-item">
+                <a href="{{ route('dm.show', ['dm' => $conversationData['pair_id']]) }}" class="message-item">
                     <!-- ユーザーアイコン -->
                     <div class="user-icon">
                         @if($conversationData['user']->image_path)
-                            <img src="{{ asset('storage/profile_images/' . $conversationData['user']->image_path) }}" 
+                            <img src="{{ asset('storage/profile_images/' . $conversationData['user']->image_path) }}"
                                 alt="{{ $conversationData['user']->name }}"
                                 class="user-avatar">
                         @else
