@@ -60,6 +60,8 @@ $(function () {
         appendMessage(res.message, true);
         // 入力欄をクリア
         $('#message-input').val('');
+        // 自分の送信後は自動的に最下部までスクロール
+        $('#dm-messages').scrollTop($('#dm-messages')[0].scrollHeight);
       },
 
       // 通信に失敗した場合（サーバーダウンやバリデーションエラーなど）
@@ -75,17 +77,33 @@ $(function () {
   // 画面をリロードせずに新しいメッセージを取得する処理。
   // Laravelの fetch() メソッド（PairController）にGETリクエストを送る。
   function fetchMessages() {
+
+    const $messageArea = $('#dm-messages');
+    const scrollPos = $messageArea.scrollTop(); // 現在のスクロール位置を保持
+    // 「ほぼ最下部にいるか」を判断（ブラウザ差の誤差を1px以内で吸収）
+    const isAtBottom = Math.abs($messageArea[0].scrollHeight - $messageArea.scrollTop() - $messageArea.outerHeight()) < 1;
+
     $.ajax({
       url: fetchUrl,    // メッセージ一覧を取得するAPIのURL
       type: "GET",      // データ取得なのでGETメソッド
       success: function (res) {
         // 一度メッセージ欄を空にする（全削除）
-        $('#dm-messages').html('');
+        $messageArea.html('');
+
         // 各メッセージを1つずつHTMLに追加
         res.messages.forEach(function (msg) {
           // msg.user_id === authId → 自分のメッセージなら右寄せ表示
           appendMessage(msg, msg.user_id === authId);
         });
+
+        // スクロール位置を保持または最下部に固定
+        if (isAtBottom) {
+          // 一番下まで自動スクロール（新着メッセージが常に見えるように）
+          $messageArea.scrollTop($messageArea[0].scrollHeight);
+        } else {
+          // それ以外の場合はユーザーの閲覧位置を維持（画面が上下しない）
+          $messageArea.scrollTop(scrollPos);
+        }
       },
       error: function () {
         console.error('メッセージ取得に失敗しました。');
@@ -105,8 +123,6 @@ $(function () {
         <div class="dm-time">${msg.created_at}</div>
       </div>
     `);
-    // 一番下まで自動スクロール（新着メッセージが常に見えるように）
-    $('#dm-messages').scrollTop($('#dm-messages')[0].scrollHeight);
   }
 
   // ======================
