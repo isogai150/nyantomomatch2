@@ -154,44 +154,57 @@ h3 {
     gap: 0;
 }
 
-/* メッセージアイテム（角丸の四角） */
-.message-item {
+/* メッセージアイテムのラッパー（外枠） */
+.message-item-wrapper {
+    position: relative;
     display: flex;
     align-items: center;
-    padding: 30px;
+    gap: 8px;
     background-color: #ffffff;
-    border: 1px solid #D3C6B7;
-    border-radius: 20px; /* 角丸 */
-    text-decoration: none;
-    color: #503322;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #d3c6b7;
+    border-radius: 20px;
+    padding: 40px 30px;
+    transition: all 0.2s ease;
+    overflow: hidden; /* はみ出し防止 */
 }
 
-.message-item:hover {
+.message-item-wrapper:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
-    border-color: #D3C6B7;
+    border-color: #d3c6b7;
+}
+
+/* メッセージアイテム（リンク部分） */
+.message-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #503322;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    min-width: 0; /* flexアイテムの縮小を許可 */
 }
 
 /* ユーザーアイコン */
 .user-icon {
     flex-shrink: 0;
-    width: 50px;
-    height: 50px;
-    margin-right: 16px;
+    width: 100px;
+    height: 100px;
 }
 
 .user-avatar {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     object-fit: cover;
 }
 
 .user-avatar-placeholder {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     background-color: #e0e0e0;
     display: flex;
@@ -209,6 +222,7 @@ h3 {
 .message-content {
     flex: 1;
     min-width: 0;
+    overflow: hidden; /* はみ出し防止 */
 }
 
 .user-name {
@@ -221,6 +235,13 @@ h3 {
     text-overflow: ellipsis;
 }
 
+.post-title {
+    font-size: 16px;
+    font-weight: 400;
+    color: #503322;
+    margin-left: 8px;
+}
+
 .last-message {
     font-size: 16px;
     color: #503322;
@@ -228,6 +249,7 @@ h3 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 .message-meta {
@@ -236,16 +258,19 @@ h3 {
     gap: 16px;
     font-size: 16px;
     color: #503322;
+    flex-wrap: wrap;
 }
 
 .time-ago {
     display: inline-block;
+    white-space: nowrap;
 }
 
 .message-count {
     display: flex;
     align-items: center;
     gap: 5px;
+    white-space: nowrap;
 }
 
 .message-icon {
@@ -272,6 +297,41 @@ h3 {
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
+}
+
+/* 削除ボタンのスタイル */
+.delete-form {
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.delete-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    height: 40px;
+    padding: 0 16px;
+    background-color: #f44336;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.delete-button:hover {
+    background-color: #d32f2f;
+    box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+}
+
+.delete-button:active {
+    transform: scale(0.95);
+    background-color: #c62828;
 }
 
 /* 空の状態 */
@@ -336,8 +396,13 @@ h3 {
         height: 18px;
     }
 
-    .message-item {
-        padding: 16px;
+    .message-item-wrapper {
+        padding: 12px;
+    }
+
+    .user-icon {
+        width: 48px;
+        height: 48px;
     }
 
     .user-avatar,
@@ -354,7 +419,25 @@ h3 {
         font-size: 16px;
     }
 
+    .post-title {
+        font-size: 14px;
+        display: block;
+        margin-left: 0;
+        margin-top: 4px;
+    }
+
     .last-message {
         font-size: 13px;
+    }
+
+    .message-meta {
+        font-size: 14px;
+    }
+
+    .delete-button {
+        min-width: 50px;
+        height: 36px;
+        padding: 0 12px;
+        font-size: 12px;
     }
 }

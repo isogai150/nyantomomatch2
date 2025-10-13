@@ -16,7 +16,23 @@ $(function() {
         window.location.href = clearUrl;
       }
     });
+
+    // 検索のクリアボタン
+    $('.clear-button').click(function() {
+        window.location.href = $(this).data('clear-url');
+    });
+
+    // 削除フォームのイベント伝播を止める
+    $('.delete-form, .delete-button').click(function(e) {
+        e.stopPropagation();
+    });
+
+    $('.delete-form').submit(function(e) {
+        e.stopPropagation();
+    });
 });
+
+
 
 
 

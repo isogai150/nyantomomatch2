@@ -125,12 +125,12 @@ use Illuminate\Support\Facades\Storage;
         投稿権限を取得すると、猫の里親募集投稿を作成・管理できるようになります。 申請には審査があり、承認まで数日かかる場合があります。
       </p>
     </div>
-    {{-- <form action="{{ route('request-post-permission', ['user' => $user->id]) }}" method="POST">
-      @csrf --}}
+    <form action="#">
+      @csrf
       <div class="form-group">
         <h3>申請理由</h3>
         <textarea class="form-textarea" name="reason" id="reason" rows="10" placeholder="こちらに長いテキストを入力してください...">
-          {{-- {{ old('reason', $authority->reason) }} --}}
+          {{ old('reason', $authority->reason) }}
         </textarea>
         <p class="textarea-finish">0/500文字</p>
         @error('reason')
@@ -150,7 +150,7 @@ use Illuminate\Support\Facades\Storage;
         @enderror
       </div>
       <input type="submit" value="申請を送信する" class="btn-primary-l">
-    {{-- </form> --}}
+    </form>
   </div>
 @endsection
 
