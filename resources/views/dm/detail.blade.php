@@ -64,12 +64,13 @@
         <div id="dm-messages" class="dm-messages">
             @foreach ($messages as $message)
                 {{-- 自分のメッセージか相手のメッセージかを判別するコード --}}
-                <div class="dm-message {{ $message->user_id === auth()->id() ? 'mine' : 'other' }}">
+                <div class="dm-message {{ $message->user_id === auth()->id() ? 'mine' : 'other' }}" data-id="{{ $message->id }}">
                     {{-- メッセージ本文 --}}
                     <div class="dm-text">{{ $message->content }}</div>
                     {{-- メッセージの送信時間 --}}
                     <div class="dm-time">{{ $message->created_at->format('Y年n月j日 H:i') }}</div>
-                </div>
+
+
             @endforeach
         </div>
 

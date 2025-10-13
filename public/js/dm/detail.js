@@ -13,6 +13,10 @@ $(function () {
   const csrfToken = config.csrfToken;   // CSRFトークン（POST通信時に必須）
   const authId = config.authId;         // 現在ログインしているユーザーID
 
+  // 編集中判定フラグ
+  // 編集中はfetchMessages()による再描画を停止して、入力内容を保持する。
+  let isEditing = false;
+
   // ======================
   // Enterキー送信（Shift+Enterで改行）
   // ======================
@@ -78,6 +82,9 @@ $(function () {
   // Laravelの fetch() メソッド（PairController）にGETリクエストを送る。
   function fetchMessages() {
 
+    // 編集中は更新をスキップ（DOM再描画による入力破棄防止）
+    if (isEditing) return;
+
     const $messageArea = $('#dm-messages');
     const scrollPos = $messageArea.scrollTop(); // 現在のスクロール位置を保持
     // 「ほぼ最下部にいるか」を判断（ブラウザ差の誤差を1px以内で吸収）
@@ -118,12 +125,100 @@ $(function () {
   function appendMessage(msg, isMine) {
     // isMine が true のときは自分の発言、false のときは相手の発言としてクラスを切り替える。
     $('#dm-messages').append(`
-      <div class="dm-message ${isMine ? 'mine' : 'other'}">
+      <div class="dm-message ${isMine ? 'mine' : 'other'}" data-id="${msg.id}">
         <div class="dm-text">${msg.content}</div>
         <div class="dm-time">${msg.created_at}</div>
+        ${isMine ? `
+          <div class="dm-actions">
+            <button class="edit-btn">編集</button>
+            <button class="delete-btn">削除</button>
+          </div>
+        ` : ''}
       </div>
     `);
   }
+
+  // ======================
+  // メッセージ編集（Ajax）
+  // ======================
+  // $(document)はjsで動的に生成されたものに対して使う
+  $(document).on('click', '.edit-btn', function () {
+    isEditing = true; // 編集中フラグON
+    const $msgBox = $(this).closest('.dm-message');
+    const msgId = $msgBox.data('id');
+    const $text = $msgBox.find('.dm-text');
+    const originalText = $text.text();
+
+    // テキストをtextareaに変換
+    $text.replaceWith(`<textarea class="edit-area">${originalText}</textarea>`);
+    const $editArea = $msgBox.find('.edit-area').focus();
+
+    // 編集ボタン部分を「保存・キャンセル」に変更
+    $(this).parent().html(`
+      <button class="save-edit-btn">保存</button>
+      <button class="cancel-edit-btn">キャンセル</button>
+    `);
+
+    // 保存処理
+    $msgBox.on('click', '.save-edit-btn', function () {
+      const newText = $editArea.val().trim();
+      if (!newText) return alert('内容を入力してください。');
+
+      $.ajax({
+        url: `/dm/message/${msgId}/update`,
+        type: 'PUT',
+        data: {
+          _token: csrfToken,
+          content: newText,
+        },
+        success: function (res) {
+          $editArea.replaceWith(`<div class="dm-text">${res.message.content}</div>`);
+          $msgBox.find('.dm-actions').html(`
+            <button class="edit-btn">編集</button>
+            <button class="delete-btn">削除</button>
+          `);
+          isEditing = false; // 編集完了
+        },
+        error: function () {
+          alert('更新に失敗しました。');
+          isEditing = false;
+        }
+      });
+    });
+
+    // キャンセル処理
+    $msgBox.on('click', '.cancel-edit-btn', function () {
+      $editArea.replaceWith(`<div class="dm-text">${originalText}</div>`);
+      $msgBox.find('.dm-actions').html(`
+        <button class="edit-btn">編集</button>
+        <button class="delete-btn">削除</button>
+      `);
+      isEditing = false;
+    });
+  });
+
+  // ======================
+  // メッセージ削除（Ajax）
+  // ======================
+  $(document).on('click', '.delete-btn', function () {
+    const $msgBox = $(this).closest('.dm-message');
+    const msgId = $msgBox.data('id');
+    if (!confirm('本当に削除しますか？')) return;
+
+    $.ajax({
+      url: `/dm/message/${msgId}/delete`,
+      type: 'DELETE',
+      data: { _token: csrfToken },
+      success: function () {
+        $msgBox.fadeOut(300, function () {
+          $(this).remove();
+        });
+      },
+      error: function () {
+        alert('削除に失敗しました。');
+      }
+    });
+  });
 
   // ======================
   // 3秒ごとにメッセージを取得する処理を繰り返す
