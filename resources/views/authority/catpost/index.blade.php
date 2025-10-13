@@ -1,130 +1,131 @@
 @extends('layouts.app')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/auth/login.css') }}">
+<link rel="stylesheet" href="{{ asset('css/authority/catpost/index.css') }}">
 @endsection
 
 @section('content')
-<div class="main-content">
+<div class="backgroundcolor-position">
+
 {{-- ここの中にコードを書く --}}
 
+<div class="main-content">
+
+    <div class="titlefont">
+        <h2>投稿管理</h2>
+    </div>
+
+    <div class="subtitle">
+        <p>あなたが投稿した里親募集の一覧です</p>
+    </div>
+
+    <div class="newpost">
+        <a href="">＋　新しい投稿</a>
+    </div>
+
 {{-- ============================================================================ --}}
+{{-- 総投稿数・譲渡完了・募集中 --}}
 {{-- ============================================================================ --}}
 
-<div class="container py-4">
-    <!-- ヘッダーと新規投稿ボタン -->
-    <header class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="page-title">投稿管理(h2)</h2>
-        <button class="btn new-post-btn">
-            <i class="fas fa-plus"></i> 新しい投稿
-        </button>
-    </header>
-
-    <h3 class="section-subtitle mb-4">あなたが投稿した里親募集の一覧です(h3)</h3>
-
-    <!-- サマリーカードセクション -->
-    <section class="row mb-5 summary-cards-container">
-        <!-- 総投稿数カード -->
-        <div class="col-md-4 col-sm-6 mb-3">
-            <div class="card summary-card text-center p-3">
-                <h3 class="summary-count">3(h3)</h3>
-                <p class="summary-label text-muted">総投稿数</p>
-            </div>
+    <div class="summary-boxes">
+        <div class="summary-item">
+            <h3>{{ $myCatposts->count() }}</h3>
+                <p>総投稿数</p>
         </div>
-        <!-- 譲渡完了カード -->
-        <div class="col-md-4 col-sm-6 mb-3">
-            <div class="card summary-card text-center p-3">
-                <h3 class="summary-count">3(h3)</h3>
-                <p class="summary-label text-muted">譲渡完了</p>
-            </div>
+        <div class="summary-item">
+            <h3>{{ $myCatposts->where('status', '譲渡完了')->count() }}</h3>
+                <p>譲渡完了</p>
         </div>
-        <!-- 募集中カード -->
-        <div class="col-md-4 col-sm-12 mb-3">
-            <div class="card summary-card summary-recruiting text-center p-3">
-                <h3 class="summary-count">3(h3)</h3>
-                <p class="summary-label text-muted">募集中</p>
-            </div>
+        <div class="summary-item">
+            <h3>{{ $myCatposts->where('status', '募集中')->count() }}</h3>
+                <p>募集中</p>
         </div>
-    </section>
+    </div>
 
-    <!-- 投稿カードリストセクション -->
-    <section class="row post-list">
-        <!-- 投稿カード (サンプル 1) -->
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card post-card shadow-sm border-0">
-                <div class="card-image"></div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h3 class="post-title card-title m-0">タイトル(h3)</h3>
-                        <button class="btn btn-sm delete-button">削除</button>
-                    </div>
-                    <div class="post-meta small text-secondary mb-2">
-                        <span class="meta-item me-3">2歳</span>
-                        <span class="meta-item me-3">メス</span>
-                        <span class="meta-item me-3">東京都</span>
-                        <span class="meta-item heart-count"><i class="fas fa-heart"></i> 5</span>
-                    </div>
-                    <p class="post-date text-muted mb-4">投稿開始日: 2024年1月15日</p>
-                    <div class="d-flex card-actions">
-                        <a href="#" class="btn btn-outline-primary detail-button flex-fill me-2">詳細</a>
-                        <a href="#" class="btn edit-button flex-fill">編集</a>
-                    </div>
-                </div>
-            </div>
+{{-- ============================================================== --}}
+{{-- 自分の投稿一覧表示 --}}
+{{-- ============================================================== --}}
+
+    <div class="post-list">
+    @forelse($myCatposts as $post)
+        <div class="post-card">
+        <div class="post-image">
+            {{-- 投稿の画像 --}}
+            @if($post->images->isNotEmpty())
+            <img id="main-image" src="{{ asset(str_replace('public/', '', $post->images->first()->image_path)) }}">
+            @else
+            <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"
+                    class="no-image">
+            @endif
         </div>
 
-        <!-- 投稿カード (サンプル 2) -->
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card post-card shadow-sm border-0">
-                <div class="card-image"></div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h3 class="post-title card-title m-0">タイトル(h3)</h3>
-                        <button class="btn btn-sm delete-button">削除</button>
-                    </div>
-                    <div class="post-meta small text-secondary mb-2">
-                        <span class="meta-item me-3">2歳</span>
-                        <span class="meta-item me-3">メス</span>
-                        <span class="meta-item me-3">東京都</span>
-                        <span class="meta-item heart-count"><i class="fas fa-heart"></i> 5</span>
-                    </div>
-                    <p class="post-date text-muted mb-4">投稿開始日: 2024年1月15日</p>
-                    <div class="d-flex card-actions">
-                        <a href="#" class="btn btn-outline-primary detail-button flex-fill me-2">詳細</a>
-                        <a href="#" class="btn edit-button flex-fill">編集</a>
-                    </div>
-                </div>
+{{-- ============================================================== --}}
+{{-- 一覧の詳細部分 --}}
+{{-- ============================================================== --}}
+
+        <div class="post-body">
+            <div class="title">
+            <h3>{{ $post->title }}</h3>
+            </div>
+
+            {{-- 性別の表示変換 --}}
+            @php
+            $gender = match($post->gender) {
+                1 => 'オス',
+                2 => 'メス',
+                default => '未入力',
+            };
+            @endphp
+
+            {{-- 年齢・性別・都道府県 --}}
+            <p><br>{{ $post->age }}歳　{{ $gender }}　{{ $post->region }}</p>
+
+            {{-- いいね数追加 --}}
+            <p class="favorites"><span class="heart">❤</span>{{ $post->favorites_count ?? 0 }}</p>
+
+{{-- =============================================================================================== --}}
+
+        {{-- 里親募集中・お見合い中・譲渡成立 --}}
+        <div class="post-information-top">
+            <p class="{{ $post->status_class }}">{{ $post->status_label }}</p>
+        </div>
+
+{{-- =============================================================================================== --}}
+
+            {{-- 投稿日 --}}
+            <div class="post-info">
+            <p><br>投稿日: {{ $post->created_at->format('Y年n月j日') }}</p>
             </div>
         </div>
-        
-        <!-- 投稿カード (サンプル 3) -->
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card post-card shadow-sm border-0">
-                <div class="card-image"></div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h3 class="post-title card-title m-0">タイトル(h3)</h3>
-                        <button class="btn btn-sm delete-button">削除</button>
-                    </div>
-                    <div class="post-meta small text-secondary mb-2">
-                        <span class="meta-item me-3">2歳</span>
-                        <span class="meta-item me-3">メス</span>
-                        <span class="meta-item me-3">東京都</span>
-                        <span class="meta-item heart-count"><i class="fas fa-heart"></i> 5</span>
-                    </div>
-                    <p class="post-date text-muted mb-4">投稿開始日: 2024年1月15日</p>
-                    <div class="d-flex card-actions">
-                        <a href="#" class="btn btn-outline-primary detail-button flex-fill me-2">詳細</a>
-                        <a href="#" class="btn edit-button flex-fill">編集</a>
-                    </div>
-                </div>
+
+
+        <div class="post-actions">
+            <div class="action-top">
+                {{-- 編集ボタン --}}
+                <a href="{{ route('posts.edit', $post->id) }}" class="btn-edit">編集</a>
+
+                {{-- 削除ボタン --}}
+                <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="delete-form">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-delete">削除</button>
+                </form>
             </div>
+
+            {{-- 詳細ボタン --}}
+            <a href="{{ route('posts.detail', $post->id) }}" class="btn-detail">詳細</a>
         </div>
-    </section>
+
+{{-- =============================================================================================== --}}
+
+        </div>
+    @empty
+        <p>投稿がありません。</p>
+    @endforelse
+    </div>
 </div>
 
-{{-- ============================================================================ --}}
-{{-- ============================================================================ --}}
+{{-- =============================================================================================== --}}
 
 </div>
 @endsection

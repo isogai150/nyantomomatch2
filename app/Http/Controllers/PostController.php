@@ -55,19 +55,6 @@ class PostController extends Controller
 // =================================================================================
    // 自分の投稿一覧表示機能
 
-    // public function myCatpost()
-    // {
-    //     $user = Auth::user();
-
-    //     // ログインユーザーの投稿のみ取得
-    //     $myCatposts = Post::with('images')
-    //         ->where('user_id', $user->id)
-    //         ->whereNull('deleted_at')
-    //         ->orderBy('created_at', 'desc')
-    //         ->get();
-
-    //     return view('catpost.index', compact('myCatposts'));
-    // }
 
     public function myCatpost()
     {
@@ -80,7 +67,7 @@ class PostController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('catpost.index', compact('myCatposts'));
+        return view('authority/catpost.index', compact('myCatposts'));
     }
 
 // =================================================================================

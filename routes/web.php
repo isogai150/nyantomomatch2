@@ -67,5 +67,6 @@ Route::delete('/withdraw', [UserController::class, 'withdraw'])->name('user.with
 // DM一覧表示
 Route::get('/dm', [PairController::class, 'index'])->name('dm.index');
 
+
 //ユーザー認証系
 Auth::routes();
