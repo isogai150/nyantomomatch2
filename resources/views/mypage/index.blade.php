@@ -130,7 +130,7 @@ use Illuminate\Support\Facades\Storage;
       <div class="form-group">
         <h3>申請理由</h3>
         <textarea class="form-textarea" name="reason" id="reason" rows="10" placeholder="こちらに長いテキストを入力してください...">
-          {{ old('reason', $authority->reason) }}
+          {{-- {{ old('reason', $authority->reason) }} --}}
         </textarea>
         <p class="textarea-finish">0/500文字</p>
         @error('reason')

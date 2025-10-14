@@ -31,11 +31,20 @@ Route::get('/dm/{dm}/message/reception', [PairController::class, 'fetch'])->name
 // メッセージ送信（Ajax）
 Route::post('/dm/{dm}/message/create', [PairController::class, 'send'])->name('dm.message.send');
 
+// メッセージ編集（Ajax）
+Route::put('/dm/message/{message}/update', [PairController::class, 'update'])->name('dm.message.update');
+
+// メッセージ削除（Ajax）
+Route::delete('/dm/message/{message}/delete', [PairController::class, 'destroy'])->name('dm.message.delete');
+
+// DM一覧表示
+Route::get('/dm', [PairController::class, 'index'])->name('dm.index');
+
 // マイページ
 Route::get('/mypage', [UserController::class, 'index'])->name('mypage.index');
 
 // マイページ更新
-Route::put('/mypage/{user}/edit', [UserController::class, 'edit'])->name('mypage.edit');
+Route::put('/mypage/edit/{user}', [UserController::class, 'edit'])->name('mypage.edit');
 
 // ユーザーアイコン
 Route::put('/profile/image', [UserController::class, 'updateImage'])->name('profile.image.update');
