@@ -85,7 +85,7 @@
 
 @section('script')
     {{-- LaravelからJavaScriptへ値を渡す（カスタムデータ属性を使用、グローバル変数を使用しないようにするため）--}}
-    {{-- jsがHTMLを確実に読み込んだ後に動くようにここに配置しました --}}
+    {{-- jsがHTMLを確実に読み込んだ後に動くようにここに配置 --}}
     <div id="dm-config"
         data-fetch-url="{{ route('dm.message.fetch', $dm->id) }}"
         data-send-url="{{ route('dm.message.send', $dm->id) }}"

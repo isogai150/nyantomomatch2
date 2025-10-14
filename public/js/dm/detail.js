@@ -153,7 +153,6 @@ $(function () {
     $text.replaceWith(`<textarea class="edit-area">${originalText}</textarea>`);
     const $editArea = $msgBox.find('.edit-area').focus();
 
-    // 編集ボタン部分を「保存・キャンセル」に変更
     $(this).parent().html(`
       <button class="save-edit-btn">保存</button>
       <button class="cancel-edit-btn">キャンセル</button>

@@ -31,10 +31,10 @@ Route::get('/dm/{dm}/message/reception', [PairController::class, 'fetch'])->name
 // メッセージ送信（Ajax）
 Route::post('/dm/{dm}/message/create', [PairController::class, 'send'])->name('dm.message.send');
 
-// ✅ メッセージ編集（Ajax・PUT通信）
+// メッセージ編集（Ajax）
 Route::put('/dm/message/{message}/update', [PairController::class, 'update'])->name('dm.message.update');
 
-// ✅ メッセージ削除（Ajax・DELETE通信）
+// メッセージ削除（Ajax）
 Route::delete('/dm/message/{message}/delete', [PairController::class, 'destroy'])->name('dm.message.delete');
 
 // DM一覧表示
