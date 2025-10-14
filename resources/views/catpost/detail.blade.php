@@ -74,7 +74,7 @@
             <aside class="post-sidebar">
                 <div class="contact-box">
                     <h3>お問い合わせ</h3>
-                    <a href="{{ route('dms.detail') }}" class="contact-btn">メッセージを送る</a>
+                    <a href="#" class="contact-btn">メッセージを送る</a>
 
                         <form action="{{ route('favorites.toggle', $post->id) }}" method="POST">
                             @csrf
