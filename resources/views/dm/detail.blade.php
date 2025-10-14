@@ -69,8 +69,7 @@
                     <div class="dm-text">{{ $message->content }}</div>
                     {{-- メッセージの送信時間 --}}
                     <div class="dm-time">{{ $message->created_at->format('Y年n月j日 H:i') }}</div>
-
-
+                </div>
             @endforeach
         </div>
 
