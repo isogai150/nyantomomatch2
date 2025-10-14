@@ -16,6 +16,27 @@ Route::get('/', [PostController::class, 'index'])->name('posts.index');
 // 投稿詳細
 Route::get('/posts/{post}', [PostController::class, 'detail'])->name('posts.detail');
 
+// 投稿一覧
+Route::get('/catpost', [PostController::class, 'index'])->name('catpost.index');
+
+
+// ===========================================================================================
+
+// 自分の投稿一覧表示機能
+Route::get('/my/catpost', [PostController::class, 'myCatpost'])->name('mycatpost.index');
+
+// 編集画面表示
+Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+
+// 編集内容の更新
+Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+
+// 編集内容の削除
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+// ===========================================================================================
+
+
 // お気に入り
 Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 
@@ -52,5 +73,10 @@ Route::put('/profile/image', [ProfileImageController::class, 'update'])->name('p
 // ユーザー退会
 Route::delete('/withdraw', [UserController::class, 'withdraw'])->name('user.withdraw');
 
-// ユーザー認証系
+
+// DM一覧表示
+Route::get('/dm', [PairController::class, 'index'])->name('dm.index');
+
+
+//ユーザー認証系
 Auth::routes();
