@@ -7,6 +7,7 @@ use App\Http\Requests\User\EditUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -43,6 +44,39 @@ class UserController extends Controller
         return redirect()->route('mypage.index', [
             'user' => $user
         ]);
+    }
+
+    // プロフィール画像を更新
+    public function updateImage(Request $request)
+    {
+        // バリデーション
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB以下
+        ], [
+            'image.image' => '有効な画像ファイルを選択してください。',
+            'image.mimes' => 'JPEG、PNG、JPG、GIF形式の画像のみアップロード可能です。',
+            'image.max' => '画像サイズは2MB以下にしてください。',
+        ]);
+
+        $user = Auth::user();
+
+        // 古い画像を削除
+        if ($user->image_path) {
+            Storage::disk('public')->delete('profile_images/' . $user->image_path);
+        }
+
+        // 新しい画像を保存
+        $image = $request->file('image');
+        $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+        // storage/app/public/profile_images に保存
+        $image->storeAs('profile_images', $imageName, 'public');
+
+        // データベースを更新
+        $user->image_path = $imageName;
+        $user->save();
+
+        return redirect()->route('mypage.index')->with('success', 'プロフィール画像を更新しました。');
     }
 
     // ユーザー退会処理

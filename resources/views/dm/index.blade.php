@@ -46,7 +46,7 @@ use Illuminate\Support\Facades\Storage;
                     value="{{ request('search') }}"
                     autocomplete="off">
                 @if(request('search'))
-                    <button type="button" class="clear-button" onclick="clearSearch()">
+                    <button type="button" class="clear-button" data-clear-url="{{ route('dm.index') }}">
                         <svg viewBox="0 0 24 24">
                             <path d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
@@ -65,49 +65,66 @@ use Illuminate\Support\Facades\Storage;
 
         <div class="message-list">
             @forelse($conversationUsers as $conversationData)
-                <a href="{{ route('dm.show', $conversationData['pair_id']) }}" class="message-item">
-                    <!-- ユーザーアイコン -->
-                    <div class="user-icon">
-                        @if($conversationData['user']->image_path)
-                            <img src="{{ asset('storage/profile_images/' . $conversationData['user']->image_path) }}" 
-                                alt="{{ $conversationData['user']->name }}"
-                                class="user-avatar">
-                        @else
-                            <div class="user-avatar-placeholder">
-                                <span>{{ mb_substr($conversationData['user']->name, 0, 1) }}</span>
-                            </div>
-                        @endif
-                    </div>
-
-                    <!-- メッセージ情報 -->
-                    <div class="message-content">
-                        <!-- ユーザー名 -->
-                        <h3 class="user-name">{{ $conversationData['user']->name }}さん</h3>
-
-                        <!-- 最後のメッセージ -->
-                        <p class="last-message">{{ $conversationData['last_message'] }}</p>
-
-                        <div class="message-meta">
-                            <!-- 送受信時間 -->
-                            <span class="time-ago">{{ $conversationData['time_ago'] }}</span>
-
-                            <!-- メッセージ数 -->
-                            <span class="message-count">
-                                <svg class="message-icon" viewBox="0 0 24 24">
-                                    <path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
-                                </svg>
-                                {{ $conversationData['message_count'] }}件
-                            </span>
+                <div class="message-item-wrapper">
+                    <a href="{{ route('dm.show', ['dm' => $conversationData['pair_id']]) }}" class="message-item">
+                        <!-- ユーザーアイコン -->
+                        <div class="user-icon">
+                            @if($conversationData['user']->image_path)
+                                <img src="{{ asset('storage/profile_images/' . $conversationData['user']->image_path) }}"
+                                    alt="{{ $conversationData['user']->name }}"
+                                    class="user-avatar">
+                            @else
+                                <div class="user-avatar-placeholder">
+                                    <span>{{ mb_substr($conversationData['user']->name, 0, 1) }}</span>
+                                </div>
+                            @endif
                         </div>
-                    </div>
 
-                    <!-- 矢印アイコン -->
-                    <div class="arrow-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </div>
-                </a>
+                        <!-- メッセージ情報 -->
+                        <div class="message-content">
+                            <!-- ユーザー名 -->
+                            <h3 class="user-name">
+                                {{ $conversationData['user']->name }}さん
+                                <span class="post-title">{{ $conversationData['post']->title ?? '投稿' }}</span>
+                            </h3>
+
+                                <!-- 最後のメッセージ -->
+                            <p class="last-message">{{ $conversationData['last_message'] }}</p>
+
+                            <div class="message-meta">
+                                <!-- 送受信時間 -->
+                                <span class="time-ago">{{ $conversationData['time_ago'] }}</span>
+
+                                <!-- メッセージ数 -->
+                                <span class="message-count">
+                                    <svg class="message-icon" viewBox="0 0 24 24">
+                                        <path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                                    </svg>
+                                    {{ $conversationData['message_count'] }}件
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- 矢印アイコン -->
+                        <div class="arrow-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <!-- 削除ボタン -->
+                    <form action="{{ route('dm.delete', ['dm' => $conversationData['pair_id']]) }}"
+                        method="POST"
+                        class="delete-form"
+                        onsubmit="return confirm('このメッセージを削除してもよろしいですか？\n※関連するすべてのメッセージも削除されます。')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="delete-button" title="削除">
+                            削除
+                        </button>
+                    </form>
+                </div>
             @empty
                 <div class="empty-state">
                     <svg class="empty-icon" viewBox="0 0 24 24">
@@ -126,19 +143,9 @@ use Illuminate\Support\Facades\Storage;
 @endsection
 
 @section('script')
-<script>
-    // エンターキーで検索実行
-    document.querySelector('.search-input').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            this.form.submit();
-        }
-    });
-
-    // 検索クリア機能
-    function clearSearch() {
-        window.location.href = "{{ route('dm.index') }}";
-    }
-</script>
+<script src="{{ asset('js/dm/index.js') }}"></script>
 @endsection
+
+
+
 

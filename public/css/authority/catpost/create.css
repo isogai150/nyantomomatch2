@@ -1,1 +1,70 @@
 @charset "UTF-8";
+
+/* ==================================================== */
+/* 共通 */
+/* ==================================================== */
+
+.main-content {
+    width: 90%;
+    margin: 0 auto;
+}
+
+/* 総投稿数・譲渡完了・募集中の項目：：縦から横並びに変更 */
+.summary-boxes {
+    display: flex;
+    justify-content: space-between;
+    margin: 2% 0;
+}
+
+/* ==================================================== */
+/* PC用画面 */
+/* ==================================================== */
+
+
+
+.backgroundcolor-position {
+    padding: 8% 0;
+    background-color: #FFFDF2;
+}
+
+/* 投稿管理 */
+.titlefont {
+    font-size: 24px;
+    font-weight:bold;
+    margin-bottom: 2%;
+}
+
+/* あなたが投稿した里親募集の一覧です */
+.subtitle {
+    font-size: 20px;
+    font-weight:bold;
+    margin-bottom: 2%;
+}
+
+
+
+
+
+/* ==================================================== */
+/* スマホ用画面 */
+/* ==================================================== */
+@media (max-width: 390px) {
+
+    .backgroundcolor-position {
+        padding: 20% 0;
+        background-color: #FFFDF2;
+    }
+
+    /* 投稿管理 */
+    .titlefont {
+        font-size: 20px;
+    }
+
+    /* あなたが投稿した里親募集の一覧です */
+    .subtitle {
+        font-size: 16px;
+    }
+
+
+
+}

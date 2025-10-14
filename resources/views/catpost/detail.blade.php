@@ -75,13 +75,17 @@
                 <div class="contact-box">
                     <h3>お問い合わせ</h3>
                     <a href="#" class="contact-btn">メッセージを送る</a>
-
-                        <form action="{{ route('favorites.toggle', $post->id) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="favorite-btn">
-                                {{ Auth::user()->favoritePosts->contains($post->id) ? '❤ お気に入り解除' : '♡ お気に入り追加' }}
-                            </button>
-                        </form>
+                    <form action="{{ route('dm.create', ['post' => $post->id]) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="post" value="{{ $post->id }}">
+                        <button type="submit" class="contact-btn">メッセージを送る</button>
+                    </form>
+                    <form action="{{ route('favorites.toggle', $post->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="favorite-btn">
+                            {{ Auth::user()->favoritePosts->contains($post->id) ? '❤ お気に入り解除' : '♡ お気に入り追加' }}
+                        </button>
+                    </form>
                 </div>
 
 <div class="user-info">

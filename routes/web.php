@@ -75,14 +75,20 @@ Route::get('/mypage', [UserController::class, 'index'])->name('mypage.index');
 Route::put('/mypage/edit/{user}', [UserController::class, 'edit'])->name('mypage.edit');
 
 // ユーザーアイコン
-Route::put('/profile/image', [ProfileImageController::class, 'update'])->name('profile.image.update');
+Route::put('/profile/image', [UserController::class, 'updateImage'])->name('profile.image.update');
 
 // ユーザー退会
 Route::delete('/withdraw', [UserController::class, 'withdraw'])->name('user.withdraw');
 
-
 // DM一覧表示
 Route::get('/dm', [PairController::class, 'index'])->name('dm.index');
+
+// DM作成
+Route::post('/dm/create', [PairController::class, 'create'])->name('dm.create');
+
+// DM削除
+Route::delete('/dm/{dm}/delete', [PairController::class, 'delete'])->name('dm.delete');
+
 
 
 //ユーザー認証系
