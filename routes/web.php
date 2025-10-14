@@ -34,6 +34,13 @@ Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.upda
 // 編集内容の削除
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
+// ========================================
+
+// 猫の情報投稿作成画面
+Route::get('/catpost/create', [PostController::class, 'create'])->name('posts.create');
+
+Route::post('/catpost/create', [PostController::class, 'create'])->name('posts.create');
+
 // ===========================================================================================
 
 

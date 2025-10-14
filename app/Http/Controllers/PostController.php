@@ -70,6 +70,15 @@ class PostController extends Controller
         return view('authority/catpost.index', compact('myCatposts'));
     }
 
+    // 猫の情報投稿作成画面
+    public function create()
+    {
+        $user = Auth::user();
+        // dd($user);
+        return view('authority/catpost.create', [
+            'user' => $user,
+        ]);
+    }
 // =================================================================================
 
 }
