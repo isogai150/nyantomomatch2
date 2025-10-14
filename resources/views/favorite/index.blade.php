@@ -10,7 +10,14 @@
 
   <div class="page-ttl">
     <h2>お気に入り</h2>
+    <h3>気になる猫たちをお気に入りに保存して、後で確認できます</h3>
   </div>
+
+  @if($catposts->isEmpty())
+    <div class="empty-message">
+      <p>お気に入り登録された投稿はありません</p>
+    </div>
+  @else
 
   <div class="container">
     @foreach ($catposts as $catpost)
@@ -29,8 +36,8 @@
           {{-- お気に入りボタン --}}
           <form action="{{ route('favorites.toggle', $catpost->id) }}" method="POST">
             @csrf
-            <button type="submit" class="favorite-btn">
-              {{ Auth::user()->favoritePosts->contains($catpost->id) ? '❤' : '♡' }}
+            <button type="submit" class="favorite-btn active" aria-label="お気に入りを解除">
+              ❤
             </button>
           </form>
         </div>
@@ -48,24 +55,36 @@
               <li>{{ $catpost->region }}</li>
             </ul>
           </div>
+          <div class="post-actions">
+            {{-- メッセージ --}}
+            <form action="{{ route('dm.create', ['post' => $catpost->id]) }}" method="POST" class="message-btn">
+              @csrf
+              <input type="hidden" name="post" value="{{ $catpost->id }}">
+              <button type="submit" class="contact-btn">
+                <svg class="message-icon" viewBox="0 0 24 24">
+                  <path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                </svg>
+                メッセージ</button>
+            </form>
 
-          {{-- メッセージ --}}
-          <form action="{{ route('dm.create', ['post' => $post->id]) }}" method="POST">
-            @csrf
-            <input type="hidden" name="post" value="{{ $post->id }}">
-            <button type="submit" class="contact-btn">メッセージ</button>
-          </form>
-
-          {{-- 詳細ボタン --}}
-          <a href="{{ route('posts.detail', $catpost->id) }}" class="detail-btn">詳細を見る</a>
-          <button type="button" class="detail-btn " data-id="{{ $catpost->id }}">詳細を見る</button>
+            {{-- 詳細ボタン --}}
+            <a href="{{ route('posts.detail', $catpost->id) }}" class="detail-btn">詳細を見る</a>
+            {{-- <button type="button" class="detail-btn " data-id="{{ $catpost->id }}">詳細を見る</button> --}}
+          </div>
         </div>
       </div>
     @endforeach
   </div>
+
+    {{-- ページネーション --}}
+    @if(method_exists($catposts, 'links'))
+      <div class="pagination">
+        {{ $catposts->links() }}
+      </div>
+    @endif
+
+  @endif
 </div>
-
-
 @endsection
 
 @section('script')

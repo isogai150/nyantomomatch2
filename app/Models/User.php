@@ -35,7 +35,8 @@ class User extends Authenticatable
     // お気に入り（中間テーブル経由）
     public function favoritePosts()
     {
-        return $this->belongsToMany(Post::class, 'favorites')->withTimestamps();
+        return $this->belongsToMany(Post::class, 'favorites', 'user_id', 'post_id')
+            ->withTimestamps();
     }
 
     // メッセージ

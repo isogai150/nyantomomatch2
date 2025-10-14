@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
@@ -21,5 +22,27 @@ class FavoriteController extends Controller
 
         return back();
     }
+
+
+    // お気に入り一覧表示
+    public function index()
+    {
+        // ログインユーザーのお気に入り投稿を取得（Eager Loading使用）
+        $catposts = Auth::user()->favoritePosts()
+            ->with([
+                'images' => function ($query) {
+                    // 最初の画像のみ取得（パフォーマンス向上）
+                    $query->orderBy('id', 'asc')->limit(1);
+                },
+                'user:id,name,image_path' // 投稿者情報（必要な場合のみ）
+            ])
+            ->where('status', '!=', 2) // 譲渡済みを除外する場合
+            // ->whereNull('deleted_at') // soft deleteを使用している場合は自動で除外される
+            ->orderBy('favorites.created_at', 'desc') // お気に入り登録日が新しい順
+            ->paginate(12); // 3列×4行 = 12件表示
+
+        return view('favorite.index', compact('catposts'));
+    }
+
 }
 
