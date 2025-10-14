@@ -150,7 +150,6 @@ label:hover .image-overlay {
 
 .profile-wrapper {
     display: flex;
-    /* justify-content: space-between; */
     align-items: flex-start;
     gap: 2%;
     width: 100%;
@@ -278,7 +277,7 @@ label:hover .image-overlay {
 
 /* モバイル対応 */
 @media(max-width: 390px) {
-  .main-content {
+    .main-content {
         padding: 20% 4% 5%;
     }
 
@@ -310,6 +309,12 @@ label:hover .image-overlay {
     }
 
     .image-overlay {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+    }
+
+    .profile-image {
         width: 50px;
         height: 50px;
         text-align: center;

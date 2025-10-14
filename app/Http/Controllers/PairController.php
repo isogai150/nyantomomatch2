@@ -126,10 +126,11 @@ class PairController extends Controller
         $userId = Auth::id();
         $searchQuery = $request->input('search');
 
-        // ログインユーザーが関わるペアを取得
-        $pairs = Pair::where('userA_id', $userId)
-            ->orWhere('userB_id', $userId)
-            ->get();
+        // ログインユーザーが関わるペアを取得（投稿情報も含める）
+        $pairs = Pair::with(['userA', 'userB', 'post'])
+        ->where('userA_id', $userId)
+        ->orWhere('userB_id', $userId)
+        ->get();
 
         $conversationUsers = [];
 
@@ -144,11 +145,20 @@ class PairController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
 
-            if ($messages->isEmpty()) continue;
-
-            // 最後のメッセージを取得
-            $lastMessage = $messages->first();
-            $timeAgo = $this->getTimeAgo($lastMessage->created_at);
+            // メッセージがある場合
+            if ($messages->isNotEmpty()) {
+                $lastMessage = $messages->first();
+                $lastMessageContent = $lastMessage->content;
+                $timeAgo = $this->getTimeAgo($lastMessage->created_at);
+                $lastMessageTime = $lastMessage->created_at;
+                $messageCount = $messages->count();
+            } else {
+                // メッセージがない場合
+                $lastMessageContent = 'まだメッセージがありません';
+                $timeAgo = $this->getTimeAgo($pair->created_at);
+                $lastMessageTime = $pair->created_at;
+                $messageCount = 0;
+            }
 
             // 検索処理（ユーザー名・メッセージ内容）
             if ($searchQuery) {
@@ -157,10 +167,12 @@ class PairController extends Controller
                 $userNameMatch = mb_strpos($userName, $searchLower) !== false;
 
                 $messageMatch = false;
-                foreach ($messages as $message) {
-                    if (mb_strpos(mb_strtolower($message->content), $searchLower) !== false) {
-                        $messageMatch = true;
-                        break;
+                if ($messages->isNotEmpty()) {
+                    foreach ($messages as $message) {
+                        if (mb_strpos(mb_strtolower($message->content), $searchLower) !== false) {
+                            $messageMatch = true;
+                            break;
+                        }
                     }
                 }
 
@@ -170,10 +182,11 @@ class PairController extends Controller
             $conversationUsers[] = [
                 'user' => $otherUser,
                 'pair_id' => $pair->id,
-                'last_message' => $lastMessage->content,
+                'post' => $pair->post,
+                'last_message' => $lastMessageContent,
                 'time_ago' => $timeAgo,
-                'message_count' => $messages->count(),
-                'last_message_time' => $lastMessage->created_at,
+                'message_count' => $messageCount,
+                'last_message_time' => $lastMessageTime,
             ];
         }
 
@@ -211,4 +224,61 @@ class PairController extends Controller
             return floor($diffInDays / 365) . '年前';
         }
     }
+
+    // DM作成（Pairを作成してDM詳細画面へ遷移）
+    public function create(Request $request)
+    {
+        $userId = Auth::id(); // ログインユーザー（userA）
+        $postId = $request->input('post'); // リクエストからpost_idを取得
+
+        $post = Post::findOrFail($postId);
+        $postOwnerId = $post->user_id; // 投稿者（userB）
+
+        // 自分の投稿にはメッセージを送れないようにする
+        if ($userId == $postOwnerId) {
+            return redirect()->back()->with('error', '自分の投稿にメッセージは送れません');
+        }
+
+        // 既存のペアを検索（userA_id と userB_id の順序を考慮）
+        $pair = Pair::where(function ($query) use ($userId, $postOwnerId) {
+            $query->where('userA_id', $userId)
+                ->where('userB_id', $postOwnerId);
+        })->orWhere(function ($query) use ($userId, $postOwnerId) {
+            $query->where('userA_id', $postOwnerId)
+                ->where('userB_id', $userId);
+        })->where('post_id', $postId)->first();
+
+        // ペアが存在しない場合は新規作成
+        if (!$pair) {
+            $pair = Pair::create([
+                'userA_id' => $userId,
+                'userB_id' => $postOwnerId,
+                'post_id' => $postId,
+            ]);
+        }
+
+        // DM詳細画面へリダイレクト
+        return redirect()->route('dm.show', ['dm' => $pair->id]);
+    }
+
+
+    // DM（ペア）を論理削除
+    public function delete($dm)
+    {
+        $userId = Auth::id();
+
+        // 削除対象のペアを取得
+        $pair = Pair::findOrFail($dm);
+
+        // ログインユーザーがこのペアに関係しているか確認
+        if ($pair->userA_id !== $userId && $pair->userB_id !== $userId) {
+            return redirect()->route('dm.index')->with('error', 'このメッセージを削除する権限がありません');
+        }
+
+        // ペアを論理削除（deleted_atに現在時刻が入る）
+        $pair->delete();
+
+        return redirect()->route('dm.index')->with('success', 'メッセージを削除しました');
+    }
+
 }
