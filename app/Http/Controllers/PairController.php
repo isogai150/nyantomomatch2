@@ -15,94 +15,112 @@ use App\Http\Requests\Dm\MessageSendRequest;
 
 class PairController extends Controller
 {
+    // DM詳細表示（1対1チャット画面）
+    public function show($dm)
+    {
+        // Pairテーブルから対象のDMを取得（関連データも一括で）
+        // → N+1問題を防ぐために with() でリレーションも同時取得
+        $dm = Pair::with(['userA', 'userB', 'post.images'])->findOrFail($dm);
 
-    //DM詳細表示
-public function show($dm)
-{
-    // Pairテーブルから対象のDMを取得
-    // with() を使って関連データ（userA, userB, post.images）もまとめて取得
-    // → N+1問題（毎回SQLを発行する非効率な処理）を防ぐ
-    // N+1とは親レコード１に対して複数の子レコードを一度で取得する
-    $dm = Pair::with(['userA', 'userB', 'post.images'])->findOrFail($dm);
+        // 現在ログインしているユーザーと userA_id を比較して相手を特定
+        $partner = $dm->userA->id === auth()->id() ? $dm->userB : $dm->userA;
 
-    // 三項演算子を使って、変数 $partner に「相手のユーザー情報」を格納
-    // 現在ログイン中のユーザーIDが userA_id と一致するかどうかを判定
-    // 一致する場合 → 相手は userB
-    // 一致しない場合 → 相手は userA
-    $partner = $dm->userA->id === auth()->id() ? $dm->userB : $dm->userA;
+        // このDMに紐づくメッセージを古い順で取得
+        $messages = $dm->messages()
+            ->orderBy('created_at', 'asc')
+            ->get();
 
-    // このDMに紐づくメッセージ一覧を取得
-    // → Pairモデルで定義した「messages()」リレーションを使用
-    // orderBy()：取得するデータの並び順を指定
-    // created_at（作成日時）を「asc（昇順＝古い順）」で並び替え
-    $messages = $dm->messages()
-        ->orderBy('created_at', 'asc')
-        ->get();
+        // 投稿データを取得（このDMがどの投稿に紐づくか）
+        $post = $dm->post;
 
-    // 投稿データを取得（Pair に紐づく Post モデル）
-    // このあとBladeで $post->images などを使用できる
-    $post = $dm->post;
+        // Bladeへデータを渡して画面表示
+        return view('dm.detail', compact('dm', 'partner', 'post', 'messages'));
+    }
 
-    // Bladeビューを返す
-    // 第1引数：表示するテンプレート（dm/detail.blade.php）
-    // 第2引数：ビューに渡すデータを配列で渡す（compactは変数名をキーにして連想配列化）
-    // compact('dm', 'partner', 'post', 'messages')
-    // は ['dm' => $dm, 'partner' => $partner, ...] と同義
-    return view('dm.detail', compact('dm', 'partner', 'post', 'messages'));
-}
+    // Ajaxでメッセージを取得（3秒ごと）
+    public function fetch($dm)
+    {
+        // pair_id が一致するメッセージを古い順に取得
+        $messages = Message::where('pair_id', $dm)
+            ->orderBy('created_at', 'asc')
+            ->get()
+            ->map(function ($msg) {
+                return [
+                    'id' => $msg->id, // ← update/delete用にIDも追加
+                    'user_id' => $msg->user_id,
+                    'content' => e($msg->content),
+                    'created_at' => $msg->created_at->format('Y/m/d H:i'),
+                ];
+            });
 
+        // JSON形式で返す（JavaScript側で利用）
+        return response()->json(['messages' => $messages]);
+    }
 
+    // Ajaxでメッセージ送信
+    public function send(MessageSendRequest $request, $dm)
+    {
+        // 新規メッセージを登録
+        $message = Message::create([
+            'pair_id' => $dm,
+            'user_id' => auth()->id(),
+            'content' => $request->message,
+        ]);
 
-// Ajaxでメッセージを取得（3秒ごとに呼び出し）
-public function fetch($dm)
-{
-    // Messageテーブルから「pair_id（＝DMルームID）」が一致するメッセージを取得
-    // where（第一引数が対象のカラム, 第二引数が取得するid）
-    // orderBy() で古い順（昇順）に並び替える
-    $messages = Message::where('pair_id', $dm)
-        ->orderBy('created_at', 'asc')
-        ->get()
-        // map()：コレクションの各要素（＝1件のメッセージ）を整形して新しい配列として返す
-        ->map(function ($msg) {
-            return [
-                // 送信者のユーザーID
-                'user_id' => $msg->user_id,
-                // 本文（e()でHTMLエスケープして安全に表示）
-                'content' => e($msg->content),
-                // 作成日時を「Y/m/d H:i」形式に整形
-                'created_at' => $msg->created_at->format('Y/m/d H:i'),
-            ];
-        });
+        // フロントで扱いやすい形に整形して返す
+        return response()->json([
+            'message' => [
+                'id' => $message->id,
+                'user_id' => $message->user_id,
+                'content' => e($message->content),
+                'created_at' => $message->created_at->format('Y/m/d H:i'),
+            ]
+        ]);
+    }
 
-    // JSON形式で返す（JavaScript側で res.messages から利用できる）
-    return response()->json(['messages' => $messages]);
-}
+    // Ajaxでメッセージを編集（PUT通信）
+    public function update(Request $request, Message $message)
+    {
+        // バリデーション：空文字禁止、最大1000文字
+        $request->validate([
+            'content' => 'required|string|max:1000',
+        ]);
 
-// Ajaxでメッセージを送信
-public function send(MessageSendRequest $request, $dm)
-{
-    // 新規メッセージを作成してDBに登録
-    // pair_id（DMルームID）と user_id（送信者）を紐づける
-    $message = Message::create([
-        'pair_id' => $dm,
-        'user_id' => auth()->id(),
-        'content' => $request->message,
-    ]);
+        // 自分以外のメッセージを編集しようとした場合は403エラー
+        if ($message->user_id !== Auth::id()) {
+            return response()->json(['error' => '権限がありません。'], 403);
+        }
 
-    // フロント側（JavaScript）で扱いやすい形でJSONを返す
-    return response()->json([
-        'message' => [
-            'user_id' => $message->user_id,
-            'content' => e($message->content),
-            'created_at' => $message->created_at->format('Y/m/d H:i'),
-        ]
-    ]);
-}
+        // メッセージ本文を更新
+        $message->content = $request->content;
+        $message->save();
 
+        // 更新後のメッセージをJSONで返す
+        return response()->json([
+            'message' => [
+                'id' => $message->id,
+                'content' => e($message->content),
+                'updated_at' => $message->updated_at->format('Y/m/d H:i'),
+            ]
+        ]);
+    }
 
+    // Ajaxでメッセージを削除（DELETE通信）
+    public function destroy(Message $message)
+    {
+        // 自分以外のメッセージを削除しようとした場合は403エラー
+        if ($message->user_id !== Auth::id()) {
+            return response()->json(['error' => '権限がありません。'], 403);
+        }
 
+        // 削除処理（物理削除）
+        $message->delete();
 
-    //DM一覧表示
+        // フロント側で非表示にできるよう成功レスポンスを返す
+        return response()->json(['success' => true]);
+    }
+
+    // DM一覧表示
     public function index(DmSearchRequest $request)
     {
         $userId = Auth::id();
@@ -116,34 +134,28 @@ public function send(MessageSendRequest $request, $dm)
         $conversationUsers = [];
 
         foreach ($pairs as $pair) {
-            // 相手のユーザーIDを特定
+            // 相手のユーザーを特定
             $otherUserId = $pair->userA_id == $userId ? $pair->userB_id : $pair->userA_id;
             $otherUser = User::find($otherUserId);
-
             if (!$otherUser) continue;
 
-            // このペアのメッセージを取得
+            // メッセージ一覧を取得（新しい順）
             $messages = Message::where('pair_id', $pair->id)
                 ->orderBy('created_at', 'desc')
                 ->get();
 
             if ($messages->isEmpty()) continue;
 
-            // 最後のメッセージ
+            // 最後のメッセージを取得
             $lastMessage = $messages->first();
-
-            // 時間差を計算
             $timeAgo = $this->getTimeAgo($lastMessage->created_at);
 
-            // 検索フィルタリング（あいまい検索）
+            // 検索処理（ユーザー名・メッセージ内容）
             if ($searchQuery) {
                 $searchLower = mb_strtolower($searchQuery);
                 $userName = mb_strtolower($otherUser->name);
-
-                // ユーザー名での検索
                 $userNameMatch = mb_strpos($userName, $searchLower) !== false;
 
-                // メッセージ内容での検索
                 $messageMatch = false;
                 foreach ($messages as $message) {
                     if (mb_strpos(mb_strtolower($message->content), $searchLower) !== false) {
@@ -152,10 +164,7 @@ public function send(MessageSendRequest $request, $dm)
                     }
                 }
 
-                // どちらにも一致しない場合はスキップ
-                if (!$userNameMatch && !$messageMatch) {
-                    continue;
-                }
+                if (!$userNameMatch && !$messageMatch) continue;
             }
 
             $conversationUsers[] = [
@@ -168,7 +177,7 @@ public function send(MessageSendRequest $request, $dm)
             ];
         }
 
-        // 最新のメッセージ順にソート
+        // 最新メッセージ順にソート
         usort($conversationUsers, function ($a, $b) {
             return $b['last_message_time'] <=> $a['last_message_time'];
         });
@@ -176,6 +185,7 @@ public function send(MessageSendRequest $request, $dm)
         return view('dm.index', compact('conversationUsers'));
     }
 
+    // 時間差を「◯分前」形式で整形する共通関数
     private function getTimeAgo($datetime)
     {
         $now = Carbon::now();
