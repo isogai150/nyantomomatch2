@@ -40,6 +40,9 @@ Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.
 // お気に入り
 Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 
+// お気に入り一覧表示
+Route::get('/favorites', [FavoriteController::class, 'show'])->name('favorites.show');
+
 // ログアウト
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
