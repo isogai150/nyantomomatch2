@@ -11,6 +11,7 @@
   <div class="page-ttl">
     <h2>お気に入り</h2>
     <h3>気になる猫たちをお気に入りに保存して、後で確認できます</h3>
+    <p>※譲渡成立しているものは表示されません</p>
   </div>
 
   @if($catposts->isEmpty())
@@ -45,7 +46,6 @@
         <div class="post-information">
           <div class="post-information-top">
             <h3>{{ $catpost->title }}</h3>
-            <p class="{{ $catpost->status_class }}">{{ $catpost->status_label }}</p>
           </div>
 
           <div class="post-information-center">
@@ -54,6 +54,12 @@
               <li>{{ $catpost->gender_class }}</li>
               <li>{{ $catpost->region }}</li>
             </ul>
+          </div>
+          <div class="post-information-status">
+            <p class="{{ $catpost->status_class }}">{{ $catpost->status_label }}</p>
+          </div>
+          <div class="post-information-created_at">
+            <p>お気に入り登録日: {{ $catpost->pivot->created_at->format('Y年n月j日') }}</p>
           </div>
           <div class="post-actions">
             {{-- メッセージ --}}
@@ -69,7 +75,6 @@
 
             {{-- 詳細ボタン --}}
             <a href="{{ route('posts.detail', $catpost->id) }}" class="detail-btn">詳細を見る</a>
-            {{-- <button type="button" class="detail-btn " data-id="{{ $catpost->id }}">詳細を見る</button> --}}
           </div>
         </div>
       </div>
@@ -87,6 +92,3 @@
 </div>
 @endsection
 
-@section('script')
-<script src="{{ asset('js/favorite/index.js') }}"></script>
-@endsection
