@@ -4,46 +4,199 @@
 /* 共通 */
 /* ==================================================== */
 
+/* コンテンツの幅 */
 .main-content {
-    width: 90%;
+    width: 80%;
     margin: 0 auto;
-}
-
-/* 総投稿数・譲渡完了・募集中の項目：：縦から横並びに変更 */
-.summary-boxes {
-    display: flex;
-    justify-content: space-between;
-    margin: 2% 0;
+    color: #503322;
 }
 
 /* ==================================================== */
 /* PC用画面 */
 /* ==================================================== */
 
-
-
 .backgroundcolor-position {
     padding: 8% 0;
     background-color: #FFFDF2;
 }
 
-/* 投稿管理 */
-.titlefont {
+/* 新しい投稿を作成 */
+h2 {
     font-size: 24px;
     font-weight:bold;
     margin-bottom: 2%;
 }
 
-/* あなたが投稿した里親募集の一覧です */
+/* 猫の里親を募集する投稿を作成してください。 */
+h3 {
+    font-size: 20px;
+    font-weight:bold;
+    margin-bottom: 2%;
+}
+
+/* 入力欄の2列の部分 */
+.container-flex {
+    display: flex;
+}
+
+/* 入力フォームの背景の白枠部分 */
+.background-form {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 5% 15%;
+    margin: 3% 2%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 基本情報 */
 .subtitle {
     font-size: 20px;
     font-weight:bold;
     margin-bottom: 2%;
 }
 
+/* 入力フォーム各タイトル */
+label {
+    font-size: 20px;
+    font-weight:bold;
+    margin-bottom: 2%;
+}
+
+/* ======================================================================= */
+
+/* テキストボックス（タイトル） */
+.textbox-title {
+    border-width:1.5px;
+    border-radius: 5px;
+    width: 70%;
+    line-height: 2;
+    margin-top: 1%;
+    margin-bottom: 3%;
+    position: static;
+}
 
 
+/* テキストボックス（年齢） */
+.textbox-age {
+    border-width:1.5px;
+    border-radius: 5px;
+    width: 80%;
+    line-height: 2;
+    margin-top: 1%;
+    margin-bottom: 3%;
+}
 
+/* テキストボックス（性別） */
+.textbox-gender {
+    border-width:1.5px;
+    border-radius: 5px;
+    width: 250%;
+    padding: 10%;
+    margin-top: 1%;
+    margin-bottom: 3%;
+}
+
+/* テキストボックス（品種） */
+.textbox-kinds {
+    border-width:1.5px;
+    border-radius: 5px;
+    width: 50%;
+    line-height: 2;
+    margin-top: 1%;
+    margin-bottom: 3%;
+}
+
+/* テキストボックス（所在地） */
+.textbox-location {
+    border-width:1.5px;
+    border-radius: 5px;
+    width: 50%;
+    line-height: 2;
+    margin-top: 1%;
+    margin-bottom: 3%;
+}
+
+/* テキストボックス（ステータス） */
+.textbox-status {
+    border-width:1.5px;
+    border-radius: 5px;
+    width: 30%;
+    padding: 0.75%;
+    margin-top: 1%;
+    margin-bottom: 3%;
+}
+
+/* テキストボックス（掲載開始日・終了日） */
+.textbox-date {
+    border-width:1.5px;
+    border-radius: 5px;
+    width: 30%;
+    line-height: 2;
+    margin-top: 1%;
+    margin-bottom: 3%;
+}
+
+/* ======================================================================= */
+
+/* 写真・動画の背景の白枠部分 */
+.background-photo-move {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 5% 15%;
+    margin: 3% 2%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 健康状態の背景の白枠部分 */
+.background-health {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 5% 15%;
+    margin: 3% 2%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 詳細説明の背景の白枠部分 */
+.background-description {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 5% 15%;
+    margin: 3% 2%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 費用の背景の白枠部分 */
+.background-price {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 5% 15%;
+    margin: 3% 2%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 投稿を作成ボタン */
+.botten {
+    font-size: 20px;
+    font-weight:bold;
+    border-radius:10px;
+    background-color:#F6D8B3;
+    color:#503322;
+    border: none;
+    width: 30%;
+    padding: 2% 0;
+    margin-bottom: 5%;
+}
+
+/* 投稿を作成ボタン：ホバー */
+.botten:hover {
+    /* カーソルホバー時に設定した透明度で反応させる */
+    opacity: 0.8;
+}
+
+/* 投稿を作成ボタン：センター */
+.btn {
+    text-align: center;
+}
 
 /* ==================================================== */
 /* スマホ用画面 */
@@ -55,13 +208,13 @@
         background-color: #FFFDF2;
     }
 
-    /* 投稿管理 */
-    .titlefont {
+    /* 新しい投稿を作成 */
+    h2 {
         font-size: 20px;
     }
 
-    /* あなたが投稿した里親募集の一覧です */
-    .subtitle {
+    /* 猫の里親を募集する投稿を作成してください。 */
+    h3 {
         font-size: 16px;
     }
 

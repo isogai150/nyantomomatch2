@@ -93,34 +93,29 @@ public function getCostClassAttribute()
 
 
 
-// ====================自分の投稿一覧表示機能：関係情報ここから追記====================
+// ====================自分の投稿一覧表示機能====================
 
-// フィールド指定（今後の安全なデータ保存のため）
-protected $fillable = [
-    'user_id',
-    'title',
-    'age',
-    'gender',
-    'region',
-    'status',
-    'cost',
-];
+    // フィールド指定（今後の安全なデータ保存のため）
+    protected $fillable = [
+        'user_id',
+        'title',
+        'age',
+        'gender',
+        'region',
+        'status',
+        'cost',
+    ];
 
-// created_at などの日付フィールドをCarbonで扱いやすくする
-protected $casts = [
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-];
+    // created_at などの日付フィールドをCarbonで扱いやすくする
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 
-// ==================== ここまで追記 ====================
 // ==================== 猫の情報投稿 ====================
 
+use HasFactory, SoftDeletes;
 
-    use HasFactory, SoftDeletes;
-
-    // ===============================================
-    // ▼ 性別・ステータスの定義を追加
-    // ===============================================
     const GENDER = [
         0 => '未入力',
         1 => 'オス',
@@ -132,9 +127,8 @@ protected $casts = [
         1 => 'トライアル中',
         2 => '譲渡済み（募集終了）',
     ];
-    // ===============================================
-
 
 // ==================== ここまで追記 ====================
+
 
 }
