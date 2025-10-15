@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 <div class="main-content">
 {{-- ここの中にコードを書く --}}
 
-    <div class="pege-ttl">
+    <div class="page-ttl">
         <h2>メッセージ</h2>
         <div>
             <h3>里親希望者や投稿者とのやり取りを管理できます</h3>

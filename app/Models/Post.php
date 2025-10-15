@@ -45,6 +45,13 @@ class Post extends Model
         return $this->hasMany(Pair::class);
     }
 
+     // お気に入りユーザーのリレーション（中間テーブルとキーを指定）
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'post_id', 'user_id')
+            ->withTimestamps();
+    }
+
     //アクセサ
     // status
     public function getStatusLabelAttribute()
