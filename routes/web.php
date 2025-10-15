@@ -32,8 +32,11 @@ Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.upda
 // 編集内容の削除
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
-// お気に入り
+// お気に入りトグル
 Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+
+// お気に入り一覧表示
+Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 
 // ログアウト
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

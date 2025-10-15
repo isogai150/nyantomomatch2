@@ -1,0 +1,414 @@
+@charset "UTF-8";
+
+.main-content {
+    padding: 10% 0 5% 0;
+    max-width: 1240px;
+    width: 100%; /* 小さい画面では100% */
+    margin: 0 auto;
+}
+
+main {
+    background-color: #FFFDF2;
+}
+
+/* font */
+p {
+    font-size: 16px;
+    color: #503322;
+    line-height: 1.5;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 600;/* semibold */
+    color: #503322;
+    margin-bottom: 2%;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: 600;/* semibold */
+    color: #503322;
+    margin-top: 2%;
+    margin-bottom: 1%;
+    line-height: 1.1;
+}
+
+/* ページtitle */
+.page-ttl {
+    width: 100%;
+    margin-bottom: 3%;
+    padding: 0;
+}
+
+/* 空メッセージ */
+.empty-message {
+    text-align: center;
+    padding: 5% 0;
+    color: #888;
+}
+
+.empty-message p {
+    font-size: 18px;
+    color: #888;
+}
+
+.btn {
+  background-color: #F6D8B3;
+  color: #503322;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: opacity 0.2s ease;
+}
+.btn:hover {
+  background-color: #F6D8B3;
+  opacity: 0.8;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 2%;
+  width: 100%;
+  padding: 0;
+  background: #FFFDF2;
+}
+
+/* 各カード */
+.catpost-card {
+  background: #fff;
+  border: 0.15vw solid #D3C6B7;
+  border-radius: 1vw;
+  text-align: center;
+  padding: 2%;
+  flex: 1 1 calc(33.333% - 1.4%); /* 3列: (100% - gap*2) / 3 */
+  max-width: calc(33.333% - 1.4%);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.catpost-card:hover {
+  transform: translateY(-2%);
+  box-shadow: 0 0.8vw 1.5vw rgba(0,0,0,0.1);
+}
+
+/* 投稿画像 */
+.post-image {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 1vw;
+  margin-bottom: 3%;
+}
+.post-image img {
+  width: 100%;
+  height: 14vw;
+  object-fit: cover;
+  object-position: center; /* 中央トリミングでバランスを取る */
+  border-radius: 1vw;
+  display: block;
+}
+
+/* お気に入りフォーム */
+.favorite-form {
+  margin: 0;
+  padding: 0;
+}
+
+/* お気に入りボタン（右上） */
+.favorite-btn {
+  position: absolute;
+  top: 4%;
+  right: 4%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 0.15vw solid #d3c6b7;
+  border-radius: 50%;
+  width: 12%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2vw;
+  color: #e67;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.favorite-btn:hover {
+  background: #fff;
+  transform: scale(1.1);
+}
+
+.favorite-btn.active {
+  color: #ee6677;
+}
+
+/* 投稿情報全体 */
+.post-information {
+  width: 100%;
+}
+
+/* タイトル */
+.post-information-top h3 {
+  font-weight: bold;
+  font-size: 1.2vw;
+  color: #503322;
+  margin-bottom: 2%;
+  min-height: 3vw;
+  width: 100%;
+  text-align: left;
+  word-wrap: break-word; /* 長いタイトルの折り返し */
+}
+
+/* 情報リスト */
+.post-information-center {
+  margin-bottom: 5%;
+  width: 100%;
+  margin-left: 0;
+}
+.post-information-center ul {
+  list-style: none;
+  display: flex;
+  justify-content: flex-start;
+  gap: 8%;
+  padding: 0;
+  margin: 0;
+}
+.post-information-center li {
+  color: #503322;
+  font-size: 1vw;
+}
+
+/* ステータス・お気に入り登録日 */
+.post-information-status p {
+  padding: 2% 4%;
+  border-radius: 0.6vw;
+  font-size: 0.9vw;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 5%;
+  width: 30%;
+}
+.post-information-created_at p {
+  color: #503322;
+  font-size: 1vw;
+  text-align: left;
+  margin-bottom: 5%;
+}
+
+/* アクションボタンエリア */
+.post-actions {
+  display: flex;
+  gap: 2%;
+  margin-top: auto;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* メッセージフォーム */
+.message-btn {
+  margin: 0;
+  flex: 1;
+}
+/* メッセージボタン */
+.contact-btn {
+  width: 100%;
+  background: #Ffffff;
+  color: #503322;
+  padding: 2.5% 0;
+  border-radius: 5px;
+  border:  0.15vw solid #D3C6B7;
+  font-size: 1vw;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+  gap: 0.4vw;
+  box-sizing: border-box;
+  height: 100%;
+}
+.contact-btn:hover {
+  opacity: 0.8;
+}
+.message-icon {
+    width: 1vw;
+    height: 1vw;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+}
+
+/* 詳細ボタン */
+.detail-btn {
+  flex: 1;
+  background: #F6D8B3;
+  color: #503322;
+  padding: 2.5% 0;
+  border-radius: 5px;
+  border: none;
+  text-decoration: none;
+  font-size: 1vw;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 100%;
+}
+.detail-btn:hover {
+  opacity: 0.8;
+}
+
+/* ステータス統一（アクセサ対応） */
+.status-available {
+  color: #2e7d32;
+  border: 0.2vw solid #2e7d32;
+  background: #e8f5e9;
+}
+.status-talking {
+  color: #ef6c00;
+  border: 0.2vw solid #ef6c00;
+  background: #fff3e0;
+}
+.status-matched {
+  color: #616161;
+  border: 0.2vw solid #616161;
+  background: #f5f5f5;
+}
+.status-unknown {
+  color: #757575;
+  border: 0.2vw solid #757575;
+  background: #f5f5f5;
+}
+
+/* ページネーション */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 3%;
+  padding: 2% 0;
+}
+
+/* スマホ用 (390px以下) */
+@media screen and (max-width: 390px) {
+
+  .main-content {
+    padding: 20% 4% 5%;
+  }
+
+  p {
+    font-size: 14px;
+  }
+
+  h2 {
+    font-size: 18px;
+    margin-bottom: 5%;
+  }
+
+  h3 {
+    font-size: 16px;
+    margin-bottom: 3%;
+  }
+
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .catpost-card {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 5%;
+  }
+
+  .post-image img {
+    height: auto;
+    max-height: 60vw;
+  }
+
+  .favorite-btn {
+  font-size: 14px;
+  }
+
+  .post-information-top {
+    min-height: auto;
+  }
+
+  .post-information-top h3 {
+    font-size: large;
+    font-weight: bold;
+    margin-bottom: 5%;
+  }
+
+  .post-information-status p {
+    padding: 2% 4%;
+    border-radius: 0.6vw;
+    font-size: 12px;
+    min-width: auto;
+    margin-bottom: 2%;
+  }
+
+  .post-information-created_at p {
+    font-size: 14px;
+    margin-bottom: 2%;
+  }
+
+  .post-information-center {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 2%;
+  }
+  .post-information-center ul {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2%;
+  }
+
+  .post-information-center li {
+    font-size: 14px;
+  }
+
+  .post-actions {
+    gap: 3%;
+  }
+
+  .contact-btn {
+    font-size: 13px;
+    padding: 12px 8px;
+    height: 44px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .message-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  .detail-btn {
+   font-size: 13px;
+    padding: 12px 8px;
+    height: 44px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+}

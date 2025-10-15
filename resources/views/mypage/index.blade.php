@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 <div class="main-content">
 {{-- ここの中にコードを書く --}}
 
-  <div class="pege-ttl">
+  <div class="page-ttl">
     <h2>マイページ</h2>
     <div>
       <h3>プロフィール情報の確認・編集ができます</h3>
