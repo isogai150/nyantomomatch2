@@ -44,8 +44,11 @@ Route::post('/catpost/create', [PostController::class, 'create'])->name('posts.c
 // ===========================================================================================
 
 
-// お気に入り
+// お気に入りトグル
 Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+
+// お気に入り一覧表示
+Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 
 // ログアウト
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
