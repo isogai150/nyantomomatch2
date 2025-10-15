@@ -13,11 +13,10 @@
   </div>
 
   {{-- ======= 決済メイン領域 ======= --}}
-  <div class="main-center">
-
+  <div class="main-center payment">
     {{-- 左側：入力フォーム --}}
     @auth
-    <div class="payment-form-area">
+    <div class="payment__form-area">
       <div class="form-header">
         <h2>お支払い情報</h2>
         <p>安全な決済処理のため、正確な情報を入力してください。</p>
@@ -68,24 +67,30 @@
           </div>
         </div>
 
+        {{-- ▼ Stripe Elements 挿入ポイント --}}
+        <div id="card-element" class="stripe-card-element"></div>
+        {{-- ▲ Stripe Elements 挿入ポイント --}}
+
         <button type="submit" class="payment-btn">支払う</button>
       </form>
     </div>
+    @else
+    <p class="login-warning">このページを利用するにはログインが必要です。</p>
     @endauth
 
     {{-- 右側：支払い明細・セキュリティ情報 --}}
-    <div class="payment-summary">
+    <div class="payment__summary">
       <h2>支払い内容</h2>
       @if ($post)
       <ul class="summary-list">
-        <li>譲渡費用 <span>{{ $post->cost_class }}</span></li>
-        <li>消費税（10%）<span>{{ number_format($post->cost * 0.1) }}円</span></li>
-        <li>Stripe手数料（3.6%）<span>{{ number_format($post->cost * 0.036) }}円</span></li>
+        <li>譲渡費用 <span>{{ number_format($post->cost) }}円</span></li>
+        <li>消費税（10%）<span>{{ number_format(round($post->cost * 0.1)) }}円</span></li>
+        <li>Stripe手数料（3.6%）<span>{{ number_format(round($post->cost * 0.036)) }}円</span></li>
       </ul>
 
       <div class="total-box">
         <p>合計金額</p>
-        <p class="total-amount">{{ number_format($post->cost * 1.136) }}円</p>
+        <p class="total-amount">{{ number_format(round($post->cost * 1.136)) }}円</p>
       </div>
       @endif
 
@@ -97,11 +102,12 @@
         </ul>
       </div>
     </div>
-
   </div>
 </div>
 @endsection
 
 @section('script')
+{{-- Stripe.js導入予定 --}}
+{{-- <script src="https://js.stripe.com/v3/"></script> --}}
 <script src="{{ asset('js/payment/settlement.js') }}"></script>
 @endsection
