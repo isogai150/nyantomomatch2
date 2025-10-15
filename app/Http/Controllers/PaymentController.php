@@ -14,4 +14,12 @@ class PaymentController extends Controller
 
         return view('payment.cart', compact('post'));
     }
+
+    // 決済情報入力ページ表示機能
+    public function showForm($postId)
+    {
+        $post = Post::findOrFail($postId);
+
+        return view('payment.settlement', compact('post'));
+    }
 }

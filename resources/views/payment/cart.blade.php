@@ -20,9 +20,8 @@
         <h3>支払い内容</h3>
         @if($post)
         <div class="cart-inf">
-          <p>譲渡費用<span>{{ $post->cost_class }}</span></p>
-          {{-- action属性の中身はリーティングで購入画面ページのルーティングを作成次第追加する --}}
-          <form action="#" method="POST">
+          <p>譲渡費用（税抜き＋手数料抜き）<span>{{ $post->cost_class }}</span></p>
+          <form action="{{ route('payment.form', $post->id) }}" method="GET">
             @csrf
             <input type="hidden" name="post" value="{{ $post->id }}">
             <button type="submit" class="payment-btn">購入画面へ</button>

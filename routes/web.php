@@ -77,8 +77,11 @@ Route::post('/dm/create', [PairController::class, 'create'])->name('dm.create');
 // DM削除
 Route::delete('/dm/{dm}/delete', [PairController::class, 'delete'])->name('dm.delete');
 
-// カート情報表示
+// カート情報ページ表示機能
 Route::get('/checkout/{post}', [PaymentController::class, 'showcart'])->name('payment.cart');
+
+// 決済情報入力ページ表示機能
+Route::get('/checkout/{post}/payment', [PaymentController::class, 'showForm'])->name('payment.form');
 
 //ユーザー認証系
 Auth::routes();
