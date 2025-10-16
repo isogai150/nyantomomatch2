@@ -119,36 +119,53 @@ use Illuminate\Support\Facades\Storage;
     <div class="h3-b30px">
       <h3>投稿権限申請フォーム</h3>
     </div>
+
+    {{-- 成功/エラーメッセージの表示 --}}
+  @if(session('success'))
+    <div class="alert alert-success">
+      {{ session('success') }}
+    </div>
+  @endif
+  @if(session('error'))
+    <div class="alert alert-danger">
+      {{ session('error') }}
+    </div>
+  @endif
+
     <div class="authority-outline">
       <h3 class="text-blue">投稿権限について</h3>
       <p class="text-blue">
         投稿権限を取得すると、猫の里親募集投稿を作成・管理できるようになります。 申請には審査があり、承認まで数日かかる場合があります。
       </p>
     </div>
-    <form action="#">
+
+    <form action="{{ route('request.post.permission') }}" method="POST">
       @csrf
       <div class="form-group">
         <h3>申請理由</h3>
-        <textarea class="form-textarea" name="reason" id="reason" rows="10" placeholder="こちらに長いテキストを入力してください...">
-          {{-- {{ old('reason', $authority->reason) }} --}}
+        <textarea class="form-textarea" name="reason" id="reason" rows="10" maxlength="500" placeholder="こちらに長いテキストを入力してください...">
+          {{ old('reason') }}
         </textarea>
-        <p class="textarea-finish">0/500文字</p>
+        <p class="textarea-finish"><span id="charCount">0</span>/500文字</p>
         @error('reason')
           <div class="alert alert-danger">{{ $message }}</div>
         @enderror
       </div>
+
       <div class="agree">
         <label>
-        <input type="checkbox" id="agree" name="agree" value="1">
+        <input type="checkbox" id="agree" name="agree" value="1" {{ old('agree') ? 'checked' : '' }}>
         利用規約に同意する
         </label>
         <p class="agree-text">
           投稿権限の利用規約および責任について同意します。
-        <a href="#">利用規約を確認する</a></p>
+          <a href="#">利用規約を確認する</a>
+        </p>
         @error('agree')
           <div class="alert alert-danger">{{ $message }}</div>
         @enderror
       </div>
+
       <input type="submit" value="申請を送信する" class="btn-primary-l">
     </form>
   </div>
