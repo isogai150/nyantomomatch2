@@ -13,7 +13,7 @@
   <div class="main-content">
 
     <h2>新しい投稿を作成</h2>
-    <h3>猫の里親を募集する投稿を作成してください。</h3>
+    <h3>猫の里親を募集する<br class="br-sp">投稿を作成してください。</h3>
 
     <form action="{{ route('posts.create') }}" method="POST">
       @csrf
@@ -32,7 +32,7 @@
 {{-- ======================================================== --}}
 
   <div class="container-flex">
-    <div class="aaa">
+    <div class="flexblock">
       {{-- 年齢 --}}
       <label>年齢</label>
         <br>
@@ -40,7 +40,7 @@
 
     </div>
 
-    <div class="aaa">
+    <div class="flexblock">
       {{-- 性別 --}}
       <label>性別</label>
         <br>
@@ -61,13 +61,13 @@
 {{-- ======================================================== --}}
 
   <div class="container">
-    <div class="aaa">
+    <div class="flexblock">
     {{-- 品種 --}}
     <label>品種</label><br>
     <input type="text" class="textbox-kinds" id="kinds" name="kinds" placeholder="例：ミックス" value="{{ old('kinds') }}" />
     </div>
 
-    <div class="aaa">
+    <div class="flexblock">
     {{-- 所在地 --}}
     <label>所在地</label><br>
     <input type="text" class="textbox-location" id="location" name="location" placeholder="都道府県を入力（例：東京都）" value="{{ old('location') }}" />
@@ -96,22 +96,23 @@
 
 {{-- ======================================================== --}}
 
-  <div class="container-flex">
 
-    {{-- 掲載開始日・終了日 --}}
-    <div class="bbb">
+<div class="container-flex date-range">
+
+  <div class="bbb">
     <label>掲載開始日</label><br>
     <input type="date" min="2025-10-14" max="2029-12-31" name="start_date" class="textbox-start-date" value="{{ old('start_date') }}">
-    </div>
+  </div>
 
-      <label>　～　</label>
+  <label class="wave">～</label>
 
-    <div class="ccc">
+  <div class="ccc">
     <label>掲載終了日</label><br>
     <input type="date" min="2025-10-14" max="2029-12-31" name="end_date" class="textbox-end-date" value="{{ old('end_date') }}">
-    </div>
   </div>
 </div>
+
+  </div>
 
 {{-- ======================================================== --}}
 
@@ -154,7 +155,7 @@
 <div class="background-price">
 
   {{-- 費用 --}}
-  <label>譲渡費用（総額）<br>※内訳につきましては詳細説明入力欄へ入力をお願いします。</label>
+  <label>譲渡費用（総額）<br>※内訳につきましては<br class="br-sp">詳細説明入力欄へ<br class="br-sp">入力をお願いします。</label>
   <input type="text" data-type="number" class="textbox-price" id="price" name="price" placeholder="例：30,000（円）" value="{{ old('price') }}" />
 
 </div>

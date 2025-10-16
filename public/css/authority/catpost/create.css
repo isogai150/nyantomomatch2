@@ -86,8 +86,9 @@ textarea {
     position: static;
 }
 
-.aaa {
-    margin-right: 10%;
+.flexblock {
+    /* margin-right: 10%; */
+font-size: 0;
 }
 
 /* テキストボックス（年齢） */
@@ -100,14 +101,20 @@ textarea {
     margin-bottom: 3%;
 }
 
+.textbox-age,
+.textbox-gender {
+    height: 30px;
+}
+
 /* テキストボックス（性別） */
 .textbox-gender {
-    border-width:1.5px;
+    border-width: 1.5px;
     border-radius: 5px;
-    width: 250%;
-    padding: 10%;
-    /* margin-top: 5%; */
-    /* margin-bottom: 10%; */
+    width: 100%;
+    padding: 6px 8px;
+    line-height: 1.5;
+    margin-top: 3px;
+    margin-bottom: 3%;
 }
 
 /* テキストボックス（品種） */
@@ -160,8 +167,49 @@ textarea {
     margin-bottom: 3%;
 }
 
-.ccc {
-    margin-left: 15%;
+/* 各フォームタイトルと入力欄の間隔調整 */
+label {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+    margin-top: 3px;
+}
+
+/* 年齢・性別などの2列部分をきれいに整列 */
+.container-flex .flexblock {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-right: 5%;
+}
+
+/* ========================= */
+/* 掲載日（開始日～終了日）部分 */
+/* ========================= */
+.container-flex.date-range {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 25px;
+    margin-left: 0;
+}
+
+/* 波線（～）の配置を中央に調整 */
+.date-range label.wave {
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1;
+    position: relative;
+    top: -6px;
+    margin: 0 18px;
 }
 
 /* ======================================================================= */
@@ -266,26 +314,145 @@ textarea {
     margin-bottom: 3%;
 }
 
+/* 一部長文の改行：PC用は非表示にしている */
+.br-sp {
+    display: none;
+}
+
 /* ==================================================== */
 /* スマホ用画面 */
 /* ==================================================== */
 @media (max-width: 390px) {
 
+    /* 背景と余白 */
     .backgroundcolor-position {
-        padding: 20% 0;
+        padding: 15% 0%;
         background-color: #FFFDF2;
     }
 
-    /* 新しい投稿を作成 */
+    /* メインコンテンツ幅 */
+    .main-content {
+        width: 90%;
+        margin: 0 auto;
+    }
+
     h2 {
-        font-size: 20px;
+        font-size: 18px;
+        margin-bottom: 5%;
     }
 
-    /* 猫の里親を募集する投稿を作成してください。 */
     h3 {
-        font-size: 16px;
+        font-size: 15px;
+        margin-bottom: 6%;
+        line-height: 1.6;
     }
 
+    /* 背景白枠ボックス */
+    .background-form,
+    .background-photo-move,
+    .background-health,
+    .background-description,
+    .background-price {
+        padding: 8% 8%;
+        margin: 8% 0%;
+        border-radius: 8%;
+    }
 
+    /* ラベルサイズ調整 */
+    label {
+        font-size: 16px;
+        margin-bottom: 3%;
+    }
 
+    /* テキストエリア・ボックス調整 */
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+        width: 100%;
+        font-size: 14px;
+        padding: 2%;
+        margin-top: 2%;
+        margin-bottom: 5%;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    /* 2列 → 1列に変更 */
+    .container-flex {
+        flex-direction: column;
+        gap: 0%;
+    }
+
+    .flexblock {
+        width: 100%;
+        margin-right: 0%;
+        margin-bottom: 5%;
+    }
+
+    .container .flexblock {
+        margin-bottom: 5%;
+    }
+
+    /* 掲載開始日と終了日 */
+    .container-flex.date-range {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2%;
+    }
+
+    /* 波線の調整 */
+    .date-range label.wave {
+        font-size: 18px;
+        top: 0%;
+        margin: 4% auto;
+        display: block;
+    }
+
+    /* タイトルの入力欄を調整 */
+    .textbox-title {
+        width: 100%;
+        font-size: 14px;
+        padding: 2%;
+        margin-top: 2%;
+        margin-bottom: 5%;
+    }
+
+    /* 投稿ステータス */
+    .textbox-status {
+        width: 60%;
+    }
+
+    /* 費用 */
+    .textbox-price {
+        width: 70%;
+    }
+
+    /* 掲載開始日・掲載終了日 */
+    .container-flex.date-range input[type="date"],
+    .container-flex.date-range input[type="text"] {
+        width: 120%;
+    }
+
+    /* ボタン */
+    .botten {
+        width: 80%;
+        font-size: 18px;
+        padding: 3% 0%;
+        border-radius: 8%;
+    }
+
+    /* テキスト中央寄せ */
+    .btn {
+        text-align: center;
+    }
+
+    /* 一部長文の改行：スマホ用は表示している */
+    .br-sp {
+        display: block;
+    }
 }
+
