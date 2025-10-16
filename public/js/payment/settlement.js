@@ -107,8 +107,9 @@ document.addEventListener("DOMContentLoaded", function () {
       errorDisplay.textContent = result.error.message;
       errorDisplay.style.color = "#E5424D";
     } else if (result.paymentIntent.status === "succeeded") {
-      // 成功時に完了ページへ遷移
-      window.location.href = "/checkout/success";
+      // 成功時に完了ページへ遷移（PaymentIntent IDをURLに渡す）
+      const intentId = result.paymentIntent.id;
+      window.location.href = `/checkout/success?payment_intent_id=${intentId}`;
     }
   });
 });
