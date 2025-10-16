@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Authority;
 use App\Http\Requests\User\EditUser;
+use App\Http\Requests\User\AuthorityRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -94,5 +96,36 @@ class UserController extends Controller
 
         // トップページに遷移
         return redirect('/')->with('status', '退会処理が完了しました。');
+    }
+
+    // 投稿権限申請処理
+    public function requestPostPermission(AuthorityRequest $request)
+    {
+        $user = Auth::user();
+
+        // すでに申請中または承認済みの申請がないかチェック
+        $existingRequest = Authority::where('user_id', $user->id)
+            ->whereIn('status', [Authority::STATUS_PENDING, Authority::STATUS_APPROVED])
+            ->first();
+
+        if ($existingRequest) {
+            if ($existingRequest->status === Authority::STATUS_APPROVED) {
+                return redirect()->route('mypage.index')
+                    ->with('error', 'すでに投稿権限が承認されています。');
+            }
+
+            return redirect()->route('mypage.index')
+                ->with('error', '申請が審査中です。結果をお待ちください。');
+        }
+
+        // 新規申請を作成
+        Authority::create([
+            'user_id' => $user->id,
+            'reason' => $request->reason,
+            'status' => Authority::STATUS_PENDING,
+        ]);
+
+        return redirect()->route('mypage.index')
+            ->with('success', '投稿権限の申請を送信しました。審査結果をお待ちください。');
     }
 }
