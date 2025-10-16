@@ -8,7 +8,7 @@
   width: 100%;
   min-height: 85vh;
   background-color: #FFFDF2;
-  padding: 5% 6%;
+  padding: 8% 6%;
   box-sizing: border-box;
   font-family: "Noto Sans JP", sans-serif;
   color: #503322;
@@ -141,24 +141,40 @@
   background-color: #fff;
 }
 
-/* ------- 支払うボタン ------- */
-.payment-btn {
-  width: 100%;
-  border: none;
-  border-radius: 0.8em;
-  padding: 1em 0;
-  font-size: 1.05em;
-  font-weight: 700;
-  background-color: #F6D8B3; /* 指定カラー */
-  color: #503322;            /* 指定文字色 */
-  cursor: pointer;
-  transition: 0.3s ease;
-  margin-top: 1.5em;
+/* ------- ボタン ------- */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
 }
 
-.payment-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-2%);
+/* 支払いボタン */
+.payment-btn {
+  background-color: #F6D8B3;
+  color: #503322;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* キャンセルボタン */
+.cancel-btn {
+  background-color: #E9E9E9;
+  color: red;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.payment-btn:hover,
+.cancel-btn:hover {
+  opacity: 0.8;
 }
 
 /* ==========================
@@ -288,6 +304,16 @@
   .payment-btn {
     font-size: 1em;
     padding: 4% 0;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .payment-btn,
+  .cancel-btn {
+    width: 100%;
+    text-align: center;
   }
 
   .summary-list li {

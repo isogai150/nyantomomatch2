@@ -20,7 +20,7 @@
         <h3>支払い内容</h3>
         @if($post)
         <div class="cart-inf">
-          <p>譲渡費用（税抜き＋手数料抜き）<span>{{ $post->cost_class }}</span></p>
+          <p>譲渡費用<br><span class="note">※別途消費税（10%）と手数料（3.6%）かかります<br>※クレジットカード支払いのみ対応<br>※返金処理はできません</span><br><spa class="cost">{{ $post->cost_class }}</span></p>
           <form action="{{ route('payment.form', $post->id) }}" method="GET">
             @csrf
             <input type="hidden" name="post" value="{{ $post->id }}">

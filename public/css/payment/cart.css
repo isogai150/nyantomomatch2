@@ -7,7 +7,7 @@
   width: 100%;
   min-height: 80vh;
   background-color: #FFFDF2;
-  padding: 5% 6%;
+  padding: 8% 6%;
   box-sizing: border-box;
   font-family: "Noto Sans JP", sans-serif;
   color: #503322;
@@ -101,12 +101,17 @@
 .cart-inf p {
   font-size: 1.1em;
   margin-bottom: 1.8em;
+  line-height: 1.4;
 }
 
-.cart-inf span {
+.note {
+  font-size: 0.8rem;
+  color: red;
+}
+
+.cost {
   font-weight: bold;
   font-size: 1.3em;
-  margin-left: 0.4em;
   color: #C87B4F;
 }
 
