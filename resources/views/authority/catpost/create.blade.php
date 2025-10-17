@@ -15,34 +15,43 @@
     <h2>新しい投稿を作成</h2>
     <h3>猫の里親を募集する<br class="br-sp">投稿を作成してください。</h3>
 
-    <form action="{{ route('posts.create') }}" method="POST">
-      @csrf
-
 {{-- ======================================================== --}}
 
   <div class="background-form">
     <h3>基本情報</h3><br>
 
+{{-- ～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～ --}}
+    @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}
+    @endif
+{{-- ～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～ --}}
+    <form action="{{ route('posts.create') }}" method="POST" enctype="multipart/form-data">
+      @csrf
+
   {{-- タイトル --}}
-  <label>タイトル</label>
+  <label for="title">タイトル</label>
   <br>
   <textarea class="textbox-title" rows="3" cols="30" id="title" name="title" placeholder="タイトルを入力" value="{{ old('title') }}" ></textarea>
+  @error('title')
+    <div class="alert alert-danger">{{ $message }}</div>
+  @enderror
   <br>
-
 {{-- ======================================================== --}}
 
   <div class="container-flex">
     <div class="flexblock">
       {{-- 年齢 --}}
-      <label>年齢</label>
+      <label for="age">年齢</label>
         <br>
       <input type="number" class="textbox-age" min="0" max="30" id="age" name="age" placeholder="例：2（才）" value="{{ old('age') }}" />
-
+      @error('age')
+          <div class="alert alert-danger">{{ $message }}</div>
+      @enderror
     </div>
 
     <div class="flexblock">
       {{-- 性別 --}}
-      <label>性別</label>
+      <label for="gender">性別</label>
         <br>
       <select name="gender" id="gender" class="textbox-gender">
         @foreach (\App\Models\Post::GENDER as $key => $label)
@@ -51,6 +60,10 @@
             </option>
         @endforeach
       </select>
+
+      @error('gender')
+          <div class="alert alert-danger">{{ $message }}</div>
+      @enderror
 
     </div>
 
@@ -100,15 +113,21 @@
 <div class="container-flex date-range">
 
   <div class="bbb">
-    <label>掲載開始日</label><br>
+    <label for="start_date">掲載開始日</label><br>
     <input type="date" min="2025-10-14" max="2029-12-31" name="start_date" class="textbox-start-date" value="{{ old('start_date') }}">
+    @error('start_date')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
   </div>
 
   <label class="wave">～</label>
 
   <div class="ccc">
-    <label>掲載終了日</label><br>
+    <label for="end_date">掲載終了日</label><br>
     <input type="date" min="2025-10-14" max="2029-12-31" name="end_date" class="textbox-end-date" value="{{ old('end_date') }}">
+    @error('end_date')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
   </div>
 </div>
 
@@ -179,6 +198,7 @@
   <button type="submit" class="botten">投稿を作成</button>
 </div>
 </form>
+</div>
 
 </div>
 {{-- =================================================================================================== --}}

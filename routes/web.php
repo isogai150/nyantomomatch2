@@ -41,6 +41,8 @@ Route::get('/catpost/create', [PostController::class, 'create'])->name('posts.cr
 
 Route::post('/catpost/create', [PostController::class, 'create'])->name('posts.create');
 
+// 猫の情報投稿作成画面：バリデーションメッセージ
+Route::post('/catpost/create', [PostController::class, 'validation'])->name('catpost.create');
 // ===========================================================================================
 
 
