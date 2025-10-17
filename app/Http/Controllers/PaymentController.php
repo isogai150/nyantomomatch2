@@ -44,6 +44,8 @@ class PaymentController extends Controller
         // dd($totalAmount);
 
         try {
+            $userId = Auth::id() ?? $request->input('user_id');
+
             // Stripe決済実行（PaymentIntentの作成）
             $paymentIntent = PaymentIntent::create([
                 'amount' => $totalAmount,      // 金額（単位: 円）
@@ -53,7 +55,7 @@ class PaymentController extends Controller
                 'metadata' => [
                     'post_id' => $post->id,
                     'user_email' => $request->email,
-                    'user_id' => Auth::id(), // 支払いユーザーIDを保持
+                    'user_id' => $userId,
                 ],
             ]);
 
@@ -86,9 +88,12 @@ class PaymentController extends Controller
             // StripeからPaymentIntent情報を取得
             $intent = PaymentIntent::retrieve($paymentIntentId);
             $meta = $intent->metadata;
+            // dd($meta);
 
             // 対象の投稿を取得
             $post = Post::findOrFail($meta->post_id);
+            // dd($meta);
+            // dd($post);
 
             // すでに譲渡済みでない場合のみ登録
             if ($post->status !== 2) {

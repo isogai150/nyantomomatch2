@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
       body: JSON.stringify({
         post_id: document.querySelector('input[name="post_id"]').value,
         email: document.getElementById("email").value,
+        user_id: document.getElementById("user_id").value,
       }),
     });
 

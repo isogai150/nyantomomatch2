@@ -26,9 +26,10 @@
       {{-- formのactionは直接送信されずJS経由で処理される --}}
       <form id="payment-form" class="payment-form">
         @csrf
+        <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}">
         <input type="hidden" name="post_id" value="{{ $post->id }}">
         <div class="form-group">
-          <label for="name">お名前</label>
+          <label for="name">お名前（フルネーム）</label>
           <input type="text" id="name" name="name" placeholder="例: 山田 太郎">
         </div>
 
