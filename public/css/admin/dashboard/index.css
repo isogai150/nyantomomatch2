@@ -1,2 +1,48 @@
 @charset "UTF-8";
 
+/* =============================
+   AdminLTE カスタムCSS
+   ============================= */
+
+/* サイドバーの背景色と文字色 */
+.main-sidebar {
+    background-color: #FFFDF2 !important;
+}
+.nav-sidebar .nav-link {
+    color: #503322 !important;
+}
+.nav-sidebar .nav-link.active {
+    background-color: #F7E8CC !important;
+    color: #2A1C0E !important;
+}
+
+/* ロゴ文字 */
+.brand-link .brand-text {
+    color: #503322 !important;
+    font-weight: bold;
+}
+
+/* small-box カード（ダッシュボード統計） */
+.small-box {
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-family: "Noto Sans JP", sans-serif;
+}
+.bg-warning { background-color: #F7E8CC !important; color: #503322 !important; }
+.bg-info    { background-color: #D7E3FC !important; color: #503322 !important; }
+.bg-success { background-color: #C5E1C5 !important; color: #503322 !important; }
+.bg-primary { background-color: #EAD6A9 !important; color: #503322 !important; }
+.bg-danger  { background-color: #F4B8A7 !important; color: #503322 !important; }
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: 30px;
+    font-family: "Noto Sans JP", sans-serif;
+}
+
+.card-header {
+    color: #503322;
+    font-weight: bold;
+    background-color: #FFFDF2 !important;
+}
