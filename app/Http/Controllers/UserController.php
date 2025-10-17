@@ -48,6 +48,24 @@ class UserController extends Controller
         ]);
     }
 
+    // ユーザー退会処理
+    public function withdraw(Request $request)
+    {
+        $user = Auth::user();
+
+        // 論理削除（deleted_atに現在時刻をセット）
+        $user->delete();
+
+        // ログアウト処理
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // トップページに遷移
+        return redirect('/')->with('status', '退会処理が完了しました。');
+    }
+
+
     // プロフィール画像を更新
     public function updateImage(Request $request)
     {
@@ -78,25 +96,9 @@ class UserController extends Controller
         $user->image_path = $imageName;
         $user->save();
 
-        return redirect()->route('mypage.index')->with('success', 'プロフィール画像を更新しました。');
+        return redirect()->route('mypage.index')->with('image_success', 'プロフィール画像を更新しました。');
     }
 
-    // ユーザー退会処理
-    public function withdraw(Request $request)
-    {
-        $user = Auth::user();
-
-        // 論理削除（deleted_atに現在時刻をセット）
-        $user->delete();
-
-        // ログアウト処理
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        // トップページに遷移
-        return redirect('/')->with('status', '退会処理が完了しました。');
-    }
 
     // 投稿権限申請処理
     public function requestPostPermission(AuthorityRequest $request)
@@ -111,11 +113,11 @@ class UserController extends Controller
         if ($existingRequest) {
             if ($existingRequest->status === Authority::STATUS_APPROVED) {
                 return redirect()->route('mypage.index')
-                    ->with('error', 'すでに投稿権限が承認されています。');
+                    ->with('authority_error', 'すでに投稿権限が承認されています。');
             }
 
             return redirect()->route('mypage.index')
-                ->with('error', '申請が審査中です。結果をお待ちください。');
+                ->with('authority_error', '申請が審査中です。結果をお待ちください。');
         }
 
         // 新規申請を作成
@@ -126,6 +128,6 @@ class UserController extends Controller
         ]);
 
         return redirect()->route('mypage.index')
-            ->with('success', '投稿権限の申請を送信しました。審査結果をお待ちください。');
+            ->with('authority_success', '投稿権限の申請を送信しました。審査結果をお待ちください。');
     }
 }

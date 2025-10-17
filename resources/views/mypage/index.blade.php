@@ -24,34 +24,36 @@ use Illuminate\Support\Facades\Storage;
     <div class="profile-wrapper">
       {{-- ユーザーアイコン --}}
       <div class="prf-imgfile">
-        <form action="{{ route('profile.image.update') }}" method="POST" enctype="multipart/form-data" id="imageUploadForm">
-        @csrf
-        @method('PUT')
-        <!-- 画像表示エリア（クリック可能） -->
-        <label for="imageInput" style="cursor: pointer;">
-          @if($user && $user->image_path)
-            <img src="{{ Storage::url('profile_images/' . $user->image_path) }}" alt="{{ $user->name }}" class="profile-image" id="previewImage">
-          @else
-            <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="デフォルト画像" class="profile-image" id="previewImage">
-          @endif
-          <div class="image-overlay">
-            <span>画像を変更</span>
-          </div>
-        </label>
-        <!-- 非表示のファイル入力 -->
-        <input type="file" name="image" id="imageInput" accept="image/*" style="display: none;">
-        </form>
+        <div class="profile-image-container">
+          <form action="{{ route('profile.image.update') }}" method="POST" enctype="multipart/form-data" id="imageUploadForm">
+          @csrf
+          @method('PUT')
+          <!-- 画像表示エリア（クリック可能） -->
+          <label for="imageInput" style="cursor: pointer;">
+            @if($user && $user->image_path)
+              <img src="{{ Storage::url('profile_images/' . $user->image_path) }}" alt="{{ $user->name }}" class="profile-image" id="previewImage">
+            @else
+              <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="デフォルト画像" class="profile-image" id="previewImage">
+            @endif
+            <div class="image-overlay">
+              <span>画像を変更</span>
+            </div>
+          </label>
+          <!-- 非表示のファイル入力 -->
+          <input type="file" name="image" id="imageInput" accept="image/*" style="display: none;">
+          </form>
+        </div>
 
         {{-- 画像エラーメッセージの表示 --}}
-        @if(session('success'))
+        @if(session('image_success'))
         <div class="alert alert-success">
-          {{ session('success') }}
+          {{ session('image_success') }}
         </div>
         @endif
         @error('image')
           <div class="alert alert-danger">{{ $message }}</div>
         @enderror
-        </div>
+      </div>
 
       <div class="prf-content">
         <div class="prf-name">
@@ -104,9 +106,7 @@ use Illuminate\Support\Facades\Storage;
       </div>
       <div class="form-group">
         <h3>自己紹介（飼育経験年数・現在の居住環境・家族構成など入力できる範囲で入力してください）</h3>
-        <textarea class="form-textarea" name="description" id="description" rows="10" placeholder="こちらに長いテキストを入力してください...">
-          {{ old('description', $user->full_description) ?? $user->full_description  }}
-        </textarea>
+        <textarea class="form-textarea" name="description" id="description" rows="10" placeholder="こちらに自己紹介文を入力してください...">{{ old('description', $user->full_description) ?? $user->full_description  }}</textarea>
         @error('description')
           <div class="alert alert-danger">{{ $message }}</div>
         @enderror
@@ -120,15 +120,15 @@ use Illuminate\Support\Facades\Storage;
       <h3>投稿権限申請フォーム</h3>
     </div>
 
-    {{-- 成功/エラーメッセージの表示 --}}
-  @if(session('success'))
+  {{-- 成功/エラーメッセージの表示 --}}
+  @if(session('authority_success'))
     <div class="alert alert-success">
-      {{ session('success') }}
+      {{ session('authority_success') }}
     </div>
   @endif
-  @if(session('error'))
+  @if(session('authority_error'))
     <div class="alert alert-danger">
-      {{ session('error') }}
+      {{ session('authority_error') }}
     </div>
   @endif
 
@@ -143,9 +143,7 @@ use Illuminate\Support\Facades\Storage;
       @csrf
       <div class="form-group">
         <h3>申請理由</h3>
-        <textarea class="form-textarea" name="reason" id="reason" rows="10" maxlength="500" placeholder="こちらに長いテキストを入力してください...">
-          {{ old('reason') }}
-        </textarea>
+        <textarea class="form-textarea" name="reason" id="reason" rows="10" placeholder="こちらに申請理由を入力してください...">{{ old('reason') }}</textarea>
         <p class="textarea-finish"><span id="charCount">0</span>/500文字</p>
         @error('reason')
           <div class="alert alert-danger">{{ $message }}</div>
