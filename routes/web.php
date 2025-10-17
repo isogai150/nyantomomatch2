@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Models\Pair;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\AdministratorController;
+
+// 管理者
+// Route::get('/admin', [AdministratorController::class, 'index'])->name('admin.index');
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard.index');
+});
+
 
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
