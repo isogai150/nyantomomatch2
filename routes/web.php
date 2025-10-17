@@ -9,6 +9,7 @@ use App\Http\Controllers\PairController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Models\Pair;
+use App\Http\Controllers\PaymentController;
 
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
@@ -18,9 +19,6 @@ Route::get('/posts/{post}', [PostController::class, 'detail'])->name('posts.deta
 
 // 投稿一覧
 Route::get('/catpost', [PostController::class, 'index'])->name('catpost.index');
-
-
-// ===========================================================================================
 
 // 自分の投稿一覧表示機能
 Route::get('/my/catpost', [PostController::class, 'myCatpost'])->name('mycatpost.index');
@@ -33,9 +31,6 @@ Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.upda
 
 // 編集内容の削除
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
-
-// ===========================================================================================
-
 
 // お気に入りトグル
 Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
@@ -85,10 +80,23 @@ Route::post('/dm/create', [PairController::class, 'create'])->name('dm.create');
 // DM削除
 Route::delete('/dm/{dm}/delete', [PairController::class, 'delete'])->name('dm.delete');
 
+
 // 権限の申請
 Route::post('mypage/request-post-permission', [UserController::class, 'requestPostPermission'])->name('request.post.permission');
 
 
+// 決済完了ページ
+Route::get('/checkout/success', [PaymentController::class, 'success'])->name('payment.success');
+
+
+// キャンセルページ表示
+Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+
+// カート情報ページ表示
+Route::get('/checkout/{post}', [PaymentController::class, 'showcart'])->name('payment.cart');
+
+// 決済情報入力ページ表示
+Route::get('/checkout/{post}/payment', [PaymentController::class, 'showForm'])->name('payment.form');
 
 //ユーザー認証系
 Auth::routes();
