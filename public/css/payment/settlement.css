@@ -1,0 +1,330 @@
+@charset "UTF-8";
+
+/* ==========================
+   決済情報入力ページ
+========================== */
+
+.main-content {
+  width: 100%;
+  min-height: 85vh;
+  background-color: #FFFDF2;
+  padding: 8% 6%;
+  box-sizing: border-box;
+  font-family: "Noto Sans JP", sans-serif;
+  color: #503322;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ------- ページ上部 ------- */
+.main-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4%;
+  flex-wrap: wrap;
+}
+
+.main-top p {
+  font-size: 1.2em;
+  font-weight: 700;
+}
+
+.main-top a {
+  text-decoration: none;
+  color: #503322;
+  font-size: 1em;
+  border-bottom: 0.1em solid transparent;
+  transition: 0.3s;
+}
+
+.main-top a:hover {
+  border-bottom: 0.1em solid #503322;
+}
+
+/* ------- メイン領域 ------- */
+.main-center {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 5%;
+  background-color: #fff;
+  padding: 5% 7%;
+  border-radius: 1em;
+  box-shadow: 0 0.5em 1.2em rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+/* ==========================
+   左側：入力フォームエリア
+========================== */
+
+.payment__form-area {
+  flex: 1.1;
+  background-color: #FFFCF5;
+  padding: 6%;
+  border-radius: 1em;
+  box-shadow: 0 0.3em 0.8em rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 6%;
+}
+
+.form-header h2 {
+  font-size: 1.4em;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+.form-header p {
+  font-size: 0.95em;
+  color: #666;
+}
+
+/* ------- 入力フォーム ------- */
+.payment-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+
+.form-group label {
+  font-size: 0.95em;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.8em 1em;
+  border-radius: 0.5em;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  background-color: #fff;
+  color: #503322;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #C9A063;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 4%;
+}
+
+.form-row .half {
+  flex: 1;
+}
+
+/* ------- Stripe Elementsエリア ------- */
+.stripe-card-element {
+  margin: 2em 0;
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 0.5em;
+  background-color: #fff;
+}
+
+/* ------- ボタン ------- */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* 支払いボタン */
+.payment-btn {
+  background-color: #F6D8B3;
+  color: #503322;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* キャンセルボタン */
+.cancel-btn {
+  background-color: #E9E9E9;
+  color: red;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.payment-btn:hover,
+.cancel-btn:hover {
+  opacity: 0.8;
+}
+
+/* ==========================
+   右側：支払い明細・セキュリティ
+========================== */
+
+.payment__summary {
+  flex: 0.9;
+  background-color: #FFFCF5;
+  padding: 5%;
+  border-radius: 1em;
+  box-shadow: 0 0.3em 0.8em rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.payment__summary h2 {
+  font-size: 1.3em;
+  margin-bottom: 1.5em;
+  border-left: 0.3em solid #C9A063;
+  padding-left: 0.5em;
+}
+
+.summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2em 0;
+}
+
+.summary-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1em;
+  margin-bottom: 0.8em;
+  border-bottom: 0.05em dotted #ccc;
+  padding-bottom: 0.4em;
+}
+
+.summary-list span {
+  font-weight: 700;
+  color: #C87B4F;
+}
+
+.total-box {
+  text-align: right;
+  margin-top: 1.5em;
+}
+
+.total-box p {
+  font-size: 1.1em;
+  font-weight: 700;
+  margin: 0.2em 0;
+}
+
+.total-amount {
+  font-size: 1.3em;
+  color: #C87B4F;
+}
+
+/* ------- セキュリティ情報 ------- */
+.security-section {
+  margin-top: 2em;
+}
+
+.security-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.security-section li {
+  position: relative;
+  padding-left: 1.2em;
+  margin-bottom: 0.8em;
+  font-size: 0.95em;
+}
+
+.security-section li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: #C87B4F;
+  font-weight: bold;
+}
+
+/* ------- 未ログイン時メッセージ ------- */
+.login-warning {
+  font-size: 1em;
+  color: #C00;
+  text-align: center;
+  padding: 3%;
+  background-color: #FFF1F1;
+  border-radius: 0.5em;
+}
+
+/* ==========================
+   レスポンシブ対応（390px）
+========================== */
+@media screen and (max-width: 390px) {
+  .main-content {
+    padding: 8% 5%;
+  }
+
+  .main-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+  }
+
+  .main-center {
+    flex-direction: column;
+    padding: 8% 6%;
+    gap: 2em;
+  }
+
+  .payment__form-area,
+  .payment__summary {
+    width: 100%;
+    padding: 7%;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 1em;
+  }
+
+  .payment-btn {
+    font-size: 1em;
+    padding: 4% 0;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .payment-btn,
+  .cancel-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .summary-list li {
+    font-size: 0.95em;
+  }
+
+  .total-amount {
+    font-size: 1.2em;
+  }
+
+  .security-section li {
+    font-size: 0.9em;
+  }
+}
