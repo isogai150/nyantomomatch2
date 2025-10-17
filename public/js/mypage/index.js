@@ -33,5 +33,27 @@ $(function () {
     }
     return true;
   });
+
+  $(document).ready(function() {
+    // 申請理由の文字数カウント
+    const $reasonTextarea = $('#reason');
+    const $charCount = $('#charCount');
+
+    if ($reasonTextarea.length && $charCount.length) {
+        // 初期表示
+        updateCharCount();
+
+        // 入力時に文字数を更新
+        $reasonTextarea.on('input', function() {
+            updateCharCount();
+        });
+
+        function updateCharCount() {
+            const length = $reasonTextarea.val().trim().length;
+            $charCount.text(length);
+        }
+    }
+  });
+
 });
 

@@ -88,8 +88,14 @@ Route::post('/dm/create', [PairController::class, 'create'])->name('dm.create');
 // DM削除
 Route::delete('/dm/{dm}/delete', [PairController::class, 'delete'])->name('dm.delete');
 
+
+// 権限の申請
+Route::post('mypage/request-post-permission', [UserController::class, 'requestPostPermission'])->name('request.post.permission');
+
+
 // 決済完了ページ
 Route::get('/checkout/success', [PaymentController::class, 'success'])->name('payment.success');
+
 
 // キャンセルページ表示
 Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');

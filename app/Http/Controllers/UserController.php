@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Authority;
 use App\Http\Requests\User\EditUser;
+use App\Http\Requests\User\AuthorityRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -46,6 +48,24 @@ class UserController extends Controller
         ]);
     }
 
+    // ユーザー退会処理
+    public function withdraw(Request $request)
+    {
+        $user = Auth::user();
+
+        // 論理削除（deleted_atに現在時刻をセット）
+        $user->delete();
+
+        // ログアウト処理
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // トップページに遷移
+        return redirect('/')->with('status', '退会処理が完了しました。');
+    }
+
+
     // プロフィール画像を更新
     public function updateImage(Request $request)
     {
@@ -76,23 +96,38 @@ class UserController extends Controller
         $user->image_path = $imageName;
         $user->save();
 
-        return redirect()->route('mypage.index')->with('success', 'プロフィール画像を更新しました。');
+        return redirect()->route('mypage.index')->with('image_success', 'プロフィール画像を更新しました。');
     }
 
-    // ユーザー退会処理
-    public function withdraw(Request $request)
+
+    // 投稿権限申請処理
+    public function requestPostPermission(AuthorityRequest $request)
     {
         $user = Auth::user();
 
-        // 論理削除（deleted_atに現在時刻をセット）
-        $user->delete();
+        // すでに申請中または承認済みの申請がないかチェック
+        $existingRequest = Authority::where('user_id', $user->id)
+            ->whereIn('status', [Authority::STATUS_PENDING, Authority::STATUS_APPROVED])
+            ->first();
 
-        // ログアウト処理
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        if ($existingRequest) {
+            if ($existingRequest->status === Authority::STATUS_APPROVED) {
+                return redirect()->route('mypage.index')
+                    ->with('authority_error', 'すでに投稿権限が承認されています。');
+            }
 
-        // トップページに遷移
-        return redirect('/')->with('status', '退会処理が完了しました。');
+            return redirect()->route('mypage.index')
+                ->with('authority_error', '申請が審査中です。結果をお待ちください。');
+        }
+
+        // 新規申請を作成
+        Authority::create([
+            'user_id' => $user->id,
+            'reason' => $request->reason,
+            'status' => Authority::STATUS_PENDING,
+        ]);
+
+        return redirect()->route('mypage.index')
+            ->with('authority_success', '投稿権限の申請を送信しました。審査結果をお待ちください。');
     }
 }
