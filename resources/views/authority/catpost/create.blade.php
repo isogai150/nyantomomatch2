@@ -32,9 +32,9 @@
   <label for="title">タイトル</label>
   <br>
   <textarea class="textbox-title" rows="3" cols="30" id="title" name="title" placeholder="タイトルを入力" value="{{ old('title') }}" ></textarea>
-  @error('title')
+  {{-- @error('title')
     <div class="alert alert-danger">{{ $message }}</div>
-  @enderror
+  @enderror --}}
   <br>
 {{-- ======================================================== --}}
 
@@ -44,9 +44,9 @@
       <label for="age">年齢</label>
         <br>
       <input type="number" class="textbox-age" min="0" max="30" id="age" name="age" placeholder="例：2（才）" value="{{ old('age') }}" />
-      @error('age')
+      {{-- @error('age')
           <div class="alert alert-danger">{{ $message }}</div>
-      @enderror
+      @enderror --}}
     </div>
 
     <div class="flexblock">
@@ -61,9 +61,9 @@
         @endforeach
       </select>
 
-      @error('gender')
+      {{-- @error('gender')
           <div class="alert alert-danger">{{ $message }}</div>
-      @enderror
+      @enderror --}}
 
     </div>
 
@@ -115,9 +115,9 @@
   <div class="bbb">
     <label for="start_date">掲載開始日</label><br>
     <input type="date" min="2025-10-14" max="2029-12-31" name="start_date" class="textbox-start-date" value="{{ old('start_date') }}">
-    @error('start_date')
+    {{-- @error('start_date')
         <div class="alert alert-danger">{{ $message }}</div>
-    @enderror
+    @enderror --}}
   </div>
 
   <label class="wave">～</label>
@@ -125,9 +125,9 @@
   <div class="ccc">
     <label for="end_date">掲載終了日</label><br>
     <input type="date" min="2025-10-14" max="2029-12-31" name="end_date" class="textbox-end-date" value="{{ old('end_date') }}">
-    @error('end_date')
+    {{-- @error('end_date')
         <div class="alert alert-danger">{{ $message }}</div>
-    @enderror
+    @enderror --}}
   </div>
 </div>
 
@@ -142,6 +142,25 @@
   {{-- 写真・動画 --}}
   <p>写真・動画</p>
   <p>猫の写真や動画を最大4件まで追加できます。1枚目は写真を選択してください。</p>
+
+
+{{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
+{{-- 画像アップロード --}}
+{{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
+<form method="POST" action="{{ route('posts.create.image') }}" enctype="multipart/form-data">
+  @csrf
+  <input type="file" name="image">
+  <button>アップロード</button>
+</form>
+<img src="{{ asset('storage/{ファイル名}') }}"/>
+
+{{-- @foreach($users as $user)
+
+<img src="{{ asset($user->image_path) }}" >
+
+@endforeach --}}
+
+{{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 
 </div>
 
@@ -183,13 +202,20 @@
 
 {{-- ======================================== --}}
 {{-- バリデーションメッセージを表示するためのもの --}}
-@if($errors->has('name'))
+{{-- @if($errors->has('name'))
   <div class="alert-danger">
 @foreach($errors->has('name') as $message)
   <p>{{ $message }}</p>
 @endforeach
   </div>
-@endif
+@endif --}}
+            @if($errors->any())
+              <div class="alert alert-danger">
+                @foreach($errors->all() as $message)
+                  <p>{{ $message }}</p>
+                @endforeach
+              </div>
+            @endif
 {{-- ======================================== --}}
 
 {{-- 投稿を作成ボタン --}}
@@ -205,31 +231,4 @@
 {{-- bladeここまで --}}
 
 </div>
-@endsection
-
-{{-- js使うときは書く使わないときは書かなくて良い --}}
-@section('script')
-<script>
-
-/* data-type='number'のテキストボックスを取得 */
-var NBR = document.querySelectorAll("[data-type='number']");
-
-/* 入力時に実行する処理に checkInput を指定 */
-for (var i = 0; i < NBR.length; i++) {
-  NBR[i].oninput = fmtInput;
-}
-
-/* 入力時に実行する処理 checkInput を作る */
-function fmtInput(evt) {
-  var target = evt.target;
-  var data = target.value[target.value.length - 1];
-  if (!data.match(/[0-9]/)) {
-    target.value = target.value.slice(0, target.value.length - 1);
-  }
-  target.value = target.value
-    .replace(/,/g, '')
-    .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
-}
-
-</script>
 @endsection

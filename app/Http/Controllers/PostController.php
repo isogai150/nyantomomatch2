@@ -80,14 +80,16 @@ class PostController extends Controller
         ]);
     }
 // =================================================================================
+// =================================================================================
+
+// 猫の情報投稿用バリデーションメッセージ：ボツ
 
     public function validation(Request $request)
     {
-        //  この create.blade.php 専用のバリデーション
         $request->validate([
             'title' => 'required|string|max:50',
             'age' => 'required|numeric|min:0|max:30',
-            'gender' => 'required|in:オス,メス',
+            // 'gender' => 'required|in:オス,メス',
             'kinds' => 'required|string|max:50',
             'location' => 'required|string|max:100',
             'start_date' => 'required|date',
@@ -97,7 +99,6 @@ class PostController extends Controller
             'disease' => 'nullable|string|max:500',
             'price' => 'required|numeric|min:0|max:1000000',
         ], [
-            //  カスタムメッセージ（必要に応じて）
             'title.required' => 'タイトルは50文字以内で入力してください。',
             'age.required' => '推定年齢を入力してください。',
             'gender.required' => '性別を選択してください。',
@@ -105,17 +106,46 @@ class PostController extends Controller
             'location.required' => '所在地を入力してください。',
             'start_date.required' => '掲載開始日を入力してください。',
             'end_date.required' => '掲載終了日を入力してください。',
-            // 'end_date.after_or_equal' => '掲載終了日は開始日以降の日付を指定してください。',
+                        // 'end_date.after_or_equal' => '掲載終了日は開始日以降の日付を指定してください。',
             'photo.required' => '画像を最低1枚アップロードしてください。',
             'vaccine.required' => '予防接種の情報を入力してください。',
             'disease.required' => '病歴の情報を入力してください。',
             'price.required' => '費用を入力してください。',
         ]);
 
-        //  保存処理（例）
-        Post::create($request->all());
+        //  保存処理
+        // Post::create($request->all());
 
-        return redirect()->route('catpost.create')->with('success', '投稿が作成されました！');
+        // return redirect()->route('catpost.create')->with('success', '投稿が作成されました！');
     }
 
+
+// =================================================================================
+// 画像のアップロード
+// =================================================================================
+
+    public function image(Request $request)
+    {
+        // ディレクトリ名を任意の名前で設定します
+        $dir = 'img';
+
+        // imgディレクトリを作成し画像を保存
+        // storage/app/public/任意のディレクトリ名/
+        $request->file('image')->store('public/' . $dir);
+
+        // ページを更新します
+        return redirect('/');
+
+// $任意の変数名　=　テーブルを操作するモデル名();
+// storage/app/public/任意のディレクトリ名/
+        $image->image_path = $file_name;
+        $image->image_path = 'public/images/seeder/' . $dir . '/' . $file_name;
+        $image->save();
+
+   //ページを更新する
+   return redirect('/');
+    }
+
+// =================================================================================
+// =================================================================================
 }
