@@ -150,10 +150,11 @@
 <form method="POST" action="{{ route('posts.create.image') }}" enctype="multipart/form-data">
   @csrf
   <input type="file" name="image">
-  <button>アップロード</button>
-</form>
-<img src="{{ asset('storage/{ファイル名}') }}"/>
 
+
+<img src="{{ asset('storage/{img}') }}"/>
+<button>アップロード</button>
+</form>
 {{-- @foreach($users as $user)
 
 <img src="{{ asset($user->image_path) }}" >

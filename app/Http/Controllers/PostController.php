@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class PostController extends Controller
 {
@@ -126,6 +127,7 @@ class PostController extends Controller
 
     public function image(Request $request)
     {
+        
         // ディレクトリ名を任意の名前で設定します
         $dir = 'img';
 
@@ -136,14 +138,15 @@ class PostController extends Controller
         // ページを更新します
         return redirect('/');
 
+        $image = new User();
 // $任意の変数名　=　テーブルを操作するモデル名();
 // storage/app/public/任意のディレクトリ名/
-        $image->image_path = $file_name;
-        $image->image_path = 'public/images/seeder/' . $dir . '/' . $file_name;
+        $image->post_id = $file_name;
+        $image->post_id = 'storage/app/public/' . $dir . '/' . $file_name;
         $image->save();
 
    //ページを更新する
-   return redirect('/');
+    return redirect('/');
     }
 
 // =================================================================================
