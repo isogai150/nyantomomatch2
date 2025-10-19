@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Models\Pair;
 use App\Http\Controllers\PaymentController;
+use App\Http\Requests\CatPost;
 
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
@@ -41,9 +42,9 @@ Route::post('/catpost/create', [PostController::class, 'create'])->name('posts.c
 
 // 猫の情報投稿作成画面：バリデーションメッセージ
 Route::post('/catpost/create', [PostController::class, 'validation'])->name('catpost.create');
+Route::post('/catpost/store', [PostController::class, 'store'])->name('catpost.store');
 
-// 写真のアップロード
-Route::post('/catpost/create', [PostController::class, 'image'])->name('posts.create.image');
+
 
 // ===========================================================================================
 

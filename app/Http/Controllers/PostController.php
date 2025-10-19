@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Http\Requests\CatPost;
 
 class PostController extends Controller
 {
@@ -82,43 +83,54 @@ class PostController extends Controller
     }
 // =================================================================================
 // =================================================================================
+public function store(CatPost $request)
+{
+    // バリデーション済みデータを取得
+    $validated = $request->validated();
 
-// 猫の情報投稿用バリデーションメッセージ：ボツ
+    // 保存処理（例：Post モデルへ保存）
+    $post = new Post();
+    $post->fill($validated);
+    $post->user_id = Auth::id();
+    $post->save();
+    // posts テーブルに保存
+    $post = new Post();
+    $post->user_id = Auth::id();
+    $post->title = $validated['title'];
+    $post->age = $validated['age'];
+    $post->gender = $validated['gender'];
+    $post->breed = $validated['kinds']; // データベース列名に合わせる
+    $post->region = $validated['location'];
+    $post->cost = $validated['price'];
+    $post->vaccination = $validated['vaccine'];
+    $post->medical_history = $validated['disease'];
+    $post->description = $validated['description'];
+    $post->start_date = $validated['start_date'];
+    $post->end_date = $validated['end_date'];
+    $post->status = $validated['status'] ?? 0; // ステータスの初期値
+    $post->save();
 
-    public function validation(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:50',
-            'age' => 'required|numeric|min:0|max:30',
-            // 'gender' => 'required|in:オス,メス',
-            'kinds' => 'required|string|max:50',
-            'location' => 'required|string|max:100',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'vaccine' => 'nullable|string|max:500',
-            'disease' => 'nullable|string|max:500',
-            'price' => 'required|numeric|min:0|max:1000000',
-        ], [
-            'title.required' => 'タイトルは50文字以内で入力してください。',
-            'age.required' => '推定年齢を入力してください。',
-            'gender.required' => '性別を選択してください。',
-            'kinds.required' => '猫の品種を入力してください。',
-            'location.required' => '所在地を入力してください。',
-            'start_date.required' => '掲載開始日を入力してください。',
-            'end_date.required' => '掲載終了日を入力してください。',
-                        // 'end_date.after_or_equal' => '掲載終了日は開始日以降の日付を指定してください。',
-            'photo.required' => '画像を最低1枚アップロードしてください。',
-            'vaccine.required' => '予防接種の情報を入力してください。',
-            'disease.required' => '病歴の情報を入力してください。',
-            'price.required' => '費用を入力してください。',
-        ]);
-
-        //  保存処理
-        // Post::create($request->all());
-
-        // return redirect()->route('catpost.create')->with('success', '投稿が作成されました！');
+    // 画像保存処理
+    if ($request->hasFile('image')) {
+        foreach ($request->file('image') as $imageFile) {
+            $path = $imageFile->store('public/post_images'); // storage/app/public/post_images に保存
+            $post->images()->create([
+                'image_path' => str_replace('public/', 'storage/', $path) // 公開パスに変換
+            ]);
+        }
     }
+
+    // 動画保存処理
+    if ($request->hasFile('video')) {
+        $videoFile = $request->file('video');
+        $path = $videoFile->store('public/post_videos');
+        $post->videos()->create([
+            'video_path' => str_replace('public/', 'storage/', $path)
+        ]);
+    }
+
+    return redirect()->route('catpost.index')->with('success', '投稿が作成されました！');
+}
 
 
 // =================================================================================

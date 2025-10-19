@@ -20,21 +20,20 @@
   <div class="background-form">
     <h3>基本情報</h3><br>
 
-{{-- ～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～ --}}
-    @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}
-    @endif
-{{-- ～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～ --}}
-    <form action="{{ route('posts.create') }}" method="POST" enctype="multipart/form-data">
+{{-- ======================================================== --}}
+
+    <form action="{{ route('catpost.store') }}" method="POST" enctype="multipart/form-data">
       @csrf
 
   {{-- タイトル --}}
   <label for="title">タイトル</label>
   <br>
   <textarea class="textbox-title" rows="3" cols="30" id="title" name="title" placeholder="タイトルを入力" value="{{ old('title') }}" ></textarea>
-  {{-- @error('title')
-    <div class="alert alert-danger">{{ $message }}</div>
-  @enderror --}}
+
+@error('title')
+  <div class="alert-danger">{{ $message }}</div>
+@enderror
+
   <br>
 {{-- ======================================================== --}}
 
@@ -44,26 +43,34 @@
       <label for="age">年齢</label>
         <br>
       <input type="number" class="textbox-age" min="0" max="30" id="age" name="age" placeholder="例：2（才）" value="{{ old('age') }}" />
-      {{-- @error('age')
-          <div class="alert alert-danger">{{ $message }}</div>
-      @enderror --}}
+
+@error('age')
+  <div class="alert-danger">{{ $message }}</div>
+@enderror
+
     </div>
+
+{{-- ======================================================== --}}
 
     <div class="flexblock">
       {{-- 性別 --}}
       <label for="gender">性別</label>
         <br>
       <select name="gender" id="gender" class="textbox-gender">
+
+          <option value="">選択してください</option>
+
         @foreach (\App\Models\Post::GENDER as $key => $label)
             <option value="{{ $key }}" {{ $key==old('gender') ? 'selected' : '' }}>
                 {{ $label }}
             </option>
         @endforeach
+@error('gender')
+  <div class="alert-danger">{{ $message }}</div>
+@enderror
       </select>
 
-      {{-- @error('gender')
-          <div class="alert alert-danger">{{ $message }}</div>
-      @enderror --}}
+
 
     </div>
 
@@ -80,11 +87,21 @@
     <input type="text" class="textbox-kinds" id="kinds" name="kinds" placeholder="例：ミックス" value="{{ old('kinds') }}" />
     </div>
 
+    @error('kinds')
+  <div class="alert-danger">{{ $message }}</div>
+@enderror
+
+{{-- ======================================================== --}}
+
     <div class="flexblock">
     {{-- 所在地 --}}
     <label>所在地</label><br>
     <input type="text" class="textbox-location" id="location" name="location" placeholder="都道府県を入力（例：東京都）" value="{{ old('location') }}" />
     </div>
+
+    @error('location')
+  <div class="alert-danger">{{ $message }}</div>
+@enderror
 
   </div>
 
@@ -111,31 +128,37 @@
 
 
 <div class="container-flex date-range">
-
+{{-- 掲載開始日・掲載終了日 --}}
   <div class="bbb">
     <label for="start_date">掲載開始日</label><br>
     <input type="date" min="2025-10-14" max="2029-12-31" name="start_date" class="textbox-start-date" value="{{ old('start_date') }}">
-    {{-- @error('start_date')
-        <div class="alert alert-danger">{{ $message }}</div>
-    @enderror --}}
+
+@error('start_date')
+  <div class="alert-danger">{{ $message }}</div>
+@enderror
+
   </div>
 
+
+
   <label class="wave">～</label>
+
+
 
   <div class="ccc">
     <label for="end_date">掲載終了日</label><br>
     <input type="date" min="2025-10-14" max="2029-12-31" name="end_date" class="textbox-end-date" value="{{ old('end_date') }}">
-    {{-- @error('end_date')
-        <div class="alert alert-danger">{{ $message }}</div>
-    @enderror --}}
+
+@error('end_date')
+  <div class="alert-danger">{{ $message }}</div>
+@enderror
+
   </div>
 </div>
 
   </div>
 
 {{-- ======================================================== --}}
-
-{{-- =================================================================================================== --}}
 
 <div class="background-photo-move">
 
@@ -147,25 +170,25 @@
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 {{-- 画像アップロード --}}
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
-<form method="POST" action="{{ route('posts.create.image') }}" enctype="multipart/form-data">
-  @csrf
-  <input type="file" name="image">
 
+<label for="image">画像（最大4枚まで）・または動画（最大1本）</label><br>
+<input type="file" name="image[]" id="image" accept="image/*" multiple>
+@error('image')
+  <div class="alert-danger">{{ $message }}</div>
+@enderror
 
-<img src="{{ asset('storage/{img}') }}"/>
-<button>アップロード</button>
-</form>
-{{-- @foreach($users as $user)
+{{-- <label for="video">動画（最大1本）</label><br> --}}
+<input type="file" name="video" id="video" accept="video/*">
+@error('video')
+  <div class="alert-danger">{{ $message }}</div>
+@enderror
 
-<img src="{{ asset($user->image_path) }}" >
-
-@endforeach --}}
-
+{{-- プレビュー表示領域 --}}
+<div id="preview-container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;"></div>
+</div>
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 
-</div>
-
-{{-- =================================================================================================== --}}
+{{-- ======================================================== --}}
 
 <div class="background-health">
 
@@ -173,13 +196,25 @@
   <label>健康状態</label><br><br><br>
   <label>予防接種</label><br>
   <textarea class="textbox-vaccine" rows="3" cols="30" id="vaccine" name="vaccine" placeholder="予防接種関連について詳しく記述してください。" value="{{ old('vaccine') }}" ></textarea>
+
+  @error('vaccine')
+  <div class="alert-danger">{{ $message }}</div>
+@enderror
+
   <br>
+
+{{-- ======================================================== --}}
+
   <label>病歴</label><br>
   <textarea class="textbox-disease" rows="3" cols="30" id="disease" name="disease" placeholder="病歴等ございましたら詳しく記述してください。" value="{{ old('disease') }}" ></textarea>
 
+  @error('disease')
+  <div class="alert-danger">{{ $message }}</div>
+@enderror
+
 </div>
 
-{{-- =================================================================================================== --}}
+{{-- ======================================================== --}}
 
 <div class="background-description">
 
@@ -189,7 +224,7 @@
 
 </div>
 
-{{-- =================================================================================================== --}}
+{{-- ======================================================== --}}
 
 <div class="background-price">
 
@@ -197,26 +232,21 @@
   <label>譲渡費用（総額）<br>※内訳につきましては<br class="br-sp">詳細説明入力欄へ<br class="br-sp">入力をお願いします。</label>
   <input type="text" data-type="number" class="textbox-price" id="price" name="price" placeholder="例：30,000（円）" value="{{ old('price') }}" />
 
+  @error('price')
+  <div class="alert-danger">{{ $message }}</div>
+@enderror
+
 </div>
 
-{{-- =================================================================================================== --}}
-
 {{-- ======================================== --}}
-{{-- バリデーションメッセージを表示するためのもの --}}
-{{-- @if($errors->has('name'))
-  <div class="alert-danger">
-@foreach($errors->has('name') as $message)
-  <p>{{ $message }}</p>
-@endforeach
-  </div>
-@endif --}}
-            @if($errors->any())
-              <div class="alert alert-danger">
-                @foreach($errors->all() as $message)
-                  <p>{{ $message }}</p>
-                @endforeach
-              </div>
-            @endif
+{{-- 「投稿を作成」の上部にバリデーションメッセージを表示させる --}}
+    {{-- @if($errors->any())
+      <div class="alert alert-danger">
+        @foreach($errors->all() as $message)
+          <p>{{ $message }}</p>
+        @endforeach
+      </div>
+    @endif --}}
 {{-- ======================================== --}}
 
 {{-- 投稿を作成ボタン --}}
@@ -232,4 +262,9 @@
 {{-- bladeここまで --}}
 
 </div>
+@endsection
+
+{{-- js使うときは書く使わないときは書かなくて良い --}}
+@section('script')
+<script src="{{ asset('js/authority/catpost/create.js') }}"></script>
 @endsection

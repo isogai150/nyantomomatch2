@@ -167,6 +167,8 @@ font-size: 0;
     margin-bottom: 3%;
 }
 
+
+
 /* 各フォームタイトルと入力欄の間隔調整 */
 label {
     display: inline-block;
@@ -213,6 +215,7 @@ textarea {
 }
 
 /* ======================================================================= */
+/* ======================================================================= */
 
 /* 写真・動画の背景の白枠部分 */
 .background-photo-move {
@@ -222,6 +225,53 @@ textarea {
     margin: 3% 2%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+
+/* プレビュー画像・動画全体の並び */
+#preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* 各プレビュー要素 */
+.preview-item {
+  position: relative;
+  display: inline-block;
+  margin: 5px;
+}
+
+/* 画像の見た目 */
+.preview-image {
+  max-width: 150px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+/* 動画の見た目 */
+.preview-video {
+  max-width: 150px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+/* 削除ボタン */
+.remove-btn {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* ======================================================================= */
+/* ======================================================================= */
 
 /* 健康状態の背景の白枠部分 */
 .background-health {
@@ -453,6 +503,11 @@ textarea {
     /* 一部長文の改行：スマホ用は表示している */
     .br-sp {
         display: block;
+    }
+
+    .preview-image,
+    .preview-video {
+    max-width: 100px;
     }
 }
 
