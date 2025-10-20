@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+/* =============================
+   ダッシュボードレイアウト共通設定
+   ============================= */
+
+/* カード（統計ボックス）共通 */
+.small-box {
+    width: 100%;
+    padding: 4%;
+    border-radius: 1.5vw;
+    box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.1);
+    font-family: "Noto Sans JP", sans-serif;
+    color: #503322;
+    transition: transform 0.3s ease;
+}
+
+.small-box:hover {
+    transform: scale(1.02);
+}
+
+/* 内部テキスト */
+.small-box .inner {
+    text-align: center;
+    padding: 2%;
+}
+
+.small-box .inner h3 {
+    font-size: 2.5vw; /* 画面幅に応じて縮む */
+    font-weight: 700;
+    margin: 0;
+}
+
+.small-box .inner p {
+    font-size: 1.2vw;
+    margin-top: 0.5em;
+}
+
+/* アイコン */
+.small-box .icon {
+    position: absolute;
+    top: 1vw;
+    right: 2vw;
+    font-size: 3vw;
+    color: rgba(0, 0, 0, 0.15);
+}
+
+/* カード背景色（にゃんともまっち風） */
+.bg-warning { background-color: #F7E8CC !important; }
+.bg-info    { background-color: #D7E3FC !important; }
+.bg-success { background-color: #C5E1C5 !important; }
+.bg-primary { background-color: #EAD6A9 !important; }
+.bg-danger  { background-color: #F4B8A7 !important; }
+
+/* カードを並べる行設定 */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2%;
+}
+
+/* 各カラム（カード） */
+.col-lg-3,
+.col-6 {
+    flex: 1 1 calc(25% - 2%);
+    box-sizing: border-box;
+    min-width: 200px; /* 最小幅確保 */
+    position: relative;
+}
+
+/* カード下のグラフカード */
+.card {
+    width: 100%;
+    border-radius: 1vw;
+    box-shadow: 0 0.6vw 1vw rgba(0, 0, 0, 0.1);
+    margin-top: 3%;
+    background-color: #FFFDF2;
+}
+
+/* =============================
+   ブレイクポイント 390px以下
+   ============================= */
+@media (max-width: 390px) {
+    .row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .col-lg-3,
+    .col-6 {
+        flex: 1 1 90%;
+        max-width: 90%;
+        margin-bottom: 6%;
+    }
+
+    .small-box {
+        padding: 6%;
+        border-radius: 3vw;
+    }
+
+    .small-box .inner h3 {
+        font-size: 6vw;
+    }
+
+    .small-box .inner p {
+        font-size: 3.5vw;
+    }
+
+    .small-box .icon {
+        font-size: 8vw;
+        top: 3vw;
+        right: 4vw;
+    }
+
+    .card {
+        border-radius: 4vw;
+        box-shadow: 0 2vw 4vw rgba(0, 0, 0, 0.15);
+    }
+
+    h1, h2, h3, p {
+        text-align: center;
+    }
+}
