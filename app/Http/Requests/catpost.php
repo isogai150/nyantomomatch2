@@ -36,8 +36,10 @@ class CatPost extends FormRequest
             // 画像関連
             'image' => 'required|array|max:4',          // 配列として必須・最大4枚
             'image.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+
             // 動画関連
             'video' => 'nullable|file|mimes:mp4,mov,avi,wmv|max:10240', // 最大10MB
+
             'vaccine' => 'required|string|max:500',
             'disease' => 'required|string|max:500',
             'price' => 'required|numeric|min:0|max:1000000',
@@ -70,9 +72,14 @@ class CatPost extends FormRequest
             'video.max' => '動画は10MB以内でアップロードしてください。',
 
             'vaccine' => '予防接種の情報を入力してください。',
+            'vaccine.max' => '予防接種の情報は500文字以内で入力してください。',
             'disease' => '病歴の情報を入力してください。',
+            'disease.max' => '病歴の情報は500文字以内で入力してください。',
+
             'price.required' => '費用を入力してください。',
             'price.numeric' => '費用は数値で入力してください。',
+            'price.min' => '数値で0以上で入力してください。',
+            'price.max' => '数値で1000000以内で入力してください。',
         ];
     }
 

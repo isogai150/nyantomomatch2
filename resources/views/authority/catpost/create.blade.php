@@ -229,7 +229,7 @@
 <div class="background-price">
 
   {{-- 費用 --}}
-  <label>譲渡費用（総額）<br>※内訳につきましては<br class="br-sp">詳細説明入力欄へ<br class="br-sp">入力をお願いします。</label>
+  <label>譲渡費用（総額、円表記）<br>※内訳につきましては<br class="br-sp">詳細説明入力欄へ<br class="br-sp">入力をお願いします。</label>
   <input type="text" data-type="number" class="textbox-price" id="price" name="price" placeholder="例：30,000（円）" value="{{ old('price') }}" />
 
   @error('price')
