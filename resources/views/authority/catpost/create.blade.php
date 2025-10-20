@@ -11,38 +11,35 @@
 {{-- =================================================================================================== --}}
 
   <div class="main-content">
-
     <h2>新しい投稿を作成</h2>
     <h3>猫の里親を募集する<br class="br-sp">投稿を作成してください。</h3>
 
 {{-- ======================================================== --}}
 
-  <div class="background-form">
-    <h3>基本情報</h3><br>
+    <div class="background-form">
+      <h3>基本情報</h3><br>
 
 {{-- ======================================================== --}}
 
     <form action="{{ route('catpost.store') }}" method="POST" enctype="multipart/form-data">
       @csrf
 
-  {{-- タイトル --}}
-  <label for="title">タイトル</label>
-  <br>
-  <textarea class="textbox-title" rows="3" cols="30" id="title" name="title" placeholder="タイトルを入力" value="{{ old('title') }}" ></textarea>
-
-@error('title')
-  <div class="alert-danger">{{ $message }}</div>
-@enderror
-
-  <br>
+    {{-- タイトル --}}
+    <label for="title">タイトル</label>
+    <br>
+    <textarea class="textbox-title" rows="3" cols="30" id="title" name="title" placeholder="タイトルを入力" value="{{ old('title') }}" ></textarea>
+    @error('title')
+      <div class="alert-danger">{{ $message }}</div>
+    @enderror
+    <br>
 {{-- ======================================================== --}}
 
-  <div class="container-flex">
-    <div class="flexblock">
-      {{-- 年齢 --}}
-      <label for="age">年齢</label>
-        <br>
-      <input type="number" class="textbox-age" min="0" max="30" id="age" name="age" placeholder="例：2（才）" value="{{ old('age') }}" />
+      <div class="container-flex">
+        <div class="flexblock">
+          {{-- 年齢 --}}
+          <label for="age">年齢</label>
+            <br>
+          <input type="number" class="textbox-age" min="0" max="30" id="age" name="age" placeholder="例：2（才）" value="{{ old('age') }}" />
 
 @error('age')
   <div class="alert-danger">{{ $message }}</div>
@@ -84,10 +81,10 @@
     <div class="flexblock">
     {{-- 品種 --}}
     <label>品種</label><br>
-    <input type="text" class="textbox-kinds" id="kinds" name="kinds" placeholder="例：ミックス" value="{{ old('kinds') }}" />
+    <input type="text" class="textbox-kinds" id="breed" name="breed" placeholder="例：ミックス" value="{{ old('breed') }}" />
     </div>
 
-    @error('kinds')
+    @error('breed')
   <div class="alert-danger">{{ $message }}</div>
 @enderror
 
@@ -96,10 +93,10 @@
     <div class="flexblock">
     {{-- 所在地 --}}
     <label>所在地</label><br>
-    <input type="text" class="textbox-location" id="location" name="location" placeholder="都道府県を入力（例：東京都）" value="{{ old('location') }}" />
+    <input type="text" class="textbox-location" id="region" name="region" placeholder="都道府県を入力（例：東京都）" value="{{ old('region') }}" />
     </div>
 
-    @error('location')
+    @error('region')
   <div class="alert-danger">{{ $message }}</div>
 @enderror
 
@@ -195,9 +192,9 @@
   {{-- 健康状態 --}}
   <label>健康状態</label><br><br><br>
   <label>予防接種</label><br>
-  <textarea class="textbox-vaccine" rows="3" cols="30" id="vaccine" name="vaccine" placeholder="予防接種関連について詳しく記述してください。" value="{{ old('vaccine') }}" ></textarea>
+  <textarea class="textbox-vaccine" rows="3" cols="30" id="vaccination" name="vaccination" placeholder="予防接種関連について詳しく記述してください。" value="{{ old('vaccination') }}" ></textarea>
 
-  @error('vaccine')
+  @error('vaccination')
   <div class="alert-danger">{{ $message }}</div>
 @enderror
 
@@ -206,9 +203,9 @@
 {{-- ======================================================== --}}
 
   <label>病歴</label><br>
-  <textarea class="textbox-disease" rows="3" cols="30" id="disease" name="disease" placeholder="病歴等ございましたら詳しく記述してください。" value="{{ old('disease') }}" ></textarea>
+  <textarea class="textbox-disease" rows="3" cols="30" id="medical_history" name="medical_history" placeholder="病歴等ございましたら詳しく記述してください。" value="{{ old('medical_history') }}" ></textarea>
 
-  @error('disease')
+  @error('medical_history')
   <div class="alert-danger">{{ $message }}</div>
 @enderror
 
@@ -230,9 +227,9 @@
 
   {{-- 費用 --}}
   <label>譲渡費用（総額、円表記）<br>※内訳につきましては<br class="br-sp">詳細説明入力欄へ<br class="br-sp">入力をお願いします。</label>
-  <input type="text" data-type="number" class="textbox-price" id="price" name="price" placeholder="例：30,000（円）" value="{{ old('price') }}" />
+  <input type="text" data-type="number" class="textbox-price" id="cost" name="cost" placeholder="例：30,000（円）" value="{{ old('cost') }}" />
 
-  @error('price')
+  @error('cost')
   <div class="alert-danger">{{ $message }}</div>
 @enderror
 

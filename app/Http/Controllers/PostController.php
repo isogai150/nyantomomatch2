@@ -71,6 +71,8 @@ class PostController extends Controller
         return view('authority/catpost.index', compact('myCatposts'));
     }
 
+// =================================================================================
+
     // 猫の情報投稿作成画面
     public function create()
     {
@@ -81,30 +83,24 @@ class PostController extends Controller
         ]);
     }
 
-// =================================================================================
-
-    // バリデーションメッセージ
+    // 保存処理機能
     public function store(CatPost $request)
     {
     // バリデーション済みデータを取得
     $validated = $request->validated();
 
-    // 保存処理（例：Post モデルへ保存）
+    // データベースの posts テーブルに保存
     $post = new Post();
     $post->fill($validated);
-    $post->user_id = Auth::id();
-    $post->save();
-    // posts テーブルに保存
-    $post = new Post();
     $post->user_id = Auth::id();
     $post->title = $validated['title'];
     $post->age = $validated['age'];
     $post->gender = $validated['gender'];
-    $post->breed = $validated['kinds']; // データベース列名に合わせる
-    $post->region = $validated['location'];
-    $post->cost = $validated['price'];
-    $post->vaccination = $validated['vaccine'];
-    $post->medical_history = $validated['disease'];
+    $post->breed = $validated['breed'];
+    $post->region = $validated['region'];
+    $post->cost = $validated['cost'];
+    $post->vaccination = $validated['vaccination'];
+    $post->medical_history = $validated['medical_history'];
     $post->description = $validated['description'];
     $post->start_date = $validated['start_date'];
     $post->end_date = $validated['end_date'];
@@ -146,7 +142,7 @@ class PostController extends Controller
         // storage/app/public/任意のディレクトリ名/
         $request->file('image')->store('public/' . $dir);
 
-        // ページを更新します
+        // ページを更新
         return redirect('/');
 
         $image = new User();
@@ -156,7 +152,7 @@ class PostController extends Controller
         $image->post_id = 'storage/app/public/' . $dir . '/' . $file_name;
         $image->save();
 
-    //ページを更新する
+    //ページを更新
     return redirect('/');
     }
 

@@ -228,46 +228,46 @@ textarea {
 
 /* プレビュー画像・動画全体の並び */
 #preview-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 /* 各プレビュー要素 */
 .preview-item {
-  position: relative;
-  display: inline-block;
-  margin: 5px;
+    position: relative;
+    display: inline-block;
+    margin: 5px;
 }
 
 /* 画像の見た目 */
 .preview-image {
-  max-width: 150px;
-  border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    max-width: 150px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
 /* 動画の見た目 */
 .preview-video {
-  max-width: 150px;
-  border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    max-width: 150px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
 /* 削除ボタン */
 .remove-btn {
-  position: absolute;
-  top: 2px;
-  right: 5px;
-  background: rgba(0,0,0,0.6);
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 20px;
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 20px;
 }
 
 /* ======================================================================= */

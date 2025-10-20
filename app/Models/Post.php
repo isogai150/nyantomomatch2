@@ -104,13 +104,19 @@ public function getCostClassAttribute()
 
     // フィールド指定（今後の安全なデータ保存のため）
     protected $fillable = [
-        'user_id',
-        'title',
-        'age',
-        'gender',
-        'region',
-        'status',
-        'cost',
+    'user_id',
+    'title',
+    'age',
+    'gender',
+    'breed',
+    'region',
+    'status',
+    'cost',
+    'vaccination',
+    'medical_history',
+    'description',
+    'start_date',
+    'end_date',
     ];
 
     // created_at などの日付フィールドをCarbonで扱いやすくする
