@@ -27,11 +27,13 @@
     {{-- タイトル --}}
     <label for="title">タイトル</label>
     <br>
-    <textarea class="textbox-title" rows="3" cols="30" id="title" name="title" placeholder="タイトルを入力" value="{{ old('title') }}" ></textarea>
+    <textarea class="textbox-title" rows="3" cols="30" id="title" name="title" placeholder="タイトルを入力">{{ old('title') }}</textarea>
     @error('title')
       <div class="alert-danger">{{ $message }}</div>
     @enderror
     <br>
+    <br>
+
 {{-- ======================================================== --}}
 
       <div class="container-flex">
@@ -41,9 +43,9 @@
             <br>
           <input type="number" class="textbox-age" min="0" max="30" id="age" name="age" placeholder="例：2（才）" value="{{ old('age') }}" />
 
-@error('age')
-  <div class="alert-danger">{{ $message }}</div>
-@enderror
+          @error('age')
+            <div class="alert-danger">{{ $message }}</div>
+          @enderror
 
     </div>
 
@@ -62,19 +64,19 @@
                 {{ $label }}
             </option>
         @endforeach
+
+      </select>
+
 @error('gender')
   <div class="alert-danger">{{ $message }}</div>
 @enderror
-      </select>
-
-
 
     </div>
 
   </div>
 
     <br>
-
+    <br>
 {{-- ======================================================== --}}
 
   <div class="container">
@@ -87,7 +89,8 @@
     @error('breed')
   <div class="alert-danger">{{ $message }}</div>
 @enderror
-
+    <br>
+    <br>
 {{-- ======================================================== --}}
 
     <div class="flexblock">
@@ -103,6 +106,7 @@
   </div>
 
 
+    <br>
     <br>
 
 {{-- ======================================================== --}}
@@ -168,11 +172,14 @@
 {{-- 画像アップロード --}}
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 
-<label for="image">画像（最大4枚まで）・または動画（最大1本）</label><br>
+<label for="image">画像（最大3枚まで）・または動画（最大1本）</label><br>
 <input type="file" name="image[]" id="image" accept="image/*" multiple>
 @error('image')
   <div class="alert-danger">{{ $message }}</div>
 @enderror
+
+    <br>
+    <br>
 
 {{-- <label for="video">動画（最大1本）</label><br> --}}
 <input type="file" name="video" id="video" accept="video/*">
@@ -192,18 +199,18 @@
   {{-- 健康状態 --}}
   <label>健康状態</label><br><br><br>
   <label>予防接種</label><br>
-  <textarea class="textbox-vaccine" rows="3" cols="30" id="vaccination" name="vaccination" placeholder="予防接種関連について詳しく記述してください。" value="{{ old('vaccination') }}" ></textarea>
+  <textarea class="textbox-vaccine" rows="3" cols="30" id="vaccination" name="vaccination" placeholder="予防接種関連について詳しく記述してください。">{{ old('vaccination') }}</textarea>
 
   @error('vaccination')
   <div class="alert-danger">{{ $message }}</div>
 @enderror
 
-  <br>
-
+    <br>
+    <br>
 {{-- ======================================================== --}}
 
   <label>病歴</label><br>
-  <textarea class="textbox-disease" rows="3" cols="30" id="medical_history" name="medical_history" placeholder="病歴等ございましたら詳しく記述してください。" value="{{ old('medical_history') }}" ></textarea>
+  <textarea class="textbox-disease" rows="3" cols="30" id="medical_history" name="medical_history" placeholder="病歴等ございましたら詳しく記述してください。">{{ old('medical_history') }}</textarea>
 
   @error('medical_history')
   <div class="alert-danger">{{ $message }}</div>

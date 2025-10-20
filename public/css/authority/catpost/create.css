@@ -13,10 +13,17 @@
 
 /* バリデーションメッセージ */
 .alert-danger {
-    text-align: center;
+    /* text-align: center; */
+    text-align: left;
     color: red;
+    font-size: 14px;
+    margin-top: 4px;
 }
 
+.flexblock input,
+.flexblock select {
+  margin-bottom: 2px; /* ← デフォルトの余白を小さくする */
+}
 /* ==================================================== */
 /* PC用画面 */
 /* ==================================================== */
@@ -190,7 +197,7 @@ textarea {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    margin-right: 5%;
+    margin-right: 20%;
 }
 
 /* ========================= */
@@ -368,6 +375,8 @@ textarea {
 .br-sp {
     display: none;
 }
+
+
 
 /* ==================================================== */
 /* スマホ用画面 */

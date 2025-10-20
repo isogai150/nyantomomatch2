@@ -49,6 +49,11 @@ Route::post('/catpost/create', [PostController::class, 'create'])->name('posts.c
 Route::post('/catpost/create', [PostController::class, 'validation'])->name('catpost.create');
 Route::post('/catpost/store', [PostController::class, 'store'])->name('catpost.store');
 
+// 投稿保存（バリデーション含む）
+// Route::post('/catpost/store', [PostController::class, 'store'])->name('catpost.store');
+
+
+
 // 猫の投稿編集画面
 Route::get('my/catpost/{catpost}/edit', [PostController::class, 'createedit'])->name('catpost.edit');
 Route::put('my/catpost/{catpost}/edit', [PostController::class, 'createedit'])->name('catpost.edit');

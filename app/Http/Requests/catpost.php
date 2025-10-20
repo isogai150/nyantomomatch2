@@ -65,7 +65,7 @@ class CatPost extends FormRequest
 
             'image.required' => '画像ファイルを選択してください。',
             'image.array' => '画像の形式が正しくありません。',
-            'image.max' => '画像は最大4枚までアップロードできます。',
+            'image.max' => '画像は最大3枚までアップロードできます。',
             'image.*.image' => '画像ファイルを選択してください。',
             'image.*.mimes' => '画像は jpeg, png, jpg, gif のいずれかでアップロードしてください。',
             'image.*.max' => '画像は2MB以内でアップロードしてください。',
