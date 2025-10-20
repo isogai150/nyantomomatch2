@@ -55,9 +55,8 @@ class PostController extends Controller
     }
 
 // =================================================================================
-   // 自分の投稿一覧表示機能
 
-
+    // 自分の投稿一覧表示機能
     public function myCatpost()
     {
         $user = Auth::user();
@@ -81,10 +80,12 @@ class PostController extends Controller
             'user' => $user,
         ]);
     }
+
 // =================================================================================
-// =================================================================================
-public function store(CatPost $request)
-{
+
+    // バリデーションメッセージ
+    public function store(CatPost $request)
+    {
     // バリデーション済みデータを取得
     $validated = $request->validated();
 
@@ -132,14 +133,12 @@ public function store(CatPost $request)
     return redirect()->route('catpost.index')->with('success', '投稿が作成されました！');
 }
 
-
-// =================================================================================
-// 画像のアップロード
 // =================================================================================
 
+    // 画像のアップロード
     public function image(Request $request)
     {
-        
+
         // ディレクトリ名を任意の名前で設定します
         $dir = 'img';
 
@@ -151,16 +150,27 @@ public function store(CatPost $request)
         return redirect('/');
 
         $image = new User();
-// $任意の変数名　=　テーブルを操作するモデル名();
-// storage/app/public/任意のディレクトリ名/
+    // $任意の変数名　=　テーブルを操作するモデル名();
+    // storage/app/public/任意のディレクトリ名/
         $image->post_id = $file_name;
         $image->post_id = 'storage/app/public/' . $dir . '/' . $file_name;
         $image->save();
 
-   //ページを更新する
+    //ページを更新する
     return redirect('/');
     }
 
 // =================================================================================
+
+    // 猫の投稿編集
+    public function createedit()
+    {
+        $user = Auth::user();
+        // dd($user);
+        return view('authority/catpost.edit', [
+            'user' => $user,
+        ]);
+    }
+
 // =================================================================================
 }
