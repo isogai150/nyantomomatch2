@@ -13,7 +13,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdministratorController;
 
 // 管理者
-Route::get('/admin', [AdministratorController::class, 'index'])->name('admin.index');
+Route::get('/admin/dashboard', [AdministratorController::class, 'index'])->name('admin.index');
 
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
