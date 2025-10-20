@@ -11,9 +11,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Models\Pair;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdministratorController;
-
-// 管理者
-Route::get('/admin/dashboard', [AdministratorController::class, 'index'])->name('admin.index');
+use App\Http\Middleware\Firewall;
 
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
@@ -101,6 +99,27 @@ Route::get('/checkout/{post}', [PaymentController::class, 'showcart'])->name('pa
 
 // 決済情報入力ページ表示
 Route::get('/checkout/{post}/payment', [PaymentController::class, 'showForm'])->name('payment.form');
+
+// 管理者ログイン関連
+Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function () {
+  Route::get('login', [AdministratorController::class, 'showLoginForm'])->name('login');
+  Route::post('login', [AdministratorController::class, 'login']);
+  Route::post('logout', [AdministratorController::class, 'logout'])->name('logout');
+
+  // ログイン後のダッシュボード
+  Route::middleware('auth:admin')->group(function () {
+    Route::get('dashboard', [AdministratorController::class, 'index'])->name('dashboard');
+  });
+});
+
+// 確認用ルーティング
+// Route::get('/debug/ip', function (\Illuminate\Http\Request $request) {
+//     return response()->json([
+//         'client_ip' => $request->ip(),
+//         'all_ips' => $request->getClientIps(),
+//         'allowed_ips' => config('firewall.allowed_ips'),
+//     ]);
+// });
 
 //ユーザー認証系
 Auth::routes();
