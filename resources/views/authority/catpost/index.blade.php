@@ -102,7 +102,7 @@
         <div class="post-actions">
             <div class="action-top">
                 {{-- 編集ボタン --}}
-                <a href="{{ route('posts.edit', $post->id) }}" class="btn-edit">編集</a>
+                <a href="{{ route('catpost.edit', $post->id) }}" class="btn-edit">編集</a>
 
                 {{-- 削除ボタン --}}
                 <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="delete-form">

@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Requests\CatPost;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -173,4 +174,71 @@ class PostController extends Controller
     }
 
 // =================================================================================
+
+// 編集画面表示
+public function edit(Post $post)
+{
+    $user = Auth::user();
+
+    // 自分以外の投稿を編集できないように制御
+    if ($post->user_id !== $user->id) {
+        abort(403, 'この投稿を編集する権限がありません。');
+    }
+
+    return view('authority.catpost.edit', compact('post', 'user'));
+}
+
+// 編集内容更新
+public function update(CatPost $request, Post $post)
+{
+    $user = Auth::user();
+
+    if ($post->user_id !== $user->id) {
+        abort(403, 'この投稿を編集する権限がありません。');
+    }
+
+    // バリデーション済みデータ
+    $validated = $request->validated();
+
+    // 投稿内容更新
+    $post->fill($validated);
+    $post->save();
+
+    // 画像更新処理
+    if ($request->hasFile('image')) {
+        // 既存画像を削除
+        foreach ($post->images as $image) {
+            Storage::delete(str_replace('storage/', 'public/', $image->image_path));
+            $image->delete();
+        }
+
+        // 新しい画像を保存
+        foreach ($request->file('image') as $imageFile) {
+            $path = $imageFile->store('public/post_images');
+            $post->images()->create([
+                'image_path' => str_replace('public/', 'storage/', $path)
+            ]);
+        }
+    }
+
+    // 動画更新処理
+    if ($request->hasFile('video')) {
+        // 既存動画を削除
+        foreach ($post->videos as $video) {
+            Storage::delete(str_replace('storage/', 'public/', $video->video_path));
+            $video->delete();
+        }
+
+        $videoFile = $request->file('video');
+        $path = $videoFile->store('public/post_videos');
+        $post->videos()->create([
+            'video_path' => str_replace('public/', 'storage/', $path)
+        ]);
+    }
+
+    return redirect()->route('mycatpost.index')->with('success', '投稿が更新されました！');
+}
+
+
+
 }

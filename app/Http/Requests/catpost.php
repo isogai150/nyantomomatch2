@@ -51,6 +51,18 @@ class CatPost extends FormRequest
 
             'cost' => 'required|numeric|min:0|max:1000000',
         ];
+
+
+            if ($this->isMethod('post')) {
+        $rules['image'] = 'required|array|max:3';
+    } else {
+        $rules['image'] = 'nullable|array|max:3';
+    }
+
+    $rules['image.*'] = 'image|mimes:jpeg,png,jpg,gif|max:2048';
+
+    return $rules;
+
     }
 
     public function messages()
