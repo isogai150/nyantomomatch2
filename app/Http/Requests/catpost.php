@@ -28,11 +28,12 @@ class CatPost extends FormRequest
         return [
             'title' => 'required|string|max:20',
             'age' => 'required|numeric|min:0|max:30',
-            'gender' => 'required',
+            'gender' => 'required|integer',
             'breed' => 'required|string|max:50',
             'region' => 'required|string|max:100',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
+            'status' => 'required|integer',
 
             // 画像関連
             'image' => 'required|array|max:3',
@@ -61,7 +62,7 @@ class CatPost extends FormRequest
             'breed.required' => '猫の品種を入力してください。',
             'region.required' => '所在地を入力してください。',
             'start_date.required' => '掲載開始日を入力してください。',
-            'end_date.required' => '掲載終了日を入力してください。',
+            // 'end_date.required' => '掲載終了日を入力してください。',
             'end_date.after_or_equal' => '掲載終了日は開始日以降を指定してください。',
 
             'image.required' => '画像ファイルを選択してください。',

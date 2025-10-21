@@ -89,6 +89,9 @@ class PostController extends Controller
         // バリデーション済みデータを取得
         $validated = $request->validated();
 
+        // 入力した内容が「投稿を作成」を通してデータが送信されているか確認
+        // dd($validated);
+
         // データベースの posts テーブルに保存
         $post = new Post();
         $post->fill($validated);

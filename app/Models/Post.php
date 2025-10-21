@@ -104,19 +104,19 @@ public function getCostClassAttribute()
 
     // フィールド指定（今後の安全なデータ保存のため）
     protected $fillable = [
-    'user_id',
-    'title',
-    'age',
-    'gender',
-    'breed',
-    'region',
-    'status',
-    'cost',
-    'vaccination',
-    'medical_history',
-    'description',
-    'start_date',
-    'end_date',
+        'user_id',
+        'title',
+        'age',
+        'gender',
+        'breed',
+        'region',
+        'status',
+        'cost',
+        'vaccination',
+        'medical_history',
+        'description',
+        'start_date',
+        'end_date',
     ];
 
     // created_at などの日付フィールドをCarbonで扱いやすくする
@@ -127,19 +127,19 @@ public function getCostClassAttribute()
 
 // ==================== 猫の情報投稿 ====================
 
-use HasFactory, SoftDeletes;
+// use HasFactory, SoftDeletes;
 
-    const GENDER = [
-        0 => '未入力',
-        1 => 'オス',
-        2 => 'メス',
-    ];
+//     const GENDER = [
+//         0 => '未入力',
+//         1 => 'オス',
+//         2 => 'メス',
+//     ];
 
-    const STATUS = [
-        0 => '募集中',
-        1 => 'トライアル中',
-        2 => '譲渡済み（募集終了）',
-    ];
+//     const STATUS = [
+//         0 => '募集中',
+//         1 => 'トライアル中',
+//         2 => '譲渡済み（募集終了）',
+//     ];
 
 // ==================== ここまで追記 ====================
 

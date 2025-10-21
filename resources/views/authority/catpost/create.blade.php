@@ -51,8 +51,8 @@
 
 {{-- ======================================================== --}}
 
-        <div class="flexblock">
-          {{-- 性別 --}}
+        {{-- <div class="flexblock">
+          性別
           <label for="gender">性別</label>
           <br>
           <select name="gender" id="gender" class="textbox-gender">
@@ -63,7 +63,24 @@
             <option value="{{ $key }}" {{ $key==old('gender') ? 'selected' : '' }}>
               {{ $label }}
             </option>
-          @endforeach
+          @endforeach --}}
+{{-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ --}}
+
+        <div class="flexblock">
+          {{-- 性別 --}}
+          <label for="gender">性別</label>
+          <br>
+          <select name="gender" id="gender" class="textbox-gender">
+
+              <option value="">選択してください</option>
+
+              @foreach ([0 => '未入力', 1 => 'オス', 2 => 'メス'] as $key => $label)
+                  <option value="{{ $key }}" {{ $key == old('gender') ? 'selected' : '' }}>
+                      {{ $label }}
+                  </option>
+              @endforeach
+
+{{-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ --}}
 
           </select>
 
@@ -114,7 +131,7 @@
       {{-- 投稿ステータス --}}
       <label>投稿ステータス</label><br>
       <select name="status" id="status" class="textbox-status">
-        @foreach (\App\Models\Post::STATUS as $key => $label)
+        @foreach ([0 => '里親募集中', 1 => 'お見合い中', 2 => '譲渡成立'] as $key => $label)
           <option value="{{ $key }}" {{ $key==old('status') ? 'selected' : '' }}>
             {{ $label }}
           </option>
