@@ -160,14 +160,14 @@
     <div class="background-photo-move">
 
       {{-- 写真・動画 --}}
-      <p>写真・動画</p>
-      <p>猫の写真や動画を最大4件まで追加できます。1枚目は写真を選択してください。</p>
+      <label for="image">写真・動画</label>
+      <p>猫の写真や動画を最大4件まで<br class="br-sp">追加できます。<br class="br-sp">1枚目は写真を選択してください。</p>
 
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 {{-- 画像アップロード --}}
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 
-      <label for="image">画像（最大3枚まで）・または動画（最大1本）</label><br>
+      <p>画像（最大3枚まで）、<br class="br-sp">または動画（最大1本）</p><br>
       <input type="file" name="image[]" id="image" accept="image/*" multiple>
       @error('image')
         <div class="alert-danger">{{ $message }}</div>
