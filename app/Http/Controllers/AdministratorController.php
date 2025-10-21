@@ -119,11 +119,12 @@ public function AuthorityApproval($id)
 }
 
 // 投稿権限申請詳細表示
+// 投稿権限申請詳細表示
 public function authorityDetail($id)
 {
-    $authoritys = Authority::findOrFail($id)->get();
+    $authority = Authority::findOrFail($id);
 
-    return view('admin.authority.detail', compact('authoritys'));
+    return view('admin.authority.detail', compact('authority'));
 }
 
 }
