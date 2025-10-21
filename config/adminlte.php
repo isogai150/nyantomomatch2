@@ -299,8 +299,8 @@ return [
     |
     */
 
-'menu' => [
-    [
+    'menu' => [
+        [
             'type' => 'navbar-search',
             'text' => 'search',
             'topnav_right' => true,
@@ -320,58 +320,58 @@ return [
             'url' => 'admin/blog',
             'can' => 'manage-blog',
         ],
-    [
-        'text' => 'ダッシュボード',
-        'url'  => 'admin/dashboard',
-        'icon' => 'fas fa-fw fa-tachometer-alt',
-    ],
+        [
+            'text' => 'ダッシュボード',
+            'url'  => 'admin/dashboard',
+            'icon' => 'fas fa-fw fa-tachometer-alt',
+        ],
 
-    ['header' => '管理メニュー'],
+        ['header' => '管理メニュー'],
 
-    [
-        'text' => '投稿関連',
-        'icon' => 'fas fa-cat',
-        'submenu' => [
-            ['text' => '投稿一覧', 'url' => 'admin/posts', 'icon' => 'fas fa-list'],
-            ['text' => '投稿通報一覧', 'url' => 'admin/post-reports', 'icon' => 'fas fa-flag'],
+        [
+            'text' => '投稿関連',
+            'icon' => 'fas fa-cat',
+            'submenu' => [
+                ['text' => '投稿一覧', 'url' => 'admin/posts', 'icon' => 'fas fa-list'],
+                ['text' => '投稿通報一覧', 'url' => 'admin/post-reports', 'icon' => 'fas fa-flag'],
+            ],
+        ],
+        [
+            'text' => 'DM関連',
+            'icon' => 'fas fa-envelope',
+            'submenu' => [
+                ['text' => 'DM一覧', 'url' => 'admin/dm'],
+                ['text' => 'DM通報一覧', 'url' => 'admin/dm-reports'],
+            ],
+        ],
+        [
+            'text' => 'ユーザー管理',
+            'url'  => 'admin/users',
+            'icon' => 'fas fa-users',
+        ],
+        [
+            'text' => '投稿権限一覧',
+            'url'  => 'admin/authority',
+            'icon' => 'fas fa-user-shield',
+        ],
+        [
+            'text' => '譲渡成立一覧',
+            'url'  => 'admin/transfers',
+            'icon' => 'fas fa-handshake',
+        ],
+
+        ['header' => 'システム設定'],
+        [
+            'text' => 'マイページ',
+            'url'  => 'admin/profile',
+            'icon' => 'fas fa-user',
+        ],
+        [
+            'text' => 'ログアウト',
+            'url'  => 'logout',
+            'icon' => 'fas fa-sign-out-alt',
         ],
     ],
-    [
-        'text' => 'DM関連',
-        'icon' => 'fas fa-envelope',
-        'submenu' => [
-            ['text' => 'DM一覧', 'url' => 'admin/dm'],
-            ['text' => 'DM通報一覧', 'url' => 'admin/dm-reports'],
-        ],
-    ],
-    [
-        'text' => 'ユーザー管理',
-        'url'  => 'admin/users',
-        'icon' => 'fas fa-users',
-    ],
-    [
-        'text' => '投稿権限一覧',
-        'url'  => 'admin/authorities',
-        'icon' => 'fas fa-user-shield',
-    ],
-    [
-        'text' => '譲渡成立一覧',
-        'url'  => 'admin/transfers',
-        'icon' => 'fas fa-handshake',
-    ],
-
-    ['header' => 'システム設定'],
-    [
-        'text' => 'マイページ',
-        'url'  => 'admin/profile',
-        'icon' => 'fas fa-user',
-    ],
-    [
-        'text' => 'ログアウト',
-        'url'  => 'logout',
-        'icon' => 'fas fa-sign-out-alt',
-    ],
-],
 
 
     /*
@@ -408,83 +408,94 @@ return [
     |
     */
 
-'plugins' => [
+    'plugins' => [
 
-    'Chartjs' => [
-        'active' => true,
-        'files' => [
-            [
-                'type' => 'js',
-                'asset' => false,
-                'location' => 'https://cdn.jsdelivr.net/npm/chart.js',
+        'Jquery' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => 'https://code.jquery.com/jquery-3.7.1.min.js',
+                ],
+            ],
+        ],
+
+        'Chartjs' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => 'https://cdn.jsdelivr.net/npm/chart.js',
+                ],
+            ],
+        ],
+
+        'Datatables' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
+                ],
+            ],
+        ],
+
+        'Select2' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
+                ],
+            ],
+        ],
+
+        'Sweetalert2' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
+                ],
+            ],
+        ],
+
+        'Pace' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-radar.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
             ],
         ],
     ],
-
-    'Datatables' => [
-        'active' => false,
-        'files' => [
-            [
-                'type' => 'js',
-                'asset' => false,
-                'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
-            ],
-            [
-                'type' => 'js',
-                'asset' => false,
-                'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
-            ],
-            [
-                'type' => 'css',
-                'asset' => false,
-                'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
-            ],
-        ],
-    ],
-
-    'Select2' => [
-        'active' => false,
-        'files' => [
-            [
-                'type' => 'js',
-                'asset' => false,
-                'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
-            ],
-            [
-                'type' => 'css',
-                'asset' => false,
-                'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
-            ],
-        ],
-    ],
-
-    'Sweetalert2' => [
-        'active' => false,
-        'files' => [
-            [
-                'type' => 'js',
-                'asset' => false,
-                'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
-            ],
-        ],
-    ],
-
-    'Pace' => [
-        'active' => false,
-        'files' => [
-            [
-                'type' => 'css',
-                'asset' => false,
-                'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-radar.min.css',
-            ],
-            [
-                'type' => 'js',
-                'asset' => false,
-                'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
-            ],
-        ],
-    ],
-],
 
 
     /*
