@@ -16,7 +16,7 @@ class Authority extends Model
         'status',
     ];
 
-    // ステータス定数
+    // // ステータス定数
     const STATUS_PENDING = 0;  // 申請中
     const STATUS_APPROVED = 1; // 承認
     const STATUS_REJECTED = 2; // 却下
@@ -25,4 +25,16 @@ class Authority extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+
+    // アクセサ（ステータス）
+    public function getStatusLabelAttribute()
+{
+    return match ($this->status) {
+        0 => '申請中',
+        1 => '承認',
+        2 => '却下',
+        default => '不明',
+    };
+}
 }

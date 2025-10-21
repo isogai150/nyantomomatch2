@@ -1,0 +1,125 @@
+@charset "UTF-8";
+
+/* =============================
+   管理者 投稿権限申請詳細ページ
+   ============================= */
+
+/* 全体 */
+.main-content {
+    width: 100%;
+    padding: 2% 4%;
+    background-color: #FFFDF2;
+    font-family: "Noto Sans JP", sans-serif;
+    color: #503322;
+    box-sizing: border-box;
+}
+
+/* 戻るリンク */
+.main-content > a {
+    display: inline-block;
+    color: #503322;
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    transition: 0.2s;
+}
+.main-content > a:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+/* 見出し */
+h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #503322;
+    margin-bottom: 1.5rem;
+}
+
+/* セクション共通 */
+.user_inf,
+.authority {
+    background-color: #FFFFFF;
+    border: 1px solid #EAD6A9;
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* セクション見出し */
+.user_inf h3,
+.authority h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #A0794B;
+    margin-bottom: 1rem;
+    border-left: 5px solid #EAD6A9;
+    padding-left: 0.6rem;
+}
+
+/* テキスト */
+.user_inf p,
+.authority p {
+    font-size: 1rem;
+    line-height: 1.8;
+    margin: 0.4rem 0;
+    color: #503322;
+}
+
+/* ステータス色分け */
+.status-pending {
+    color: #B97A00;
+    font-weight: bold;
+}
+.status-approved {
+    color: #1A7F37;
+    font-weight: bold;
+}
+.status-rejected {
+    color: #C43B3B;
+    font-weight: bold;
+}
+
+/* ボックスの内側の区切り */
+.authority h3:not(:first-child) {
+    margin-top: 1.8rem;
+}
+
+/* =============================
+   レスポンシブ対応（スマホ）
+   ============================= */
+@media screen and (max-width: 390px) {
+
+    .main-content {
+        padding: 5% 6%;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+
+    .main-content > a {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .user_inf,
+    .authority {
+        padding: 1rem 1.2rem;
+    }
+
+    .user_inf h3,
+    .authority h3 {
+        font-size: 1.05rem;
+        border-left-width: 4px;
+        padding-left: 0.5rem;
+    }
+
+    .user_inf p,
+    .authority p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+}

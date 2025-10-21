@@ -1,0 +1,129 @@
+@charset "UTF-8";
+
+.payment-success-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12% 4% 8%;
+  background-color: #FFFDF2;
+  color: #503322;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.success-content {
+  text-align: center;
+  width: 80%;
+  max-width: 700px;
+  background: #fff;
+  padding: 5% 6%;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.success-content h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.success-content .message {
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+}
+
+.alert-success {
+  background-color: #F6D8B3;
+  color: #503322;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+
+.payment-summary {
+  background: #FFF6E8;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.payment-summary h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.payment-summary ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.payment-summary ul li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.payment-summary .total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-top: 1rem;
+  border-top: 1px solid #E0C9B6;
+  padding-top: 0.8rem;
+}
+
+.actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.actions a {
+  text-decoration: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.actions .btn-back {
+  background-color: #F6D8B3;
+  color: #503322;
+}
+
+.actions .btn-mypage {
+  background-color: #503322;
+  color: #fff;
+}
+
+.actions a:hover {
+  opacity: 0.8;
+}
+
+.stripe-note {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #7A6A58;
+}
+
+@media screen and (max-width: 390px) {
+  .success-content {
+    width: 95%;
+    padding: 8% 5%;
+  }
+
+  .success-content h1 {
+    font-size: 1.4rem;
+  }
+
+  .payment-summary ul li {
+    font-size: 0.9rem;
+  }
+
+  .actions a {
+    width: 100%;
+    text-align: center;
+  }
+}

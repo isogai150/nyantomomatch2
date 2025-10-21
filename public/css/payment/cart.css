@@ -1,0 +1,236 @@
+@charset "UTF-8";
+
+/* ==========================
+   商品確認ページ（mainのみ）
+========================== */
+.main-content {
+  width: 100%;
+  min-height: 80vh;
+  background-color: #FFFDF2;
+  padding: 8% 6%;
+  box-sizing: border-box;
+  font-family: "Noto Sans JP", sans-serif;
+  color: #503322;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ------- 上部タイトル・リンク ------- */
+.main-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4%;
+  flex-wrap: wrap;
+}
+
+.main-top p {
+  font-size: 1.2em;
+  font-weight: 700;
+}
+
+.main-top a {
+  text-decoration: none;
+  color: #503322;
+  font-size: 1em;
+  border-bottom: 0.1em solid transparent;
+  transition: 0.3s;
+}
+
+.main-top a:hover {
+  border-bottom: 0.1em solid #503322;
+}
+
+/* ------- メインボックス ------- */
+.main-center {
+  width: 100%;
+  background-color: #fff;
+  padding: 5% 7%;
+  border-radius: 1em;
+  box-shadow: 0 0.5em 1.5em rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+/* 見出しエリア */
+.center-top {
+  text-align: center;
+  margin-bottom: 6%;
+}
+
+.center-top h2 {
+  font-size: 1.6em;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+.center-top p {
+  font-size: 1em;
+  color: #666;
+}
+
+/* ------- 支払い情報とセキュリティ情報 ------- */
+.center-items {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 5%;
+  flex-wrap: wrap;
+}
+
+.item-left,
+.item-right {
+  flex: 1;
+  min-width: 42%;
+  background-color: #FFFCF5;
+  padding: 5%;
+  border-radius: 0.8em;
+  box-sizing: border-box;
+  box-shadow: 0 0.3em 1em rgba(0, 0, 0, 0.05);
+}
+
+/* ------- 左側：支払い内容 ------- */
+.item-left h3 {
+  font-size: 1.3em;
+  margin-bottom: 1.5em;
+  border-left: 0.3em solid #C9A063;
+  padding-left: 0.5em;
+}
+
+.cart-inf p {
+  font-size: 1.1em;
+  margin-bottom: 1.8em;
+  line-height: 1.4;
+}
+
+.note {
+  font-size: 0.8rem;
+  color: red;
+}
+
+.cost {
+  font-weight: bold;
+  font-size: 1.3em;
+  color: #C87B4F;
+}
+
+/* ボタン */
+.payment-btn {
+  display: inline-block;
+  width: 100%;
+  background-color: #F6D8B3;
+  color: #503322;
+  font-size: 1em;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.6em;
+  padding: 4% 0;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.payment-btn:hover {
+  opacity: 0.8;
+}
+
+/* ------- 右側：セキュリティ情報 ------- */
+.security-top h3 {
+  font-size: 1.3em;
+  margin-bottom: 0.6em;
+  border-left: 0.3em solid #C9A063;
+  padding-left: 0.5em;
+}
+
+.security-top p {
+  font-size: 0.95em;
+  color: #666;
+  margin-bottom: 1em;
+}
+
+.security-items ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.security-items li {
+  font-size: 1em;
+  margin-bottom: 0.8em;
+  padding-left: 1.2em;
+  position: relative;
+}
+
+.security-items li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: #C87B4F;
+  font-weight: bold;
+}
+
+/* ==========================
+   レスポンシブ対応
+   (最大390px)
+========================== */
+@media screen and (max-width: 390px) {
+  .main-content {
+    padding: 8% 4%;
+  }
+
+  .main-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+    margin-bottom: 6%;
+  }
+
+  .main-top p {
+    font-size: 1.1em;
+  }
+
+  .main-center {
+    padding: 8% 6%;
+    border-radius: 0.8em;
+  }
+
+  .center-top h2 {
+    font-size: 1.3em;
+  }
+
+  .center-top p {
+    font-size: 0.9em;
+  }
+
+  .center-items {
+    flex-direction: column;
+    gap: 1.5em;
+  }
+
+  .item-left,
+  .item-right {
+    width: 100%;
+    padding: 6%;
+  }
+
+  .cart-inf p {
+    font-size: 1em;
+  }
+
+  .cart-inf span {
+    font-size: 1.2em;
+  }
+
+  .payment-btn {
+    font-size: 1em;
+    padding: 5% 0;
+  }
+
+  .security-top h3 {
+    font-size: 1.2em;
+  }
+
+  .security-items li {
+    font-size: 0.9em;
+  }
+}
