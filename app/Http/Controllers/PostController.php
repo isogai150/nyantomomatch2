@@ -86,48 +86,48 @@ class PostController extends Controller
     // 保存処理機能
     public function store(CatPost $request)
     {
-    // バリデーション済みデータを取得
-    $validated = $request->validated();
+        // バリデーション済みデータを取得
+        $validated = $request->validated();
 
-    // データベースの posts テーブルに保存
-    $post = new Post();
-    $post->fill($validated);
-    $post->user_id = Auth::id();
-    $post->title = $validated['title'];
-    $post->age = $validated['age'];
-    $post->gender = $validated['gender'];
-    $post->breed = $validated['breed'];
-    $post->region = $validated['region'];
-    $post->cost = $validated['cost'];
-    $post->vaccination = $validated['vaccination'];
-    $post->medical_history = $validated['medical_history'];
-    $post->description = $validated['description'];
-    $post->start_date = $validated['start_date'];
-    $post->end_date = $validated['end_date'];
-    $post->status = $validated['status'] ?? 0; // ステータスの初期値
-    $post->save();
+        // データベースの posts テーブルに保存
+        $post = new Post();
+        $post->fill($validated);
+        $post->user_id = Auth::id();
+        $post->title = $validated['title'];
+        $post->age = $validated['age'];
+        $post->gender = $validated['gender'];
+        $post->breed = $validated['breed'];
+        $post->region = $validated['region'];
+        $post->cost = $validated['cost'];
+        $post->vaccination = $validated['vaccination'];
+        $post->medical_history = $validated['medical_history'];
+        $post->description = $validated['description'];
+        $post->start_date = $validated['start_date'];
+        $post->end_date = $validated['end_date'];
+        $post->status = $validated['status'] ?? 0; // ステータスの初期値
+        $post->save();
 
-    // 画像保存処理
-    if ($request->hasFile('image')) {
-        foreach ($request->file('image') as $imageFile) {
-            $path = $imageFile->store('public/post_images'); // storage/app/public/post_images に保存
-            $post->images()->create([
-                'image_path' => str_replace('public/', 'storage/', $path) // 公開パスに変換
+        // 画像保存処理
+        if ($request->hasFile('image')) {
+            foreach ($request->file('image') as $imageFile) {
+                $path = $imageFile->store('public/post_images'); // storage/app/public/post_images に保存
+                $post->images()->create([
+                    'image_path' => str_replace('public/', 'storage/', $path) // 公開パスに変換
             ]);
         }
     }
 
-    // 動画保存処理
-    if ($request->hasFile('video')) {
-        $videoFile = $request->file('video');
-        $path = $videoFile->store('public/post_videos');
-        $post->videos()->create([
-            'video_path' => str_replace('public/', 'storage/', $path)
-        ]);
-    }
+        // 動画保存処理
+        if ($request->hasFile('video')) {
+            $videoFile = $request->file('video');
+            $path = $videoFile->store('public/post_videos');
+            $post->videos()->create([
+                'video_path' => str_replace('public/', 'storage/', $path)
+            ]);
+        }
 
     return redirect()->route('catpost.index')->with('success', '投稿が作成されました！');
-}
+    }
 
 // =================================================================================
 
@@ -146,8 +146,9 @@ class PostController extends Controller
         return redirect('/');
 
         $image = new User();
-    // $任意の変数名　=　テーブルを操作するモデル名();
-    // storage/app/public/任意のディレクトリ名/
+
+        // $任意の変数名　=　テーブルを操作するモデル名();
+        // storage/app/public/任意のディレクトリ名/
         $image->post_id = $file_name;
         $image->post_id = 'storage/app/public/' . $dir . '/' . $file_name;
         $image->save();

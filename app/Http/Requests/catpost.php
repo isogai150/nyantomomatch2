@@ -33,9 +33,10 @@ class CatPost extends FormRequest
             'region' => 'required|string|max:100',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
+
             // 画像関連
-            'image' => 'required|array|max:4',          // 配列として必須・最大4枚
-            'image.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|array|max:3',
+            'image.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // 最大2MB
 
             // 動画関連
             'video' => 'nullable|file|mimes:mp4,mov,avi,wmv|max:10240', // 最大10MB
@@ -79,11 +80,12 @@ class CatPost extends FormRequest
             'medical_history' => '病歴の情報を入力してください。',
             'medical_history.max' => '病歴の情報は500文字以内で入力してください。',
 
+            'description.max' => '詳細説明は1000文字以内で入力してください。',
+
             'cost.required' => '費用を入力してください。',
             'cost.numeric' => '費用は数値で入力してください。',
             'cost.min' => '数値で0以上で入力してください。',
             'cost.max' => '数値で1000000以内で入力してください。',
         ];
     }
-
 }

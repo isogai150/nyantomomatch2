@@ -47,203 +47,197 @@
             <div class="alert-danger">{{ $message }}</div>
           @enderror
 
-    </div>
+        </div>
 
 {{-- ======================================================== --}}
 
-    <div class="flexblock">
-      {{-- 性別 --}}
-      <label for="gender">性別</label>
-        <br>
-      <select name="gender" id="gender" class="textbox-gender">
+        <div class="flexblock">
+          {{-- 性別 --}}
+          <label for="gender">性別</label>
+          <br>
+          <select name="gender" id="gender" class="textbox-gender">
 
           <option value="">選択してください</option>
 
-        @foreach (\App\Models\Post::GENDER as $key => $label)
+          @foreach (\App\Models\Post::GENDER as $key => $label)
             <option value="{{ $key }}" {{ $key==old('gender') ? 'selected' : '' }}>
-                {{ $label }}
+              {{ $label }}
             </option>
-        @endforeach
+          @endforeach
 
+          </select>
+
+          @error('gender')
+            <div class="alert-danger">{{ $message }}</div>
+          @enderror
+
+        </div>
+
+      </div>
+
+      <br>
+      <br>
+{{-- ======================================================== --}}
+
+      <div class="container">
+        <div class="flexblock">
+        {{-- 品種 --}}
+        <label>品種</label><br>
+        <input type="text" class="textbox-kinds" id="breed" name="breed" placeholder="例：ミックス" value="{{ old('breed') }}" />
+        </div>
+
+        @error('breed')
+          <div class="alert-danger">{{ $message }}</div>
+        @enderror
+        <br>
+        <br>
+{{-- ======================================================== --}}
+
+          <div class="flexblock">
+            {{-- 所在地 --}}
+            <label>所在地</label><br>
+            <input type="text" class="textbox-location" id="region" name="region" placeholder="都道府県を入力（例：東京都）" value="{{ old('region') }}" />
+          </div>
+
+          @error('region')
+            <div class="alert-danger">{{ $message }}</div>
+          @enderror
+
+      </div>
+
+
+      <br>
+      <br>
+
+{{-- ======================================================== --}}
+
+      {{-- 投稿ステータス --}}
+      <label>投稿ステータス</label><br>
+      <select name="status" id="status" class="textbox-status">
+        @foreach (\App\Models\Post::STATUS as $key => $label)
+          <option value="{{ $key }}" {{ $key==old('status') ? 'selected' : '' }}>
+            {{ $label }}
+          </option>
+        @endforeach
       </select>
 
-@error('gender')
-  <div class="alert-danger">{{ $message }}</div>
-@enderror
+      <br>
+      <br>
+      <br>
+
+{{-- ======================================================== --}}
+
+
+      <div class="container-flex date-range">
+      {{-- 掲載開始日・掲載終了日 --}}
+        <div class="bbb">
+          <label for="start_date">掲載開始日</label><br>
+          <input type="date" min="2025-10-14" max="2029-12-31" name="start_date" class="textbox-start-date" value="{{ old('start_date') }}">
+
+          @error('start_date')
+            <div class="alert-danger">{{ $message }}</div>
+          @enderror
+
+        </div>
+
+        <label class="wave">～</label>
+
+        <div class="ccc">
+          <label for="end_date">掲載終了日</label><br>
+          <input type="date" min="2025-10-14" max="2029-12-31" name="end_date" class="textbox-end-date" value="{{ old('end_date') }}">
+
+          @error('end_date')
+            <div class="alert-danger">{{ $message }}</div>
+          @enderror
+
+        </div>
+      </div>
 
     </div>
 
-  </div>
-
-    <br>
-    <br>
 {{-- ======================================================== --}}
 
-  <div class="container">
-    <div class="flexblock">
-    {{-- 品種 --}}
-    <label>品種</label><br>
-    <input type="text" class="textbox-kinds" id="breed" name="breed" placeholder="例：ミックス" value="{{ old('breed') }}" />
-    </div>
+    <div class="background-photo-move">
 
-    @error('breed')
-  <div class="alert-danger">{{ $message }}</div>
-@enderror
-    <br>
-    <br>
-{{-- ======================================================== --}}
-
-    <div class="flexblock">
-    {{-- 所在地 --}}
-    <label>所在地</label><br>
-    <input type="text" class="textbox-location" id="region" name="region" placeholder="都道府県を入力（例：東京都）" value="{{ old('region') }}" />
-    </div>
-
-    @error('region')
-  <div class="alert-danger">{{ $message }}</div>
-@enderror
-
-  </div>
-
-
-    <br>
-    <br>
-
-{{-- ======================================================== --}}
-
-  {{-- 投稿ステータス --}}
-  <label>投稿ステータス</label><br>
-  <select name="status" id="status" class="textbox-status">
-    @foreach (\App\Models\Post::STATUS as $key => $label)
-        <option value="{{ $key }}" {{ $key==old('status') ? 'selected' : '' }}>
-            {{ $label }}
-        </option>
-    @endforeach
-  </select>
-
-    <br>
-    <br>
-    <br>
-
-{{-- ======================================================== --}}
-
-
-<div class="container-flex date-range">
-{{-- 掲載開始日・掲載終了日 --}}
-  <div class="bbb">
-    <label for="start_date">掲載開始日</label><br>
-    <input type="date" min="2025-10-14" max="2029-12-31" name="start_date" class="textbox-start-date" value="{{ old('start_date') }}">
-
-@error('start_date')
-  <div class="alert-danger">{{ $message }}</div>
-@enderror
-
-  </div>
-
-
-
-  <label class="wave">～</label>
-
-
-
-  <div class="ccc">
-    <label for="end_date">掲載終了日</label><br>
-    <input type="date" min="2025-10-14" max="2029-12-31" name="end_date" class="textbox-end-date" value="{{ old('end_date') }}">
-
-@error('end_date')
-  <div class="alert-danger">{{ $message }}</div>
-@enderror
-
-  </div>
-</div>
-
-  </div>
-
-{{-- ======================================================== --}}
-
-<div class="background-photo-move">
-
-  {{-- 写真・動画 --}}
-  <p>写真・動画</p>
-  <p>猫の写真や動画を最大4件まで追加できます。1枚目は写真を選択してください。</p>
-
+      {{-- 写真・動画 --}}
+      <p>写真・動画</p>
+      <p>猫の写真や動画を最大4件まで追加できます。1枚目は写真を選択してください。</p>
 
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 {{-- 画像アップロード --}}
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 
-<label for="image">画像（最大3枚まで）・または動画（最大1本）</label><br>
-<input type="file" name="image[]" id="image" accept="image/*" multiple>
-@error('image')
-  <div class="alert-danger">{{ $message }}</div>
-@enderror
+      <label for="image">画像（最大3枚まで）・または動画（最大1本）</label><br>
+      <input type="file" name="image[]" id="image" accept="image/*" multiple>
+      @error('image')
+        <div class="alert-danger">{{ $message }}</div>
+      @enderror
 
-    <br>
-    <br>
+      <br>
+      <br>
 
-{{-- <label for="video">動画（最大1本）</label><br> --}}
-<input type="file" name="video" id="video" accept="video/*">
-@error('video')
-  <div class="alert-danger">{{ $message }}</div>
-@enderror
+      <input type="file" name="video" id="video" accept="video/*">
+      @error('video')
+        <div class="alert-danger">{{ $message }}</div>
+      @enderror
 
-{{-- プレビュー表示領域 --}}
-<div id="preview-container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;"></div>
-</div>
+      {{-- プレビュー表示領域 --}}
+      <div id="preview-container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;"></div>
+    </div>
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 
 {{-- ======================================================== --}}
 
-<div class="background-health">
+    <div class="background-health">
 
-  {{-- 健康状態 --}}
-  <label>健康状態</label><br><br><br>
-  <label>予防接種</label><br>
-  <textarea class="textbox-vaccine" rows="3" cols="30" id="vaccination" name="vaccination" placeholder="予防接種関連について詳しく記述してください。">{{ old('vaccination') }}</textarea>
+      {{-- 健康状態 --}}
+      <label>健康状態</label><br><br><br>
+      <label>予防接種</label><br>
+      <textarea class="textbox-vaccine" rows="3" cols="30" id="vaccination" name="vaccination" placeholder="予防接種関連について詳しく記述してください。">{{ old('vaccination') }}</textarea>
 
-  @error('vaccination')
-  <div class="alert-danger">{{ $message }}</div>
-@enderror
+      @error('vaccination')
+        <div class="alert-danger">{{ $message }}</div>
+      @enderror
 
-    <br>
-    <br>
+      <br>
+      <br>
 {{-- ======================================================== --}}
 
-  <label>病歴</label><br>
-  <textarea class="textbox-disease" rows="3" cols="30" id="medical_history" name="medical_history" placeholder="病歴等ございましたら詳しく記述してください。">{{ old('medical_history') }}</textarea>
+      <label>病歴</label><br>
+      <textarea class="textbox-disease" rows="3" cols="30" id="medical_history" name="medical_history" placeholder="病歴等ございましたら詳しく記述してください。">{{ old('medical_history') }}</textarea>
 
-  @error('medical_history')
-  <div class="alert-danger">{{ $message }}</div>
-@enderror
+      @error('medical_history')
+        <div class="alert-danger">{{ $message }}</div>
+      @enderror
 
-</div>
-
-{{-- ======================================================== --}}
-
-<div class="background-description">
-
-  {{-- 詳細説明 --}}
-  <label>詳細説明</label><br>
-  <textarea rows="4" cols="30" id="description" name="description" class="textbox-description" placeholder="猫の性格や特徴などを詳しく書いてください。">{{ old('description') }}</textarea>
-
-</div>
+    </div>
 
 {{-- ======================================================== --}}
 
-<div class="background-price">
+    <div class="background-description">
 
-  {{-- 費用 --}}
-  <label>譲渡費用（総額、円表記）<br>※内訳につきましては<br class="br-sp">詳細説明入力欄へ<br class="br-sp">入力をお願いします。</label>
-  <input type="text" data-type="number" class="textbox-price" id="cost" name="cost" placeholder="例：30,000（円）" value="{{ old('cost') }}" />
+      {{-- 詳細説明 --}}
+      <label>詳細説明</label><br>
+      <textarea rows="4" cols="30" id="description" name="description" class="textbox-description" placeholder="猫の性格や特徴などを詳しく書いてください。">{{ old('description') }}</textarea>
 
-  @error('cost')
-  <div class="alert-danger">{{ $message }}</div>
-@enderror
+    </div>
 
-</div>
+{{-- ======================================================== --}}
+
+    <div class="background-price">
+
+      {{-- 費用 --}}
+      <label>譲渡費用（総額、円表記）<br>※内訳につきましては<br class="br-sp">詳細説明入力欄へ<br class="br-sp">入力をお願いします。</label>
+      <input type="text" data-type="number" class="textbox-price" id="cost" name="cost" placeholder="例：30,000（円）" value="{{ old('cost') }}" />
+
+      @error('cost')
+        <div class="alert-danger">{{ $message }}</div>
+      @enderror
+
+    </div>
 
 {{-- ======================================== --}}
-{{-- 「投稿を作成」の上部にバリデーションメッセージを表示させる --}}
+{{-- 「投稿を作成」の上部に全てのバリデーションメッセージを表示させる --}}
     {{-- @if($errors->any())
       <div class="alert alert-danger">
         @foreach($errors->all() as $message)
@@ -253,15 +247,15 @@
     @endif --}}
 {{-- ======================================== --}}
 
-{{-- 投稿を作成ボタン --}}
-<div class="btn">
-  <br><br>
-  <button type="submit" class="botten">投稿を作成</button>
-</div>
-</form>
-</div>
+    {{-- 投稿を作成ボタン --}}
+    <div class="btn">
+      <br><br>
+      <button type="submit" class="botten">投稿を作成</button>
+    </div>
 
-</div>
+    </form>
+  </div>
+
 {{-- =================================================================================================== --}}
 {{-- bladeここまで --}}
 
