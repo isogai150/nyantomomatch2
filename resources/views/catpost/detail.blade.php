@@ -74,6 +74,8 @@
             <aside class="post-sidebar">
                 <div class="contact-box">
                     <h3>お問い合わせ</h3>
+                    <a href="#" class="contact-btn">メッセージを送る</a>
+
                     <form action="{{ route('dm.create', ['post' => $post->id]) }}" method="POST">
                         @csrf
                         <input type="hidden" name="post" value="{{ $post->id }}">

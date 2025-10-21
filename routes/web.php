@@ -10,7 +10,12 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Models\Pair;
 use App\Http\Controllers\PaymentController;
+use App\Http\Requests\CatPost;
 use App\Http\Controllers\AdministratorController;
+
+
+// 管理者
+Route::get('/admin/dashboard', [AdministratorController::class, 'index'])->name('admin.index');
 use App\Http\Middleware\Firewall;
 use App\Models\Authority;
 
@@ -34,6 +39,20 @@ Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.upda
 
 // 編集内容の削除
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+// ========================================
+
+// 猫の情報投稿作成画面
+Route::get('/catpost/create', [PostController::class, 'create'])->name('posts.create');
+
+// 猫の情報投稿作成画面：バリデーションメッセージ
+Route::post('/catpost/store', [PostController::class, 'store'])->name('catpost.store');
+
+// 猫の投稿編集画面
+Route::get('my/catpost/{catpost}/edit', [PostController::class, 'createedit'])->name('catpost.edit');
+Route::put('my/catpost/{catpost}/edit', [PostController::class, 'createedit'])->name('catpost.edit');
+
+// ===========================================================================================
 
 // お気に入りトグル
 Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
@@ -83,14 +102,8 @@ Route::post('/dm/create', [PairController::class, 'create'])->name('dm.create');
 // DM削除
 Route::delete('/dm/{dm}/delete', [PairController::class, 'delete'])->name('dm.delete');
 
-
-// 権限の申請
-Route::post('mypage/request-post-permission', [UserController::class, 'requestPostPermission'])->name('request.post.permission');
-
-
 // 決済完了ページ
 Route::get('/checkout/success', [PaymentController::class, 'success'])->name('payment.success');
-
 
 // キャンセルページ表示
 Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
