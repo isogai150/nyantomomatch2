@@ -8,6 +8,7 @@ use App\Models\Pair;
 use App\Models\Message;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Authority;
 
 class AdministratorController extends Controller
 {
@@ -77,6 +78,44 @@ public function index()
         'userData',
         'postData'
     ));
+}
+
+// 投稿申請一覧表示機能
+public function authorityList()
+{
+    // 申請中のみの申請一覧を取得
+    $authoritys = Authority::whereNotIn('status', [1, 2])->get();
+
+    return view('admin.authority.index', compact('authoritys'));
+}
+
+// 投稿申請キャンセル処理
+public function authorityCancel($id)
+{
+    $authority = Authority::findOrFail($id);
+
+    // 申請キャンセル
+    $authority->status = 2;
+    $authority->save();
+
+    return redirect()->route('admin.authority');
+}
+
+// 投稿申請承認処理
+public function AuthorityApproval($id)
+{
+    $authority = Authority::findOrFail($id);
+
+    // 申請承認
+    $authority->status = 1;
+    $authority->save();
+
+    // ユーザーの権限付与
+    $user = $authority->user;
+    $user->role = 1;
+    $user->save();
+
+    return redirect()->route('admin.authority');
 }
 
 }
