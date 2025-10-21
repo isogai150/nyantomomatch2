@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/authority/catpost/edit.css') }}">
+<link rel="stylesheet" href="{{ asset('css/authority/catpost/create.css') }}">
 @endsection
 
 @section('content')
@@ -252,7 +252,7 @@
 {{-- 投稿を作成ボタン --}}
 <div class="btn">
   <br><br>
-  <button type="submit" class="botten">投稿を作成</button>
+  <button type="submit" class="botten">投稿の編集を確定</button>
 </div>
 </form>
 </div>
