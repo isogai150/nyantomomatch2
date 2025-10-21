@@ -100,24 +100,31 @@ public function getCostClassAttribute()
 
 
 
-// ====================自分の投稿一覧表示機能：関係情報ここから追記====================
+// ====================自分の投稿一覧表示機能====================
 
-// フィールド指定（今後の安全なデータ保存のため）
-protected $fillable = [
-    'user_id',
-    'title',
-    'age',
-    'gender',
-    'region',
-    'status',
-    'cost',
-];
+    // フィールド指定（今後の安全なデータ保存のため）
+    protected $fillable = [
+        'user_id',
+        'title',
+        'age',
+        'gender',
+        'breed',
+        'region',
+        'status',
+        'cost',
+        'vaccination',
+        'medical_history',
+        'description',
+        'start_date',
+        'end_date',
+    ];
 
-// created_at などの日付フィールドをCarbonで扱いやすくする
-protected $casts = [
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-];
+    // created_at などの日付フィールドをCarbonで扱いやすくする
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 
-// ==================== ここまで追記 ====================
+// ============================================================
+
 }
