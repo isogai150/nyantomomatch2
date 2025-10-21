@@ -53,7 +53,7 @@
   <p>{{ $message }}</p>
 @endforeach
   </div>
-@endif　　　　　　
+@endif
 {{-- ======================================== --}}
 
     <button type="submit" class="botten">ログイン</button>

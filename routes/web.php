@@ -16,6 +16,8 @@ use App\Http\Controllers\AdministratorController;
 
 // 管理者
 Route::get('/admin/dashboard', [AdministratorController::class, 'index'])->name('admin.index');
+use App\Http\Middleware\Firewall;
+use App\Models\Authority;
 
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
@@ -42,10 +44,8 @@ Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.
 
 // 猫の情報投稿作成画面
 Route::get('/catpost/create', [PostController::class, 'create'])->name('posts.create');
-Route::post('/catpost/create', [PostController::class, 'create'])->name('posts.create');
 
 // 猫の情報投稿作成画面：バリデーションメッセージ
-Route::post('/catpost/create', [PostController::class, 'validation'])->name('catpost.create');
 Route::post('/catpost/store', [PostController::class, 'store'])->name('catpost.store');
 
 // 猫の投稿編集画面
@@ -113,6 +113,36 @@ Route::get('/checkout/{post}', [PaymentController::class, 'showcart'])->name('pa
 
 // 決済情報入力ページ表示
 Route::get('/checkout/{post}/payment', [PaymentController::class, 'showForm'])->name('payment.form');
+
+// 管理者ログイン関連
+Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function () {
+  Route::get('login', [AdministratorController::class, 'showLoginForm'])->name('login');
+  Route::post('login', [AdministratorController::class, 'login']);
+  Route::post('logout', [AdministratorController::class, 'logout'])->name('logout');
+
+  // ログイン後
+  Route::middleware('auth:admin')->group(function () {
+    // ダッシュボード
+    Route::get('dashboard', [AdministratorController::class, 'index'])->name('dashboard');
+    // 投稿権限申請一覧表示
+    Route::get('authority', [AdministratorController::class, 'authorityList'])->name('authority');
+    // 投稿権限申請キャンセル処理
+    Route::delete('authority/{authority}/cancel', [AdministratorController::class, 'authorityCancel'])->name('authority.cancel');
+    // 投稿権限申請承認処理
+    Route::put('authority/{authority}/approval', [AdministratorController::class, 'AuthorityApproval'])->name('authority.approval');
+    // 投稿権限申請詳細表示
+    Route::get('authority/{authority}', [AdministratorController::class, 'authorityDetail'])->name('authority.detail');
+  });
+});
+
+// 確認用ルーティング
+// Route::get('/debug/ip', function (\Illuminate\Http\Request $request) {
+//     return response()->json([
+//         'client_ip' => $request->ip(),
+//         'all_ips' => $request->getClientIps(),
+//         'allowed_ips' => config('firewall.allowed_ips'),
+//     ]);
+// });
 
 //ユーザー認証系
 Auth::routes();

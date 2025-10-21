@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
     imageInput.addEventListener('change', function (event) {
         const files = Array.from(event.target.files);
 
-        if (selectedImages.length + files.length > 4) {
-            alert('画像は最大4枚まで選択できます。');
+        if (selectedImages.length + files.length > 3) {
+            alert('画像は最大3枚まで選択できます。');
             imageInput.value = '';
             return;
         }
