@@ -26,14 +26,11 @@
                     <li>{{ $authority->created_at }}</li>
                     <li>{{ $authority->status_label }}</li>
                     <li>
-                        {{-- 申請詳細ページのルーティングを記述
-          /admin/authority/{authority} --}}
-                        <a href="#" class="discription-btn">詳細表示</a>
+                        <a href="{{ route('admin.authority.detail', $authority->id) }}" class="discription-btn">詳細表示</a>
                     </li>
                     <li>
                         <ul class="action-btn">
                             <li>
-                              {{-- でき次第ルーティングの記述 --}}
                                 <form action="{{ route('admin.authority.approval', $authority->id) }}" method="POST" class="ok-btn" id="approval-btn">
                                   @method('PUT')
                                     @csrf

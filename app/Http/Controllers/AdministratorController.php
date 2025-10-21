@@ -118,4 +118,12 @@ public function AuthorityApproval($id)
     return redirect()->route('admin.authority');
 }
 
+// 投稿権限申請詳細表示
+public function authorityDetail($id)
+{
+    $authoritys = Authority::findOrFail($id)->get();
+
+    return view('admin.authority.detail', compact('authoritys'));
+}
+
 }

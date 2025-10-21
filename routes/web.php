@@ -117,6 +117,8 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
     Route::delete('authority/{authority}/cancel', [AdministratorController::class, 'authorityCancel'])->name('authority.cancel');
     // 投稿権限申請承認処理
     Route::put('authority/{authority}/approval', [AdministratorController::class, 'AuthorityApproval'])->name('authority.approval');
+    // 投稿権限申請詳細表示
+    Route::get('authority/{authority}', [AdministratorController::class, 'authorityDetail'])->name('authority.detail');
   });
 });
 
