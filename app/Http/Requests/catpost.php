@@ -32,7 +32,9 @@ class CatPost extends FormRequest
             'breed' => 'required|string|max:50',
             'region' => 'required|string|max:100',
             'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
+
+            // 掲載終了日は必須ではないので「nullable」
+            'end_date' => 'nullable|date|after_or_equal:start_date',
             'status' => 'required|integer',
 
             // 画像関連
