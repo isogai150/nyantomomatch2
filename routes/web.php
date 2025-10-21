@@ -17,6 +17,7 @@ use App\Http\Controllers\AdministratorController;
 // 管理者
 Route::get('/admin/dashboard', [AdministratorController::class, 'index'])->name('admin.index');
 use App\Http\Middleware\Firewall;
+use App\Models\Authority;
 
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
@@ -119,9 +120,16 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
   Route::post('login', [AdministratorController::class, 'login']);
   Route::post('logout', [AdministratorController::class, 'logout'])->name('logout');
 
-  // ログイン後のダッシュボード
+  // ログイン後
   Route::middleware('auth:admin')->group(function () {
+    // ダッシュボード
     Route::get('dashboard', [AdministratorController::class, 'index'])->name('dashboard');
+    // 投稿権限申請一覧表示
+    Route::get('authority', [AdministratorController::class, 'authorityList'])->name('authority');
+    // 投稿権限申請キャンセル処理
+    Route::delete('authority/{authority}/cancel', [AdministratorController::class, 'authorityCancel'])->name('authority.cancel');
+    // 投稿権限申請承認処理
+    Route::put('authority/{authority}/approval', [AdministratorController::class, 'AuthorityApproval'])->name('authority.approval');
   });
 });
 
