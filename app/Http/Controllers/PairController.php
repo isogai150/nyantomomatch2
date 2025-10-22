@@ -49,7 +49,7 @@ class PairController extends Controller
                     'id' => $msg->id, // ← update/delete用にIDも追加
                     'user_id' => $msg->user_id,
                     'content' => e($msg->content),
-                    'created_at' => $msg->created_at->format('Y/m/d H:i'),
+                    'created_at' => $msg->created_at->format('Y年m月d日 H:i'),
                 ];
             });
 
@@ -73,7 +73,7 @@ class PairController extends Controller
                 'id' => $message->id,
                 'user_id' => $message->user_id,
                 'content' => e($message->content),
-                'created_at' => $message->created_at->format('Y/m/d H:i'),
+                'created_at' => $message->created_at->format('Y年m月d日 H:i'),
             ]
         ]);
     }
@@ -100,7 +100,7 @@ class PairController extends Controller
             'message' => [
                 'id' => $message->id,
                 'content' => e($message->content),
-                'updated_at' => $message->updated_at->format('Y/m/d H:i'),
+                'updated_at' => $message->updated_at->format('Y年m月d日 H:i'),
             ]
         ]);
     }

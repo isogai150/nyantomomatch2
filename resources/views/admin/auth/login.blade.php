@@ -3,7 +3,7 @@
 @section('auth_header', '管理者ログイン')
 
 @section('auth_body')
-    <form method="POST" action="{{ route('admin.login') }}">
+    <form method="POST" action="{{ route('admin.login') }}" novalidate>
         @csrf
         <div class="input-group mb-3">
             <input type="email" name="email" class="form-control" placeholder="メールアドレス" required autofocus>

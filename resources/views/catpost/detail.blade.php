@@ -108,9 +108,9 @@
     <p class="user-description">{{ $post->user->description ?? '未記入' }}</p>
 
     <div class="publication-info">
-        <p>掲載開始日：{{ $post->start_date }}</p>
+        <p>掲載開始日：{{ $post->start_date->format('Y年n月j日') }}</p>
         @isset($post->end_date)
-            <p>掲載終了日：{{ $post->end_date }}</p>
+            <p>掲載終了日：{{ $post->end_date->format('Y年n月j日') }}</p>
         @endisset
     </div>
 </div>

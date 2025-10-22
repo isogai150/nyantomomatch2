@@ -29,30 +29,37 @@
           </button>
           <nav>
             <ul>
+              @if(Auth::check())
+                @php
+                    $userRole = Auth::user()->role ?? null;
+                @endphp
 
-              @if(Auth::check()->role === 0)
-              <li><a href="{{ route('mypage.index') }}">マイページ</a></li>
-              <li><a href="{{ route('dm.index') }}">DM一覧</a></li>
-              <li><a href="{{ route('favorites.index') }}">お気に入り</a></li>
-              <li><a href="{{ route('logout') }}" id="logout-btn">ログアウト</a></li>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
-                @csrf
-                </form>
+                @if($userRole === 0)
+                  {{-- 一般ユーザーメニュー --}}
+                  <li><a href="{{ route('mypage.index') }}">マイページ</a></li>
+                  <li><a href="{{ route('dm.index') }}">DM一覧</a></li>
+                  <li><a href="{{ route('favorites.index') }}">お気に入り</a></li>
+                  <li><a href="javascript:void(0)" id="logout-btn">ログアウト</a></li>
 
-              @elseif(Auth::check()->role === 1)
-              <li><a href="{{ route('mypage.index') }}">マイページ</a></li>
-              <li><a href="{{ route('mycatpost.index') }}">自分の投稿</a></li>
-              <li><a href="{{ route('posts.create') }}"></a>投稿の作成</li>
-              <li><a href="{{ route('dm.index') }}">DM一覧</a></li>
-              <li><a href="{{ route('favorites.index') }}">お気に入り</a></li>
-              <li><a href="{{ route('logout') }}" id="logout-btn">ログアウト</a></li>
+                @elseif($userRole === 1)
+                  {{-- 投稿権限ユーザーメニュー --}}
+                  <li><a href="{{ route('mypage.index') }}">マイページ</a></li>
+                  <li><a href="{{ route('mycatpost.index') }}">自分の投稿</a></li>
+                  <li><a href="{{ route('posts.create') }}">投稿の作成</a></li>
+                  <li><a href="{{ route('dm.index') }}">DM一覧</a></li>
+                  <li><a href="{{ route('favorites.index') }}">お気に入り</a></li>
+                  <li><a href="javascript:void(0)" id="logout-btn">ログアウト</a></li>
+                @endif
+
+                {{-- ログアウトフォーム（共通） --}}
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
-                @csrf
+                  @csrf
                 </form>
 
               @else
-              <li><a href="{{ route('register') }}">新規登録</a></li>
-              <li><a href="{{ route('login') }}">ログイン</a></li>
+                {{-- 未ログインユーザーメニュー --}}
+                <li><a href="{{ route('register') }}">新規登録</a></li>
+                <li><a href="{{ route('login') }}">ログイン</a></li>
               @endif
 
             </ul>

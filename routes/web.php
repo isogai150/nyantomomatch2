@@ -93,6 +93,9 @@ Route::middleware('auth')->group(function () {
   // DM削除
   Route::delete('/dm/{dm}/delete', [PairController::class, 'delete'])->name('dm.delete');
 
+  // 権限の申請
+  Route::post('mypage/request-post-permission', [UserController::class, 'requestPostPermission'])->name('request.post.permission');
+
   // 決済完了ページ
   Route::get('/checkout/success', [PaymentController::class, 'success'])->name('payment.success');
 

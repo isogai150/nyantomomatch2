@@ -2,6 +2,7 @@
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/auth/login.css') }}">
+
 @endsection
 
 @section('content')
@@ -23,7 +24,7 @@
     </div>
 
     <div class="form-container">
-      <form action="{{ route('login') }}" method="POST">
+      <form action="{{ route('login') }}" method="POST" novalidate>
       @csrf
 
 
