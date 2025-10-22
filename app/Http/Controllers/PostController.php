@@ -269,4 +269,34 @@ public function deleteMedia($type, $id)
 }
 
 
+// =======================================================================
+
+// 投稿削除処理
+public function destroy(Post $post)
+{
+    $user = Auth::user();
+
+    // 投稿者本人かチェック
+    if ($post->user_id !== $user->id) {
+        abort(403, 'この投稿を削除する権限がありません。');
+    }
+
+    // 画像ファイルを削除
+    foreach ($post->images as $image) {
+        Storage::delete(str_replace('storage/', 'public/', $image->image_path));
+        $image->delete();
+    }
+
+    // 動画ファイルを削除
+    foreach ($post->videos as $video) {
+        Storage::delete(str_replace('storage/', 'public/', $video->video_path));
+        $video->delete();
+    }
+
+    // 投稿を削除
+    $post->delete();
+
+    return redirect()->route('mycatpost.index')->with('success', '投稿を削除しました。');
+}
+
 }

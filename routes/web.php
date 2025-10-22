@@ -57,6 +57,9 @@ Route::put('/my/catpost/{post}', [PostController::class, 'update'])->name('catpo
 // 画像・動画削除処理
 Route::delete('/catpost/media/{type}/{id}', [PostController::class, 'deleteMedia'])->name('media.delete');
 
+// 投稿削除処理
+Route::delete('/my/catpost/{post}/delete', [PostController::class, 'destroy'])->name('catpost.destroy');
+
 // ===========================================================================================
 
 // お気に入りトグル
