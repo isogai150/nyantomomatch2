@@ -17,7 +17,7 @@
                 <div class="dm-user-icon">
                     {{-- 投稿者のプロフィール画像 --}}
                     @if (!empty($partner->image_path))
-                        <img src="{{ asset(str_replace('public/', '', $post->user->image_path)) }}" alt="投稿者のプロフィール画像"
+                        <img src="{{ asset(str_replace('public/', '', $partner->image_path)) }}" alt="投稿者のプロフィール画像"
                             class="user-image">
                     @else
                         <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"

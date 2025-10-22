@@ -239,14 +239,17 @@ class PairController extends Controller
             return redirect()->back()->with('error', '自分の投稿にメッセージは送れません');
         }
 
-        // 既存のペアを検索（userA_id と userB_id の順序を考慮）
-        $pair = Pair::where(function ($query) use ($userId, $postOwnerId) {
-            $query->where('userA_id', $userId)
-                ->where('userB_id', $postOwnerId);
-        })->orWhere(function ($query) use ($userId, $postOwnerId) {
-            $query->where('userA_id', $postOwnerId)
-                ->where('userB_id', $userId);
-        })->where('post_id', $postId)->first();
+        // 既存のペアを検索※post_idも条件に含める（userA_id と userB_id の順序を考慮）
+        $pair = Pair::where('post_id', $postId)
+            ->where(function ($query) use ($userId, $postOwnerId) {
+                $query->where(function ($q) use ($userId, $postOwnerId) {
+                    $q->where('userA_id', $userId)
+                        ->where('userB_id', $postOwnerId);
+                })->orWhere(function ($q) use ($userId, $postOwnerId) {
+                    $q->where('userA_id', $postOwnerId)
+                        ->where('userB_id', $userId);
+                });
+            })->first();
 
         // ペアが存在しない場合は新規作成
         if (!$pair) {
