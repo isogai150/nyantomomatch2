@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('userA_id')->comment('AユーザーID')->constrained('users')->onDelete('cascade');
             $table->foreignId('userB_id')->comment('BユーザーID')->constrained('users')->onDelete('cascade');
-            $table->unique(['userA_id', 'userB_id']);
             $table->foreignId('post_id')->constrained('posts')->comment('投稿ID');
+
+            $table->unique(['userA_id', 'userB_id', 'post_id'], 'pairs_users_post_unique');
+
             $table->timestamps();
             $table->softDeletes()->comment('削除日');
         });
