@@ -189,12 +189,19 @@ public function edit($id)
 // 編集内容更新
 public function update(CatPost $request, Post $post)
 {
-
-
     $user = Auth::user();
-        // dd($user);
+
     if ($post->user_id !== $user->id) {
         abort(403, 'この投稿を編集する権限がありません。');
+    }
+
+    // ★★★ ファイルサイズの追加チェック ★★★
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $imageFile) {
+            if ($imageFile->getSize() > 2 * 1024 * 1024) {
+                return back()->withErrors(['images' => '画像は2MB以下にしてください。'])->withInput();
+            }
+        }
     }
 
     // バリデーション済みデータ

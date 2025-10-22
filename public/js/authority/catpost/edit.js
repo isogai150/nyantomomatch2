@@ -1,28 +1,117 @@
 $(function() {
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
-    const $remainingCount = $('#remaining-count');
     const $previewContainer = $('#preview-container');
-    let remaining = parseInt($remainingCount.text(), 10);
+    const $videoPreviewContainer = $('#video-preview-container');
+    const $imageInput = $('#imageInput');
+    const $videoInput = $('#videoInput');
+    const $videoUploadSection = $('#video-upload-section'); // ★ 追加
+    
+    // 定数
+    const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
+    const MAX_VIDEO_SIZE = 10 * 1024 * 1024; // 10MB
+    const MAX_IMAGES = 3;
 
-    function updateRemaining(delta) {
-        remaining += delta;
-        if (remaining < 0) remaining = 0;
-        $remainingCount.text(remaining);
+    let selectedFiles = [];
+    let selectedVideo = null;
+    let hasVideo = false;
+
+    // 初期状態で既存動画があるかチェック
+    if ($('#media-container .preview-video').length > 0) {
+        hasVideo = true;
+        $videoInput.prop('disabled', true);
+        $videoUploadSection.addClass('hidden'); // ★ 追加
     }
 
-    // ★★★ フォーム送信を許可（追加） ★★★
+    // ファイルサイズをフォーマット
+    function formatFileSize(bytes) {
+        return (bytes / 1024 / 1024).toFixed(2) + 'MB';
+    }
+
+    // 残り画像枚数を計算
+    function getRemainingImageCount() {
+        const existingImages = $('#media-container img.preview-image').length;
+        const newImages = selectedFiles.length;
+        return MAX_IMAGES - existingImages - newImages;
+    }
+
+    // フォーム送信処理
     $('form').on('submit', function(e) {
-        // バリデーションチェック（必要に応じて）
         console.log('フォームが送信されます');
-        // e.preventDefault(); があったら削除すること！
-        // 何もしないでフォーム送信を通す
+        console.log('selectedFiles:', selectedFiles.length);
+        console.log('selectedVideo:', selectedVideo ? selectedVideo.name : 'なし');
+        
+        // 新規画像または新規動画がある場合
+        if (selectedFiles.length > 0 || selectedVideo) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            formData.set('_method', 'PUT');
+            
+            // 既存のimage[]を削除
+            formData.delete('image[]');
+            
+            // 新規画像を「images[]」で追加
+            selectedFiles.forEach((file, index) => {
+                console.log(`画像${index + 1}を追加:`, file.name);
+                formData.append('images[]', file);
+            });
+            
+            // 新規動画を追加
+            if (selectedVideo) {
+                formData.delete('video');
+                formData.append('video', selectedVideo);
+                console.log('動画を追加:', selectedVideo.name);
+            }
+            
+            console.log('送信するFormDataの内容:');
+            for (let pair of formData.entries()) {
+                if (pair[1] instanceof File) {
+                    console.log(pair[0] + ': ' + pair[1].name + ' (' + pair[1].size + ' bytes)');
+                } else {
+                    console.log(pair[0] + ': ' + pair[1]);
+                }
+            }
+            
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    console.log('更新成功');
+                    window.location.href = '/my/catpost';
+                },
+                error: function(xhr) {
+                    console.error('更新失敗:', xhr.status);
+                    console.error('エラー内容:', xhr.responseText);
+                    
+                    if (xhr.status === 422) {
+                        const errors = xhr.responseJSON.errors;
+                        let errorMsg = '入力エラーがあります:\n\n';
+                        for (let key in errors) {
+                            errorMsg += errors[key].join('\n') + '\n';
+                        }
+                        alert(errorMsg);
+                    } else {
+                        alert('更新に失敗しました');
+                    }
+                }
+            });
+            
+            return false;
+        }
+        
         return true;
     });
 
     // 既存メディア削除（Ajax）
     $(document).on('click', '.remove-btn[data-type]', function(e) {
-        e.preventDefault(); // ★ ここは重要：フォーム送信を防ぐ
-        e.stopPropagation(); // ★ イベントの伝播も止める
+        e.preventDefault();
+        e.stopPropagation();
         
         const $btn = $(this);
         const type = $btn.data('type');
@@ -37,8 +126,11 @@ $(function() {
             success: function(res) {
                 if (res.success) {
                     $btn.closest('.preview-item').remove();
-                    if (type === 'image') {
-                        updateRemaining(1);
+                    
+                    if (type === 'video') {
+                        hasVideo = false;
+                        $videoInput.prop('disabled', false);
+                        $videoUploadSection.removeClass('hidden'); // ★ 追加：動画削除時に表示
                     }
                 } else {
                     alert('削除に失敗しました');
@@ -51,17 +143,35 @@ $(function() {
     });
 
     // 画像プレビュー（複数選択対応）
-    $('#imageInput').on('change', function(e) {
+    $imageInput.on('change', function(e) {
         const files = Array.from(e.target.files);
         
-        // 残り枚数チェック
+        console.log('選択されたファイル:', files.length);
+        
+        const remaining = getRemainingImageCount();
+        
         if (files.length > remaining) {
             alert(`アップロードできるのはあと ${remaining} 枚までです。`);
             $(this).val('');
             return;
         }
 
-        // 各ファイルをプレビュー表示
+        let hasOversizedFile = false;
+        files.forEach(file => {
+            if (file.size > MAX_IMAGE_SIZE) {
+                alert(`❌ 画像「${file.name}」のサイズが大きすぎます。\n\nファイルサイズ: ${formatFileSize(file.size)}\n上限: 2MB\n\n2MB以下の画像を選択してください。`);
+                hasOversizedFile = true;
+            }
+        });
+
+        if (hasOversizedFile) {
+            $(this).val('');
+            return;
+        }
+
+        selectedFiles = selectedFiles.concat(files);
+        console.log('selectedFiles配列:', selectedFiles.length);
+
         files.forEach((file, index) => {
             if (!file.type.startsWith('image/')) {
                 alert('画像ファイルのみアップロードできます');
@@ -74,22 +184,25 @@ $(function() {
                 $item.append(`
                     <img src="${event.target.result}" 
                          class="preview-image" 
-                         style="width:150px; border-radius:8px;">
+                         style="width:150px; height:150px; object-fit:cover; border-radius:10px;">
                 `);
                 
-                // 削除ボタン（新規追加用）
-                $item.append(`<button type="button" class="remove-btn new" data-index="${index}">×</button>`);
+                const fileIndex = selectedFiles.length - files.length + index;
+                $item.append(`<button type="button" class="remove-btn new" data-file-index="${fileIndex}">×</button>`);
                 
                 $previewContainer.append($item);
             };
             reader.readAsDataURL(file);
         });
 
-        updateRemaining(-files.length);
+        // 残り枚数が0になったら画像選択を無効化
+        if (getRemainingImageCount() <= 0) {
+            $imageInput.prop('disabled', true);
+        }
     });
 
     // 動画プレビュー
-    $('#videoInput').on('change', function(e) {
+    $videoInput.on('change', function(e) {
         const file = e.target.files[0];
         if (!file) return;
 
@@ -99,40 +212,79 @@ $(function() {
             return;
         }
 
-        // 動画プレビューエリアをクリア
-        $('#video-preview-container').empty();
+        if (file.size > MAX_VIDEO_SIZE) {
+            alert(`❌ 動画「${file.name}」のサイズが大きすぎます。\n\nファイルサイズ: ${formatFileSize(file.size)}\n上限: 10MB\n\n10MB以下の動画を選択してください。`);
+            $(this).val('');
+            return;
+        }
 
-        const $item = $('<div class="preview-item"></div>');
+        // 選択された動画ファイルを保存
+        selectedVideo = file;
+        console.log('動画ファイルを保存:', selectedVideo.name);
+
+        // 既存の動画プレビューをクリア
+        $videoPreviewContainer.empty();
+
+        const $item = $('<div class="preview-item" style="width:150px; height:150px;"></div>');
         const videoURL = URL.createObjectURL(file);
+        
         $item.append(`
-            <video width="150" controls>
+            <video controls class="preview-video" preload="metadata" style="width:150px; height:150px; object-fit:cover; border-radius:10px; display:block;">
                 <source src="${videoURL}" type="${file.type}">
+                お使いのブラウザは動画再生に対応していません。
             </video>
         `);
         $item.append(`<button type="button" class="remove-btn video-new">×</button>`);
         
-        $('#video-preview-container').append($item);
+        $videoPreviewContainer.append($item);
+        
+        hasVideo = true;
+        $videoInput.prop('disabled', true);
+        $videoUploadSection.addClass('hidden'); // ★ 追加：動画選択時に非表示
     });
 
-    // 新規メディア削除（送信前）
+    // 新規画像削除（送信前）
     $previewContainer.on('click', '.remove-btn.new', function(e) {
-        e.preventDefault(); // ★ 追加
-        e.stopPropagation(); // ★ 追加
+        e.preventDefault();
+        e.stopPropagation();
         
         const $item = $(this).closest('.preview-item');
-        $item.remove();
-        updateRemaining(1);
+        const fileIndex = parseInt($(this).data('file-index'));
         
-        // input要素をリセット
-        $('#imageInput').val('');
+        console.log('削除するファイルインデックス:', fileIndex);
+        
+        if (!isNaN(fileIndex) && fileIndex >= 0 && fileIndex < selectedFiles.length) {
+            selectedFiles.splice(fileIndex, 1);
+            console.log('削除後のファイル数:', selectedFiles.length);
+            
+            // インデックスを再調整
+            $previewContainer.find('.remove-btn.new').each(function(i) {
+                $(this).attr('data-file-index', i);
+            });
+        }
+        
+        $item.remove();
+        
+        // 画像削除後、再度選択可能にする
+        if (getRemainingImageCount() > 0) {
+            $imageInput.prop('disabled', false);
+        }
     });
 
     // 新規動画削除
     $(document).on('click', '.remove-btn.video-new', function(e) {
-        e.preventDefault(); // ★ 追加
-        e.stopPropagation(); // ★ 追加
+        e.preventDefault();
+        e.stopPropagation();
         
         $(this).closest('.preview-item').remove();
-        $('#videoInput').val('');
+        $videoInput.val('');
+        
+        // 選択された動画ファイルをクリア
+        selectedVideo = null;
+        console.log('動画ファイルをクリア');
+        
+        hasVideo = false;
+        $videoInput.prop('disabled', false);
+        $videoUploadSection.removeClass('hidden'); // ★ 追加：新規動画削除時に表示
     });
 });
