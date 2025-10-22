@@ -12,6 +12,13 @@ use App\Models\Pair;
 use App\Http\Controllers\PaymentController;
 use App\Http\Requests\CatPost;
 use App\Http\Controllers\AdministratorController;
+use Illuminate\Support\Facades\Storage;
+
+// s3用テスト
+// Route::get('/s3-test', function () {
+//     Storage::disk('s3')->put('test.txt', 'これはテストです');
+//     return 'アップロード完了';
+// });
 
 
 // 管理者
