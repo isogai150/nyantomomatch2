@@ -48,16 +48,14 @@ Route::get('/catpost/create', [PostController::class, 'create'])->name('posts.cr
 // 猫の情報投稿作成画面：バリデーションメッセージ
 Route::post('/catpost/store', [PostController::class, 'store'])->name('catpost.store');
 
-// 猫の投稿編集画面
-// Route::get('my/catpost/{catpost}/edit', [PostController::class, 'createedit'])->name('catpost.edit');
-// Route::put('my/catpost/{catpost}/edit', [PostController::class, 'createedit'])->name('catpost.edit');
-
 // 投稿編集画面
 Route::get('/my/catpost/{post}/edit', [PostController::class, 'edit'])->name('catpost.edit');
 
 // 投稿更新処理
 Route::put('/my/catpost/{post}', [PostController::class, 'update'])->name('catpost.update');
 
+// 画像・動画削除処理
+Route::delete('/catpost/media/{type}/{id}', [PostController::class, 'deleteMedia'])->name('media.delete');
 
 // ===========================================================================================
 

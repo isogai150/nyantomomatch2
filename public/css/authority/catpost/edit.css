@@ -278,6 +278,47 @@ textarea {
 }
 
 /* ======================================================================= */
+/* 251022追加分 */
+.preview-image, .preview-video {
+  width: 100px;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+}
+/* ======================================================================= */
+/* 251022追加分 午後*/
+/* .preview-item {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+}
+
+.preview-image {
+    display: block;
+    border: 2px solid #ddd;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.remove-btn:hover {
+    background: rgba(255, 0, 0, 1);
+} */
 /* ======================================================================= */
 
 /* 健康状態の背景の白枠部分 */
