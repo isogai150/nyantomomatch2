@@ -13,23 +13,27 @@
 
         <div class="post-media">
             @if ($post->images->isNotEmpty())
-                <img id="main-image" src="{{ asset(str_replace('public/', '', $post->images->first()->image_path)) }}"
-                    alt="メイン画像" class="main-photo">
+                <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $post->images->first()->image_path) }}"
+                    alt="投稿画像" class="main-photo" id="main-image">
             @else
                 <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"
                     class="main-photo">
             @endif
 
-            <div class="thumbnail-list">
-                @foreach ($post->images as $image)
-                    <img src="{{ asset(str_replace('public/', '', $image->image_path)) }}" class="thumbnail" alt="サムネイル画像">
-                @endforeach
 
-                @foreach ($post->videos as $video)
-                    <video class="thumbnail" muted>
-                        <source src="{{ asset(str_replace('public/', '', $video->video_path)) }}" type="video/mp4">
-                    </video>
-                @endforeach
+            <div class="thumbnail-list">
+<div class="thumbnail-list">
+    @foreach ($post->images as $image)
+        <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $image->image_path) }}" class="thumbnail" alt="サムネイル画像">
+    @endforeach
+
+    @foreach ($post->videos as $video)
+        <video class="thumbnail" muted>
+            <source src="{{ Storage::disk(config('filesystems.default'))->url('post_videos/' . $video->video_path) }}" type="video/mp4">
+        </video>
+    @endforeach
+</div>
+
             </div>
         </div>
 
@@ -89,31 +93,31 @@
                     </form>
                 </div>
 
-<div class="user-info">
-    <h3>投稿者情報</h3>
+                <div class="user-info">
+                    <h3>投稿者情報</h3>
 
-    <div class="user-main">
-        {{-- 投稿者のプロフィール画像 --}}
-        @if (!empty($post->user->image_path))
-            <img src="{{ asset(str_replace('public/', '', $post->user->image_path)) }}"
-                alt="投稿者のプロフィール画像" class="user-image">
-        @else
-            <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}"
-                alt="No Image" class="user-image">
-        @endif
+                    <div class="user-main">
+                        {{-- 投稿者のプロフィール画像 --}}
+                        @if (!empty($post->user->image_path))
+                            <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $post->user->image_path) }}" alt="投稿者のプロフィール画像"
+                                class="user-image">
+                        @else
+                            <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"
+                                class="user-image">
+                        @endif
 
-        <p class="user-name">{{ $post->user->name }}</p>
-    </div>
+                        <p class="user-name">{{ $post->user->name }}</p>
+                    </div>
 
-    <p class="user-description">{{ $post->user->description ?? '未記入' }}</p>
+                    <p class="user-description">{{ $post->user->description ?? '未記入' }}</p>
 
-    <div class="publication-info">
-        <p>掲載開始日：{{ $post->start_date }}</p>
-        @isset($post->end_date)
-            <p>掲載終了日：{{ $post->end_date }}</p>
-        @endisset
-    </div>
-</div>
+                    <div class="publication-info">
+                        <p>掲載開始日：{{ $post->start_date }}</p>
+                        @isset($post->end_date)
+                            <p>掲載終了日：{{ $post->end_date }}</p>
+                        @endisset
+                    </div>
+                </div>
 
             </aside>
 
