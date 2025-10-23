@@ -182,7 +182,34 @@
       @enderror
 
       {{-- プレビュー表示領域 --}}
-      <div id="preview-container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;"></div>
+      <div id="preview-container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;">
+
+        {{-- セッションに保存された画像を表示 --}}
+        @if(session('temp_images'))
+          @foreach(session('temp_images') as $index => $imagePath)
+            <div class="preview-item" data-temp-index="{{ $index }}">
+              <img src="{{ asset('storage/' . $imagePath) }}" class="preview-image" alt="一時保存画像">
+              <button type="button" class="remove-btn remove-temp-image" data-index="{{ $index }}">✕</button>
+            </div>
+          @endforeach
+        @endif
+
+        {{-- セッションに保存された動画を表示 --}}
+        @if(session('temp_video'))
+          <div class="preview-item temp-video">
+            <video src="{{ asset('storage/' . session('temp_video')) }}" controls class="preview-video"></video>
+            <button type="button" class="remove-btn remove-temp-video">✕</button>
+          </div>
+        @endif
+      </div>
+
+      {{-- 一時ファイルの情報を保持 --}}
+      @if(session('temp_images'))
+        <input type="hidden" name="temp_images" value="{{ json_encode(session('temp_images')) }}">
+      @endif
+      @if(session('temp_video'))
+        <input type="hidden" name="temp_video" value="{{ session('temp_video') }}">
+      @endif
     </div>
 
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}

@@ -20,8 +20,5 @@ class PostVideo extends Model
         return $this->belongsTo(Post::class);
     }
 
-    protected $fillable = [
-        'video_path',
-    ];
 }
 

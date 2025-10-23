@@ -74,7 +74,7 @@ a {
 .hamburger span {
   display: block;
   height: 3px;
-  background-color: #333;
+  background-color: #503322;
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -106,7 +106,7 @@ a {
 .hamburger-menu nav ul li a {
   text-decoration: none;
   font-size: 16px;
-  color: #333;
+  color: #503322;
 }
 
 /* 開いた状態 */
@@ -121,6 +121,7 @@ a {
 
 .hamburger.active span:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
+  color: #503322;
 }
 
 .hamburger.active span:nth-child(2) {
@@ -166,7 +167,7 @@ main {
 }
 
 .footer-raight {
-  width: 35%;
+  width: 37%;
 }
 
 .footer-raight ul {
@@ -184,6 +185,7 @@ margin-right: 4%;
 .footer-bottm {
   text-align: center;
   padding: 1% 0;
+  color: #503322;
 }
 
 /* スマホ用 (390px以下) */
@@ -218,7 +220,7 @@ margin-right: 4%;
 
   /* ハンバーガーボタン */
   .hamburger {
-    width: 28px;
+    width: 30px;
     height: 22px;
     display: flex;
     flex-direction: column;
@@ -234,7 +236,7 @@ margin-right: 4%;
   }
 
   .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(4px, 4px); /* ← translateを調整 */
+    transform: rotate(45deg) translate(5px, 4px); /* ← translateを調整 */
   }
 
   .hamburger.active span:nth-child(2) {
@@ -242,7 +244,7 @@ margin-right: 4%;
   }
 
   .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(4px, -4px); /* ← translateを調整 */
+    transform: rotate(-45deg) translate(5px, -4px); /* ← translateを調整 */
   }
   /* ------------------------------
     footer
