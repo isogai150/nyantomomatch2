@@ -21,6 +21,7 @@
         <a href="{{ route('posts.create') }}">＋　新しい投稿</a>
     </div>
 
+
     {{-- 成功メッセージ表示 --}}
     @if(session('success'))
         <div class="alert alert-success">
