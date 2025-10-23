@@ -299,8 +299,8 @@ return [
     |
     */
 
-'menu' => [
-    [
+    'menu' => [
+        [
             'type' => 'navbar-search',
             'text' => 'search',
             'topnav_right' => true,
@@ -320,58 +320,58 @@ return [
             'url' => 'admin/blog',
             'can' => 'manage-blog',
         ],
-    [
-        'text' => 'ダッシュボード',
-        'url'  => 'admin/dashboard',
-        'icon' => 'fas fa-fw fa-tachometer-alt',
-    ],
+        [
+            'text' => 'ダッシュボード',
+            'url'  => 'admin/dashboard',
+            'icon' => 'fas fa-fw fa-tachometer-alt',
+        ],
 
-    ['header' => '管理メニュー'],
+        ['header' => '管理メニュー'],
 
-    [
-        'text' => '投稿関連',
-        'icon' => 'fas fa-cat',
-        'submenu' => [
-            ['text' => '投稿一覧', 'url' => 'admin/posts', 'icon' => 'fas fa-list'],
-            ['text' => '投稿通報一覧', 'url' => 'admin/post-reports', 'icon' => 'fas fa-flag'],
+        [
+            'text' => '投稿関連',
+            'icon' => 'fas fa-cat',
+            'submenu' => [
+                ['text' => '投稿一覧', 'url' => 'admin/posts', 'icon' => 'fas fa-list'],
+                ['text' => '投稿通報一覧', 'url' => 'admin/post-reports', 'icon' => 'fas fa-flag'],
+            ],
+        ],
+        [
+            'text' => 'DM関連',
+            'icon' => 'fas fa-envelope',
+            'submenu' => [
+                ['text' => 'DM一覧', 'url' => 'admin/dm'],
+                ['text' => 'DM通報一覧', 'url' => 'admin/dm-reports'],
+            ],
+        ],
+        [
+            'text' => 'ユーザー管理',
+            'url'  => 'admin/users',
+            'icon' => 'fas fa-users',
+        ],
+        [
+            'text' => '投稿権限一覧',
+            'url'  => 'admin/authority',
+            'icon' => 'fas fa-user-shield',
+        ],
+        [
+            'text' => '譲渡成立一覧',
+            'url'  => 'admin/transfers',
+            'icon' => 'fas fa-handshake',
+        ],
+
+        ['header' => 'システム設定'],
+        [
+            'text' => 'マイページ',
+            'url'  => 'admin/profile',
+            'icon' => 'fas fa-user',
+        ],
+        [
+            'text' => 'ログアウト',
+            'url'  => 'logout',
+            'icon' => 'fas fa-sign-out-alt',
         ],
     ],
-    [
-        'text' => 'DM関連',
-        'icon' => 'fas fa-envelope',
-        'submenu' => [
-            ['text' => 'DM一覧', 'url' => 'admin/dm'],
-            ['text' => 'DM通報一覧', 'url' => 'admin/dm-reports'],
-        ],
-    ],
-    [
-        'text' => 'ユーザー管理',
-        'url'  => 'admin/users',
-        'icon' => 'fas fa-users',
-    ],
-    [
-        'text' => '投稿権限一覧',
-        'url'  => 'admin/authorities',
-        'icon' => 'fas fa-user-shield',
-    ],
-    [
-        'text' => '譲渡成立一覧',
-        'url'  => 'admin/transfers',
-        'icon' => 'fas fa-handshake',
-    ],
-
-    ['header' => 'システム設定'],
-    [
-        'text' => 'マイページ',
-        'url'  => 'admin/profile',
-        'icon' => 'fas fa-user',
-    ],
-    [
-        'text' => 'ログアウト',
-        'url'  => 'logout',
-        'icon' => 'fas fa-sign-out-alt',
-    ],
-],
 
 
     /*
@@ -409,6 +409,29 @@ return [
     */
 
     'plugins' => [
+
+        'Jquery' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => 'https://code.jquery.com/jquery-3.7.1.min.js',
+                ],
+            ],
+        ],
+
+        'Chartjs' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => 'https://cdn.jsdelivr.net/npm/chart.js',
+                ],
+            ],
+        ],
+
         'Datatables' => [
             'active' => false,
             'files' => [
@@ -429,6 +452,7 @@ return [
                 ],
             ],
         ],
+
         'Select2' => [
             'active' => false,
             'files' => [
@@ -444,16 +468,7 @@ return [
                 ],
             ],
         ],
-        'Chartjs' => [
-            'active' => false,
-            'files' => [
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
-                ],
-            ],
-        ],
+
         'Sweetalert2' => [
             'active' => false,
             'files' => [
@@ -464,6 +479,7 @@ return [
                 ],
             ],
         ],
+
         'Pace' => [
             'active' => false,
             'files' => [
@@ -480,6 +496,7 @@ return [
             ],
         ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -513,10 +530,6 @@ return [
             'use_navbar_items' => true,
         ],
     ],
-
-    'adminlte_css' => [
-    'css/admin/dashboard/index.css',
-],
 
     /*
     |--------------------------------------------------------------------------
