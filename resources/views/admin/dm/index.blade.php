@@ -45,8 +45,8 @@
                     </li>
 
                     <li>
-                        {{-- <a href="{{ route('admin.dm.detail', $dm->id) }}" class="discription-btn">詳細表示</a> --}}
-                        <a href="#" class="discription-btn">詳細表示</a>
+                        <a href="{{ route('admin.dm.detail', $dm->id) }}" class="discription-btn">詳細表示</a>
+                        {{-- <a href="#" class="discription-btn">詳細表示</a> --}}
                     </li>
                 </ul>
             @endforeach
@@ -56,9 +56,5 @@
 {{-- ============================================================== --}}
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/admin/dm/index.css') }}">
-@stop
-
-@section('js')
-    <script src="{{ asset('ここにjsファイルのパス記述') }}"></script>
 @stop
 @stop

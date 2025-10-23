@@ -135,6 +135,12 @@ public function dmList()
     return view('admin.dm.index', compact('dms'));
 }
 
+// DM詳細表示
+public function detail()
+{
+    $ditails = Message::whereNull('deleted_at')->get();
 
+    return view('admin.dm.detail', compact('ditails'));
+}
 
 }

@@ -144,6 +144,8 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
     Route::get('authority/{authority}', [AdministratorController::class, 'authorityDetail'])->name('authority.detail');
     // DM一覧表示
     Route::get('dm', [AdministratorController::class, 'dmList'])->name('dm');
+    // DM詳細表示
+    Route::get('dm/{dm}', [AdministratorController::class, 'detail'])->name('dm.detail');
   });
 });
 
