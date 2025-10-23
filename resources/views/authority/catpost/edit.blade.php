@@ -13,6 +13,7 @@
     <div class="background-form">
       <h3>基本情報</h3>
 
+
       <form action="{{ route('catpost.update', $post->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
