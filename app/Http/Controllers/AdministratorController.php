@@ -18,14 +18,14 @@ public function index()
     $messageCount = Message::count();
     $postCount = Post::count();
 
-    // ▼ 月別ユーザー登録数
+    // 月別ユーザー登録数
     $monthlyUserCounts = User::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
         ->whereYear('created_at', date('Y'))
         ->groupBy('month')
         ->pluck('count', 'month')
         ->toArray();
 
-    // ▼ 月別投稿数
+    // 月別投稿数
     $monthlyPostCounts = Post::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
         ->whereYear('created_at', date('Y'))
         ->groupBy('month')
