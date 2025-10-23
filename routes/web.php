@@ -60,7 +60,9 @@ Route::delete('/catpost/media/{type}/{id}', [PostController::class, 'deleteMedia
 // 投稿削除処理
 Route::delete('/my/catpost/{post}/delete', [PostController::class, 'destroy'])->name('catpost.destroy');
 
-// ===========================================================================================
+
+
+// ========================================
 
 // お気に入りトグル
 Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
@@ -140,6 +142,8 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
     Route::put('authority/{authority}/approval', [AdministratorController::class, 'AuthorityApproval'])->name('authority.approval');
     // 投稿権限申請詳細表示
     Route::get('authority/{authority}', [AdministratorController::class, 'authorityDetail'])->name('authority.detail');
+    // DM一覧表示
+    Route::get('dm', [AdministratorController::class, 'dmList'])->name('dm');
   });
 });
 

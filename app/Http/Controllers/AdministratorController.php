@@ -14,7 +14,7 @@ class AdministratorController extends Controller
 {
 
 // ログインフォーム表示機能
- public function showLoginForm()
+public function showLoginForm()
     {
         return view('admin.auth.login');
     }
@@ -126,5 +126,15 @@ public function authorityDetail($id)
 
     return view('admin.authority.detail', compact('authority'));
 }
+
+// DM一覧表示
+public function dmList()
+{
+    $dms = Pair::whereNull('deleted_at')->get();
+
+    return view('admin.dm.index', compact('dms'));
+}
+
+
 
 }
