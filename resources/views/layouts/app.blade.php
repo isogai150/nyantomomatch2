@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+{{-- ================================================================ --}}
+{{-- 1022 猫の投稿の編集 追加分 --}}
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+{{-- ================================================================ --}}
   <title>にゃん×とも×まっち</title>
   {{-- ファピコン --}}
   <link rel="icon" href="public/images/favicon/favicon24x24.ico">
