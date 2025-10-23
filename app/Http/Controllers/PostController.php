@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Requests\CatPost;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -173,4 +174,129 @@ class PostController extends Controller
     }
 
 // =================================================================================
+
+// 編集画面表示
+public function edit($id)
+{
+    $post = Post::with(['images', 'videos'])->findOrFail($id);
+    $maxImages = 3;
+    $currentImageCount = $post->images->count();
+    $remainingImageSlots = max(0, $maxImages - $currentImageCount);
+
+    return view('authority.catpost.edit', compact('post', 'remainingImageSlots'));
+}
+
+// 編集内容更新
+public function update(CatPost $request, Post $post)
+{
+    $user = Auth::user();
+
+    if ($post->user_id !== $user->id) {
+        abort(403, 'この投稿を編集する権限がありません。');
+    }
+
+    // ★★★ ファイルサイズの追加チェック ★★★
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $imageFile) {
+            if ($imageFile->getSize() > 2 * 1024 * 1024) {
+                return back()->withErrors(['images' => '画像は2MB以下にしてください。'])->withInput();
+            }
+        }
+    }
+
+    // バリデーション済みデータ
+    $validated = $request->validated();
+
+
+    // 投稿内容更新
+    $post->fill($validated);
+    $post->save();
+
+    // 画像更新処理（新しい画像がアップロードされた場合のみ）
+    if ($request->hasFile('images')) {
+        // 最大3枚までのチェック
+        $currentImageCount = $post->images->count();
+        $newImageCount = count($request->file('images'));
+
+        if ($currentImageCount + $newImageCount > 3) {
+            return back()->withErrors(['images' => '画像は最大3枚までです。']);
+        }
+
+        // 新しい画像を保存（既存画像は削除しない）
+        foreach ($request->file('images') as $imageFile) {
+            $path = $imageFile->store('public/post_images');
+            $post->images()->create([
+                'image_path' => str_replace('public/', 'storage/', $path)
+            ]);
+        }
+    }
+
+    // 動画更新処理
+    if ($request->hasFile('video')) {
+        // 既存動画を削除
+        foreach ($post->videos as $video) {
+            Storage::delete(str_replace('storage/', 'public/', $video->video_path));
+            $video->delete();
+        }
+
+        $videoFile = $request->file('video');
+        $path = $videoFile->store('public/post_videos');
+        $post->videos()->create([
+            'video_path' => str_replace('public/', 'storage/', $path)
+        ]);
+    }
+    return redirect()->route('mycatpost.index')->with('success', '投稿が更新されました！');
+}
+
+// ==================================================
+
+public function deleteMedia($type, $id)
+{
+    // dd($type, $id);
+    if ($type === 'image') {
+        $media = \App\Models\PostImage::findOrFail($id);
+    } elseif ($type === 'video') {
+        $media = \App\Models\PostVideo::findOrFail($id);
+    } else {
+        abort(400, '無効なタイプです。');
+    }
+
+    // ファイル削除
+    Storage::delete(str_replace('storage/', 'public/', $media->image_path ?? $media->video_path));
+    $media->delete();
+
+    return response()->json(['success' => true]);
+}
+
+
+// =======================================================================
+
+// 投稿削除処理
+public function destroy(Post $post)
+{
+    $user = Auth::user();
+
+    // 投稿者本人かチェック
+    if ($post->user_id !== $user->id) {
+        abort(403, 'この投稿を削除する権限がありません。');
+    }
+
+    // 画像ファイルを削除
+    foreach ($post->images as $image) {
+        Storage::delete(str_replace('storage/', 'public/', $image->image_path));
+        $image->delete();
+    }
+
+    // 動画ファイルを削除
+    foreach ($post->videos as $video) {
+        Storage::delete(str_replace('storage/', 'public/', $video->video_path));
+        $video->delete();
+    }
+
+    // 投稿を削除
+    $post->delete();
+
+    return redirect()->route('mycatpost.index')->with('success', '投稿を削除しました。');
+}
+
 }
