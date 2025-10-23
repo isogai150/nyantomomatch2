@@ -9,6 +9,12 @@ class PostVideo extends Model
 {
     use HasFactory;
 
+// =========================================================
+    // 自分の投稿一覧表示機能での追記
+    protected $fillable = ['post_id', 'video_path'];
+
+// =========================================================
+
     public function post()
     {
         return $this->belongsTo(Post::class);
@@ -18,3 +24,4 @@ class PostVideo extends Model
         'video_path',
     ];
 }
+
