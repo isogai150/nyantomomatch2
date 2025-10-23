@@ -80,17 +80,24 @@ class UserController extends Controller
 
         $user = Auth::user();
 
+        // 使用ディスクをconfigのfilesystems経由で.envファイルから取得
+        $disk = config('filesystems.default');
+        // dd($disk);
+
         // 古い画像を削除
         if ($user->image_path) {
-            Storage::disk('public')->delete('profile_images/' . $user->image_path);
+            Storage::disk($disk)->delete('profile_images/' . $user->image_path);
         }
 
         // 新しい画像を保存
         $image = $request->file('image');
         $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
 
+        // ディスクに保存
+        Storage::disk($disk)->putFileAs('profile_images', $image, $imageName,);
+
         // storage/app/public/profile_images に保存
-        $image->storeAs('profile_images', $imageName, 'public');
+        $image->storeAs('profile_images', $imageName,);
 
         // データベースを更新
         $user->image_path = $imageName;
@@ -98,7 +105,6 @@ class UserController extends Controller
 
         return redirect()->route('mypage.index')->with('image_success', 'プロフィール画像を更新しました。');
     }
-
 
     // 投稿権限申請処理
     public function requestPostPermission(AuthorityRequest $request)
