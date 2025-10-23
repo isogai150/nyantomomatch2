@@ -277,6 +277,47 @@ textarea {
     line-height: 20px;
 }
 
+/* ファイル選択カスタマイズ */
+.file-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 10px 0;
+}
+
+.hidden-input {
+    display: none;
+}
+
+.select-file-btn {
+    padding: 10px 20px;
+    background-color: #F6D8B3;
+    color: #503322;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.select-file-btn:hover {
+    background-color: #F6D8B3;
+}
+
+.select-file-btn:active {
+    transform: scale(0.98);
+}
+
+.selected-info {
+    color: #503322;
+    font-size: 14px;
+}
+
+.selected-info.has-files {
+    color: #503322;
+    font-weight: bold;
+}
+
 /* ======================================================================= */
 /* ======================================================================= */
 
@@ -513,6 +554,17 @@ textarea {
     .preview-image,
     .preview-video {
     max-width: 100px;
+    }
+
+    .file-input-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    }
+
+    .select-file-btn {
+    width: 100%;
+    text-align: center;
     }
 }
 

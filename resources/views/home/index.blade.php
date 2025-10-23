@@ -9,7 +9,7 @@
   <div class="main-top">
     <div class="title">
       <h1>猫との新しい出会いを<br><span>にゃん×とも×まっち</span></h1>
-      <p>愛情いっぱいの猫たちが、新しい家族との出会いを待っています。<br>あなたの人生に特別な仲間を迎えませんか？</p>
+      <p>愛情いっぱいの猫たちが、<br class="br-sp">新しい家族との出会いを待っています。<br>あなたの人生に特別な仲間を迎えませんか？</p>
     </div>
 
     <div class="post-searchs flex">

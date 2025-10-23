@@ -67,7 +67,11 @@
                 </div>
 
                 <div class="cost-contents">
-                    <p>譲渡費用<br><span>{!! nl2br(e($post->cost_class ?? '未記入')) !!}</span></p>
+                    <p>譲渡費用<br>
+                        <span>
+                            {!! nl2br(e($post->cost_class ?? '未記入')) !!}
+                        </span>
+                    </p>
                 </div>
             </div>
 

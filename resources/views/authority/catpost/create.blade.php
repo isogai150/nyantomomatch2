@@ -168,15 +168,32 @@
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 
       <p>画像（最大3枚まで）、<br class="br-sp">または動画（最大1本）</p><br>
-      <input type="file" name="image[]" id="image" accept="image/*" multiple>
-      @error('image')
+
+      {{-- 画像選択部分 --}}
+      <div class="file-input-wrapper">
+        <input type="file" name="image[]" id="image" accept="image/*" multiple class="hidden-input">
+        <button type="button" class="select-file-btn" onclick="document.getElementById('image').click()">
+          📷 画像を選択
+        </button>
+        <span id="image-selected-info" class="selected-info">未選択</span>
+      </div>
+
+        @error('image')
         <div class="alert-danger">{{ $message }}</div>
       @enderror
 
       <br>
       <br>
 
-      <input type="file" name="video" id="video" accept="video/*">
+      {{-- 動画選択部分 --}}
+      <div class="file-input-wrapper">
+        <input type="file" name="video" id="video" accept="video/*" class="hidden-input">
+        <button type="button" class="select-file-btn" onclick="document.getElementById('video').click()">
+          🎥 動画を選択
+        </button>
+        <span id="video-selected-info" class="selected-info">未選択</span>
+      </div>
+
       @error('video')
         <div class="alert-danger">{{ $message }}</div>
       @enderror

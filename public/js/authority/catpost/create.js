@@ -4,9 +4,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const imageInput = document.getElementById('image');
     const videoInput = document.getElementById('video');
     const container = document.getElementById('preview-container');
+    const imageInfoSpan = document.getElementById('image-selected-info');
+    const videoInfoSpan = document.getElementById('video-selected-info');
+
 
     let selectedImages = [];
     let selectedVideo = null;
+
+    // ページ読み込み時の状態を更新
+    updateFileInfo();
 
     // 一時保存された画像の削除ボタン
     document.querySelectorAll('.remove-temp-image').forEach(btn => {
@@ -18,8 +24,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                 }
-            }).then(() => {
-                this.closest('.preview-item').remove();
+                }).then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        this.closest('.preview-item').remove();
+                        updateFileInfo();
+                    }
+                }).catch(error => {
+                    console.error('削除エラー:', error);
             });
         });
     });
@@ -33,8 +45,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                 }
-            }).then(() => {
-                this.closest('.preview-item').remove();
+                }).then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        this.closest('.preview-item').remove();
+                        updateFileInfo();
+                    }
+                }).catch(error => {
+                    console.error('削除エラー:', error);
             });
         });
     }
@@ -53,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         selectedImages.push(...files);
         renderPreview();
+        updateFileInfo(); // 表示を更新
     });
 
     // 動画プレビュー
@@ -70,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         selectedVideo = file;
         renderPreview();
+        updateFileInfo(); // 表示を更新
     });
 
     function renderPreview() {
@@ -97,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     selectedImages.splice(index, 1);
                     renderPreview();
                     updateInputFiles();
+                    updateFileInfo(); // 表示を更新
                 });
 
                 wrapper.appendChild(img);
@@ -111,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const reader = new FileReader();
             reader.onload = function(e) {
                 const wrapper = document.createElement('div');
-                wrapper.classList.add('preview-item', 'temp-video');
+                wrapper.classList.add('preview-item');
 
                 const video = document.createElement('video');
                 video.src = e.target.result;
@@ -126,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     selectedVideo = null;
                     videoInput.value = '';
                     renderPreview();
+                    updateFileInfo(); // 表示を更新
                 });
 
                 wrapper.appendChild(video);
@@ -143,5 +165,37 @@ document.addEventListener('DOMContentLoaded', function () {
         const dataTransfer = new DataTransfer();
         selectedImages.forEach(file => dataTransfer.items.add(file));
         imageInput.files = dataTransfer.files;
+    }
+
+    // ファイル情報表示を更新
+    function updateFileInfo() {
+        // 画像の情報更新
+        const tempImageCount = document.querySelectorAll('[data-temp-index]').length;
+        const newImageCount = selectedImages.length;
+        const totalImageCount = tempImageCount + newImageCount;
+
+        if (imageInfoSpan) {
+            if (totalImageCount === 0) {
+                imageInfoSpan.textContent = '未選択';
+                imageInfoSpan.classList.remove('has-files');
+            } else {
+                imageInfoSpan.textContent = `${totalImageCount}枚選択済み（最大3枚）`;
+                imageInfoSpan.classList.add('has-files');
+            }
+        }
+
+        // 動画の情報更新
+        if (videoInfoSpan) {
+            const hasTempVideo = document.querySelector('.temp-video') !== null;
+            const hasNewVideo = selectedVideo !== null;
+
+            if (hasTempVideo || hasNewVideo) {
+                videoInfoSpan.textContent = '1本選択済み';
+                videoInfoSpan.classList.add('has-files');
+            } else {
+                videoInfoSpan.textContent = '未選択';
+                videoInfoSpan.classList.remove('has-files');
+            }
+        }
     }
 });
