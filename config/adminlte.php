@@ -341,7 +341,7 @@ return [
             'icon' => 'fas fa-envelope',
             'submenu' => [
                 ['text' => 'DM一覧', 'url' => 'admin/dm'],
-                ['text' => 'DM通報一覧', 'url' => 'admin/dm-reports'],
+                ['text' => 'DM通報一覧', 'url' => 'admin/report/dm'],
             ],
         ],
         [
