@@ -51,6 +51,8 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 # RUN php artisan key:generate --show
 
 RUN php artisan migrate --force
+RUN php artisan db:seed --force
+
 
 RUN php artisan config:clear
 RUN php artisan cache:clear
