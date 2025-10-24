@@ -2,10 +2,16 @@
 FROM php:8.2-apache
 
 # コンテナに必要なパッケージ(zip、unzip、git)をインストール
+# ここを修正 git \
+# ここを追記 libpq-dev（PHPからPostgreSQLに接続するために必要なライブラリ）
 RUN apt-get update && apt-get install -y \
   zip \
   unzip \
-  git
+  git \
+  libpq-dev
+
+# ここを追記（PostgreSQLのドライバをインストール）
+RUN docker-php-ext-install pdo_pgsql
 
 # PHPアプリケーションの処理を高速化する拡張機能をインストール
 RUN docker-php-ext-install -j "$(nproc)" opcache && docker-php-ext-enable opcache
@@ -18,7 +24,7 @@ RUN sed -i 's#/var/www/html#/var/www/html/public#g' /etc/apache2/sites-available
 
 # Laravelのルーティング機能を使用できる様、ApacheのURLリライト機能を有効化
 RUN cd /etc/apache2/mods-enabled \
-  && ln -s ../mods-available/rewrite.load
+&& ln -s ../mods-available/rewrite.load
 
 # php.ini-productionをphp.iniにリネーム（サーバー環境に適したPHPの設定を、PHP設定ファイルとして使用）
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
@@ -32,11 +38,14 @@ COPY . ./
 # Composerのインストール
 RUN cd /usr/bin && curl -s http://getcomposer.org/installer | php && ln -s /usr/bin/composer.phar /usr/bin/composer
 
+# Install AWS S3 package for file uploads
+RUN composer require league/flysystem-aws-s3-v3 "^3.0" --with-all-dependencies
+
 # プロジェクトファイルの所有者を、rootユーザーからApacheのデフォルトユーザーに変更
 RUN chown -Rf www-data:www-data ./
 
-# venderの作成
-RUN composer install
+# venderの作成（laravelの依存関係をインストール）
+RUN composer install --no-dev --optimize-autoloader
 
 # APP_KEYの表示
-RUN php artisan key:generate --show
+# RUN php artisan key:generate --show
