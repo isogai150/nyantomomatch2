@@ -1,0 +1,210 @@
+/* =============================
+   管理者 DMの一覧表示ページ
+   ============================= */
+
+/* 全体 */
+.main-content {
+    width: 100%;
+    padding: 2% 4%;
+    background-color: #FFFDF2;
+    font-family: "Noto Sans JP", sans-serif;
+    color: #503322;
+    box-sizing: border-box;
+}
+
+/* 見出し */
+h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #503322;
+    margin-bottom: 1.5rem;
+}
+
+li {
+    list-style: none;
+}
+
+/* リスト全体 */
+.list-header ul,
+list-item ul {
+    display: grid;
+    grid-template-columns: 1.5fr 1.3fr 1fr 1fr;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    border-bottom: 1px solid #EAD6A9;
+}
+
+/* ヘッダー */
+.list-header {
+    background-color: #F7E8CC;
+    border: 1px solid #EAD6A9;
+    border-radius: 8px 8px 0 0;
+    font-weight: bold;
+}
+.list-header ul li {
+    font-size: 0.95rem;
+    color: #503322;
+}
+
+/* データ行 */
+list-item ul {
+    background-color: #FFFFFF;
+    border-left: 1px solid #EAD6A9;
+    border-right: 1px solid #EAD6A9;
+    border-top: 1px solid #EAD6A9;
+}
+list-item ul:nth-child(even) {
+    background-color: #FFF8E8;
+}
+
+/* 行間の余白 */
+list-item ul li {
+    padding: 0.6rem 0.3rem;
+}
+
+/* 各カラムの整列 */
+list-item ul li h3 {
+    font-size: 1rem;
+    margin: 0;
+    color: #503322;
+}
+
+/* ステータス色分け */
+.status-pending {
+    color: #B97A00;
+    font-weight: bold;
+}
+.status-approved {
+    color: #1A7F37;
+    font-weight: bold;
+}
+.status-rejected {
+    color: #C43B3B;
+    font-weight: bold;
+}
+
+/* 詳細ボタン */
+.discription-btn {
+    background-color: #F7E8CC;
+    border: 1px solid #EAD6A9;
+    color: #503322;
+    font-size: 0.9rem;
+    padding: 0.45rem 1.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s;
+    display: inline-block;
+}
+.discription-btn:hover {
+    background-color: #EAD6A9;
+}
+
+/* ========== 承認・却下ボタンまわり ========== */
+
+/* アクションボタン行 */
+.action-btn {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    background: none !important; /* 不要背景削除 */
+    border: none !important;     /* 不要枠線削除 */
+    padding: 0.5rem 0;
+}
+
+/* 承認・却下ボタン */
+.action-btn .ok-btn button,
+.action-btn .no-btn button {
+    width: 120px; /* 横長 */
+    padding: 0.6rem 0;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* 承認 */
+.action-btn .ok-btn button {
+    background-color: #3DA35D;
+}
+.action-btn .ok-btn button:hover {
+    background-color: #348C50;
+}
+
+/* 却下 */
+.action-btn .no-btn button {
+    background-color: #D9534F;
+}
+.action-btn .no-btn button:hover {
+    background-color: #C9302C;
+}
+
+/* ===================================================================== */
+
+/* アイコンの画像部分 */
+.icon {
+    padding: 2.0rem;
+    background-color: #1A7F37;
+    border-radius: 50%;
+}
+
+.dot {
+    padding-top: 1rem;
+}
+
+/* 送信日 */
+.text {
+    font-weight: bold;
+}
+
+/* ===================================================================== */
+
+/* =============================
+   レスポンシブ対応
+   ============================= */
+@media screen and (max-width: 390px) {
+    .list-header ul,
+    list-item ul {
+        grid-template-columns: 1fr;
+        text-align: left;
+        padding: 0.8rem;
+    }
+
+    .list-header ul li {
+        display: none;
+    }
+
+    list-item ul li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #F0E1C2;
+        padding: 0.6rem 0;
+    }
+
+    list-item ul li h3 {
+        font-size: 0.95rem;
+    }
+
+    .discription-btn {
+        display: inline-block;
+        margin-top: 0.3rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    .action-btn {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .action-btn .ok-btn button,
+    .action-btn .no-btn button {
+        width: 100%;
+        font-size: 0.85rem;
+        padding: 0.5rem 0;
+    }
+}

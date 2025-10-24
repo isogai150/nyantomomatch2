@@ -350,7 +350,7 @@ return [
             'icon' => 'fas fa-users',
         ],
         [
-            'text' => '投稿権限一覧',
+            'text' => '投稿権限申請一覧',
             'url'  => 'admin/authority',
             'icon' => 'fas fa-user-shield',
         ],
