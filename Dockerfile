@@ -39,13 +39,13 @@ COPY . ./
 RUN cd /usr/bin && curl -s http://getcomposer.org/installer | php && ln -s /usr/bin/composer.phar /usr/bin/composer
 
 # Install AWS S3 package for file uploads
-RUN composer require league/flysystem-aws-s3-v3 "^3.0" --with-all-dependencies
+# RUN composer require league/flysystem-aws-s3-v3 "^3.0" --with-all-dependencies
 
 # プロジェクトファイルの所有者を、rootユーザーからApacheのデフォルトユーザーに変更
 RUN chown -Rf www-data:www-data ./
 
 # venderの作成（laravelの依存関係をインストール）
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # APP_KEYの表示
 # RUN php artisan key:generate --show
