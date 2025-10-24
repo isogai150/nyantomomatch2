@@ -9,6 +9,7 @@ use App\Models\Message;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Authority;
+use Illuminate\Support\Facades\DB;
 
 class AdministratorController extends Controller
 {
@@ -136,11 +137,21 @@ public function dmList()
 }
 
 // DM詳細表示
-public function detail()
+public function detail($id)
 {
-    $ditails = Message::whereNull('deleted_at')->get();
+    // DBのpairsテーブルのid(マッチしたグループ)番号を取得している
+    // dd($id);
 
-    return view('admin.dm.detail', compact('ditails'));
+    // 指定されたDMを取得（userA、userBをEager Loadingで取得）
+    $dm = Pair::with(['userA', 'userB'])->findOrFail($id);
+
+    // そのDMに関連するメッセージを取得（古い順）
+    $messages = Message::where('pair_id', $id)
+        ->whereNull('deleted_at')
+        ->orderBy('created_at', 'asc')
+        ->get();
+
+    return view('admin.dm.detail', compact('dm', 'messages'));
 }
 
 }
