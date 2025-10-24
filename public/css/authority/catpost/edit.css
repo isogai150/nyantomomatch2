@@ -77,9 +77,12 @@ label {
 }
 
 /* ==================================================== */
-/* テキストエリア：右下の角 */
+/* テキストエリア：右下の角 、他*/
 textarea {
     resize: none;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 /* ==================================================== */
 
@@ -106,11 +109,14 @@ textarea {
     line-height: 2;
     margin-top: 3%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 .textbox-age,
 .textbox-gender {
-    height: 30px;
+    height: 40px;
 }
 
 /* テキストボックス（性別） */
@@ -122,6 +128,8 @@ textarea {
     line-height: 1.5;
     margin-top: 3px;
     margin-bottom: 3%;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（品種） */
@@ -132,6 +140,9 @@ textarea {
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（所在地） */
@@ -142,6 +153,9 @@ textarea {
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（ステータス） */
@@ -149,9 +163,11 @@ textarea {
     border-width:1.5px;
     border-radius: 5px;
     width: 30%;
-    padding: 0.75%;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（掲載開始日） */
@@ -162,6 +178,9 @@ textarea {
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（掲載終了日） */
@@ -172,6 +191,9 @@ textarea {
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* 各フォームタイトルと入力欄の間隔調整 */
@@ -215,7 +237,7 @@ textarea {
     font-weight: bold;
     line-height: 1;
     position: relative;
-    top: -6px;
+    top: -18px;
     margin: 0 18px;
 }
 
@@ -409,6 +431,9 @@ video {
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* 一部長文の改行：PC用は非表示にしている */
@@ -477,12 +502,6 @@ video {
         resize: none;
     }
 
-    /* 2列 → 1列に変更 */
-    .container-flex {
-        flex-direction: column;
-        gap: 0%;
-    }
-
     .flexblock {
         width: 100%;
         margin-right: 0%;
@@ -495,9 +514,10 @@ video {
 
     /* 掲載開始日と終了日 */
     .container-flex.date-range {
-        flex-direction: column;
+        display: flex;
+        flex-direction: row;
         align-items: flex-start;
-        gap: 2%;
+        gap: 0;
     }
 
     /* 波線の調整 */
@@ -505,6 +525,7 @@ video {
         font-size: 18px;
         top: 0%;
         margin: 4% auto;
+        padding-top: 6%;
         display: block;
     }
 
@@ -554,7 +575,6 @@ video {
     .preview-image,
     .preview-video {
         width: 100px;
-        height: 100px;
     }
 
     /* video要素（スマホ） */

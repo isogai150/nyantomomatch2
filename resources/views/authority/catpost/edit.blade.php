@@ -111,7 +111,7 @@
         <div class="container-flex date-range">
           <div class="bbb">
             <label for="start_date">掲載開始日</label><br>
-            <input type="date" min="2025-10-14" max="2029-12-31" name="start_date" class="textbox-start-date" value="{{ old('start_date', $post->start_date ? \Carbon\Carbon::parse($post->start_date)->format('Y-m-d') : '') }}">
+            <input type="date" min="{{ date('Y-m-d') }}" name="start_date" class="textbox-start-date" value="{{ old('start_date', $post->start_date ? \Carbon\Carbon::parse($post->start_date)->format('Y-m-d') : '') }}">
 
             @error('start_date')
               <div class="alert-danger">{{ $message }}</div>
@@ -123,7 +123,7 @@
 
           <div class="ccc">
             <label for="end_date">掲載終了日</label><br>
-            <input type="date" min="2025-10-14" max="2029-12-31" name="end_date" class="textbox-end-date" value="{{ old('end_date', $post->end_date ? \Carbon\Carbon::parse($post->end_date)->format('Y-m-d') : '') }}">
+            <input type="date" min="{{ date('Y-m-d') }}" name="end_date" class="textbox-end-date" value="{{ old('end_date', $post->end_date ? \Carbon\Carbon::parse($post->end_date)->format('Y-m-d') : '') }}">
 
             @error('end_date')
               <div class="alert-danger">{{ $message }}</div>
