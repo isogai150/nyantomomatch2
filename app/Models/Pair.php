@@ -16,6 +16,7 @@ class Pair extends Model
         'userA_id',
         'userB_id',
         'post_id',
+        'transfer_status',
     ];
 
     // 日付として扱うカラムを指定

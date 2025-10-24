@@ -17,8 +17,7 @@
                 <div class="dm-user-icon">
                     {{-- 投稿者のプロフィール画像 --}}
                     @if (!empty($partner->image_path))
-                        <img src="{{ asset(str_replace('public/', '', $post->user->image_path)) }}" alt="投稿者のプロフィール画像"
-                            class="user-image">
+                       <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $partner->image_path) }}" alt="投稿者のプロフィール画像" class="user-image">
                     @else
                         <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"
                             class="user-image">
@@ -41,9 +40,9 @@
 
                     @if ($imagePath)
                         {{-- Seeder（public/images/seeder/...）用 --}}
-                        <img src="{{ asset($imagePath) }}" alt="猫の写真" class="dm-post-img">
+                        {{-- <img src="{{ asset($imagePath) }}" alt="猫の写真" class="dm-post-img"> --}}
                         {{-- 本番で storage に移すなら下に切替（storage:link 済前提） --}}
-                        {{-- <img src="{{ asset('storage/' . $imagePath) }}" alt="猫の写真" class="dm-post-img"> --}}
+                        <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $firstImage) }}" alt="猫の写真" class="dm-post-img">
                     @else
                         <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"
                             class="dm-post-img">
@@ -59,6 +58,45 @@
                 </div>
             </div>
         @endif
+
+        {{-- ============================================= --}}
+        {{-- 譲渡関連ボタン：ここから追加 --}}
+        {{-- ============================================= --}}
+        <div class="dm-transfer-area" style="text-align:center; margin: 1.5rem 0;">
+            {{-- 投稿者のみ表示（資料を渡すボタン） --}}
+            @if(Auth::id() === $post->user_id && $dm->transfer_status === 'none')
+                <form action="{{ route('transfer.send', $dm->id) }}" method="POST" style="display:inline-block;">
+                    @csrf
+                    <button type="submit" class="btn-detail">📄 資料を渡す</button>
+                </form>
+            @endif
+
+            {{-- 里親希望者のみ表示（資料確認ボタン） --}}
+            @if(Auth::id() !== $post->user_id && $dm->transfer_status === 'sent')
+                <a href="{{ route('document.show', $dm->id) }}" class="btn-detail">📑 資料を確認する</a>
+            @endif
+
+            {{-- 双方に表示（合意ボタン） --}}
+            @if($dm->transfer_status === 'agreed_wait' || $dm->transfer_status === 'sent')
+                <form action="{{ route('transfer.agree', $dm->id) }}" method="POST" style="display:inline-block;">
+                    @csrf
+                    <button type="submit" class="btn-detail">🤝 合意する</button>
+                </form>
+            @endif
+
+            {{-- 合意済み：決済待ち --}}
+            @if($dm->transfer_status === 'agreed')
+                <p style="color:#503322; font-weight:bold;">相手の決済をお待ちください…</p>
+            @endif
+
+            {{-- 決済完了 --}}
+            @if($dm->transfer_status === 'paid')
+                <p style="color:#2e7d32; font-weight:bold;">💰 決済が完了しました！</p>
+            @endif
+        </div>
+        {{-- ============================================= --}}
+        {{-- 譲渡関連ボタン：ここまで追加 --}}
+        {{-- ============================================= --}}
 
         {{-- ======= メッセージ一覧 ======= --}}
         <div id="dm-messages" class="dm-messages">
