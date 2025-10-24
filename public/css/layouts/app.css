@@ -33,13 +33,13 @@ a {
 
 .header-content {
   display: flex;
+  z-index: 1000;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   margin: 0 auto;
   padding: 1% 4%;
   background-color: #FFFDF2;
-  opacity: 0.5;
   position: fixed;
   border-bottom: 2px solid #D3C6B7;
 }
@@ -133,6 +133,7 @@ a {
 
 main {
   border-bottom: 2px solid #D3C6B7;
+  margin-top: 0;
 }
 
 
@@ -147,7 +148,6 @@ main {
   margin: 0 auto;
   padding: 1% 4%;
   background-color: #fff;
-  opacity: 0.5;
   border-bottom: 2px solid #D3C6B7;
 }
 
@@ -166,7 +166,7 @@ main {
 }
 
 .footer-raight {
-  width: 31%;
+  width: 35%;
 }
 
 .footer-raight ul {
@@ -184,4 +184,111 @@ margin-right: 4%;
 .footer-bottm {
   text-align: center;
   padding: 1% 0;
+}
+
+/* スマホ用 (390px以下) */
+@media screen and (max-width: 390px) {
+  .header-content {
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 4%;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .header-logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .header-text {
+    width: 140px;
+    height: auto;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  /* ハンバーガーボタン */
+  .hamburger {
+    width: 28px;
+    height: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  /* 開いた時（×に変化） */
+  .hamburger.active {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1200;
+  }
+
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(4px, 4px); /* ← translateを調整 */
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(4px, -4px); /* ← translateを調整 */
+  }
+  /* ------------------------------
+    footer
+  ------------------------------ */
+  .footer-top {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+    gap: 10px;
+  }
+
+  .footer-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .footer-logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .footer-text {
+    width: 140px;
+    height: auto;
+  }
+
+  .footer-raight {
+    width: 100%;
+  }
+
+  .footer-raight ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-raight li {
+    margin-right: 0;
+  }
+
+  .footer-raight li a {
+    font-size: 14px;
+  }
+
+  .footer-bottm {
+    font-size: 12px;
+    padding: 10px 0;
+  }
 }

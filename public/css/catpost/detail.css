@@ -1,0 +1,466 @@
+@charset "UTF-8";
+
+/* ==========================
+   全体レイアウト
+========================== */
+.post-detail-container {
+  width: 100%;
+  padding: 6% 4%;
+  background-color: #FFFDF2;
+  box-sizing: border-box;
+  font-family: "Noto Sans JP", sans-serif;
+  color: #503322;
+}
+
+/* 戻るリンク */
+.back {
+  margin-bottom: 2%;
+}
+.back-page {
+  color: #503322;
+  text-decoration: none;
+  font-size: 1vw;
+}
+.back-page:hover {
+  text-decoration: underline;
+}
+
+/* ==========================
+   メイン画像 + サムネイル
+========================== */
+.post-media {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 4%;
+}
+
+.main-photo {
+  display: block;
+  width: 100%;
+  max-height: 70vh; /* 高さ制限 */
+  height: auto;
+  object-fit: contain; /* トリミングせず全体表示 */
+  object-position: center;
+  border-radius: 1vw;
+  background-color: #fff;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.08);
+  margin: 0 auto;
+}
+
+/* サムネイル群 */
+.thumbnail-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2%;
+  margin-top: 2%;
+  flex-wrap: wrap;
+}
+
+.thumbnail {
+  width: 20%;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 0.6vw;
+  border: 0.2vw solid #F6D8B3;
+  background: #fff;
+  padding: 0.3vw;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.thumbnail:hover {
+  transform: scale(1.05);
+  border-color: #F6D8B3;
+}
+
+/* ==========================
+   投稿本文エリア
+========================== */
+.post-detail-content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 3%;
+  flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ==========================
+   左側：本文
+========================== */
+.post-main {
+  flex: 1 1 68%;
+  background: #fff;
+  border-radius: 1vw;
+  padding: 3%;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.05);
+  word-break: break-word;
+  overflow-wrap: break-word;
+  min-width: 320px;
+}
+
+.post-main-top {
+  border-bottom:2px solid #D3C6B7;
+}
+
+.post-meta {
+  margin-top: 2%;
+  border-bottom:2px solid #D3C6B7;
+}
+
+.post-description {
+  margin-top: 2%;
+  border-bottom:2px solid #D3C6B7;
+}
+
+.status-available,
+.status-talking,
+.status-matched,
+.status-unknown {
+  display: inline-block;
+  padding: 0.6vw 1.2vw;
+  border-radius: 1vw;
+  font-weight: bold;
+  font-size: 1vw;
+  min-width: 8vw;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.status-available {
+  color: #2e7d32;
+  border: 0.2vw solid #2e7d32;
+  background: #e8f5e9;
+}
+.status-talking {
+  color: #ef6c00;
+  border: 0.2vw solid #ef6c00;
+  background: #fff3e0;
+}
+.status-matched {
+  color: #616161;
+  border: 0.2vw solid #616161;
+  background: #f5f5f5;
+}
+.status-unknown {
+  color: #757575;
+  border: 0.2vw solid #757575;
+  background: #f5f5f5;
+}
+
+/* タイトル行 */
+.top-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1vw;
+}
+.top-title h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #503322;
+  margin: 0;
+}
+
+/* 猫情報リスト */
+.post-list ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  gap: 26%;
+  margin: 1% 0 0;
+  flex-wrap: wrap;
+}
+.post-list li {
+  padding: 0.6vw 0;
+  font-size: 1.2vw;
+  color: #503322;
+  background: #FFF;
+  border-radius: 0.6vw;
+  font-weight: bold; 
+  line-height: 1.8;
+}
+
+.post-list li span {
+  font-weight: normal;
+}
+
+/* ==========================
+   詳細テキスト部分
+========================== */
+.post-meta, .post-description, .cost-contents {
+  margin-bottom: 3%;
+}
+.post-meta p:first-child,
+.post-description p:first-child,
+.cost-contents p:first-child {
+  font-weight: bold;
+  margin-bottom: 1%;
+  color: #503322;
+}
+.post-meta p,
+.post-description p,
+.cost-contents p {
+  line-height: 1.8;
+  font-size: 1.2vw;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.post-meta p span {
+  font-weight: normal;
+}
+
+.post-description p span {
+  font-weight: normal;
+}
+
+.cost-contents p span {
+  font-weight: normal;
+}
+
+/* ==========================
+   右側：サイドバー
+========================== */
+.post-sidebar {
+  flex: 0 1 28%;
+  display: flex;
+  flex-direction: column;
+  gap: 2%;
+  min-width: 280px;
+}
+
+.contact-box,
+.user-info {
+  background: #fff;
+  border-radius: 1vw;
+  padding: 5%;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.05);
+}
+
+.contact-box h3,
+.user-info h3 {
+  color: #503322;
+   font-size: 1.3vw;
+  font-weight: bold;
+  margin-bottom: 4%;
+  text-align: center;
+}
+
+/* メッセージボタン */
+.contact-btn {
+  display: block;
+  width: 100%;
+  background: #F6D8B3;
+  color: #503322;
+  text-align: center;
+  padding: 6%;
+  border-radius: 0.8vw;
+  font-weight: bold;
+  font-size: 1.2vw;
+  text-decoration: none;
+  margin-bottom: 4%;
+  transition: opacity 0.2s;
+  border: none;
+}
+.contact-btn:hover {
+  opacity: 0.8;
+}
+
+/* お気に入りボタン（統一幅・ピンクカラー） */
+.favorite-btn {
+  display: block;
+  width: 100%;
+  background: #fff;
+  border: 0.15vw solid #503322;
+  border-radius: 0.8vw;
+  padding: 5%; /* contact-btn と同じ */
+  cursor: pointer;
+  color: #e67;
+  font-size: 1.2vw;
+  font-weight: bold;
+  transition: background 0.2s, transform 0.1s;
+}
+.favorite-btn:hover {
+  background: #FFF3E0;
+  transform: scale(1.05);
+}
+
+/* ==========================
+   投稿者情報
+========================== */
+.user-info {
+  margin-top: 4%;
+  background: #fff;
+  border-radius: 1vw;
+  padding: 5%;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.05);
+}
+
+.user-info h3 {
+  color: #503322;
+  font-size: 1.3vw;
+  font-weight: bold;
+  margin-bottom: 4%;
+  text-align: center;
+  padding-bottom: 2%;
+}
+
+.user-main {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+  margin-bottom: 2%;
+}
+
+.user-main img {
+  width: 3vw;
+  height: 3vw;
+  border-radius: 50%;
+  object-fit: cover;
+  transform: scale(1.25); /* 枠の外にはみ出さず拡大 */
+  border: 0.1vw solid #D3C6B7;
+}
+
+.user-name {
+  font-size: 1.1vw;
+  font-weight: bold;
+  color: #503322;
+}
+
+.user-description {
+  margin-top: 2%;
+  margin-bottom: 3%;
+  font-size: 1vw;
+  color: #503322;
+  line-height: 1.8;
+  word-break: break-word;
+}
+
+.publication-info {
+  font-size: 0.9vw;
+  color: #777;
+  line-height: 1.6;
+}
+
+.publication-info p {
+  margin: 0.4vw 0;
+}
+
+/* ==========================
+   スマホ対応（390px以下）
+========================== */
+@media screen and (max-width: 390px) {
+
+  /* 全体 */
+  .post-detail-container {
+    padding: 8% 5%;
+  }
+
+  /* メイン画像 */
+  .main-photo {
+    max-height: 55vw;
+  }
+
+  /* サムネイル */
+  .thumbnail {
+    width: 42%;
+    height: auto;
+  }
+
+  /* タイトル・ステータス */
+  .top-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2%;
+  }
+  .top-title h1 {
+    font-size: 1.2rem;
+    line-height: 1.4;
+  }
+  .status-available,
+  .status-talking,
+  .status-matched,
+  .status-unknown {
+    font-size: 0.8rem;
+    padding: 2% 4%;
+    min-width: auto;
+  }
+
+  /* 猫情報リスト */
+  .post-list ul {
+    flex-direction: column;
+    gap: 2%;
+  }
+  .post-list li {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 3% 4%;
+    text-align: center;
+  }
+
+  /* 本文部分 */
+  .post-meta p,
+  .post-description p,
+  .cost-contents p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* サイドバー */
+  .post-sidebar {
+    flex: 0 0 100%;
+    margin-top: 6%;
+  }
+
+  .contact-box h3,
+  .user-info h3 {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  /* ボタン */
+  .contact-btn,
+  .favorite-btn {
+    font-size: 0.9rem;
+    padding: 5%;
+  }
+
+  /* 投稿者情報 */
+  .user-info {
+    margin-top: 6%;
+    padding: 6%;
+  }
+
+  .user-main {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4%;
+  }
+
+  .user-main img {
+    width: 10vw;
+    height: 10vw;
+    margin-bottom: 2%;
+  }
+
+  .user-name {
+    font-size: 1rem;
+  }
+
+  .user-description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .publication-info {
+    margin-top: 5%;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+}

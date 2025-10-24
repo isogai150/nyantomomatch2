@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+{{-- ================================================================ --}}
+{{-- 1022 猫の投稿の編集 追加分 --}}
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+{{-- ================================================================ --}}
   <title>にゃん×とも×まっち</title>
   {{-- ファピコン --}}
   <link rel="icon" href="public/images/favicon/favicon24x24.ico">
@@ -51,7 +55,11 @@
               <li><a href="#">マイページ</a></li>
               <li><a href="#">DM一覧</a></li>
               <li><a href="#">お気に入り</a></li>
-              <li><a href="3">ログアウト</a></li>
+              <li><a href="#" id="logout-btn">ログアウト</a></li>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+                @csrf
+                </form>
+
               @else
               <li><a href="#">新規登録</a></li>
               <li><a href="#">ログイン</a></li>

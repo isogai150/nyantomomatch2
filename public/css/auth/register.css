@@ -1,0 +1,140 @@
+@charset "UTF-8";
+
+/* ==================================================== */
+/* 共通 */
+/* ==================================================== */
+.main-content {
+  padding: 10% 0;
+}
+
+.allfonts {
+  color: #503322;
+}
+
+.background {
+  border: 2px solid #D3C6B7;
+  background-color:#FFFDF2;
+  border-radius: 20px;
+  padding: 5% 0;
+  margin: 0 25%;
+}
+
+/* テキストボックスの調整 */
+.form-container {
+  width: 70%;
+  margin: 0 auto;
+}
+
+/* ==================================================== */
+/* PC用画面 */
+/* ==================================================== */
+
+/* 新規登録 */
+.titlefont {
+  font-size: 24px;
+  font-weight:bold;
+  text-align: center;
+  margin-bottom: 5%;
+}
+
+/* アカウントを作成して、猫との素敵な出会いを始めましょう */
+.subtitle {
+  text-align: center;
+  margin-bottom: 10%;
+}
+
+/* テキストボックス上のラベルタイトル */
+.labelfonts {
+  font-weight:bold;
+  margin-bottom: 2%;
+}
+
+/* テキストボックス */
+.textbox {
+  border-width:1.5px;
+  border-radius: 5px;
+  width: 100%;
+  padding: 1.2%;
+  margin-bottom: 3%;
+}
+
+/* バリデーションメッセージ */
+.alert-danger {
+  text-align: center;
+  color: red;
+}
+
+/* 利用規約、プライバシーポリシー、ログインの文字 */
+span {
+  color: #F44336;
+  text-decoration: none
+}
+
+span:hover {
+  text-decoration: underline;
+}
+
+/* 利用規約 と プライバシーポリシー に同意します */
+.terms-text {
+  text-align: center;
+  margin-top: 10%;
+  margin-bottom: 5%;
+}
+
+/* アカウント作成ボタン */
+.botten {
+  font-size: 20px;
+  font-weight:bold;
+  border-radius:10px;
+  background-color:#F6D8B3;
+  color:#503322;
+  border: none;
+  width: 100%;
+  padding: 3% 0;
+  margin-bottom: 5%;
+}
+
+.botten:hover {
+  /* text-decoration: underline; */
+
+  /* カーソルホバー時に設定した透明度で反応させる */
+  opacity: 0.8;
+}
+
+/* すでにアカウントをお持ちの方はログイン */
+.login-prompt {
+  width: 70%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* 利用規約等、一部長文の改行：PC用は非表示にしている */
+.br-sp {
+  display: none;
+}
+/* ==================================================== */
+/* スマホ用画面 */
+/* ==================================================== */
+@media (max-width: 390px) {
+
+  .background {
+    margin: 10%;
+    padding: 10% 0;
+  }
+
+  .form-container {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  /* 入力欄を少し大きくしてタップしやすいように設定した */
+  .textbox {
+    padding: 3% 2%;
+  }
+
+  /* 利用規約等、一部長文の改行：スマホ用は表示している */
+  .br-sp {
+    display: block;
+  }
+
+}

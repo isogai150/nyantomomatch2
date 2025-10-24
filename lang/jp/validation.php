@@ -91,7 +91,7 @@ return [
         'array' => ':attributeは:max個より多くの項目を持ってはいけません。',
         'file' => ':attributeは:maxキロバイトを超えてはいけません。',
         'numeric' => ':attributeは:maxを超えてはいけません。',
-        'string' => ':attributeは:max文字を超えてはいけません。',
+        'string' => ':attributeは:max文字以内で作成してください。',
     ],
     'max_digits' => ':attributeは:max桁以下である必要があります。',
     'mimes' => ':attributeは:valuesタイプのファイルである必要があります。',
@@ -100,7 +100,7 @@ return [
         'array' => ':attributeは少なくとも:min個の項目を持っている必要があります。',
         'file' => ':attributeは少なくとも:minキロバイトである必要があります。',
         'numeric' => ':attributeは少なくとも:minである必要があります。',
-        'string' => ':attributeは少なくとも:min文字である必要があります。',
+        'string' => ':attributeは:min文字以上20文字以内で作成してください。',
     ],
     'min_digits' => ':attributeは少なくとも:min桁である必要があります。',
     'missing' => ':attributeフィールドは存在してはいけません。',
@@ -125,7 +125,7 @@ return [
     'prohibited_unless' => ':otherが:valuesにない限り、:attributeフィールドは禁止されています。',
     'prohibits' => ':attributeフィールドは、:otherの存在を禁止します。',
     'regex' => ':attributeの形式が無効です。',
-    'required' => ':attributeフィールドは必須です。',
+    'required' => ':attributeは必須です。',
     'required_array_keys' => ':attributeフィールドには、:valuesのエントリが含まれている必要があります。',
     'required_if' => ':otherが:valueの場合、:attributeフィールドは必須です。',
     'required_if_accepted' => ':otherが承認された場合、:attributeフィールドは必須です。',
@@ -144,7 +144,7 @@ return [
     'starts_with' => ':attributeは、次の値のいずれかで始まる必要があります: :values。',
     'string' => ':attributeは文字列である必要があります。',
     'timezone' => ':attributeは有効なタイムゾーンである必要があります。',
-    'unique' => ':attributeは既に使われています。',
+    'unique' => '他のユーザーがすでにこのメールアドレスを使用しています。',
     'uploaded' => ':attributeのアップロードに失敗しました。',
     'uppercase' => ':attributeは大文字である必要があります。',
     'url' => ':attributeは有効なURLである必要があります。',
@@ -180,8 +180,9 @@ return [
     */
 
     'attributes' => [
-        // 'email' => 'メールアドレス',
-        // 'password' => 'パスワード',
+        'name' => 'ユーザー名',
+        'email' => 'メールアドレス',
+        'password' => 'パスワード',
         // など、属性名 (プレースホルダー) の日本語名を追加できます
     ],
 

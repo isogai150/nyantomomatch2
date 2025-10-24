@@ -1,0 +1,95 @@
+@charset "UTF-8";
+
+/* ===============================
+   決済キャンセルページ（共通レイアウト）
+=============================== */
+.cancel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12% 4% 8%;
+  background-color: #FFFDF2;
+  color: #503322;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.cancel-content {
+  text-align: center;
+  width: 80%;
+  max-width: 700px;
+  background: #fff;
+  padding: 5% 6%;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.cancel-content h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.cancel-content .message {
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+}
+
+.actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.actions a {
+  text-decoration: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+/* 戻るボタン（トップへ） */
+.actions .btn-back {
+  background-color: #F6D8B3;
+  color: #503322;
+}
+
+/* マイページボタン */
+.actions .btn-mypage {
+  background-color: #503322;
+  color: #fff;
+}
+
+.actions a:hover {
+  opacity: 0.8;
+}
+
+.note {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #7A6A58;
+}
+
+/* ===============================
+   スマホ対応（390px以下）
+=============================== */
+@media screen and (max-width: 390px) {
+  .cancel-content {
+    width: 95%;
+    padding: 10% 6%;
+  }
+
+  .cancel-content h1 {
+    font-size: 1.4rem;
+  }
+
+  .cancel-content .message {
+    font-size: 0.95rem;
+  }
+
+  .actions a {
+    width: 100%;
+    text-align: center;
+  }
+}

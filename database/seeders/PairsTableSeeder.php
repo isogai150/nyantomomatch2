@@ -13,15 +13,16 @@ class PairsTableSeeder extends Seeder
         $users = User::pluck('id')->toArray();
 
         $params = [
-            ['userA_id' => $users[0], 'userB_id' => $users[2]],
-            ['userA_id' => $users[0], 'userB_id' => $users[3]],
-            ['userA_id' => $users[1], 'userB_id' => $users[2]],
-            ['userA_id' => $users[1], 'userB_id' => $users[3]],
+            ['userA_id' => $users[0], 'userB_id' => $users[2], 'post_id' => 1],
+            ['userA_id' => $users[0], 'userB_id' => $users[3], 'post_id' => 3],
+            ['userA_id' => $users[1], 'userB_id' => $users[2], 'post_id' => 2],
+            ['userA_id' => $users[1], 'userB_id' => $users[3], 'post_id' => 4],
         ];
 
         foreach ($params as $param) {
             Pair::firstOrCreate(
-                ['userA_id' => $param['userA_id'], 'userB_id' => $param['userB_id']]
+                ['userA_id' => $param['userA_id'], 'userB_id' => $param['userB_id']],
+                ['post_id' => $param['post_id']]
             );
         }
     }
