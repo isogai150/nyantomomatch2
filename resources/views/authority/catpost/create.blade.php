@@ -156,34 +156,51 @@
     </div>
 
 {{-- ======================================================== --}}
+{{-- 写真・動画セクション --}}
+<div class="background-photo-move">
 
-    <div class="background-photo-move">
+  {{-- 写真・動画 --}}
+  <label for="image">写真・動画</label>
+  <br><br><br>
+  <p>猫の写真を最大3枚、動画を1本まで追加できます。<br>
+  <span style="color: red; font-weight: bold;">※最低1枚の画像を選択してください。</span></p><br>
 
-      {{-- 写真・動画 --}}
-      <label for="image">写真・動画</label>
-      <p>猫の写真や動画を最大4件まで<br class="br-sp">追加できます。<br class="br-sp">1枚目は写真を選択してください。</p>
+  {{-- 選択ボタン --}}
+  <button type="button" id="selectImageBtn" class="select-media-btn">画像を選択</button>
+  <button type="button" id="selectVideoBtn" class="select-media-btn">動画を選択</button>
+  <br><br>
 
-{{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
-{{-- 画像アップロード --}}
-{{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
+  {{-- 新規画像アップロード --}}
+  {{-- <p>画像（最大3枚まで）</p><br> --}}
+  <input type="file" name="image[]" id="imageInput" accept="image/*" multiple style="display:none;">
+  @error('image')
+    <div class="alert-danger">{{ $message }}</div>
+  @enderror
+  @error('image.*')
+    <div class="alert-danger">{{ $message }}</div>
+  @enderror
 
-      <p>画像（最大3枚まで）、<br class="br-sp">または動画（最大1本）</p><br>
-      <input type="file" name="image[]" id="image" accept="image/*" multiple>
-      @error('image')
-        <div class="alert-danger">{{ $message }}</div>
-      @enderror
+  {{-- <br>
+  <br> --}}
 
-      <br>
-      <br>
+  {{-- 新規動画アップロード --}}
+  {{-- <p>動画（最大1本）※任意</p><br> --}}
+  <input type="file" name="video" id="videoInput" accept="video/*" style="display:none;">
+  @error('video')
+    <div class="alert-danger">{{ $message }}</div>
+  @enderror
 
-      <input type="file" name="video" id="video" accept="video/*">
-      @error('video')
-        <div class="alert-danger">{{ $message }}</div>
-      @enderror
-
-      {{-- プレビュー表示領域 --}}
-      <div id="preview-container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;"></div>
-    </div>
+  {{-- プレビュー表示領域 --}}
+  <div id="preview-container" class="preview-grid"></div>
+  
+  {{-- 動画プレビュー専用領域 --}}
+  <div id="video-preview-container" class="preview-grid"></div>
+  
+  {{-- 残り枚数表示 --}}
+  <p id="remaining-count" style="margin-top: 15px; font-weight: bold; color: #503322;">
+    残り画像の追加可能枚数: <span id="remaining-number">3</span>枚
+  </p>
+</div>
 
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 
