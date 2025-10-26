@@ -99,6 +99,7 @@
   word-break: break-word;
   overflow-wrap: break-word;
   min-width: 320px;
+  margin-bottom: 1%;
 }
 
 .post-main-top {

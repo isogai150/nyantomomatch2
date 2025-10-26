@@ -10,7 +10,7 @@
     <h1>🎉 決済が完了しました！</h1>
     <p class="message">
       ご支払いありがとうございました。<br>
-      譲渡手続きの詳細については、譲渡元の方または管理者から<br class="sp-br">
+      譲渡手続きの詳細については、<br class="br-sp">譲渡元の方または管理者からの<br>
       ご連絡をお待ちください。
     </p>
 
@@ -38,7 +38,7 @@
     </div>
 
     <div class="stripe-note">
-      <p>※ この決済は <strong>Stripe</strong> により安全に処理されました。</p>
+      <p>※ この決済は <strong>Stripe</strong> により<br class="br-sp">安全に処理されました。</p>
     </div>
   </div>
 </div>

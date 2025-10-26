@@ -95,7 +95,7 @@ public function getGenderClassAttribute()
 // 費用
 public function getCostClassAttribute()
 {
-    return $this->cost .'円';
+    return number_format($this->cost) . '円';
 }
 
 

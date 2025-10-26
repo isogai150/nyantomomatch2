@@ -5,12 +5,38 @@
 @section('auth_body')
     <form method="POST" action="{{ route('admin.login') }}" novalidate>
         @csrf
+
+        {{-- エラーメッセージ全体表示 --}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="input-group mb-3">
-            <input type="email" name="email" class="form-control" placeholder="メールアドレス" required autofocus>
+            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" 
+                placeholder="メールアドレス" value="{{ old('email') }}" required autofocus>
+            @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
+
         <div class="input-group mb-3">
-            <input type="password" name="password" class="form-control" placeholder="パスワード" required>
+            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" 
+                placeholder="パスワード" required>
+            @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
+
         <button type="submit" class="btn btn-block btn-primary">ログイン</button>
     </form>
 @endsection
