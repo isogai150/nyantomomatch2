@@ -154,4 +154,10 @@ public function detail($id)
     return view('admin.dm.detail', compact('dm', 'messages'));
 }
 
+// DM通報一覧
+public function dmReportList()
+{
+    return view('admin.report.dm.index');
+}
+
 }
