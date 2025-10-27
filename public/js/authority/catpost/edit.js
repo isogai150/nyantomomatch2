@@ -10,6 +10,7 @@ $(function() {
     const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
     const MAX_VIDEO_SIZE = 10 * 1024 * 1024; // 10MB
     const MAX_IMAGES = 3;
+    const MAX_VIDEOS = 1;
     let selectedFiles = [];
     let selectedVideo = null;
     let hasVideo = false;
@@ -20,13 +21,53 @@ $(function() {
         $videoInput.prop('disabled', true);
     }
     
+    // ★★★ 画像・動画ボタンの状態を更新する関数 ★★★
+    function updateButtonStates() {
+        const remaining = getRemainingImageCount();
+        
+        console.log('ボタン状態更新 - 残り画像枚数:', remaining);
+        
+        if (remaining > 0) {
+            $imageInput.prop('disabled', false);
+            $('#selectImageBtn').prop('disabled', false);
+            console.log('画像ボタンを有効化');
+        } else {
+            $imageInput.prop('disabled', true);
+            $('#selectImageBtn').prop('disabled', true);
+            console.log('画像ボタンを無効化');
+        }
+        
+        // 動画ボタンの状態
+        if (hasVideo || selectedVideo) {
+            $videoInput.prop('disabled', true);
+            $('#selectVideoBtn').prop('disabled', true);
+        } else {
+            $videoInput.prop('disabled', false);
+            $('#selectVideoBtn').prop('disabled', false);
+        }
+    }
+    
     // ★★★ 画像選択ボタンのクリックイベント ★★★
     $('#selectImageBtn').on('click', function() {
+        const remaining = getRemainingImageCount();
+        
+        // 画像が既に上限に達している場合はアラート表示
+        if (remaining <= 0) {
+            alert(`画像は最大${MAX_IMAGES}枚までしか追加できません。`);
+            return;
+        }
+        
         $imageInput.click();
     });
     
     // ★★★ 動画選択ボタンのクリックイベント ★★★
     $('#selectVideoBtn').on('click', function() {
+        // 既に動画が存在する場合はアラート表示
+        if (hasVideo || selectedVideo) {
+            alert(`動画は最大${MAX_VIDEOS}本までしか追加できません。`);
+            return;
+        }
+        
         $videoInput.click();
     });
     
@@ -192,6 +233,9 @@ $(function() {
                         hasVideo = false;
                         $videoInput.prop('disabled', false);
                     }
+                    
+                    // ★★★ 削除後にボタンの状態を更新 ★★★
+                    updateButtonStates();
                 } else {
                     alert('削除に失敗しました');
                 }
@@ -255,11 +299,11 @@ $(function() {
             reader.readAsDataURL(file);
         });
         
-        // 残り枚数が0になったら画像選択を無効化
-        if (getRemainingImageCount() <= 0) {
-            $imageInput.prop('disabled', true);
-            $('#selectImageBtn').prop('disabled', true);
-        }
+        // inputの値をクリア（同じファイルを再選択できるようにする）
+        $(this).val('');
+        
+        // ★★★ 画像追加後にボタンの状態を更新 ★★★
+        updateButtonStates();
     });
     
     // 動画プレビュー
@@ -300,8 +344,9 @@ $(function() {
         $videoPreviewContainer.append($item);
         
         hasVideo = true;
-        $videoInput.prop('disabled', true);
-        $('#selectVideoBtn').prop('disabled', true);
+        
+        // ★★★ 動画追加後にボタンの状態を更新 ★★★
+        updateButtonStates();
     });
     
     // 新規画像削除（送信前）
@@ -326,11 +371,8 @@ $(function() {
         
         $item.remove();
         
-        // 画像削除後、再度選択可能にする
-        if (getRemainingImageCount() > 0) {
-            $imageInput.prop('disabled', false);
-            $('#selectImageBtn').prop('disabled', false);
-        }
+        // ★★★ 画像削除後にボタンの状態を更新 ★★★
+        updateButtonStates();
     });
     
     // 新規動画削除
@@ -346,7 +388,8 @@ $(function() {
         console.log('動画ファイルをクリア');
         
         hasVideo = false;
-        $videoInput.prop('disabled', false);
-        $('#selectVideoBtn').prop('disabled', false);
+        
+        // ★★★ 動画削除後にボタンの状態を更新 ★★★
+        updateButtonStates();
     });
 });

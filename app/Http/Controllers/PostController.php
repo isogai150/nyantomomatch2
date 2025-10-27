@@ -69,8 +69,29 @@ class PostController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+            // dd($myCatposts);
         return view('authority/catpost.index', compact('myCatposts'));
     }
+
+    // 投稿削除処理（論理削除）
+public function destroy(Post $post)
+{
+    $user = Auth::user();
+
+    // 投稿者本人かチェック
+    if ($post->user_id !== $user->id) {
+        abort(403, 'この投稿を削除する権限がありません。');
+    }
+
+    try {
+        // 論理削除（deleted_atに現在時刻が入る）
+        $post->delete();
+
+        return redirect()->route('mycatpost.index')->with('success', '投稿が削除されました。');
+    } catch (\Exception $e) {
+        return redirect()->route('mycatpost.index')->with('error', '投稿の削除に失敗しました。');
+    }
+}
 
 // =================================================================================
 
@@ -84,7 +105,7 @@ class PostController extends Controller
         ]);
     }
 
-    // 保存処理機能
+
 // 保存処理機能
 public function store(CatPost $request)
 {
