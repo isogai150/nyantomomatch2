@@ -9,7 +9,9 @@ use App\Models\Message;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Authority;
+use Database\Seeders\Message_reports;
 use Illuminate\Support\Facades\DB;
+use App\Models\MessageReport;
 
 class AdministratorController extends Controller
 {
@@ -154,10 +156,16 @@ public function detail($id)
     return view('admin.dm.detail', compact('dm', 'messages'));
 }
 
-// DM通報一覧
-public function dmReportList()
-{
-    return view('admin.report.dm.index');
-}
+    // DM通報一覧
+    public function dmReportList()
+    {
+        // メッセージ通報情報（message_reports）テーブル
+        $reports = MessageReport::whereNull('deleted_at')->get();
+
+        
+        $users = User::whereNull('deleted_at')->get();
+
+        return view('admin.report.dm.index', compact('reports', 'users'));
+    }
 
 }
