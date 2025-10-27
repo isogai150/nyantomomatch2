@@ -12,6 +12,13 @@ use App\Models\Pair;
 use App\Http\Controllers\PaymentController;
 use App\Http\Requests\CatPost;
 use App\Http\Controllers\AdministratorController;
+use Illuminate\Support\Facades\Storage;
+
+// s3用テスト
+// Route::get('/s3-test', function () {
+//     Storage::disk('s3')->put('test.txt', 'これはテストです');
+//     return 'アップロード完了';
+// });
 
 
 // 管理者
@@ -40,8 +47,6 @@ Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.upda
 // 編集内容の削除
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
-// ========================================
-
 // 猫の情報投稿作成画面
 Route::get('/catpost/create', [PostController::class, 'create'])->name('posts.create');
 
@@ -57,7 +62,8 @@ Route::put('/my/catpost/{post}', [PostController::class, 'update'])->name('catpo
 // 画像・動画削除処理
 Route::delete('/catpost/media/{type}/{id}', [PostController::class, 'deleteMedia'])->name('media.delete');
 
-// ===========================================================================================
+// 投稿削除処理
+Route::delete('/my/catpost/{post}/delete', [PostController::class, 'destroy'])->name('catpost.destroy');
 
 // お気に入りトグル
 Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
@@ -137,6 +143,12 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
     Route::put('authority/{authority}/approval', [AdministratorController::class, 'AuthorityApproval'])->name('authority.approval');
     // 投稿権限申請詳細表示
     Route::get('authority/{authority}', [AdministratorController::class, 'authorityDetail'])->name('authority.detail');
+    // DM一覧表示
+    Route::get('dm', [AdministratorController::class, 'dmList'])->name('dm');
+    // DM詳細表示
+    Route::get('dm/{dm}', [AdministratorController::class, 'detail'])->name('dm.detail');
+    // DM通報一覧表示
+    Route::get('report/dm', [AdministratorController::class, 'dmReportList'])->name('report');
   });
 });
 
@@ -148,6 +160,16 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 //         'allowed_ips' => config('firewall.allowed_ips'),
 //     ]);
 // });
+
+// Route::get('/s3-test', function () {
+//     try {
+//         $result = Storage::disk('s3')->put('test_upload.txt', 'テストファイルです');
+//         return $result ? 'アップロード成功！' : 'アップロード失敗！';
+//     } catch (\Exception $e) {
+//         return 'エラー発生: ' . $e->getMessage();
+//     }
+// });
+
 
 //ユーザー認証系
 Auth::routes();

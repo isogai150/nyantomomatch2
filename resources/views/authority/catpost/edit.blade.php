@@ -139,8 +139,10 @@
     <div class="background-photo-move">
 
       <label for="image">写真・動画</label>
-      <p>猫の写真を最大3枚、動画を1本まで追加できます。</p>
+      <br><br><br>
+      <p>猫の写真を最大3枚、動画を1本まで追加できます。</p><br>
 
+      {{-- 既存メディアのプレビュー --}}
       <div id="media-container" class="media-preview-grid">
         {{-- 既存画像 --}}
         @foreach($post->images as $image)
@@ -162,19 +164,24 @@
         @endforeach
       </div>
 
-      <p>画像（最大3枚まで）、<br class="br-sp">または動画（最大1本）</p><br>
+      <br>
+
+      {{-- 選択ボタン --}}
+      <button type="button" id="selectImageBtn" class="select-media-btn">画像を追加</button>
+      <button type="button" id="selectVideoBtn" class="select-media-btn">動画を追加</button>
+      <br><br>
 
       {{-- 新規画像アップロード --}}
-      <input type="file" name="image[]" id="imageInput" accept="image/*" multiple>
-      @error('image')
+      <input type="file" name="images[]" id="imageInput" accept="image/*" multiple style="display:none;">
+      @error('images')
+        <div class="alert-danger">{{ $message }}</div>
+      @enderror
+      @error('images.*')
         <div class="alert-danger">{{ $message }}</div>
       @enderror
 
-      <br>
-      <br>
-
       {{-- 新規動画アップロード --}}
-      <input type="file" name="video" id="videoInput" accept="video/*">
+      <input type="file" name="video" id="videoInput" accept="video/*" style="display:none;">
       @error('video')
         <div class="alert-danger">{{ $message }}</div>
       @enderror
@@ -182,7 +189,7 @@
       {{-- プレビュー表示領域 --}}
       <div id="preview-container" class="preview-grid"></div>
       
-      {{-- 動画プレビュー専用領域（追加） --}}
+      {{-- 動画プレビュー専用領域 --}}
       <div id="video-preview-container" class="preview-grid"></div>
     </div>
 

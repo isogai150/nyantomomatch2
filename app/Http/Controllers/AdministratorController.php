@@ -9,12 +9,13 @@ use App\Models\Message;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Authority;
+use Illuminate\Support\Facades\DB;
 
 class AdministratorController extends Controller
 {
 
 // ログインフォーム表示機能
- public function showLoginForm()
+public function showLoginForm()
     {
         return view('admin.auth.login');
     }
@@ -125,6 +126,38 @@ public function authorityDetail($id)
     $authority = Authority::findOrFail($id);
 
     return view('admin.authority.detail', compact('authority'));
+}
+
+// DM一覧表示
+public function dmList()
+{
+    $dms = Pair::whereNull('deleted_at')->get();
+
+    return view('admin.dm.index', compact('dms'));
+}
+
+// DM詳細表示
+public function detail($id)
+{
+    // DBのpairsテーブルのid(マッチしたグループ)番号を取得している
+    // dd($id);
+
+    // 指定されたDMを取得（userA、userBをEager Loadingで取得）
+    $dm = Pair::with(['userA', 'userB'])->findOrFail($id);
+
+    // そのDMに関連するメッセージを取得（古い順）
+    $messages = Message::where('pair_id', $id)
+        ->whereNull('deleted_at')
+        ->orderBy('created_at', 'asc')
+        ->get();
+
+    return view('admin.dm.detail', compact('dm', 'messages'));
+}
+
+// DM通報一覧
+public function dmReportList()
+{
+    return view('admin.report.dm.index');
 }
 
 }

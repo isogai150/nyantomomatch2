@@ -69,6 +69,7 @@ class PostController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+            // dd($myCatposts);
         return view('authority/catpost.index', compact('myCatposts'));
     }
 
@@ -84,54 +85,67 @@ class PostController extends Controller
         ]);
     }
 
-    // 保存処理機能
-    public function store(CatPost $request)
-    {
-        // バリデーション済みデータを取得
-        $validated = $request->validated();
 
-        // 入力した内容が「投稿を作成」を通してデータが送信されているか確認
-        // dd($validated);
+// 保存処理機能
+public function store(CatPost $request)
+{
+    // バリデーション済みデータを取得
+    $validated = $request->validated();
 
-        // データベースの posts テーブルに保存
-        $post = new Post();
-        $post->fill($validated);
-        $post->user_id = Auth::id();
-        $post->title = $validated['title'];
-        $post->age = $validated['age'];
-        $post->gender = $validated['gender'];
-        $post->breed = $validated['breed'];
-        $post->region = $validated['region'];
-        $post->cost = $validated['cost'];
-        $post->vaccination = $validated['vaccination'];
-        $post->medical_history = $validated['medical_history'];
-        $post->description = $validated['description'];
-        $post->start_date = $validated['start_date'];
-        $post->end_date = $validated['end_date'];
-        $post->status = $validated['status'] ?? 0; // ステータスの初期値
-        $post->save();
+    // ディスク取得（local or s3）
+    $disk = config('filesystems.default');
 
-        // 画像保存処理
-        if ($request->hasFile('image')) {
-            foreach ($request->file('image') as $imageFile) {
-                $path = $imageFile->store('public/post_images'); // storage/app/public/post_images に保存
+    // データベースの posts テーブルに保存
+    $post = new Post();
+    $post->fill($validated);
+    $post->user_id = Auth::id();
+    $post->save();
+
+    // 画像保存処理
+    if ($request->hasFile('image')) {
+        $images = $request->file('image');
+        
+        // 配列でない場合は配列に変換
+        if (!is_array($images)) {
+            $images = [$images];
+        }
+        
+        // 最大3枚まで処理
+        $imageCount = 0;
+        foreach ($images as $imageFile) {
+            if ($imageCount >= 3) {
+                break;
+            }
+            
+            if ($imageFile && $imageFile->isValid()) {
+                $fileName = uniqid() . '.' . $imageFile->getClientOriginalExtension();
+                $path = $imageFile->storeAs('post_images', $fileName, $disk);
+
                 $post->images()->create([
-                    'image_path' => str_replace('public/', 'storage/', $path) // 公開パスに変換
-            ]);
+                    'image_path' => $fileName
+                ]);
+                
+                $imageCount++;
+            }
         }
     }
 
-        // 動画保存処理
-        if ($request->hasFile('video')) {
-            $videoFile = $request->file('video');
-            $path = $videoFile->store('public/post_videos');
+    // 動画保存処理
+    if ($request->hasFile('video')) {
+        $videoFile = $request->file('video');
+        if ($videoFile->isValid()) {
+            $videoName = uniqid() . '.' . $videoFile->getClientOriginalExtension();
+            $path = $videoFile->storeAs('post_videos', $videoName, $disk);
+
             $post->videos()->create([
-                'video_path' => str_replace('public/', 'storage/', $path)
+                'video_path' => $videoName
             ]);
         }
-
-    return redirect()->route('catpost.index')->with('success', '投稿が作成されました！');
     }
+
+    // 投稿成功時にセッションストレージをクリアするためのフラグを追加
+    return redirect()->route('catpost.index')->with('success', '投稿が作成されました！')->with('clear_storage', true);
+}
 
 // =================================================================================
 
@@ -186,13 +200,22 @@ public function edit($id)
     return view('authority.catpost.edit', compact('post', 'remainingImageSlots'));
 }
 
-// 編集内容更新
 public function update(CatPost $request, Post $post)
 {
     $user = Auth::user();
 
     if ($post->user_id !== $user->id) {
         abort(403, 'この投稿を編集する権限がありません。');
+    }
+
+    // ★★★ 既存画像数と新規画像数の合計をチェック ★★★
+    $currentImageCount = $post->images->count();
+    $newImageCount = $request->hasFile('images') ? count($request->file('images')) : 0;
+    $totalImageCount = $currentImageCount + $newImageCount;
+
+    // ★★★ 画像が1枚もない場合はエラー ★★★
+    if ($totalImageCount === 0) {
+        return back()->withErrors(['images' => '最低1枚の画像を選択してください。'])->withInput();
     }
 
     // ★★★ ファイルサイズの追加チェック ★★★
@@ -207,26 +230,25 @@ public function update(CatPost $request, Post $post)
     // バリデーション済みデータ
     $validated = $request->validated();
 
-
     // 投稿内容更新
     $post->fill($validated);
     $post->save();
 
+    $disk = config('filesystems.default'); // local or s3
+
     // 画像更新処理（新しい画像がアップロードされた場合のみ）
     if ($request->hasFile('images')) {
         // 最大3枚までのチェック
-        $currentImageCount = $post->images->count();
-        $newImageCount = count($request->file('images'));
-
-        if ($currentImageCount + $newImageCount > 3) {
+        if ($totalImageCount > 3) {
             return back()->withErrors(['images' => '画像は最大3枚までです。']);
         }
 
         // 新しい画像を保存（既存画像は削除しない）
         foreach ($request->file('images') as $imageFile) {
-            $path = $imageFile->store('public/post_images');
+            $fileName = uniqid() . '.' . $imageFile->getClientOriginalExtension();
+            $path = $imageFile->storeAs('post_images', $fileName, $disk);
             $post->images()->create([
-                'image_path' => str_replace('public/', 'storage/', $path)
+                'image_path' => $fileName
             ]);
         }
     }
@@ -235,16 +257,19 @@ public function update(CatPost $request, Post $post)
     if ($request->hasFile('video')) {
         // 既存動画を削除
         foreach ($post->videos as $video) {
-            Storage::delete(str_replace('storage/', 'public/', $video->video_path));
+            Storage::disk($disk)->delete('post_videos/' . $video->video_path);
             $video->delete();
         }
 
         $videoFile = $request->file('video');
-        $path = $videoFile->store('public/post_videos');
+        $videoName = uniqid() . '.' . $videoFile->getClientOriginalExtension();
+        $videoPath = $videoFile->storeAs('post_videos', $videoName, $disk);
+
         $post->videos()->create([
-            'video_path' => str_replace('public/', 'storage/', $path)
+            'video_path' => $videoName
         ]);
     }
+
     return redirect()->route('mycatpost.index')->with('success', '投稿が更新されました！');
 }
 

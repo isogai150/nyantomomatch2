@@ -7,8 +7,6 @@
 @section('content')
 <div class="backgroundcolor-position">
 
-{{-- ここの中にコードを書く --}}
-
 <div class="main-content">
 
     <div class="titlefont">
@@ -20,8 +18,16 @@
     </div>
 
     <div class="newpost">
-        <a href="">＋　新しい投稿</a>
+        <a href="{{ route('posts.create') }}">＋　新しい投稿</a>
     </div>
+
+
+    {{-- 成功メッセージ表示 --}}
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
 {{-- ============================================================================ --}}
 {{-- 総投稿数・譲渡完了・募集中 --}}
@@ -49,10 +55,11 @@
     <div class="post-list">
     @forelse($myCatposts as $post)
         <div class="post-card">
+        {{-- {{ dd($post->images->first()->image_path) }} --}}
         <div class="post-image">
             {{-- 投稿の画像 --}}
             @if($post->images->isNotEmpty())
-            <img id="main-image" src="{{ asset(str_replace('public/', '', $post->images->first()->image_path)) }}">
+            <img id="main-image" src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $post->images->first()->image_path) }}">
             @else
             <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"
                     class="no-image">
@@ -105,7 +112,7 @@
                 <a href="{{ route('catpost.edit', $post->id) }}" class="btn-edit">編集</a>
 
                 {{-- 削除ボタン --}}
-                <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="delete-form">
+                <form action="{{ route('catpost.destroy', $post->id) }}" method="POST" class="delete-form" onsubmit="return confirm('本当に削除してもよろしいですか？\n\nこの操作は取り消せません。');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn-delete">削除</button>
@@ -130,7 +137,6 @@
 </div>
 @endsection
 
-{{-- js使うときは書く使わないときは書かなくて良い --}}
 @section('script')
-<script src="{{ asset('ここにファイルパスの記述') }}"></script>
+{{-- 必要に応じてJavaScriptファイルを追加 --}}
 @endsection
