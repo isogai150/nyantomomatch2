@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Requests\CatPost;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -88,78 +87,8 @@ class PostController extends Controller
     // 保存処理機能
     public function store(CatPost $request)
     {
-        // まずファイルを一時保存（バリデーション前）
-        if ($request->hasFile('image')) {
-            $tempImages = session('temp_images', []);
-            foreach ($request->file('image') as $imageFile) {
-                $path = $imageFile->store('temp/images', 'public');
-                $tempImages[] = $path;
-            }
-            session(['temp_images' => $tempImages]);
-        }
-
-        if ($request->hasFile('video')) {
-            $path = $request->file('video')->store('temp/videos', 'public');
-            session(['temp_video' => $path]);
-        }
-
-        // 基本バリデーション実行
-        $validator = Validator::make($request->all(), (new CatPost)->rules(), (new CatPost)->messages(), (new CatPost)->attributes());
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        // セッションの一時保存分を考慮したカスタムバリデーション
-        $tempImageCount = session()->has('temp_images') ? count(session('temp_images')) : 0;
-        $newImageCount = $request->hasFile('image') ? count($request->file('image')) : 0;
-        $totalImageCount = $tempImageCount + $newImageCount;
-
-        // 画像が1枚もない場合はエラー
-        if ($totalImageCount === 0) {
-            return redirect()->back()
-                ->withErrors(['image' => '画像を最低1枚選択してください。'])
-                ->withInput();
-        }
-
-        // 画像が3枚を超える場合はエラー
-        if ($totalImageCount > 3) {
-            // 超過分を削除
-            $excessCount = $totalImageCount - 3;
-            $tempImages = session('temp_images', []);
-
-            for ($i = 0; $i < $excessCount; $i++) {
-                $removed = array_pop($tempImages);
-                if ($removed) {
-                    Storage::disk('public')->delete($removed);
-                }
-            }
-
-            session(['temp_images' => $tempImages]);
-
-            return redirect()->back()
-                ->withErrors(['image' => '画像は最大3枚までです。'])
-                ->withInput();
-        }
-
-        // 動画のチェック
-        $hasTempVideo = session()->has('temp_video');
-        $hasNewVideo = $request->hasFile('video');
-
-        if ($hasTempVideo && $hasNewVideo) {
-            // 新しくアップロードされた動画を削除
-            Storage::disk('public')->delete(session('temp_video'));
-            session()->forget('temp_video');
-
-            return redirect()->back()
-                ->withErrors(['video' => '動画は最大1本までです。'])
-                ->withInput();
-        }
-
         // バリデーション済みデータを取得
-        $validated = $validator->validated();
+        $validated = $request->validated();
 
         // 入力した内容が「投稿を作成」を通してデータが送信されているか確認
         // dd($validated);
@@ -182,42 +111,17 @@ class PostController extends Controller
         $post->status = $validated['status'] ?? 0; // ステータスの初期値
         $post->save();
 
-        // 一時保存された画像を本保存に移動
-        if (session()->has('temp_images')) {
-            foreach (session('temp_images') as $tempPath) {
-                $newPath = str_replace('temp/images', 'post_images', $tempPath);
-                Storage::disk('public')->move($tempPath, $newPath);
-
-                $post->images()->create([
-                    'image_path' => 'storage/' . $newPath
-                ]);
-            }
-            session()->forget('temp_images');
-        }
-
-        // 新規アップロードされた画像を保存
+        // 画像保存処理
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $imageFile) {
-                $path = $imageFile->store('public/post_images');
+                $path = $imageFile->store('public/post_images'); // storage/app/public/post_images に保存
                 $post->images()->create([
-                    'image_path' => str_replace('public/', 'storage/', $path)
-                ]);
-            }
-        }
-
-        // 一時保存動画を本保存に移動
-        if (session()->has('temp_video')) {
-            $tempPath = session('temp_video');
-            $newPath = str_replace('temp/videos', 'post_videos', $tempPath);
-            Storage::disk('public')->move($tempPath, $newPath);
-
-            $post->videos()->create([
-                'video_path' => 'storage/' . $newPath
+                    'image_path' => str_replace('public/', 'storage/', $path) // 公開パスに変換
             ]);
-            session()->forget('temp_video');
         }
+    }
 
-        // 新規アップロードされた動画を保存
+        // 動画保存処理
         if ($request->hasFile('video')) {
             $videoFile = $request->file('video');
             $path = $videoFile->store('public/post_videos');
@@ -226,47 +130,7 @@ class PostController extends Controller
             ]);
         }
 
-        // 成功時はセッションをクリア
-        session()->forget(['temp_images', 'temp_video']);
-
-        return redirect()->route('catpost.index')->with('success', '投稿が作成されました！');
-    }
-
-    // 一時ファイルのクリーンアップ
-    private function cleanupTempFiles()
-    {
-        if (session()->has('temp_images')) {
-            foreach (session('temp_images') as $path) {
-                Storage::disk('public')->delete($path);
-            }
-            session()->forget('temp_images');
-        }
-
-        if (session()->has('temp_video')) {
-            Storage::disk('public')->delete(session('temp_video'));
-            session()->forget('temp_video');
-        }
-    }
-
-    // 一時保存ファイル削除用
-    public function deleteTempImage($index)
-    {
-        $tempImages = session('temp_images', []);
-        if (isset($tempImages[$index])) {
-            Storage::disk('public')->delete($tempImages[$index]);
-            unset($tempImages[$index]);
-            session(['temp_images' => array_values($tempImages)]);
-        }
-        return response()->json(['success' => true]);
-    }
-
-    public function deleteTempVideo()
-    {
-        if (session()->has('temp_video')) {
-            Storage::disk('public')->delete(session('temp_video'));
-            session()->forget('temp_video');
-        }
-        return response()->json(['success' => true]);
+    return redirect()->route('catpost.index')->with('success', '投稿が作成されました！');
     }
 
 // =================================================================================

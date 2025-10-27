@@ -128,8 +128,8 @@
 
 {{-- ======================================================== --}}
 
-      {{-- 掲載開始日・掲載終了日 --}}
       <div class="container-flex date-range">
+      {{-- 掲載開始日・掲載終了日 --}}
         <div class="bbb">
           <label for="start_date">掲載開始日</label><br>
           <input type="date" min="{{ date('Y-m-d') }}" name="start_date" class="textbox-start-date" value="{{ old('start_date') }}">
@@ -160,73 +160,29 @@
     <div class="background-photo-move">
 
       {{-- 写真・動画 --}}
-      <label for="image">写真・動画</label>
-      <p>猫の写真や動画を最大4件まで<br class="br-sp">追加できます。<br class="br-sp">1枚目は写真を選択してください。</p>
+      <p>写真・動画</p>
+      <p>猫の写真や動画を最大4件まで追加できます。1枚目は写真を選択してください。</p>
 
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 {{-- 画像アップロード --}}
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 
-      <p>画像（最大3枚まで）、<br class="br-sp">または動画（最大1本）</p><br>
-
-      {{-- 画像選択部分 --}}
-      <div class="file-input-wrapper">
-        <input type="file" name="image[]" id="image" accept="image/*" multiple class="hidden-input">
-        <button type="button" class="select-file-btn" onclick="document.getElementById('image').click()">
-          📷 画像を選択
-        </button>
-        <span id="image-selected-info" class="selected-info">未選択</span>
-      </div>
-
-        @error('image')
+      <label for="image">画像（最大3枚まで）・または動画（最大1本）</label><br>
+      <input type="file" name="image[]" id="image" accept="image/*" multiple>
+      @error('image')
         <div class="alert-danger">{{ $message }}</div>
       @enderror
 
       <br>
       <br>
 
-      {{-- 動画選択部分 --}}
-      <div class="file-input-wrapper">
-        <input type="file" name="video" id="video" accept="video/*" class="hidden-input">
-        <button type="button" class="select-file-btn" onclick="document.getElementById('video').click()">
-          🎥 動画を選択
-        </button>
-        <span id="video-selected-info" class="selected-info">未選択</span>
-      </div>
-
+      <input type="file" name="video" id="video" accept="video/*">
       @error('video')
         <div class="alert-danger">{{ $message }}</div>
       @enderror
 
       {{-- プレビュー表示領域 --}}
-      <div id="preview-container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;">
-
-        {{-- セッションに保存された画像を表示 --}}
-        @if(session('temp_images'))
-          @foreach(session('temp_images') as $index => $imagePath)
-            <div class="preview-item" data-temp-index="{{ $index }}">
-              <img src="{{ asset('storage/' . $imagePath) }}" class="preview-image" alt="一時保存画像">
-              <button type="button" class="remove-btn remove-temp-image" data-index="{{ $index }}">✕</button>
-            </div>
-          @endforeach
-        @endif
-
-        {{-- セッションに保存された動画を表示 --}}
-        @if(session('temp_video'))
-          <div class="preview-item temp-video">
-            <video src="{{ asset('storage/' . session('temp_video')) }}" controls class="preview-video"></video>
-            <button type="button" class="remove-btn remove-temp-video">✕</button>
-          </div>
-        @endif
-      </div>
-
-      {{-- 一時ファイルの情報を保持 --}}
-      @if(session('temp_images'))
-        <input type="hidden" name="temp_images" value="{{ json_encode(session('temp_images')) }}">
-      @endif
-      @if(session('temp_video'))
-        <input type="hidden" name="temp_video" value="{{ session('temp_video') }}">
-      @endif
+      <div id="preview-container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;"></div>
     </div>
 
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
