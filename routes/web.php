@@ -169,6 +169,10 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 //     }
 // });
 
+// 契約書提出
+Route::post('/dm/{dm}/transfer/submit', [TransferController::class, 'submit'])
+    ->name('transfer.submit');
+
 // 譲渡資料送信（投稿者用）
 Route::post('/dm/{dm}/transfer/send', [TransferController::class, 'send'])->name('transfer.send');
 

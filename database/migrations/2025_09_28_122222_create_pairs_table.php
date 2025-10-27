@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('userB_id')->comment('BユーザーID')->constrained('users')->onDelete('cascade');
             $table->unique(['userA_id', 'userB_id']);
             $table->foreignId('post_id')->constrained('posts')->comment('投稿ID');
-            $table->string('transfer_status')->default('none')->comment('譲渡状態 none:未送付 / sent:資料送付済 / agreed_wait:相手合意待ち / agreed:両者合意済 / paid:決済完了');
+            $table->string('transfer_status')->default('none')->comment('譲渡状態 none:未送付 / sent:資料送付済 / submitted:書類提出済（相手合意待ち） / agreed_wait:片方同意済 / agreed:両者合意済 / paid:決済完了');
             $table->timestamps();
             $table->softDeletes()->comment('削除日');
         });
