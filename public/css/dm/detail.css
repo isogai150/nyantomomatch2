@@ -22,7 +22,7 @@
 .dm-header {
   background-color: #FFF;
   border-bottom: 0.125rem solid #D3C6B7;
-  padding: 6% 4% 2%;
+  padding: 6% 4% 0.5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,10 +48,19 @@
   width: 3.125rem; /* 50px */
   height: 3.125rem;
   border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .user-image {
+  width: 3vw;
+  height: 3vw;
   border-radius: 50%;
+  object-fit: cover;
+  transform: scale(1.25); /* 枠の外にはみ出さず拡大 */
+  border: 0.1vw solid #D3C6B7;
 }
 
 .dm-user-name {
@@ -331,5 +340,10 @@
 
   .dm-text {
     font-size: 1.1rem;
+  }
+
+  .user-image {
+  width: 10vw;
+  height: 10vw;
   }
 }
