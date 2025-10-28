@@ -14,12 +14,21 @@ return new class extends Migration
     public function up()
     {
         Schema::create('post_reports', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users')->comment('通報者ID');
-            $table->foreignId('post_id')->constrained('posts')->comment('通報対象の投稿ID');
-            $table->tinyInteger('status')->default(0)->comment('通報ステータス 0：未対応 / 1：対応済み / 2：却下');
-            $table->timestamps();
-            $table->softDeletes()->comment('削除日');
+    $table->id();
+    $table->foreignId('user_id')
+        ->constrained('users')
+        ->comment('通報者ID');
+    $table->foreignId('post_id')
+        ->constrained('posts')
+        ->onDelete('cascade')
+        ->comment('通報対象の投稿ID');
+    $table->tinyInteger('status')
+        ->default(0)
+        ->comment('通報ステータス 0：未対応 / 1：対応済み / 2：却下');
+    $table->timestamps();
+    $table->softDeletes()->comment('削除日');
+
+    $table->index(['status', 'created_at']);
         });
     }
 

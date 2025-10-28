@@ -10,6 +10,8 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Authority;
 use Illuminate\Support\Facades\DB;
+use App\Models\PostReport;
+
 
 class AdministratorController extends Controller
 {
@@ -157,5 +159,43 @@ public function detail($id)
 
     return view('admin.dm.detail', compact('dm', 'messages'));
 }
+
+// 投稿通報一覧表示
+public function postReports()
+{
+    $reports = PostReport::with(['user', 'post'])
+        ->orderBy('status')
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+    return view('admin.report.post.index', compact('reports'));
+}
+
+// 投稿通報詳細表示
+public function postReportDetail($id)
+{
+    $report = PostReport::with(['user', 'post'])->findOrFail($id);
+
+    return view('admin.report.post.detail', compact('report'));
+}
+
+// 通報対応済み更新
+public function postReportResolve($id)
+{
+    $report = PostReport::findOrFail($id);
+    $report->update(['status' => 1]);
+
+    return redirect()->route('admin.post.reports')->with('success', '対応済みにしました');
+}
+
+// 通報却下更新
+public function postReportReject($id)
+{
+    $report = PostReport::findOrFail($id);
+    $report->update(['status' => 2]);
+
+    return redirect()->route('admin.post.reports')->with('success', '通報を却下しました');
+}
+
 
 }

@@ -1,0 +1,32 @@
+.report-detail-container {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.back-area {
+    margin-bottom: 15px;
+}
+
+.report-box h3 {
+    color: #503322;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.table th {
+    background: #F2E4D4;
+    width: 180px;
+    color: #503322;
+    text-align: center;
+}
+
+.table td {
+    background: #fff;
+}
+
+.action-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
