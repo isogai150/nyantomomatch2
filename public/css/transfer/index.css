@@ -1,7 +1,5 @@
-/* transfer/index.css
-   レイアウトは % を優先して記述しています */
+@charset "UTF-8";
 
-/* 全体ラッパー */
 .transfer-wrapper {
     width: 100%;
     padding: 6% 6%;
@@ -61,6 +59,7 @@
 /* タブコンテンツ */
 .tab-content {
     display: none;
+    text-align: center;
 }
 .tab-content.active {
     display: block;
@@ -78,14 +77,44 @@
 
 /* 見出し */
 .box h3 {
+    font-weight: bold;
+    font-size: 1.6rem;
     margin: 0 0 1% 0;
     color: #503322;
+    display: inline-block;
+    padding-bottom: 1%;
+    border-bottom: #503322 solid ;
+}
+
+.firstitem {
+    border: solid #503322 4px;
+    padding-top: 2%;
+    border-radius: 5px;
+    margin-bottom: 4%;
+}
+
+.flexitems {
+    text-align: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flexitem {
+    width: 50%;
+    margin-bottom: 4%;
+}
+
+.box p {
+    margin: 0.8% 0 2% 0;
+    padding-left: 1.2rem;
+    font-size: 1.4rem;
 }
 
 /* リスト */
 .list {
     margin: 0.8% 0 2% 0;
     padding-left: 1.2rem;
+    font-size: 1.4rem;
 }
 .list li {
     margin-bottom: 0.6rem;
@@ -103,18 +132,27 @@
 
 /* フォーム要素 */
 .contract-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1%;
     margin-top: 1%;
 }
+
+.form-items {
+    display: flex;
+    gap: 1%;
+}
+
+.form-item{
+    width: 50%;
+}
 .input-form {
+    margin-top: 1%;
+    margin-bottom: 2%;
     width: 100%;
     padding: 0.8% 1%;
     border: 1px solid #CCC;
     border-radius: 6px;
     box-sizing: border-box;
 }
+
 
 /* ボタン共通 */
 .btn-primary {
