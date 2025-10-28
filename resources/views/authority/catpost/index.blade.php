@@ -58,6 +58,7 @@
         <div class="post-image">
             {{-- 投稿の画像 --}}
             @if($post->images->isNotEmpty())
+            {{-- <img id="main-image" src="{{ asset(str_replace('public/', '', $post->images->first()->image_path)) }}"> --}}
             <img id="main-image" src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $post->images->first()->image_path) }}">
             @else
             <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"

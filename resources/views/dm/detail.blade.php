@@ -17,13 +17,15 @@
                 <div class="dm-user-icon">
                     {{-- 投稿者のプロフィール画像 --}}
                     @if (!empty($partner->image_path))
+                        {{-- <img src="{{ asset(str_replace('public/', '', $post->user->image_path)) }}" alt="投稿者のプロフィール画像"
+                            class="user-image"> --}}
                         <img src="{{ Storage::url('profile_images/' . $partner->image_path) }}" alt="{{ $partner->name }}" class="user-image">
                     @else
                         <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"
                             class="user-image">
                     @endif
                 </div>
-                <div class="dm-user-name">{{ $partner->name ?? '相手のユーザー' }}</div>
+                <div class="dm-user-name">{{ $partner->name ?? '相手のユーザー' }}さん</div>
             </div>
         </div>
 
@@ -37,6 +39,7 @@
                     @endphp
 
                     @if ($imagePath)
+                        {{-- <img src="{{ asset($imagePath) }}" alt="猫の写真" class="dm-post-img"> --}}
                         <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $firstImage) }}"
                             alt="猫の写真" class="dm-post-img">
                     @else
@@ -55,28 +58,10 @@
             </div>
         @endif
 
-{{-- デバッグ用：ボタン表示エリアの前に追加 --}}
-{{-- <div style="background: #f0f0f0; padding: 10px; margin: 10px 0;">
-    <h3>デバッグ情報</h3>
-    <p>transfer_status: {{ $dm->transfer_status ?? 'undefined' }}</p>
-    <p>現在のユーザーID: {{ Auth::id() }}</p>
-    <p>投稿者ID: {{ $post->user_id ?? 'undefined' }}</p>
-    <p>isPoster: {{ $isPoster ? 'true' : 'false' }}</p>
-    <p>status変数: {{ $status }}</p>
-    
-    @if(isset($dm->agreed_user_id))
-        <p>合意済みユーザーID: {{ $dm->agreed_user_id }}</p>
-    @else
-        <p>合意済みユーザーID: なし</p>
-    @endif
-</div> --}}
-
-
-
 {{-- ============================= --}}
 {{-- 譲渡関連ボタン --}}
 {{-- ============================= --}}
-{{-- <div class="dm-transfer-area"> --}}
+<div class="dm-transfer-area">
     @php
         $status = $dm->transfer_status;
         $isPoster = Auth::id() === $post->user_id;
