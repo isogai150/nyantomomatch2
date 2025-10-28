@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('transfer_documents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transfer_id')->comment('譲渡成立ID')->constrained('transfers');
-            $table->text('conditions')->comment('譲渡条件資料');
-            $table->text('contract')->comment('譲渡契約書');
+            $table->foreignId('pair_id')->comment('DMペアID')->constrained('pairs')->onDelete('cascade');
+            $table->foreignId('transfer_id')->nullable()->comment('譲渡成立ID')->constrained('transfers')->nullOnDelete();
+            $table->string('buyer_signature')->nullable()->comment('譲受者署名（乙サイン)');
+            $table->date('signed_date')->nullable()->comment('署名日');
             $table->timestamps();
             $table->softDeletes()->comment('削除日');
         });
