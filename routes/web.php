@@ -14,6 +14,8 @@ use App\Http\Requests\CatPost;
 use App\Http\Controllers\AdministratorController;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\TransferController;
+use App\Http\Middleware\Firewall;
+use App\Models\Authority;
 
 // s3用テスト
 // Route::get('/s3-test', function () {
@@ -22,10 +24,6 @@ use App\Http\Controllers\TransferController;
 // });
 
 
-// 管理者
-Route::get('/admin/dashboard', [AdministratorController::class, 'index'])->name('admin.index');
-use App\Http\Middleware\Firewall;
-use App\Models\Authority;
 
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
