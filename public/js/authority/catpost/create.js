@@ -1,9 +1,9 @@
 'use strict';
 
-document.addEventListener('DOMContentLoaded', function () {
-    const imageInput = document.getElementById('image');
-    const videoInput = document.getElementById('video');
-    const container = document.getElementById('preview-container');
+// document.addEventListener('DOMContentLoaded', function () {
+//     const imageInput = document.getElementById('image');
+//     const videoInput = document.getElementById('video');
+//     const container = document.getElementById('preview-container');
 
 document.addEventListener('DOMContentLoaded', function() {
     const $previewContainer = document.getElementById('preview-container');
