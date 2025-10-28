@@ -31,7 +31,7 @@ class PaymentController extends Controller
     {
         // dd($request->all());
         // Stripe秘密キー設定（.envから直接取得）
-        Stripe::setApiKey(config('services.stripe.st_key'));
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         // 対象の投稿
         $post = Post::findOrFail($request->post_id);
@@ -75,7 +75,7 @@ class PaymentController extends Controller
     public function success(Request $request)
     {
         // Stripe秘密キー設定（.envから直接取得）
-        Stripe::setApiKey(config('services.stripe.st_key'));
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         // クエリパラメータからPaymentIntent IDを取得
         $paymentIntentId = $request->input('payment_intent_id');
