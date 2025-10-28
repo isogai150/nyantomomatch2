@@ -24,7 +24,7 @@ class CatPost extends FormRequest
      */
     public function rules()
     {
-        // ★★★ 新規作成か編集かを判定 ★★★
+        // 新規作成か編集かを判定
         $isUpdate = $this->isMethod('put') || $this->isMethod('patch');
 
         $rules = [
@@ -34,34 +34,29 @@ class CatPost extends FormRequest
             'breed' => 'required|string|max:50',
             'region' => 'required|string|max:100',
             'start_date' => 'required|date',
-
-            // 掲載終了日は必須ではないので「nullable」
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'status' => 'required|integer',
-
             'vaccination' => 'required|string|max:500',
             'medical_history' => 'required|string|max:500',
-
             'description' => 'required|string|max:1000',
-
             'cost' => 'required|numeric|min:0|max:1000000',
         ];
 
-        // ★★★ 画像のバリデーション（編集時は任意） ★★★
         if ($isUpdate) {
-            // 編集時：画像は任意、動画も任意
+            // 編集時：画像は任意
             $rules['images'] = 'nullable|array|max:3';
             $rules['images.*'] = 'image|mimes:jpeg,png,jpg,gif|max:2048';
             $rules['video'] = 'nullable|file|mimes:mp4,mov,avi,wmv|max:10240';
         } else {
-            // 新規作成時：画像は必須
-            $rules['image'] = 'nullable|array|max:3';
-            $rules['image.*'] = 'image|mimes:jpeg,png,jpg,gif|max:2048';
+            // 新規作成時：画像は必須（最低1枚）
+            $rules['image'] = 'required|array|min:1|max:3';
+            $rules['image.*'] = 'required|image|mimes:jpeg,png,jpg,gif|max:2048';
             $rules['video'] = 'nullable|file|mimes:mp4,mov,avi,wmv|max:10240';
         }
 
         return $rules;
     }
+
 
     public function messages()
     {
@@ -76,10 +71,12 @@ class CatPost extends FormRequest
             'start_date.required' => '掲載開始日を入力してください。',
             'end_date.after_or_equal' => '掲載終了日は開始日以降を指定してください。',
 
-            // 新規作成用（image）
-            'image.required' => '画像ファイルを選択してください。',
+            // 新規作成用（image）の必須メッセージ
+            'image.required' => '最低1枚の画像を選択してください。',
             'image.array' => '画像の形式が正しくありません。',
+            'image.min' => '最低1枚の画像を選択してください。',
             'image.max' => '画像は最大3枚までアップロードできます。',
+            'image.*.required' => '画像ファイルを選択してください。',
             'image.*.image' => '画像ファイルを選択してください。',
             'image.*.mimes' => '画像は jpeg, png, jpg, gif のいずれかでアップロードしてください。',
             'image.*.max' => '画像は2MB以内でアップロードしてください。',

@@ -124,19 +124,19 @@ public function store(CatPost $request)
     // 画像保存処理
     if ($request->hasFile('image')) {
         $images = $request->file('image');
-        
+
         // 配列でない場合は配列に変換
         if (!is_array($images)) {
             $images = [$images];
         }
-        
+
         // 最大3枚まで処理
         $imageCount = 0;
         foreach ($images as $imageFile) {
             if ($imageCount >= 3) {
                 break;
             }
-            
+
             if ($imageFile && $imageFile->isValid()) {
                 $fileName = uniqid() . '.' . $imageFile->getClientOriginalExtension();
                 $path = $imageFile->storeAs('post_images', $fileName, $disk);
@@ -144,7 +144,7 @@ public function store(CatPost $request)
                 $post->images()->create([
                     'image_path' => $fileName
                 ]);
-                
+
                 $imageCount++;
             }
         }
@@ -228,17 +228,17 @@ public function update(CatPost $request, Post $post)
         abort(403, 'この投稿を編集する権限がありません。');
     }
 
-    // ★★★ 既存画像数と新規画像数の合計をチェック ★★★
+    // 既存画像数と新規画像数の合計をチェック
     $currentImageCount = $post->images->count();
     $newImageCount = $request->hasFile('images') ? count($request->file('images')) : 0;
     $totalImageCount = $currentImageCount + $newImageCount;
 
-    // ★★★ 画像が1枚もない場合はエラー ★★★
+    // 画像が1枚もない場合はエラー
     if ($totalImageCount === 0) {
         return back()->withErrors(['images' => '最低1枚の画像を選択してください。'])->withInput();
     }
 
-    // ★★★ ファイルサイズの追加チェック ★★★
+    // ファイルサイズの追加チェック
     if ($request->hasFile('images')) {
         foreach ($request->file('images') as $imageFile) {
             if ($imageFile->getSize() > 2 * 1024 * 1024) {

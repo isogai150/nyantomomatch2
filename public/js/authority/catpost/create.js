@@ -1,10 +1,5 @@
 'use strict';
 
-// document.addEventListener('DOMContentLoaded', function () {
-//     const imageInput = document.getElementById('image');
-//     const videoInput = document.getElementById('video');
-//     const container = document.getElementById('preview-container');
-
 document.addEventListener('DOMContentLoaded', function() {
     const $previewContainer = document.getElementById('preview-container');
     const $videoPreviewContainer = document.getElementById('video-preview-container');
@@ -14,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const $selectImageBtn = document.getElementById('selectImageBtn');
     const $selectVideoBtn = document.getElementById('selectVideoBtn');
     const $form = document.querySelector('form');
-    
+
     // 定数
     const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
     const MAX_VIDEO_SIZE = 10 * 1024 * 1024; // 10MB
@@ -31,13 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function initDB() {
         return new Promise((resolve, reject) => {
             const request = indexedDB.open(DB_NAME, DB_VERSION);
-            
+
             request.onerror = () => reject(request.error);
             request.onsuccess = () => {
                 db = request.result;
                 resolve(db);
             };
-            
+
             request.onupgradeneeded = (event) => {
                 const db = event.target.result;
                 if (!db.objectStoreNames.contains(STORE_NAME)) {
@@ -54,11 +49,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 reject('Database not initialized');
                 return;
             }
-            
+
             const transaction = db.transaction([STORE_NAME], 'readwrite');
             const store = transaction.objectStore(STORE_NAME);
             const request = store.put({ id: key, data: data });
-            
+
             request.onsuccess = () => resolve();
             request.onerror = () => reject(request.error);
         });
@@ -71,11 +66,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 reject('Database not initialized');
                 return;
             }
-            
+
             const transaction = db.transaction([STORE_NAME], 'readonly');
             const store = transaction.objectStore(STORE_NAME);
             const request = store.get(key);
-            
+
             request.onsuccess = () => {
                 resolve(request.result ? request.result.data : null);
             };
@@ -90,11 +85,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 reject('Database not initialized');
                 return;
             }
-            
+
             const transaction = db.transaction([STORE_NAME], 'readwrite');
             const store = transaction.objectStore(STORE_NAME);
             const request = store.delete(key);
-            
+
             request.onsuccess = () => resolve();
             request.onerror = () => reject(request.error);
         });
@@ -115,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateRemainingCount() {
         const remaining = getRemainingImageCount();
         $remainingNumber.textContent = remaining;
-        
+
         if (remaining <= 0) {
             $selectImageBtn.disabled = true;
             $selectImageBtn.style.opacity = '0.5';
@@ -131,11 +126,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateInputFiles() {
         const dataTransfer = new DataTransfer();
         const validFiles = selectedFiles.filter(f => f !== null);
-        
+
         validFiles.forEach(file => {
             dataTransfer.items.add(file);
         });
-        
+
         $imageInput.files = dataTransfer.files;
         console.log('imageInput.files更新完了:', $imageInput.files.length, '件');
     }
@@ -191,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
             for (let i = 0; i < filesData.length; i++) {
                 const fileData = filesData[i];
                 const file = fileData.file;
-                
+
                 selectedFiles.push(file);
 
                 // プレビュー表示
@@ -200,18 +195,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     const item = document.createElement('div');
                     item.className = 'preview-item';
                     item.dataset.fileIndex = i;
-                    
+
                     const img = document.createElement('img');
                     img.src = event.target.result;
                     img.className = 'preview-image';
                     img.style.cssText = 'width:150px; height:150px; object-fit:cover; border-radius:10px;';
-                    
+
                     const removeBtn = document.createElement('button');
                     removeBtn.type = 'button';
                     removeBtn.className = 'remove-btn new';
                     removeBtn.textContent = '×';
                     removeBtn.dataset.fileIndex = i;
-                    
+
                     item.appendChild(img);
                     item.appendChild(removeBtn);
                     $previewContainer.appendChild(item);
@@ -246,31 +241,31 @@ document.addEventListener('DOMContentLoaded', function() {
             const item = document.createElement('div');
             item.className = 'preview-item';
             item.style.cssText = 'width:150px; height:150px;';
-            
+
             const videoURL = URL.createObjectURL(selectedVideo);
-            
+
             const video = document.createElement('video');
             video.controls = true;
             video.className = 'preview-video';
             video.preload = 'metadata';
             video.style.cssText = 'width:150px; height:150px; object-fit:cover; border-radius:10px; display:block;';
-            
+
             const source = document.createElement('source');
             source.src = videoURL;
             source.type = videoData.type;
-            
+
             video.appendChild(source);
             video.appendChild(document.createTextNode('お使いのブラウザは動画再生に対応していません。'));
-            
+
             const removeBtn = document.createElement('button');
             removeBtn.type = 'button';
             removeBtn.className = 'remove-btn video-new';
             removeBtn.textContent = '×';
-            
+
             item.appendChild(video);
             item.appendChild(removeBtn);
             $videoPreviewContainer.appendChild(item);
-            
+
             // 動画選択ボタンを無効化
             $selectVideoBtn.disabled = true;
             $selectVideoBtn.style.opacity = '0.5';
@@ -299,12 +294,12 @@ document.addEventListener('DOMContentLoaded', function() {
             tempInput.accept = 'image/*';
             tempInput.multiple = true;
             tempInput.style.display = 'none';
-            
+
             tempInput.addEventListener('change', function(e) {
                 handleImageSelect(e);
                 document.body.removeChild(tempInput);
             });
-            
+
             document.body.appendChild(tempInput);
             tempInput.click();
         }
@@ -317,12 +312,12 @@ document.addEventListener('DOMContentLoaded', function() {
             tempInput.type = 'file';
             tempInput.accept = 'video/*';
             tempInput.style.display = 'none';
-            
+
             tempInput.addEventListener('change', function(e) {
                 handleVideoSelect(e);
                 document.body.removeChild(tempInput);
             });
-            
+
             document.body.appendChild(tempInput);
             tempInput.click();
         }
@@ -331,13 +326,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // 画像選択処理
     function handleImageSelect(e) {
         const files = Array.from(e.target.files);
-        
+
         if (files.length === 0) return;
-        
+
         console.log('選択されたファイル:', files.length);
-        
+
         const remaining = getRemainingImageCount();
-        
+
         if (files.length > remaining) {
             alert(`アップロードできるのはあと ${remaining} 枚までです。`);
             return;
@@ -369,18 +364,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 const item = document.createElement('div');
                 item.className = 'preview-item';
                 item.dataset.fileIndex = fileIndex;
-                
+
                 const img = document.createElement('img');
                 img.src = event.target.result;
                 img.className = 'preview-image';
                 img.style.cssText = 'width:150px; height:150px; object-fit:cover; border-radius:10px;';
-                
+
                 const removeBtn = document.createElement('button');
                 removeBtn.type = 'button';
                 removeBtn.className = 'remove-btn new';
                 removeBtn.textContent = '×';
                 removeBtn.dataset.fileIndex = fileIndex;
-                
+
                 item.appendChild(img);
                 item.appendChild(removeBtn);
                 $previewContainer.appendChild(item);
@@ -421,31 +416,31 @@ document.addEventListener('DOMContentLoaded', function() {
         const item = document.createElement('div');
         item.className = 'preview-item';
         item.style.cssText = 'width:150px; height:150px;';
-        
+
         const videoURL = URL.createObjectURL(file);
-        
+
         const video = document.createElement('video');
         video.controls = true;
         video.className = 'preview-video';
         video.preload = 'metadata';
         video.style.cssText = 'width:150px; height:150px; object-fit:cover; border-radius:10px; display:block;';
-        
+
         const source = document.createElement('source');
         source.src = videoURL;
         source.type = file.type;
-        
+
         video.appendChild(source);
         video.appendChild(document.createTextNode('お使いのブラウザは動画再生に対応していません。'));
-        
+
         const removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'remove-btn video-new';
         removeBtn.textContent = '×';
-        
+
         item.appendChild(video);
         item.appendChild(removeBtn);
         $videoPreviewContainer.appendChild(item);
-        
+
         $selectVideoBtn.disabled = true;
         $selectVideoBtn.style.opacity = '0.5';
         $selectVideoBtn.style.cursor = 'not-allowed';
@@ -458,17 +453,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.classList.contains('remove-btn') && e.target.classList.contains('new')) {
             e.preventDefault();
             e.stopPropagation();
-            
+
             const item = e.target.closest('.preview-item');
             const fileIndex = parseInt(e.target.dataset.fileIndex);
-            
+
             console.log('削除するファイルインデックス:', fileIndex);
-            
+
             if (!isNaN(fileIndex) && fileIndex >= 0 && fileIndex < selectedFiles.length) {
                 selectedFiles[fileIndex] = null;
                 console.log('削除後のファイル数:', selectedFiles.filter(f => f !== null).length);
             }
-            
+
             item.remove();
             updateRemainingCount();
             updateInputFiles();
@@ -481,13 +476,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.classList.contains('remove-btn') && e.target.classList.contains('video-new')) {
             e.preventDefault();
             e.stopPropagation();
-            
+
             e.target.closest('.preview-item').remove();
-            
+
             selectedVideo = null;
             $videoInput.value = '';
             console.log('動画ファイルをクリア');
-            
+
             $selectVideoBtn.disabled = false;
             $selectVideoBtn.style.opacity = '1';
             $selectVideoBtn.style.cursor = 'pointer';
@@ -496,22 +491,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // フォーム送信時の処理
-    $form.addEventListener('submit', function(e) {
-        console.log('=== フォーム送信 ===');
-        console.log('画像ファイル数:', $imageInput.files.length);
-        console.log('動画ファイル:', $videoInput.files.length > 0 ? $videoInput.files[0].name : 'なし');
-        
-        const formData = new FormData(this);
-        console.log('FormData内容:');
-        for (let pair of formData.entries()) {
-            if (pair[1] instanceof File) {
-                console.log(pair[0] + ':', pair[1].name);
-            } else {
-                console.log(pair[0] + ':', pair[1]);
-            }
+// フォーム送信時の処理
+$form.addEventListener('submit', function(e) {
+    console.log('=== フォーム送信 ===');
+    console.log('画像ファイル数:', $imageInput.files.length);
+    console.log('動画ファイル:', $videoInput.files.length > 0 ? $videoInput.files[0].name : 'なし');
+
+    // 画像が1枚も選択されていない場合はエラー表示
+    if ($imageInput.files.length === 0) {
+        e.preventDefault();
+        alert('最低1枚の画像を選択してください。');
+        return false;
+    }
+
+    const formData = new FormData(this);
+    console.log('FormData内容:');
+    for (let pair of formData.entries()) {
+        if (pair[1] instanceof File) {
+            console.log(pair[0] + ':', pair[1].name);
+        } else {
+            console.log(pair[0] + ':', pair[1]);
         }
-    });
+    }
+});
 
     // 投稿成功時にIndexedDBをクリア
     if (window.location.search.includes('success') || document.referrer.includes('catpost')) {
@@ -519,3 +521,5 @@ document.addEventListener('DOMContentLoaded', function() {
         deleteFromIndexedDB('video').catch(() => {});
     }
 });
+
+// 編集日：251028

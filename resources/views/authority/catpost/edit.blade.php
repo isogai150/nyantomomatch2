@@ -6,6 +6,9 @@
 
 @section('content')
 <div class="backgroundcolor-position">
+{{-- ここの中にコードを書く --}}
+{{-- =================================================================================================== --}}
+
   <div class="main-content">
     <h2>投稿を編集</h2>
     <h3>猫の里親を募集する<br class="br-sp">投稿を編集します。</h3>
@@ -133,9 +136,6 @@
               name="end_date"
               class="textbox-end-date"
               value="{{ old('end_date', $post->end_date ? \Carbon\Carbon::parse($post->end_date)->format('Y-m-d') : '') }}">
-            {{-- <input type="date" 
-              min="{{ date('Y-m-d') }}" name="end_date" class="textbox-end-date" 
-              value="{{ old('end_date', $post->end_date ? \Carbon\Carbon::parse($post->end_date)->format('Y-m-d') : '') }}"> --}}
 
             @error('end_date')
               <div class="alert-danger">{{ $message }}</div>
@@ -146,7 +146,9 @@
 
     </div>
 
-    {{-- 写真・動画 --}}
+{{-- ======================================================== --}}
+{{-- 写真・動画 --}}
+
     <div class="background-photo-move">
 
       <label for="image">写真・動画</label>
@@ -204,6 +206,7 @@
       <div id="video-preview-container" class="preview-grid"></div>
     </div>
 
+  {{-- ======================================================== --}}
 
     {{-- 健康状態 --}}
     <div class="background-health">
@@ -256,6 +259,9 @@
 
       </form>
   </div>
+
+{{-- =================================================================================================== --}}
+{{-- bladeここまで --}}
 </div>
 @endsection
 

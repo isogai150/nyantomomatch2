@@ -6,7 +6,6 @@
 
 @section('content')
 <div class="backgroundcolor-position">
-
 {{-- ここの中にコードを書く --}}
 {{-- =================================================================================================== --}}
 
@@ -14,12 +13,8 @@
     <h2>新しい投稿を作成</h2>
     <h3>猫の里親を募集する<br class="br-sp">投稿を作成してください。</h3>
 
-{{-- ======================================================== --}}
-
     <div class="background-form">
       <h3>基本情報</h3><br>
-
-{{-- ======================================================== --}}
 
     <form action="{{ route('catpost.store') }}" method="POST" enctype="multipart/form-data">
       @csrf
@@ -34,8 +29,6 @@
     <br>
     <br>
 
-{{-- ======================================================== --}}
-
       <div class="container-flex">
         <div class="flexblock">
           {{-- 年齢 --}}
@@ -48,8 +41,6 @@
           @enderror
 
         </div>
-
-{{-- ======================================================== --}}
 
         <div class="flexblock">
           {{-- 性別 --}}
@@ -78,8 +69,6 @@
       <br>
       <br>
 
-{{-- ======================================================== --}}
-
       <div class="container">
         <div class="flexblock">
         {{-- 品種 --}}
@@ -92,8 +81,6 @@
         @enderror
         <br>
         <br>
-
-{{-- ======================================================== --}}
 
           <div class="flexblock">
             {{-- 所在地 --}}
@@ -110,8 +97,6 @@
       <br>
       <br>
 
-{{-- ======================================================== --}}
-
       {{-- 投稿ステータス --}}
       <label>投稿ステータス</label><br>
       <select name="status" id="status" class="textbox-status">
@@ -125,8 +110,6 @@
       <br>
       <br>
       <br>
-
-{{-- ======================================================== --}}
 
       <div class="container-flex date-range">
       {{-- 掲載開始日・掲載終了日 --}}
@@ -156,7 +139,8 @@
     </div>
 
 {{-- ======================================================== --}}
-{{-- 写真・動画セクション --}}
+{{-- 写真・動画 --}}
+
 <div class="background-photo-move">
 
   {{-- 写真・動画 --}}
@@ -171,8 +155,9 @@
   <br><br>
 
   {{-- 新規画像アップロード --}}
-  {{-- <p>画像（最大3枚まで）</p><br> --}}
   <input type="file" name="image[]" id="imageInput" accept="image/*" multiple style="display:none;">
+
+  {{-- バリデーションエラー表示 --}}
   @error('image')
     <div class="alert-danger">{{ $message }}</div>
   @enderror
@@ -180,11 +165,7 @@
     <div class="alert-danger">{{ $message }}</div>
   @enderror
 
-  {{-- <br>
-  <br> --}}
-
   {{-- 新規動画アップロード --}}
-  {{-- <p>動画（最大1本）※任意</p><br> --}}
   <input type="file" name="video" id="videoInput" accept="video/*" style="display:none;">
   @error('video')
     <div class="alert-danger">{{ $message }}</div>
@@ -192,16 +173,15 @@
 
   {{-- プレビュー表示領域 --}}
   <div id="preview-container" class="preview-grid"></div>
-  
+
   {{-- 動画プレビュー専用領域 --}}
   <div id="video-preview-container" class="preview-grid"></div>
-  
+
   {{-- 残り枚数表示 --}}
   <p id="remaining-count" style="margin-top: 15px; font-weight: bold; color: #503322;">
     残り画像の追加可能枚数: <span id="remaining-number">3</span>枚
   </p>
 </div>
-
 
 {{-- ======================================================== --}}
 
@@ -219,8 +199,6 @@
       <br>
       <br>
 
-{{-- ======================================================== --}}
-
       <label>病歴</label><br>
       <textarea class="textbox-disease" rows="3" cols="30" id="medical_history" name="medical_history" placeholder="病歴等ございましたら詳しく記述してください。">{{ old('medical_history') }}</textarea>
 
@@ -230,8 +208,6 @@
 
     </div>
 
-{{-- ======================================================== --}}
-
     <div class="background-description">
 
       {{-- 詳細説明 --}}
@@ -239,8 +215,6 @@
       <textarea rows="4" cols="30" id="description" name="description" class="textbox-description" placeholder="猫の性格や特徴などを詳しく書いてください。">{{ old('description') }}</textarea>
 
     </div>
-
-{{-- ======================================================== --}}
 
     <div class="background-price">
 
@@ -276,7 +250,6 @@
 
 {{-- =================================================================================================== --}}
 {{-- bladeここまで --}}
-
 </div>
 @endsection
 
