@@ -9,6 +9,11 @@
     color: #503322;
 }
 
+h2 {
+    text-align: center;
+    font-weight: bold;
+}
+
 /* 戻るリンク */
 .back-area {
     margin-bottom: 1.5%;
@@ -171,24 +176,45 @@
     background-color: #d8b893;
 }
 
-/* スマホ対応 */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 390px) {
+
     .transfer-wrapper {
-        padding: 6% 5%;
+    width: 100%;
+    padding: 18% 6% 6%;
+}
+
+    .page-title {
+        font-size: 1.3rem;
     }
-    .tab-menu {
-        gap: 3%;
-    }
+
     .tab-btn {
-        width: 48%;
-        padding: 0.6rem 0;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+        padding: 4% 0;
     }
+
+    .flexitem {
+        width: 100%;
+    }
+
+    .form-items {
+        flex-direction: column;
+        gap: 6%;
+    }
+    .form-item {
+        width: 100%;
+    }
+
     .btn-primary {
         width: 100%;
-        min-width: unset;
+        font-size: 0.95rem;
     }
-    .box {
-        padding: 4%;
+
+    .box h3 {
+        font-size: 1.2rem;
+    }
+
+    .list,
+    .box p {
+        font-size: 1rem;
     }
 }

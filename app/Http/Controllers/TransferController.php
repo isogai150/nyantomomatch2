@@ -26,7 +26,7 @@ class TransferController extends Controller
     }
 
     /**
-     * 資料確認ページ表示（document.index）
+     * 資料確認ページ表示
      */
     public function showDocument($dm)
     {
@@ -89,7 +89,7 @@ public function agree($dm)
     }
 
     if ($pair->transfer_status === 'agreed_wait') {
-        // 2人揃って合意完了！
+        // 2人揃って合意完了
         $pair->update(['transfer_status' => 'agreed']);
         return back()->with('success', '双方合意が完了しました！次は決済へ進みます。');
     }
