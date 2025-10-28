@@ -188,10 +188,11 @@
 
       {{-- プレビュー表示領域 --}}
       <div id="preview-container" class="preview-grid"></div>
-      
+
       {{-- 動画プレビュー専用領域 --}}
       <div id="video-preview-container" class="preview-grid"></div>
     </div>
+
 
     {{-- 健康状態 --}}
     <div class="background-health">
