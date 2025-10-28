@@ -1,0 +1,220 @@
+@charset "UTF-8";
+
+.transfer-wrapper {
+    width: 100%;
+    padding: 6% 6%;
+    background-color: #FFFDF2;
+    box-sizing: border-box;
+    font-family: "Noto Sans JP", sans-serif;
+    color: #503322;
+}
+
+h2 {
+    text-align: center;
+    font-weight: bold;
+}
+
+/* 戻るリンク */
+.back-area {
+    margin-bottom: 1.5%;
+}
+.back-link {
+    color: #503322;
+    text-decoration: none;
+    font-weight: bold;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* タイトル */
+.page-title {
+    font-size: 1.6rem;
+    margin: 1% 0 2%;
+    color: #503322;
+}
+
+/* タブメニュー */
+.tab-menu {
+    display: flex;
+    gap: 2%;
+    justify-content: center;
+    margin-bottom: 2%;
+}
+.tab-btn {
+    width: 45%;
+    padding: 0.8rem 0;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 8px;
+    background-color: #F7E8CC;
+    border: 1px solid #EAD6A9;
+    color: #503322;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.08s;
+}
+.tab-btn:hover {
+    background-color: #EAD6A9;
+}
+.tab-btn.active {
+    background-color: #D8B893;
+    transform: translateY(-1px);
+}
+
+/* タブコンテンツ */
+.tab-content {
+    display: none;
+    text-align: center;
+}
+.tab-content.active {
+    display: block;
+}
+
+/* コンテンツボックス */
+.box {
+    width: 100%;
+    background: #fff;
+    border-radius: 8px;
+    padding: 3%;
+    border: 1px solid #EAD6A9;
+    box-sizing: border-box;
+}
+
+/* 見出し */
+.box h3 {
+    font-weight: bold;
+    font-size: 1.6rem;
+    margin: 0 0 1% 0;
+    color: #503322;
+    display: inline-block;
+    padding-bottom: 1%;
+    border-bottom: #503322 solid ;
+}
+
+.firstitem {
+    border: solid #503322 4px;
+    padding-top: 2%;
+    border-radius: 5px;
+    margin-bottom: 4%;
+}
+
+.flexitems {
+    text-align: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flexitem {
+    width: 50%;
+    margin-bottom: 4%;
+}
+
+.box p {
+    margin: 0.8% 0 2% 0;
+    padding-left: 1.2rem;
+    font-size: 1.4rem;
+}
+
+/* リスト */
+.list {
+    margin: 0.8% 0 2% 0;
+    padding-left: 1.2rem;
+    font-size: 1.4rem;
+}
+.list li {
+    margin-bottom: 0.6rem;
+    line-height: 1.6;
+}
+
+/* 契約ボックス */
+.contract-box {
+    background: #FFF8E8;
+    border: 1px solid #EAD6A9;
+    padding: 2%;
+    border-radius: 6px;
+    margin: 1% 0 2% 0;
+}
+
+/* フォーム要素 */
+.contract-form {
+    margin-top: 1%;
+}
+
+.form-items {
+    display: flex;
+    gap: 1%;
+}
+
+.form-item{
+    width: 50%;
+}
+.input-form {
+    margin-top: 1%;
+    margin-bottom: 2%;
+    width: 100%;
+    padding: 0.8% 1%;
+    border: 1px solid #CCC;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+
+/* ボタン共通 */
+.btn-primary {
+    width: 40%;
+    min-width: 160px;
+    padding: 0.8rem 0;
+    margin-top: 1%;
+    background-color: #F6D8B3;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #503322;
+    cursor: pointer;
+}
+.btn-primary:hover {
+    background-color: #d8b893;
+}
+
+@media screen and (max-width: 390px) {
+
+    .transfer-wrapper {
+    width: 100%;
+    padding: 18% 6% 6%;
+}
+
+    .page-title {
+        font-size: 1.3rem;
+    }
+
+    .tab-btn {
+        font-size: 0.9rem;
+        padding: 4% 0;
+    }
+
+    .flexitem {
+        width: 100%;
+    }
+
+    .form-items {
+        flex-direction: column;
+        gap: 6%;
+    }
+    .form-item {
+        width: 100%;
+    }
+
+    .btn-primary {
+        width: 100%;
+        font-size: 0.95rem;
+    }
+
+    .box h3 {
+        font-size: 1.2rem;
+    }
+
+    .list,
+    .box p {
+        font-size: 1rem;
+    }
+}

@@ -81,7 +81,7 @@
 
 .dm-post-img-area {
   flex-shrink: 0;
-  width: 10%;
+  width: 18%;
   aspect-ratio: 1 / 1;
   border-radius: 0.5rem;
   overflow: hidden;
@@ -124,6 +124,50 @@
 
 .dm-post-buttons .btn-detail:hover {
   background-color: #d8b893;
+}
+
+/* ==========================
+   譲渡関連ボタンエリア
+========================== */
+.dm-transfer-area {
+  text-align: center;
+  margin: 2% 0;
+  background-color: #FFFDF2;
+  padding: 1.5% 0;
+  border-top: 0.125rem dashed #D3C6B7;
+  border-bottom: 0.125rem dashed #D3C6B7;
+}
+
+.dm-transfer-area form,
+.dm-transfer-area a {
+  display: inline-block;
+  margin: 0.5% 2%;
+  text-decoration: none;
+}
+
+.dm-transfer-area .btn-detail {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  background-color: #F6D8B3;
+  color: #503322;
+  font-weight: bold;
+  border-radius: 2rem;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.dm-transfer-area .btn-detail:hover {
+  background-color: #e8c59c;
+  transform: scale(1.05);
+}
+
+.dm-transfer-area p {
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
 /* ==========================
@@ -293,13 +337,15 @@
 /* ==========================
    レスポンシブ対応（スマホ幅）
 ========================== */
-@media screen and (max-width: 390px) {
+@media screen and (max-width: 480px) {
   .dm-header {
-    padding: 16% 4% 2%;
+    padding: 12% 4% 2%;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .dm-wrapper {
-    width: 100%;
+  .dm-user-name {
+    font-size: 1.2rem;
   }
 
   .dm-post-info {
@@ -321,6 +367,20 @@
     text-align: center;
   }
 
+  .dm-transfer-area {
+    padding: 4% 0;
+  }
+
+  .dm-transfer-area .btn-detail {
+    width: 70%;
+    margin: 2% auto;
+    font-size: 1rem;
+  }
+
+  .dm-messages {
+    padding: 5% 4%;
+  }
+
   .dm-form textarea {
     width: 70%;
   }
@@ -329,9 +389,8 @@
     width: 25%;
   }
 
-  /* モバイル時のボタン位置とサイズ調整 */
-  .dm-actions {
-    margin-top: 0.2rem;
+  .dm-text {
+    font-size: 1.1rem;
   }
 
   .dm-actions button {
