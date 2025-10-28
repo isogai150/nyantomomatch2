@@ -1,3 +1,5 @@
+'use strict';
+
 document.addEventListener('DOMContentLoaded', function () {
     const imageInput = document.getElementById('image');
     const videoInput = document.getElementById('video');

@@ -84,7 +84,7 @@
 
 .form-header p {
   font-size: 0.95em;
-  color: #666;
+  color: #503322;
 }
 
 /* ------- 入力フォーム ------- */
@@ -170,6 +170,7 @@
   border-radius: 8px;
   text-decoration: none;
   transition: 0.2s;
+  text-align: center;
 }
 
 .payment-btn:hover,
@@ -275,7 +276,7 @@
 ========================== */
 @media screen and (max-width: 390px) {
   .main-content {
-    padding: 8% 5%;
+    padding: 18% 5% 8%;
   }
 
   .main-top {
@@ -299,6 +300,10 @@
   .form-row {
     flex-direction: column;
     gap: 1em;
+  }
+
+  .form-header p {
+  text-align: left;
   }
 
   .payment-btn {

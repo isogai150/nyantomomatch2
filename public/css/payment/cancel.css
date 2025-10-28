@@ -71,17 +71,25 @@
   color: #7A6A58;
 }
 
+.br-sp {
+  display: none;
+}
+
 /* ===============================
    スマホ対応（390px以下）
 =============================== */
 @media screen and (max-width: 390px) {
+  .cancel-container {
+    padding: 12% 4% 8%;
+  }
+
   .cancel-content {
     width: 95%;
     padding: 10% 6%;
   }
 
   .cancel-content h1 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   .cancel-content .message {
@@ -91,5 +99,9 @@
   .actions a {
     width: 100%;
     text-align: center;
+  }
+
+  .br-sp {
+  display: block;
   }
 }

@@ -175,7 +175,7 @@
 ========================== */
 @media screen and (max-width: 390px) {
   .main-content {
-    padding: 8% 4%;
+    padding: 18% 4% 8%;
   }
 
   .main-top {
@@ -218,7 +218,7 @@
   }
 
   .cart-inf span {
-    font-size: 1.2em;
+    font-size: 0.9em;
   }
 
   .payment-btn {

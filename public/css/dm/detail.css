@@ -136,6 +136,7 @@
   max-width: 75%;
   word-wrap: break-word;
   position: relative;
+  margin-bottom: 1%;
 }
 
 /* メッセージ本文 */
@@ -155,7 +156,7 @@
 /* 送信時間 */
 .dm-time {
   font-size: 0.75rem;
-  color: #A98C71;
+  color: #503322;
   text-align: right;
   margin-top: 0.2rem;
 }
@@ -164,7 +165,7 @@
    編集・削除ボタン（下に配置）
 ========================== */
 .dm-actions {
-  display: none;
+  display: block;
   margin-top: 0.3rem; /* メッセージとの余白 */
   text-align: right;  /* 右寄せ配置 */
 }
@@ -176,7 +177,7 @@
 .dm-actions button {
   background: none;
   border: none;
-  color: #705840;
+  color: #503322;
   font-size: 0.8rem;
   cursor: pointer;
   margin-left: 0.4rem;
@@ -245,10 +246,11 @@
   border-top: 0.125rem solid #D3C6B7;
   padding: 2%;
   background-color: #FFF9E9;
+  gap: 1%;
 }
 
 .dm-form textarea {
-  width: 80%;
+  width: 90%;
   min-height: 4rem;
   border: 0.0625rem solid #D3C6B7;
   border-radius: 0.375rem;
@@ -258,9 +260,14 @@
   color: #503322;
 }
 
+.dm-form textarea:focus {
+    border: 0.0625rem solid #503322;
+    outline: none;
+}
+
 .dm-form button {
-  width: 15%;
-  min-height: 4rem;
+  width: 7%;
+  min-height: 2rem;
   background-color: #F6D8B3;
   border: none;
   border-radius: 0.375rem;

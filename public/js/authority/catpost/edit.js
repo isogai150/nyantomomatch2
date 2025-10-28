@@ -1,3 +1,5 @@
+'use strict';
+
 $(function() {
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
     const $previewContainer = $('#preview-container');
@@ -5,7 +7,7 @@ $(function() {
     const $imageInput = $('#imageInput');
     const $videoInput = $('#videoInput');
     const $videoUploadSection = $('#video-upload-section'); // ★ 追加
-    
+
     // 定数
     const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
     const MAX_VIDEO_SIZE = 10 * 1024 * 1024; // 10MB

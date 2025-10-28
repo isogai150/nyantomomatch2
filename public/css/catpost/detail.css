@@ -99,6 +99,7 @@
   word-break: break-word;
   overflow-wrap: break-word;
   min-width: 320px;
+  margin-bottom: 1%;
 }
 
 .post-main-top {
@@ -342,7 +343,7 @@
 
 .publication-info {
   font-size: 0.9vw;
-  color: #777;
+  color: #503322;
   line-height: 1.6;
 }
 
@@ -357,7 +358,10 @@
 
   /* 全体 */
   .post-detail-container {
-    padding: 8% 5%;
+    padding: 15% 5% 8%;
+  }
+  .back-page {
+    font-size: 2vw;
   }
 
   /* メイン画像 */
@@ -392,14 +396,16 @@
 
   /* 猫情報リスト */
   .post-list ul {
-    flex-direction: column;
-    gap: 2%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .post-list li {
     width: 100%;
     font-size: 0.9rem;
-    padding: 3% 4%;
-    text-align: center;
+    padding: 0.8% 0;
+    line-height: 1.6;
   }
 
   /* 本文部分 */
