@@ -50,8 +50,9 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 # APP_KEYの表示
 # RUN php artisan key:generate --show
 
-# RUN php artisan migrate --force
-# RUN php artisan db:seed --force
+
+RUN php artisan migrate:fresh --force
+RUN php artisan db:seed --force
 
 
 RUN php artisan config:clear
