@@ -82,7 +82,7 @@ use Illuminate\Support\Facades\Storage;
 
 {{-- 基本情報 --}}
   <div class="information">
-    <form action="{{ route('mypage.edit', ['user' => $user->id]) }}" method="POST">
+    <form action="{{ route('mypage.edit', ['user' => $user->id]) }}" method="POST" novalidate>
       @csrf
       @method('put')
       <div class="information-flex">

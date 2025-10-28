@@ -95,7 +95,7 @@ public function getGenderClassAttribute()
 // 費用
 public function getCostClassAttribute()
 {
-    return $this->cost .'円';
+    return number_format($this->cost) . '円';
 }
 
 
@@ -121,10 +121,13 @@ public function getCostClassAttribute()
 
     // created_at などの日付フィールドをCarbonで扱いやすくする
     protected $casts = [
+        'start_date' => 'date',        // date型として扱う
+        'end_date' => 'date',          // date型として扱う
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
 // ============================================================
+
 
 }

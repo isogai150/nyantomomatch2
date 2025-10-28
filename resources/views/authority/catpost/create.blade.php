@@ -132,7 +132,7 @@
       {{-- 掲載開始日・掲載終了日 --}}
         <div class="bbb">
           <label for="start_date">掲載開始日</label><br>
-          <input type="date" min="2025-10-14" max="2029-12-31" name="start_date" class="textbox-start-date" value="{{ old('start_date') }}">
+          <input type="date" min="{{ date('Y-m-d') }}" name="start_date" class="textbox-start-date" value="{{ old('start_date') }}">
 
           @error('start_date')
             <div class="alert-danger">{{ $message }}</div>
@@ -144,7 +144,7 @@
 
         <div class="ccc">
           <label for="end_date">掲載終了日</label><br>
-          <input type="date" min="2025-10-14" max="2029-12-31" name="end_date" class="textbox-end-date" value="{{ old('end_date') }}">
+          <input type="date" min="{{ date('Y-m-d') }}" name="end_date" class="textbox-end-date" value="{{ old('end_date') }}">
 
           @error('end_date')
             <div class="alert-danger">{{ $message }}</div>
@@ -201,6 +201,34 @@
     残り画像の追加可能枚数: <span id="remaining-number">3</span>枚
   </p>
 </div>
+
+    <div class="background-photo-move">
+
+      {{-- 写真・動画 --}}
+      <p>写真・動画</p>
+      <p>猫の写真や動画を最大4件まで追加できます。1枚目は写真を選択してください。</p>
+
+{{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
+{{-- 画像アップロード --}}
+{{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
+
+      <label for="image">画像（最大3枚まで）・または動画（最大1本）</label><br>
+      <input type="file" name="image[]" id="image" accept="image/*" multiple>
+      @error('image')
+        <div class="alert-danger">{{ $message }}</div>
+      @enderror
+
+      <br>
+      <br>
+
+      <input type="file" name="video" id="video" accept="video/*">
+      @error('video')
+        <div class="alert-danger">{{ $message }}</div>
+      @enderror
+
+      {{-- プレビュー表示領域 --}}
+      <div id="preview-container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;"></div>
+    </div>
 
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 

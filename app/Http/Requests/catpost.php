@@ -55,7 +55,7 @@ class CatPost extends FormRequest
             $rules['video'] = 'nullable|file|mimes:mp4,mov,avi,wmv|max:10240';
         } else {
             // 新規作成時：画像は必須
-            $rules['image'] = 'required|array|max:3';
+            $rules['image'] = 'nullable|array|max:3';
             $rules['image.*'] = 'image|mimes:jpeg,png,jpg,gif|max:2048';
             $rules['video'] = 'nullable|file|mimes:mp4,mov,avi,wmv|max:10240';
         }
