@@ -12,6 +12,17 @@ use App\Models\Pair;
 use App\Http\Controllers\PaymentController;
 use App\Http\Requests\CatPost;
 use App\Http\Controllers\AdministratorController;
+use Illuminate\Support\Facades\Storage;
+
+// s3用テスト
+// Route::get('/s3-test', function () {
+//     Storage::disk('s3')->put('test.txt', 'これはテストです');
+//     return 'アップロード完了';
+// });
+
+
+// 管理者
+Route::get('/admin/dashboard', [AdministratorController::class, 'index'])->name('admin.index');
 use App\Http\Middleware\Firewall;
 use App\Models\Authority;
 
@@ -56,12 +67,8 @@ Route::middleware('auth')->group(function () {
   // 投稿削除処理
   Route::delete('/my/catpost/{post}/delete', [PostController::class, 'destroy'])->name('catpost.destroy');
 
-  // 一時保存ファイル削除用
-  Route::post('/temp-image/delete/{index}', [PostController::class, 'deleteTempImage'])->name('temp.image.delete');
-  Route::post('/temp-video/delete', [PostController::class, 'deleteTempVideo'])->name('temp.video.delete');
-
-  // お気に入りトグル
-  Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+// お気に入りトグル
+Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 
   // お気に入り一覧表示
   Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
@@ -140,6 +147,10 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
     Route::put('authority/{authority}/approval', [AdministratorController::class, 'AuthorityApproval'])->name('authority.approval');
     // 投稿権限申請詳細表示
     Route::get('authority/{authority}', [AdministratorController::class, 'authorityDetail'])->name('authority.detail');
+    // DM一覧表示
+    Route::get('dm', [AdministratorController::class, 'dmList'])->name('dm');
+    // DM詳細表示
+    Route::get('dm/{dm}', [AdministratorController::class, 'detail'])->name('dm.detail');
   });
 });
 
@@ -151,6 +162,16 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 //         'allowed_ips' => config('firewall.allowed_ips'),
 //     ]);
 // });
+
+// Route::get('/s3-test', function () {
+//     try {
+//         $result = Storage::disk('s3')->put('test_upload.txt', 'テストファイルです');
+//         return $result ? 'アップロード成功！' : 'アップロード失敗！';
+//     } catch (\Exception $e) {
+//         return 'エラー発生: ' . $e->getMessage();
+//     }
+// });
+
 
 //ユーザー認証系
 Auth::routes();

@@ -155,7 +155,7 @@
         {{-- 既存画像 --}}
         @foreach($post->images as $image)
           <div class="preview-item">
-            <img src="{{ asset($image->image_path) }}" class="preview-image" alt="猫の画像">
+            <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $image->image_path) }}" class="preview-image" alt="猫の画像">
             <button type="button" class="remove-btn" data-type="image" data-id="{{ $image->id }}">×</button>
           </div>
         @endforeach
@@ -164,7 +164,7 @@
         @foreach($post->videos as $video)
           <div class="preview-item" style="width: 150px; height: 150px;">
             <video controls class="preview-video" preload="metadata" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px; display: block;">
-              <source src="{{ asset($video->video_path) }}" type="video/mp4">
+              <source src="{{ Storage::disk(config('filesystems.default'))->url('post_videos/' . $video->video_path) }}" type="video/mp4">
               <p>お使いのブラウザは動画再生に対応していません。</p>
             </video>
             <button type="button" class="remove-btn" data-type="video" data-id="{{ $video->id }}">×</button>
