@@ -13,7 +13,6 @@
 
 /* バリデーションメッセージ */
 .alert-danger {
-    /* text-align: center; */
     text-align: left;
     color: red;
     font-size: 14px;
@@ -57,7 +56,7 @@ h3 {
 /* 入力フォームの背景の白枠部分 */
 .background-form {
     background: #ffffff;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 5% 15%;
     margin: 3% 2%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -78,9 +77,12 @@ label {
 }
 
 /* ==================================================== */
-/* テキストエリア：右下の角 */
+/* テキストエリア：右下の角 、他*/
 textarea {
     resize: none;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 /* ==================================================== */
 
@@ -96,8 +98,7 @@ textarea {
 }
 
 .flexblock {
-    /* margin-right: 10%; */
-font-size: 0;
+    font-size: 0;
 }
 
 /* テキストボックス（年齢） */
@@ -108,11 +109,14 @@ font-size: 0;
     line-height: 2;
     margin-top: 3%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 .textbox-age,
 .textbox-gender {
-    height: 30px;
+    height: 40px;
 }
 
 /* テキストボックス（性別） */
@@ -124,6 +128,8 @@ font-size: 0;
     line-height: 1.5;
     margin-top: 3px;
     margin-bottom: 3%;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（品種） */
@@ -134,6 +140,9 @@ font-size: 0;
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（所在地） */
@@ -144,6 +153,9 @@ font-size: 0;
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（ステータス） */
@@ -151,9 +163,11 @@ font-size: 0;
     border-width:1.5px;
     border-radius: 5px;
     width: 30%;
-    padding: 0.75%;
+    padding: 6px 8px;
     margin-top: 1%;
     margin-bottom: 3%;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（掲載開始日） */
@@ -164,6 +178,9 @@ font-size: 0;
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（掲載終了日） */
@@ -174,6 +191,9 @@ font-size: 0;
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* 各フォームタイトルと入力欄の間隔調整 */
@@ -217,7 +237,7 @@ textarea {
     font-weight: bold;
     line-height: 1;
     position: relative;
-    top: -6px;
+    top: -18px;
     margin: 0 18px;
 }
 
@@ -227,7 +247,7 @@ textarea {
 /* 写真・動画の背景の白枠部分 */
 .background-photo-move {
     background: #ffffff;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 5% 15%;
     margin: 3% 2%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -250,14 +270,14 @@ textarea {
 /* 画像の見た目 */
 .preview-image {
     max-width: 150px;
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
 /* 動画の見た目 */
 .preview-video {
     max-width: 150px;
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
@@ -277,13 +297,55 @@ textarea {
     line-height: 20px;
 }
 
+/* ファイル選択カスタマイズ */
+.file-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 10px 0;
+}
+
+.hidden-input {
+    display: none;
+}
+
+.select-file-btn {
+    padding: 10px 20px;
+    background-color: #F6D8B3;
+    color: #503322;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.select-file-btn:hover {
+    background-color: #F6D8B3;
+}
+
+.select-file-btn:active {
+    transform: scale(0.98);
+}
+
+.selected-info {
+    color: #503322;
+    font-size: 14px;
+}
+
+.selected-info.has-files {
+    color: #503322;
+    font-weight: bold;
+}
+
 /* ======================================================================= */
+/* 健康状態・詳細説明・費用 */
 /* ======================================================================= */
 
 /* 健康状態の背景の白枠部分 */
 .background-health {
     background: #ffffff;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 5% 15%;
     margin: 3% 2%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -292,7 +354,7 @@ textarea {
 /* 詳細説明の背景の白枠部分 */
 .background-description {
     background: #ffffff;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 5% 15%;
     margin: 3% 2%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -301,7 +363,7 @@ textarea {
 /* 費用の背景の白枠部分 */
 .background-price {
     background: #ffffff;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 5% 15%;
     margin: 3% 2%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -324,6 +386,7 @@ textarea {
 .botten:hover {
     /* カーソルホバー時に設定した透明度で反応させる */
     opacity: 0.8;
+    cursor: pointer;
 }
 
 /* 投稿を作成ボタン：センター */
@@ -369,6 +432,9 @@ textarea {
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* 一部長文の改行：PC用は非表示にしている */
@@ -437,12 +503,6 @@ textarea {
         resize: none;
     }
 
-    /* 2列 → 1列に変更 */
-    .container-flex {
-        flex-direction: column;
-        gap: 0%;
-    }
-
     .flexblock {
         width: 100%;
         margin-right: 0%;
@@ -455,9 +515,10 @@ textarea {
 
     /* 掲載開始日と終了日 */
     .container-flex.date-range {
-        flex-direction: column;
+        display: flex;
+        flex-direction: row;
         align-items: flex-start;
-        gap: 2%;
+        gap: 0;
     }
 
     /* 波線の調整 */
@@ -465,6 +526,7 @@ textarea {
         font-size: 18px;
         top: 0%;
         margin: 4% auto;
+        padding-top: 6%;
         display: block;
     }
 
@@ -490,7 +552,7 @@ textarea {
     /* 掲載開始日・掲載終了日 */
     .container-flex.date-range input[type="date"],
     .container-flex.date-range input[type="text"] {
-        width: 120%;
+        width: 100%;
     }
 
     /* ボタン */
@@ -510,9 +572,21 @@ textarea {
         display: block;
     }
 
+    /* プレビュー画像・動画（スマホ） */
     .preview-image,
     .preview-video {
     max-width: 100px;
+    }
+
+    .file-input-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    }
+
+    .select-file-btn {
+    width: 100%;
+    text-align: center;
     }
 }
 

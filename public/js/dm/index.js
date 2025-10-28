@@ -11,10 +11,10 @@ $(function() {
 
     // 検索クリア機能
     $('.clear-button').on('click', function() {
-      const clearUrl = $(this).data('clear-url');
-      if (clearUrl) {
+        const clearUrl = $(this).data('clear-url');
+        if (clearUrl) {
         window.location.href = clearUrl;
-      }
+        }
     });
 
     // 検索のクリアボタン

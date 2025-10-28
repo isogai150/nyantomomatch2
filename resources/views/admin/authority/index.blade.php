@@ -23,7 +23,7 @@
                     <li>
                         <h3>{{ $authority->user->name }}</h3>
                     </li>
-                    <li>{{ $authority->created_at }}</li>
+                    <li>{{ $authority->created_at->format('Y年n月j日 H:i') }}</li>
                     <li>{{ $authority->status_label }}</li>
                     <li>
                         <a href="{{ route('admin.authority.detail', $authority->id) }}" class="discription-btn">詳細表示</a>
