@@ -11,9 +11,15 @@ class Message extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-    'pair_id',
-    'user_id',
-    'content',
+        'pair_id',
+        'user_id',
+        'content',
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     protected $dates = ['deleted_at'];

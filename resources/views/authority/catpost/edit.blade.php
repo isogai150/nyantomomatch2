@@ -13,6 +13,7 @@
     <div class="background-form">
       <h3>基本情報</h3>
 
+
       <form action="{{ route('catpost.update', $post->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -111,7 +112,11 @@
         <div class="container-flex date-range">
           <div class="bbb">
             <label for="start_date">掲載開始日</label><br>
-            <input type="date" min="2025-10-14" max="2029-12-31" name="start_date" class="textbox-start-date" value="{{ old('start_date', $post->start_date ? \Carbon\Carbon::parse($post->start_date)->format('Y-m-d') : '') }}">
+            <input type="date"
+              min="{{ isset($post) && $post->start_date < date('Y-m-d') ? $post->start_date : date('Y-m-d') }}"
+              name="start_date"
+              class="textbox-start-date"
+              value="{{ old('start_date', $post->start_date ? \Carbon\Carbon::parse($post->start_date)->format('Y-m-d') : '') }}">
 
             @error('start_date')
               <div class="alert-danger">{{ $message }}</div>
@@ -123,7 +128,14 @@
 
           <div class="ccc">
             <label for="end_date">掲載終了日</label><br>
-            <input type="date" min="2025-10-14" max="2029-12-31" name="end_date" class="textbox-end-date" value="{{ old('end_date', $post->end_date ? \Carbon\Carbon::parse($post->end_date)->format('Y-m-d') : '') }}">
+            <input type="date"
+              min="{{ isset($post) && $post->end_date < date('Y-m-d') ? $post->end_date : date('Y-m-d') }}"
+              name="end_date"
+              class="textbox-end-date"
+              value="{{ old('end_date', $post->end_date ? \Carbon\Carbon::parse($post->end_date)->format('Y-m-d') : '') }}">
+            {{-- <input type="date" 
+              min="{{ date('Y-m-d') }}" name="end_date" class="textbox-end-date" 
+              value="{{ old('end_date', $post->end_date ? \Carbon\Carbon::parse($post->end_date)->format('Y-m-d') : '') }}"> --}}
 
             @error('end_date')
               <div class="alert-danger">{{ $message }}</div>
@@ -138,13 +150,15 @@
     <div class="background-photo-move">
 
       <label for="image">写真・動画</label>
-      <p>猫の写真を最大3枚、動画を1本まで追加できます。</p>
+      <br><br><br>
+      <p>猫の写真を最大3枚、動画を1本まで追加できます。</p><br>
 
+      {{-- 既存メディアのプレビュー --}}
       <div id="media-container" class="media-preview-grid">
         {{-- 既存画像 --}}
         @foreach($post->images as $image)
           <div class="preview-item">
-            <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $image->image_path) }}" class="preview-image" alt="猫の画像">
+            <img src="{{ asset($image->image_path) }}" class="preview-image" alt="猫の画像">
             <button type="button" class="remove-btn" data-type="image" data-id="{{ $image->id }}">×</button>
           </div>
         @endforeach
@@ -153,7 +167,7 @@
         @foreach($post->videos as $video)
           <div class="preview-item" style="width: 150px; height: 150px;">
             <video controls class="preview-video" preload="metadata" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px; display: block;">
-              <source src="{{ Storage::disk(config('filesystems.default'))->url('post_videos/' . $video->video_path) }}" type="video/mp4">
+              <source src="{{ asset($video->video_path) }}" type="video/mp4">
               <p>お使いのブラウザは動画再生に対応していません。</p>
             </video>
             <button type="button" class="remove-btn" data-type="video" data-id="{{ $video->id }}">×</button>
@@ -161,29 +175,35 @@
         @endforeach
       </div>
 
-      <p>画像（最大3枚まで）、<br class="br-sp">または動画（最大1本）</p><br>
+      <br>
+
+      {{-- 選択ボタン --}}
+      <button type="button" id="selectImageBtn" class="select-media-btn">画像を追加</button>
+      <button type="button" id="selectVideoBtn" class="select-media-btn">動画を追加</button>
+      <br><br>
 
       {{-- 新規画像アップロード --}}
-      <input type="file" name="image[]" id="imageInput" accept="image/*" multiple>
-      @error('image')
+      <input type="file" name="images[]" id="imageInput" accept="image/*" multiple style="display:none;">
+      @error('images')
+        <div class="alert-danger">{{ $message }}</div>
+      @enderror
+      @error('images.*')
         <div class="alert-danger">{{ $message }}</div>
       @enderror
 
-      <br>
-      <br>
-
       {{-- 新規動画アップロード --}}
-      <input type="file" name="video" id="videoInput" accept="video/*">
+      <input type="file" name="video" id="videoInput" accept="video/*" style="display:none;">
       @error('video')
         <div class="alert-danger">{{ $message }}</div>
       @enderror
 
       {{-- プレビュー表示領域 --}}
       <div id="preview-container" class="preview-grid"></div>
-      
+
       {{-- 動画プレビュー専用領域（追加） --}}
       <div id="video-preview-container" class="preview-grid"></div>
     </div>
+
 
     {{-- 健康状態 --}}
     <div class="background-health">

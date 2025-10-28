@@ -29,101 +29,105 @@ use App\Models\Authority;
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
 
-// 投稿詳細
-Route::get('/posts/{post}', [PostController::class, 'detail'])->name('posts.detail');
+Route::middleware('auth')->group(function () {
 
-// 投稿一覧
-Route::get('/catpost', [PostController::class, 'index'])->name('catpost.index');
+  // 投稿詳細
+  Route::get('/posts/{post}', [PostController::class, 'detail'])->name('posts.detail');
 
-// 自分の投稿一覧表示機能
-Route::get('/my/catpost', [PostController::class, 'myCatpost'])->name('mycatpost.index');
+  // 投稿一覧
+  Route::get('/catpost', [PostController::class, 'index'])->name('catpost.index');
 
-// 編集画面表示
-Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+  // 自分の投稿一覧表示機能
+  Route::get('/my/catpost', [PostController::class, 'myCatpost'])->name('mycatpost.index');
 
-// 編集内容の更新
-Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+  // 編集画面表示
+  Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
 
-// 編集内容の削除
-Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+  // 編集内容の更新
+  Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
 
-// 猫の情報投稿作成画面
-Route::get('/catpost/create', [PostController::class, 'create'])->name('posts.create');
+  // 編集内容の削除
+  Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
-// 猫の情報投稿作成画面：バリデーションメッセージ
-Route::post('/catpost/store', [PostController::class, 'store'])->name('catpost.store');
+  // 猫の情報投稿作成画面
+  Route::get('/catpost/create', [PostController::class, 'create'])->name('posts.create');
 
-// 投稿編集画面
-Route::get('/my/catpost/{post}/edit', [PostController::class, 'edit'])->name('catpost.edit');
+  // 猫の情報投稿作成画面：バリデーションメッセージ
+  Route::post('/catpost/store', [PostController::class, 'store'])->name('catpost.store');
 
-// 投稿更新処理
-Route::put('/my/catpost/{post}', [PostController::class, 'update'])->name('catpost.update');
+  // 投稿編集画面
+  Route::get('/my/catpost/{post}/edit', [PostController::class, 'edit'])->name('catpost.edit');
 
-// 画像・動画削除処理
-Route::delete('/catpost/media/{type}/{id}', [PostController::class, 'deleteMedia'])->name('media.delete');
+  // 投稿更新処理
+  Route::put('/my/catpost/{post}', [PostController::class, 'update'])->name('catpost.update');
 
-// 投稿削除処理
-Route::delete('/my/catpost/{post}/delete', [PostController::class, 'destroy'])->name('catpost.destroy');
+  // 画像・動画削除処理
+  Route::delete('/catpost/media/{type}/{id}', [PostController::class, 'deleteMedia'])->name('media.delete');
+
+  // 投稿削除処理
+  Route::delete('/my/catpost/{post}/delete', [PostController::class, 'destroy'])->name('catpost.destroy');
 
 // お気に入りトグル
 Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 
-// お気に入り一覧表示
-Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+  // お気に入り一覧表示
+  Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 
-// ログアウト
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+  // ログアウト
+  Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// DM詳細ページ（チャット部屋）
-Route::get('/dm/{dm}', [PairController::class, 'show'])->name('dm.show');
+  // DM詳細ページ（チャット部屋）
+  Route::get('/dm/{dm}', [PairController::class, 'show'])->name('dm.show');
 
-// メッセージ受信（Ajax）
-Route::get('/dm/{dm}/message/reception', [PairController::class, 'fetch'])->name('dm.message.fetch');
+  // メッセージ受信（Ajax）
+  Route::get('/dm/{dm}/message/reception', [PairController::class, 'fetch'])->name('dm.message.fetch');
 
-// メッセージ送信（Ajax）
-Route::post('/dm/{dm}/message/create', [PairController::class, 'send'])->name('dm.message.send');
+  // メッセージ送信（Ajax）
+  Route::post('/dm/{dm}/message/create', [PairController::class, 'send'])->name('dm.message.send');
 
-// メッセージ編集（Ajax）
-Route::put('/dm/message/{message}/update', [PairController::class, 'update'])->name('dm.message.update');
+  // メッセージ編集（Ajax）
+  Route::put('/dm/message/{message}/update', [PairController::class, 'update'])->name('dm.message.update');
 
-// メッセージ削除（Ajax）
-Route::delete('/dm/message/{message}/delete', [PairController::class, 'destroy'])->name('dm.message.delete');
+  // メッセージ削除（Ajax）
+  Route::delete('/dm/message/{message}/delete', [PairController::class, 'destroy'])->name('dm.message.delete');
 
-// DM一覧表示
-Route::get('/dm', [PairController::class, 'index'])->name('dm.index');
+  // マイページ
+  Route::get('/mypage', [UserController::class, 'index'])->name('mypage.index');
 
-// マイページ
-Route::get('/mypage', [UserController::class, 'index'])->name('mypage.index');
+  // マイページ更新
+  Route::put('/mypage/edit/{user}', [UserController::class, 'edit'])->name('mypage.edit');
 
-// マイページ更新
-Route::put('/mypage/edit/{user}', [UserController::class, 'edit'])->name('mypage.edit');
+  // ユーザーアイコン
+  Route::put('/profile/image', [UserController::class, 'updateImage'])->name('profile.image.update');
 
-// ユーザーアイコン
-Route::put('/profile/image', [UserController::class, 'updateImage'])->name('profile.image.update');
+  // ユーザー退会
+  Route::delete('/withdraw', [UserController::class, 'withdraw'])->name('user.withdraw');
 
-// ユーザー退会
-Route::delete('/withdraw', [UserController::class, 'withdraw'])->name('user.withdraw');
+  // DM一覧表示
+  Route::get('/dm', [PairController::class, 'index'])->name('dm.index');
 
-// DM一覧表示
-Route::get('/dm', [PairController::class, 'index'])->name('dm.index');
+  // DM作成
+  Route::post('/dm/create', [PairController::class, 'create'])->name('dm.create');
 
-// DM作成
-Route::post('/dm/create', [PairController::class, 'create'])->name('dm.create');
+  // DM削除
+  Route::delete('/dm/{dm}/delete', [PairController::class, 'delete'])->name('dm.delete');
 
-// DM削除
-Route::delete('/dm/{dm}/delete', [PairController::class, 'delete'])->name('dm.delete');
+  // 権限の申請
+  Route::post('mypage/request-post-permission', [UserController::class, 'requestPostPermission'])->name('request.post.permission');
 
-// 決済完了ページ
-Route::get('/checkout/success', [PaymentController::class, 'success'])->name('payment.success');
+  // 決済完了ページ
+  Route::get('/checkout/success', [PaymentController::class, 'success'])->name('payment.success');
 
-// キャンセルページ表示
-Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+  // キャンセルページ表示
+  Route::get('/checkout/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
-// カート情報ページ表示
-Route::get('/checkout/{post}', [PaymentController::class, 'showcart'])->name('payment.cart');
+  // カート情報ページ表示
+  Route::get('/checkout/{post}', [PaymentController::class, 'showcart'])->name('payment.cart');
 
-// 決済情報入力ページ表示
-Route::get('/checkout/{post}/payment', [PaymentController::class, 'showForm'])->name('payment.form');
+  // 決済情報入力ページ表示
+  Route::get('/checkout/{post}/payment', [PaymentController::class, 'showForm'])->name('payment.form');
+
+});
 
 // 管理者ログイン関連
 Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function () {

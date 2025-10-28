@@ -71,20 +71,24 @@
                 </div>
 
                 <div class="cost-contents">
-                    <p>譲渡費用<br><span>{!! nl2br(e($post->cost_class ?? '未記入')) !!}</span></p>
+                    <p>譲渡費用<br>
+                        <span>
+                            {!! nl2br(e($post->cost_class ?? '未記入')) !!}
+                        </span>
+                    </p>
                 </div>
             </div>
 
             <aside class="post-sidebar">
                 <div class="contact-box">
                     <h3>お問い合わせ</h3>
-                    <a href="#" class="contact-btn">メッセージを送る</a>
 
                     <form action="{{ route('dm.create', ['post' => $post->id]) }}" method="POST">
                         @csrf
                         <input type="hidden" name="post" value="{{ $post->id }}">
                         <button type="submit" class="contact-btn">メッセージを送る</button>
                     </form>
+
                     <form action="{{ route('favorites.toggle', $post->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="favorite-btn">
@@ -96,28 +100,37 @@
                 <div class="user-info">
                     <h3>投稿者情報</h3>
 
-                    <div class="user-main">
-                        {{-- 投稿者のプロフィール画像 --}}
-                        @if (!empty($post->user->image_path))
-                            <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $post->user->image_path) }}" alt="投稿者のプロフィール画像"
-                                class="user-image">
-                        @else
-                            <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"
-                                class="user-image">
-                        @endif
+    <div class="user-main">
+        {{-- 投稿者のプロフィール画像 --}}
+        @if($post->user && $post->user->image_path)
+            <img src="{{ Storage::url('profile_images/' . $post->user->image_path) }}"
+                alt="{{ $post->user->name }}" class="user-image" id="previewImage">
+        @else
+            <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}"
+                alt="No Image" class="user-image" id="previewImage">
+        @endif
+
+
+        {{-- @if (!empty($post->user->image_path))
+            <img src="{{ asset(str_replace('public/', '', $post->user->image_path)) }}"
+                alt="投稿者のプロフィール画像" class="user-image">
+        @else
+            <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}"
+                alt="No Image" class="user-image">
+        @endif --}}
 
                         <p class="user-name">{{ $post->user->name }}</p>
                     </div>
 
                     <p class="user-description">{{ $post->user->description ?? '未記入' }}</p>
 
-                    <div class="publication-info">
-                        <p>掲載開始日：{{ $post->start_date }}</p>
-                        @isset($post->end_date)
-                            <p>掲載終了日：{{ $post->end_date }}</p>
-                        @endisset
-                    </div>
-                </div>
+    <div class="publication-info">
+        <p>掲載開始日：{{ $post->start_date->format('Y年n月j日') }}</p>
+        @isset($post->end_date)
+            <p>掲載終了日：{{ $post->end_date->format('Y年n月j日') }}</p>
+        @endisset
+    </div>
+</div>
 
             </aside>
 

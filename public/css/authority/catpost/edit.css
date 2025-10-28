@@ -13,6 +13,7 @@
 
 /* バリデーションメッセージ */
 .alert-danger {
+    /* text-align: center; */
     text-align: left;
     color: red;
     font-size: 14px;
@@ -33,7 +34,7 @@
     background-color: #FFFDF2;
 }
 
-/* 投稿を編集 */
+/* 新しい投稿を作成 */
 h2 {
     font-size: 24px;
     font-weight:bold;
@@ -41,7 +42,7 @@ h2 {
     margin-bottom: 2%;
 }
 
-/* 猫の里親を募集する投稿を編集します。 */
+/* 猫の里親を募集する投稿を作成してください。 */
 h3 {
     font-size: 20px;
     font-weight:bold;
@@ -56,7 +57,7 @@ h3 {
 /* 入力フォームの背景の白枠部分 */
 .background-form {
     background: #ffffff;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 5% 15%;
     margin: 3% 2%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -77,9 +78,12 @@ label {
 }
 
 /* ==================================================== */
-/* テキストエリア：右下の角 */
+/* テキストエリア：右下の角 、他*/
 textarea {
     resize: none;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 /* ==================================================== */
 
@@ -95,7 +99,8 @@ textarea {
 }
 
 .flexblock {
-    font-size: 0;
+    /* margin-right: 10%; */
+font-size: 0;
 }
 
 /* テキストボックス（年齢） */
@@ -106,11 +111,14 @@ textarea {
     line-height: 2;
     margin-top: 3%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 .textbox-age,
 .textbox-gender {
-    height: 30px;
+    height: 40px;
 }
 
 /* テキストボックス（性別） */
@@ -122,6 +130,8 @@ textarea {
     line-height: 1.5;
     margin-top: 3px;
     margin-bottom: 3%;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（品種） */
@@ -132,6 +142,9 @@ textarea {
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（所在地） */
@@ -142,6 +155,9 @@ textarea {
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（ステータス） */
@@ -149,9 +165,11 @@ textarea {
     border-width:1.5px;
     border-radius: 5px;
     width: 30%;
-    padding: 0.75%;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（掲載開始日） */
@@ -162,6 +180,9 @@ textarea {
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* テキストボックス（掲載終了日） */
@@ -172,6 +193,9 @@ textarea {
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* 各フォームタイトルと入力欄の間隔調整 */
@@ -215,37 +239,27 @@ textarea {
     font-weight: bold;
     line-height: 1;
     position: relative;
-    top: -6px;
+    top: -18px;
     margin: 0 18px;
 }
 
 /* ======================================================================= */
-/* 写真・動画セクション */
 /* ======================================================================= */
 
 /* 写真・動画の背景の白枠部分 */
 .background-photo-move {
     background: #ffffff;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 5% 15%;
     margin: 3% 2%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* メディアプレビューグリッド（既存メディア表示用） */
-.media-preview-grid {
+/* プレビュー画像・動画全体の並び */
+#preview-container {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 20px;
-}
-
-/* プレビュー画像・動画全体の並び（新規アップロード用） */
-.preview-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
 }
 
 /* 各プレビュー要素 */
@@ -257,19 +271,23 @@ textarea {
 
 /* 画像の見た目 */
 .preview-image {
+    max-width: 150px;
+    border-radius: 10px;
     width: 150px;
     height: 150px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
 /* 動画の見た目 */
 .preview-video {
+    max-width: 150px;
+    border-radius: 10px;
     width: 150px;
     height: 150px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0 0 5px rgba(0,0,0,0.3);
     display: block;
 }
@@ -279,51 +297,85 @@ video {
     width: 150px;
     height: 150px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
 /* 削除ボタン */
 .remove-btn {
     position: absolute;
-    top: 5px;
+    top: 2px;
     right: 5px;
-    background: rgba(255, 0, 0, 0.8);
+    background: rgba(0,0,0,0.6);
     color: #fff;
     border: none;
     border-radius: 50%;
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
     cursor: pointer;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+/* ==================================================== */
+/* 画像・動画選択ボタンのスタイル（編集画面用） */
+/* ==================================================== */
+
+.select-media-btn {
+    background-color: #F6D8B3;
+    color: #503322;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
     font-size: 16px;
-    line-height: 1;
     font-weight: bold;
-    transition: background 0.3s;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: opacity 0.3s;
 }
 
-.remove-btn:hover {
-    background: rgba(255, 0, 0, 1);
+.select-media-btn:hover:not(:disabled) {
+    opacity: 0.8;
 }
 
-/* アップロードセクション */
-.upload-section {
-    margin-top: 15px;
-    margin-bottom: 15px;
+.select-media-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
-/* hidden クラス */
-.hidden {
-    display: none;
+/* ==================================================== */
+/* 画像・動画選択ボタンのスタイル */
+/* ==================================================== */
+
+.select-media-btn {
+    background-color: #F6D8B3;
+    color: #503322;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: opacity 0.3s;
+}
+
+.select-media-btn:hover:not(:disabled) {
+    opacity: 0.8;
+}
+
+.select-media-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 /* ======================================================================= */
-/* 健康状態・詳細説明・費用 */
 /* ======================================================================= */
 
 /* 健康状態の背景の白枠部分 */
 .background-health {
     background: #ffffff;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 5% 15%;
     margin: 3% 2%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -332,7 +384,7 @@ video {
 /* 詳細説明の背景の白枠部分 */
 .background-description {
     background: #ffffff;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 5% 15%;
     margin: 3% 2%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -341,13 +393,13 @@ video {
 /* 費用の背景の白枠部分 */
 .background-price {
     background: #ffffff;
-    border-radius: 10px;
+    border-radius: 0px;
     padding: 5% 15%;
     margin: 3% 2%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* 投稿の編集を確定ボタン */
+/* 投稿を作成ボタン */
 .botten {
     font-size: 20px;
     font-weight:bold;
@@ -360,13 +412,13 @@ video {
     margin-bottom: 5%;
 }
 
-/* 投稿の編集を確定ボタン：ホバー */
+/* 投稿を作成ボタン：ホバー */
 .botten:hover {
+    /* カーソルホバー時に設定した透明度で反応させる */
     opacity: 0.8;
-    cursor: pointer;
 }
 
-/* 投稿の編集を確定ボタン：センター */
+/* 投稿を作成ボタン：センター */
 .btn {
     text-align: center;
 }
@@ -409,6 +461,9 @@ video {
     line-height: 2;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: #503322;
 }
 
 /* 一部長文の改行：PC用は非表示にしている */
@@ -477,12 +532,6 @@ video {
         resize: none;
     }
 
-    /* 2列 → 1列に変更 */
-    .container-flex {
-        flex-direction: column;
-        gap: 0%;
-    }
-
     .flexblock {
         width: 100%;
         margin-right: 0%;
@@ -495,9 +544,10 @@ video {
 
     /* 掲載開始日と終了日 */
     .container-flex.date-range {
-        flex-direction: column;
+        display: flex;
+        flex-direction: row;
         align-items: flex-start;
-        gap: 2%;
+        gap: 0;
     }
 
     /* 波線の調整 */
@@ -505,6 +555,7 @@ video {
         font-size: 18px;
         top: 0%;
         margin: 4% auto;
+        padding-top: 6%;
         display: block;
     }
 
@@ -530,7 +581,7 @@ video {
     /* 掲載開始日・掲載終了日 */
     .container-flex.date-range input[type="date"],
     .container-flex.date-range input[type="text"] {
-        width: 100%;
+        width: 120%;
     }
 
     /* ボタン */
@@ -550,16 +601,16 @@ video {
         display: block;
     }
 
-    /* プレビュー画像・動画（スマホ） */
     .preview-image,
     .preview-video {
         width: 100px;
-        height: 100px;
     }
 
-    /* video要素（スマホ） */
-    video {
-        width: 100px;
-        height: 100px;
+    /* 画像・動画選択ボタン：スマホ用サイズ調整 */
+    .select-media-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+        margin-right: 5px;
+        margin-bottom: 10px;
     }
 }

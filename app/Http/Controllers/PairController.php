@@ -49,7 +49,7 @@ class PairController extends Controller
                     'id' => $msg->id, // ← update/delete用にIDも追加
                     'user_id' => $msg->user_id,
                     'content' => e($msg->content),
-                    'created_at' => $msg->created_at->format('Y/m/d H:i'),
+                    'created_at' => $msg->created_at->format('Y年m月d日 H:i'),
                 ];
             });
 
@@ -73,7 +73,7 @@ class PairController extends Controller
                 'id' => $message->id,
                 'user_id' => $message->user_id,
                 'content' => e($message->content),
-                'created_at' => $message->created_at->format('Y/m/d H:i'),
+                'created_at' => $message->created_at->format('Y年m月d日 H:i'),
             ]
         ]);
     }
@@ -100,7 +100,7 @@ class PairController extends Controller
             'message' => [
                 'id' => $message->id,
                 'content' => e($message->content),
-                'updated_at' => $message->updated_at->format('Y/m/d H:i'),
+                'updated_at' => $message->updated_at->format('Y年m月d日 H:i'),
             ]
         ]);
     }
@@ -239,14 +239,17 @@ class PairController extends Controller
             return redirect()->back()->with('error', '自分の投稿にメッセージは送れません');
         }
 
-        // 既存のペアを検索（userA_id と userB_id の順序を考慮）
-        $pair = Pair::where(function ($query) use ($userId, $postOwnerId) {
-            $query->where('userA_id', $userId)
-                ->where('userB_id', $postOwnerId);
-        })->orWhere(function ($query) use ($userId, $postOwnerId) {
-            $query->where('userA_id', $postOwnerId)
-                ->where('userB_id', $userId);
-        })->where('post_id', $postId)->first();
+        // 既存のペアを検索※post_idも条件に含める（userA_id と userB_id の順序を考慮）
+        $pair = Pair::where('post_id', $postId)
+            ->where(function ($query) use ($userId, $postOwnerId) {
+                $query->where(function ($q) use ($userId, $postOwnerId) {
+                    $q->where('userA_id', $userId)
+                        ->where('userB_id', $postOwnerId);
+                })->orWhere(function ($q) use ($userId, $postOwnerId) {
+                    $q->where('userA_id', $postOwnerId)
+                        ->where('userB_id', $userId);
+                });
+            })->first();
 
         // ペアが存在しない場合は新規作成
         if (!$pair) {

@@ -55,6 +55,7 @@
     <div class="post-list">
     @forelse($myCatposts as $post)
         <div class="post-card">
+        {{-- {{ dd($post->images->first()->image_path) }} --}}
         <div class="post-image">
             {{-- 投稿の画像 --}}
             @if($post->images->isNotEmpty())

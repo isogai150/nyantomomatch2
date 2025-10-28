@@ -132,7 +132,7 @@
       {{-- 掲載開始日・掲載終了日 --}}
         <div class="bbb">
           <label for="start_date">掲載開始日</label><br>
-          <input type="date" min="2025-10-14" max="2029-12-31" name="start_date" class="textbox-start-date" value="{{ old('start_date') }}">
+          <input type="date" min="{{ date('Y-m-d') }}" name="start_date" class="textbox-start-date" value="{{ old('start_date') }}">
 
           @error('start_date')
             <div class="alert-danger">{{ $message }}</div>
@@ -144,7 +144,7 @@
 
         <div class="ccc">
           <label for="end_date">掲載終了日</label><br>
-          <input type="date" min="2025-10-14" max="2029-12-31" name="end_date" class="textbox-end-date" value="{{ old('end_date') }}">
+          <input type="date" min="{{ date('Y-m-d') }}" name="end_date" class="textbox-end-date" value="{{ old('end_date') }}">
 
           @error('end_date')
             <div class="alert-danger">{{ $message }}</div>
@@ -156,18 +156,63 @@
     </div>
 
 {{-- ======================================================== --}}
+{{-- 写真・動画セクション --}}
+<div class="background-photo-move">
+
+  {{-- 写真・動画 --}}
+  <label for="image">写真・動画</label>
+  <br><br><br>
+  <p>猫の写真を最大3枚、動画を1本まで追加できます。<br>
+  <span style="color: red; font-weight: bold;">※最低1枚の画像を選択してください。</span></p><br>
+
+  {{-- 選択ボタン --}}
+  <button type="button" id="selectImageBtn" class="select-media-btn">画像を選択</button>
+  <button type="button" id="selectVideoBtn" class="select-media-btn">動画を選択</button>
+  <br><br>
+
+  {{-- 新規画像アップロード --}}
+  {{-- <p>画像（最大3枚まで）</p><br> --}}
+  <input type="file" name="image[]" id="imageInput" accept="image/*" multiple style="display:none;">
+  @error('image')
+    <div class="alert-danger">{{ $message }}</div>
+  @enderror
+  @error('image.*')
+    <div class="alert-danger">{{ $message }}</div>
+  @enderror
+
+  {{-- <br>
+  <br> --}}
+
+  {{-- 新規動画アップロード --}}
+  {{-- <p>動画（最大1本）※任意</p><br> --}}
+  <input type="file" name="video" id="videoInput" accept="video/*" style="display:none;">
+  @error('video')
+    <div class="alert-danger">{{ $message }}</div>
+  @enderror
+
+  {{-- プレビュー表示領域 --}}
+  <div id="preview-container" class="preview-grid"></div>
+  
+  {{-- 動画プレビュー専用領域 --}}
+  <div id="video-preview-container" class="preview-grid"></div>
+  
+  {{-- 残り枚数表示 --}}
+  <p id="remaining-count" style="margin-top: 15px; font-weight: bold; color: #503322;">
+    残り画像の追加可能枚数: <span id="remaining-number">3</span>枚
+  </p>
+</div>
 
     <div class="background-photo-move">
 
       {{-- 写真・動画 --}}
-      <label for="image">写真・動画</label>
-      <p>猫の写真や動画を最大4件まで<br class="br-sp">追加できます。<br class="br-sp">1枚目は写真を選択してください。</p>
+      <p>写真・動画</p>
+      <p>猫の写真や動画を最大4件まで追加できます。1枚目は写真を選択してください。</p>
 
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 {{-- 画像アップロード --}}
 {{-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --}}
 
-      <p>画像（最大3枚まで）、<br class="br-sp">または動画（最大1本）</p><br>
+      <label for="image">画像（最大3枚まで）・または動画（最大1本）</label><br>
       <input type="file" name="image[]" id="image" accept="image/*" multiple>
       @error('image')
         <div class="alert-danger">{{ $message }}</div>

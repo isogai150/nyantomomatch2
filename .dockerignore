@@ -1,0 +1,6 @@
+# ビルド対象から除外するファイル・フォルダ一覧
+vendor/
+node_modules/
+.dockerignore
+.gitignore
+.git

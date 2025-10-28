@@ -108,7 +108,16 @@
   color: #7A6A58;
 }
 
+.br-sp {
+  display: none;
+}
+
+
 @media screen and (max-width: 390px) {
+  .payment-success-container {
+    padding-top: 22%;
+  }
+
   .success-content {
     width: 95%;
     padding: 8% 5%;
@@ -125,5 +134,9 @@
   .actions a {
     width: 100%;
     text-align: center;
+  }
+
+  .br-sp {
+  display: block;
   }
 }

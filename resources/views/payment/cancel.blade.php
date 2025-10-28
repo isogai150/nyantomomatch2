@@ -9,9 +9,9 @@
   <div class="cancel-content">
     <h1>⚠️ 決済がキャンセルされました</h1>
     <p class="message">
-      決済が完了しませんでした。<br>
-      操作を中断した場合、料金は発生していません。<br>
-      再度お手続きいただくか、トップページへお戻りください。
+      決済が完了しませんでした。<br><br class="br-sp">
+      操作を中断した場合、<br class="br-sp">料金は発生していません。<br><br class="br-sp">
+      再度お手続きいただくか、<br class="br-sp">トップページへお戻りください。
     </p>
 
     <div class="actions">
@@ -19,7 +19,7 @@
     </div>
 
     <div class="note">
-      <p>※ この決済は <strong>Stripe</strong> により安全に処理されています。</p>
+      <p>※ この決済は <strong>Stripe</strong> により<br class="br-sp">安全に処理されています。</p>
     </div>
   </div>
 </div>

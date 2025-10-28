@@ -24,7 +24,7 @@
 
       {{-- Stripeにトークン送信予定 --}}
       {{-- formのactionは直接送信されずJS経由で処理される --}}
-      <form id="payment-form" class="payment-form">
+      <form id="payment-form" class="payment-form" novalidate>
         @csrf
         <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}">
         <input type="hidden" name="post_id" value="{{ $post->id }}">
