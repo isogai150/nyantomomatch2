@@ -10,35 +10,29 @@ class Pair extends Model
 {
     use HasFactory, SoftDeletes;
 
-    // 配列をまとめてモデルに登録・更新する仕組み
-    // 一括代入で値を入れてOKなカラム
     protected $fillable = [
         'userA_id',
         'userB_id',
         'post_id',
+        'transfer_status',
     ];
 
-    // 日付として扱うカラムを指定
     protected $dates = ['deleted_at'];
 
-    // Pairが削除されたときにメッセージも論理削除
     protected static function boot()
     {
         parent::boot();
 
         static::deleting(function ($pair) {
-            // 論理削除の場合のみメッセージも論理削除
             if (!$pair->isForceDeleting()) {
                 $pair->messages()->delete();
             }
         });
 
-        // Pairが復元されたときにメッセージも復元
         static::restoring(function ($pair) {
             $pair->messages()->withTrashed()->restore();
         });
     }
-
 
     public function userA()
     {
@@ -63,5 +57,10 @@ class Pair extends Model
     public function post()
     {
         return $this->belongsTo(Post::class, 'post_id');
+    }
+
+    public function transferDocument()
+    {
+        return $this->hasOne(TransferDocument::class, 'pair_id');
     }
 }

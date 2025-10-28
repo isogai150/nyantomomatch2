@@ -13,6 +13,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Requests\CatPost;
 use App\Http\Controllers\AdministratorController;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\TransferController;
 
 // s3用テスト
 // Route::get('/s3-test', function () {
@@ -171,6 +172,19 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 //         return 'エラー発生: ' . $e->getMessage();
 //     }
 // });
+
+// 契約書提出
+Route::post('/dm/{dm}/transfer/submit', [TransferController::class, 'submit'])
+    ->name('transfer.submit');
+
+// 譲渡資料送信（投稿者用）
+Route::post('/dm/{dm}/transfer/send', [TransferController::class, 'send'])->name('transfer.send');
+
+// 譲渡資料確認（里親希望者用）
+Route::get('/dm/{dm}/document', [TransferController::class, 'showDocument'])->name('document.show');
+
+// 双方の合意（両者押下で成立）
+Route::post('/dm/{dm}/transfer/agree', [TransferController::class, 'agree'])->name('transfer.agree');
 
 
 //ユーザー認証系
