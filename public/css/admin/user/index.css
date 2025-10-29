@@ -1,0 +1,146 @@
+@charset "UTF-8";
+/* ============================
+   ユーザー一覧ページ
+============================= */
+
+.main-content {
+    width: 100%;
+    padding: 2% 4%;
+    background-color: #FFFDF2;
+    font-family: "Noto Sans JP", sans-serif;
+    color: #503322;
+}
+
+/* 一覧ヘッダー */
+.list-header ul,
+list-item ul {
+    display: grid;
+    grid-template-columns: minmax(180px, 1.5fr) minmax(200px, 1.6fr) 1fr 1fr 1fr;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    border-bottom: 1px solid #EAD6A9;
+}
+
+.list-header {
+    background-color: #F7E8CC;
+    border: 1px solid #EAD6A9;
+    border-radius: 8px 8px 0 0;
+}
+.list-header ul li {
+    font-weight: bold;
+    color: #503322;
+}
+
+li {
+  list-style: none;
+}
+
+/* 各行 */
+list-item ul {
+    background: #fff;
+    border-left: 1px solid #EAD6A9;
+    border-right: 1px solid #EAD6A9;
+    border-top: 1px solid #EAD6A9;
+}
+list-item ul:nth-child(even) {
+    background: #FFF8E8;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+
+.user-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* ステータス色 */
+.status-active {
+    font-weight: bold;
+    color: #1A7F37;
+}
+.status-banned {
+    font-weight: bold;
+    color: #C43B3B;
+}
+
+/* 詳細ボタン */
+.description-btn {
+    background-color: #F7E8CC;
+    border: 1px solid #EAD6A9;
+    padding: 6px 12px;
+    border-radius: 5px;
+    color: #503322;
+    text-decoration: none;
+}
+.description-btn:hover {
+    background-color: #EAD6A9;
+}
+
+/* BANボタン系 */
+.ok-btn button,
+.no-btn button {
+    width: 70px;
+    border: none;
+    padding: 6px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #FFF;
+    cursor: pointer;
+}
+
+/* BAN */
+.no-btn button {
+    background-color: #D9534F;
+}
+.no-btn button:hover {
+    background-color: #C9302C;
+}
+
+/* 解除 */
+.ok-btn button {
+    background-color: #3DA35D;
+}
+.ok-btn button:hover {
+    background-color: #348C50;
+}
+
+/* スマホ対応 */
+@media screen and (max-width: 390px) {
+    .list-header {
+        display: none;
+    }
+
+    list-item > ul {
+        display: block;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #EAD6A9;
+        border-radius: 8px;
+    }
+
+    list-item > ul > li {
+      list-style: none;
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f0f0f0;
+        text-align: left;
+    }
+
+    
+    list-item > ul > li::marker {
+        content: "";
+    }
+
+    list-item > ul > li:last-child {
+        border-bottom: none;
+    }
+}
