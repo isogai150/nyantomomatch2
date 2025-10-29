@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'DM詳細表示ページ')
+@section('title', 'DM通報一覧ページ')
 
 @section('content_header')
-    <h1>DM詳細表示ページ</h1>
+    <h1>DM通報一覧ページ</h1>
 @stop
 
 @section('content')
@@ -54,14 +54,14 @@
                         <div class="ok-btn">
                             <form action="{{ route('admin.report.resolve', $report->id) }}" method="POST">
                                 @csrf
-                                @method('PATCH')
+                                @method('POST')
                                 <button type="submit" onclick="return confirm('解決済みにしますか？')">解決済み</button>
                             </form>
                         </div>
                         <div class="no-btn">
                             <form action="{{ route('admin.report.reject', $report->id) }}" method="POST">
                                 @csrf
-                                @method('PATCH')
+                                @method('POST')
                                 <button type="submit" onclick="return confirm('却下しますか？')">却下</button>
                             </form>
                         </div>
@@ -76,7 +76,7 @@
                 </li>
             </ul>
         </list-item>
-    @empty
+        @empty
         <list-item>
             <ul>
                 <li colspan="4" style="text-align: center; padding: 2rem; color: #999;">

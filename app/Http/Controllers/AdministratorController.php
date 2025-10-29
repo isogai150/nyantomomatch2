@@ -211,15 +211,6 @@ class AdministratorController extends Controller
     public function dmReportList()
     {
         // メッセージ通報情報（message_reports）テーブル
-    //     $reports = MessageReport::whereNull('deleted_at')->get();
-
-        
-    //     $users = User::whereNull('deleted_at')->get();
-
-    //     return view('admin.report.dm.index', compact('reports', 'users'));
-    // }
-
-            // メッセージ通報情報（message_reports）テーブル
         $reports = MessageReport::with('user')
             ->whereNull('deleted_at')
             ->orderBy('created_at', 'desc')
