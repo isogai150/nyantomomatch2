@@ -70,10 +70,7 @@ use Illuminate\Support\Facades\Storage;
                         <!-- ユーザーアイコン -->
                         <div class="user-icon">
                             @if($conversationData['user']->image_path)
-                                {{-- <img src="{{ asset('storage/profile_images/' . $conversationData['user']->image_path) }}"
-                                    alt="{{ $conversationData['user']->name }}"
-                                    class="user-avatar"> --}}
-                                <img src="{{ Storage::url('profile_images/' . $conversationData['user']->image_path) }}"
+                                <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $conversationData['user']->image_path) }}"
                                     alt="{{ $conversationData['user']->name }}"
                                     class="user-avatar">
                             @else
