@@ -123,21 +123,12 @@
     <div class="user-main">
         {{-- 投稿者のプロフィール画像 --}}
         @if($post->user && $post->user->image_path)
-            <img src="{{ Storage::url('profile_images/' . $post->user->image_path) }}"
+            <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $post->user->image_path) }}"
                 alt="{{ $post->user->name }}" class="user-image" id="previewImage">
         @else
             <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}"
                 alt="No Image" class="user-image" id="previewImage">
         @endif
-
-
-        {{-- @if (!empty($post->user->image_path))
-            <img src="{{ asset(str_replace('public/', '', $post->user->image_path)) }}"
-                alt="投稿者のプロフィール画像" class="user-image">
-        @else
-            <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}"
-                alt="No Image" class="user-image">
-        @endif --}}
 
                         <p class="user-name">{{ $post->user->name }}</p>
                     </div>

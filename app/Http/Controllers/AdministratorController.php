@@ -9,9 +9,10 @@ use App\Models\Message;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Authority;
+use Database\Seeders\Message_reports;
 use Illuminate\Support\Facades\DB;
 use App\Models\PostReport;
-
+use App\Models\MessageReport;
 
 class AdministratorController extends Controller
 {
@@ -205,4 +206,53 @@ class AdministratorController extends Controller
 
         return redirect()->back()->with('success', 'ユーザーをBANしました');
     }
+
+    // DM通報一覧
+    public function dmReportList()
+    {
+        // メッセージ通報情報（message_reports）テーブル
+    //     $reports = MessageReport::whereNull('deleted_at')->get();
+
+        
+    //     $users = User::whereNull('deleted_at')->get();
+
+    //     return view('admin.report.dm.index', compact('reports', 'users'));
+    // }
+
+            // メッセージ通報情報（message_reports）テーブル
+        $reports = MessageReport::with('user')
+            ->whereNull('deleted_at')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin.report.dm.index', compact('reports'));
+    }
+
+    // DM通報を解決済みにする
+    public function dmReportResolve($id)
+    {
+        $report = MessageReport::findOrFail($id);
+        $report->status = 1;
+        $report->save();
+
+        return redirect()->route('admin.report')->with('success', '通報を解決済みにしました。');
+    }
+
+    // DM通報を却下する
+    public function dmReportReject($id)
+    {
+        $report = MessageReport::findOrFail($id);
+        $report->status = 2;
+        $report->save();
+
+        return redirect()->route('admin.report')->with('success', '通報を却下しました。');
+    }
+
+    // DM通報詳細表示
+    public function dmReportDetail($id)
+    {
+        $report = MessageReport::with('user')->findOrFail($id);
+        return view('admin.report.dm.detail', compact('report'));
+    }
 }
+

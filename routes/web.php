@@ -127,9 +127,9 @@ Route::middleware('auth')->group(function () {
 
   // 決済情報入力ページ表示
   Route::get('/checkout/{post}/payment', [PaymentController::class, 'showForm'])->name('payment.form');
+  
   // 契約書提出
-  Route::post('/dm/{dm}/transfer/submit', [TransferController::class, 'submit'])
-    ->name('transfer.submit');
+  Route::post('/dm/{dm}/transfer/submit', [TransferController::class, 'submit'])->name('transfer.submit');
 
   // 譲渡資料送信（投稿者用）
   Route::post('/dm/{dm}/transfer/send', [TransferController::class, 'send'])->name('transfer.send');
@@ -146,8 +146,11 @@ Route::middleware('auth')->group(function () {
 
 // 管理者ログイン関連
 Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function () {
+  
   Route::get('login', [AdministratorController::class, 'showLoginForm'])->name('login');
+  
   Route::post('login', [AdministratorController::class, 'login']);
+  
   Route::post('logout', [AdministratorController::class, 'logout'])->name('logout');
 
   // ログイン後
@@ -188,6 +191,21 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 
     // ユーザーBAN
     Route::post('user/{user}/ban', [AdministratorController::class, 'userBan'])->name('user.ban');
+    
+    // DM通報一覧表示
+    Route::get('report/dm', [AdministratorController::class, 'dmReportList'])->name('report');
+
+    // DM通報一覧表示
+    Route::get('report/dm', [AdministratorController::class, 'dmReportList'])->name('report');
+    
+    // DM通報解決済み処理
+    Route::patch('report/dm/{id}/resolve', [AdministratorController::class, 'dmReportResolve'])->name('report.resolve');
+    
+    // DM通報却下処理
+    Route::patch('report/dm/{id}/reject', [AdministratorController::class, 'dmReportReject'])->name('report.reject');
+    
+    // DM通報詳細表示
+    Route::get('report/dm/{id}', [AdministratorController::class, 'dmReportDetail'])->name('report.detail');
   });
 });
 
