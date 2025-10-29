@@ -8,21 +8,13 @@ use Illuminate\Http\Request;
 class TrustProxies extends Middleware
 {
     /**
-     * The trusted proxies for this application.
-     *
-     * @var array<int, string>|string|null
+     * 全てのプロキシを信頼対象にする
+     * （Render / Cloudflare 等のプロキシ越しに正しいIPを取得できる）
      */
-    protected $proxies;
+    protected $proxies = '*'; // 重要修正
 
     /**
-     * The headers that should be used to detect proxies.
-     *
-     * @var int
+     * X-Forwarded-* ヘッダーを使用して正しいクライアントIPを取得
      */
-    protected $headers =
-        Request::HEADER_X_FORWARDED_FOR |
-        Request::HEADER_X_FORWARDED_HOST |
-        Request::HEADER_X_FORWARDED_PORT |
-        Request::HEADER_X_FORWARDED_PROTO |
-        Request::HEADER_X_FORWARDED_AWS_ELB;
+    protected $headers = Request::HEADER_X_FORWARDED_ALL; // 重要修正
 }
