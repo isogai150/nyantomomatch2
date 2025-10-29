@@ -191,26 +191,16 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 
     // ユーザーBAN
     Route::post('user/{user}/ban', [AdministratorController::class, 'userBan'])->name('user.ban');
-    
-    // DM通報一覧表示
-    Route::get('report/dm', [AdministratorController::class, 'dmReportList'])->name('report');
-<<<<<<< HEAD
-    // DM通報解決済み処理
-    Route::post('report/dm/{id}/resolve', [AdministratorController::class, 'dmReportResolve'])->name('report.resolve');
-    // DM通報却下処理
-    Route::post('report/dm/{id}/reject', [AdministratorController::class, 'dmReportReject'])->name('report.reject');
-=======
 
     // DM通報一覧表示
     Route::get('report/dm', [AdministratorController::class, 'dmReportList'])->name('report');
-    
+
     // DM通報解決済み処理
-    Route::patch('report/dm/{id}/resolve', [AdministratorController::class, 'dmReportResolve'])->name('report.resolve');
-    
+    Route::post('report/dm/{id}/resolve', [AdministratorController::class, 'dmReportResolve'])->name('report.resolve');
+
     // DM通報却下処理
-    Route::patch('report/dm/{id}/reject', [AdministratorController::class, 'dmReportReject'])->name('report.reject');
-    
->>>>>>> 5264f9f205e315a95fc1656e810824ce626b5134
+    Route::post('report/dm/{id}/reject', [AdministratorController::class, 'dmReportReject'])->name('report.reject');
+
     // DM通報詳細表示
     Route::get('report/dm/{id}', [AdministratorController::class, 'dmReportDetail'])->name('report.detail');
   });
