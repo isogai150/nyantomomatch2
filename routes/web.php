@@ -14,6 +14,8 @@ use App\Http\Requests\CatPost;
 use App\Http\Controllers\AdministratorController;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\TransferController;
+use App\Http\Middleware\Firewall;
+use App\Models\Authority;
 
 // s3用テスト
 // Route::get('/s3-test', function () {
@@ -22,10 +24,6 @@ use App\Http\Controllers\TransferController;
 // });
 
 
-// 管理者
-Route::get('/admin/dashboard', [AdministratorController::class, 'index'])->name('admin.index');
-use App\Http\Middleware\Firewall;
-use App\Models\Authority;
 
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
@@ -68,8 +66,8 @@ Route::middleware('auth')->group(function () {
   // 投稿削除処理
   Route::delete('/my/catpost/{post}/delete', [PostController::class, 'destroy'])->name('catpost.destroy');
 
-// お気に入りトグル
-Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+  // お気に入りトグル
+  Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 
   // お気に入り一覧表示
   Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');

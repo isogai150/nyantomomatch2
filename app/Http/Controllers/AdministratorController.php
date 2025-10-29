@@ -50,19 +50,23 @@ public function index()
     $messageCount = Message::count();
     $postCount = Post::count();
 
-    // 月別ユーザー登録数
-    $monthlyUserCounts = User::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-        ->whereYear('created_at', date('Y'))
-        ->groupBy('month')
-        ->pluck('count', 'month')
-        ->toArray();
+$currentYear = date('Y');
 
-    // 月別投稿数
-    $monthlyPostCounts = Post::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-        ->whereYear('created_at', date('Y'))
-        ->groupBy('month')
-        ->pluck('count', 'month')
-        ->toArray();
+// 月別ユーザー登録数
+// EXTRACT()は年月を取り出す関数
+$monthlyUserCounts = User::selectRaw('EXTRACT(MONTH FROM created_at) AS month, COUNT(*) AS count')
+    ->whereRaw('EXTRACT(YEAR FROM created_at) = ?', [$currentYear])
+    ->groupBy('month')
+    ->pluck('count', 'month')
+    ->toArray();
+
+// 月別投稿数
+$monthlyPostCounts = Post::selectRaw('EXTRACT(MONTH FROM created_at) AS month, COUNT(*) AS count')
+    ->whereRaw('EXTRACT(YEAR FROM created_at) = ?', [$currentYear])
+    ->groupBy('month')
+    ->pluck('count', 'month')
+    ->toArray();
+
 
     $months = range(1, 12);
     $userData = [];
