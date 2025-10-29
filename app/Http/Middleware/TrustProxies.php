@@ -8,13 +8,17 @@ use Illuminate\Http\Request;
 class TrustProxies extends Middleware
 {
     /**
-     * 全てのプロキシを信頼対象にする
-     * （Render / Cloudflare 等のプロキシ越しに正しいIPを取得できる）
+     * Render などのプロキシ配下を信頼する
      */
-    protected $proxies = '*'; // 重要修正
+    protected $proxies = '*';
 
     /**
-     * X-Forwarded-* ヘッダーを使用して正しいクライアントIPを取得
+     * X-Forwarded-* を使ってクライアントIPを正確に取得
+     * (Laravel 9 対応)
      */
-    protected $headers = Request::HEADER_X_FORWARDED_ALL; // 重要修正
+    protected $headers =
+        Request::HEADER_X_FORWARDED_FOR |
+        Request::HEADER_X_FORWARDED_HOST |
+        Request::HEADER_X_FORWARDED_PORT |
+        Request::HEADER_X_FORWARDED_PROTO;
 }
