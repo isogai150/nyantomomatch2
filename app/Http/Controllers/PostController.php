@@ -72,24 +72,26 @@ class PostController extends Controller
         return view('authority/catpost.index', compact('myCatposts'));
     }
 
-    // 投稿削除処理（論理削除）
+    // 投稿削除処理
 public function destroy(Post $post)
 {
-    $user = Auth::user();
+    $user = auth()->user(); // 一般ユーザーガード
+    $admin = auth('admin')->user(); // 管理者ガード
 
-    // 投稿者本人かチェック
-    if ($post->user_id !== $user->id) {
+    // 権限チェック
+    if (!$admin && $post->user_id !== $user->id) {
         abort(403, 'この投稿を削除する権限がありません。');
     }
 
-    try {
-        // 論理削除（deleted_atに現在時刻が入る）
-        $post->delete();
+    // 削除処理
+    $post->delete();
 
-        return redirect()->route('mycatpost.index')->with('success', '投稿が削除されました。');
-    } catch (\Exception $e) {
-        return redirect()->route('mycatpost.index')->with('error', '投稿の削除に失敗しました。');
+    // 管理者か一般かでリダイレクト先変更
+    if ($admin) {
+        return redirect()->route('admin.post.reports')->with('success', '投稿を削除しました');
     }
+
+    return redirect()->route('mypage.index')->with('success', '投稿を削除しました');
 }
 
     // 猫の情報投稿作成画面
@@ -280,28 +282,6 @@ public function update(CatPost $request, Post $post)
             'video_path' => $videoName
         ]);
     }
-
-    // 投稿削除処理
-public function destroy(Post $post)
-{
-    $user = auth()->user(); // 一般ユーザーガード
-    $admin = auth('admin')->user(); // 管理者ガード
-
-    // 権限チェック
-    if (!$admin && $post->user_id !== $user->id) {
-        abort(403, 'この投稿を削除する権限がありません。');
-    }
-
-    // 削除処理
-    $post->delete();
-
-    // 管理者か一般かでリダイレクト先変更
-    if ($admin) {
-        return redirect()->route('admin.post.reports')->with('success', '投稿を削除しました');
-    }
-
-    return redirect()->route('mypage.index')->with('success', '投稿を削除しました');
-}
     return redirect()->route('mycatpost.index')->with('success', '投稿が更新されました！');
 }
 
