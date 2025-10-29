@@ -17,14 +17,13 @@
                 <div class="dm-user-icon">
                     {{-- 投稿者のプロフィール画像 --}}
                     @if (!empty($partner->image_path))
-                        <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $partner->image_path) }}"
-                            alt="投稿者のプロフィール画像" class="user-image">
+                        <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $partner->image_path) }}" alt="{{ $partner->name }}" class="user-image">
                     @else
                         <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"
                             class="user-image">
                     @endif
                 </div>
-                <div class="dm-user-name">{{ $partner->name ?? '相手のユーザー' }}</div>
+                <div class="dm-user-name">{{ $partner->name ?? '相手のユーザー' }}さん</div>
             </div>
         </div>
 

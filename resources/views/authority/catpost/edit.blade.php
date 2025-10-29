@@ -132,9 +132,6 @@
               name="end_date"
               class="textbox-end-date"
               value="{{ old('end_date', $post->end_date ? \Carbon\Carbon::parse($post->end_date)->format('Y-m-d') : '') }}">
-            {{-- <input type="date" 
-              min="{{ date('Y-m-d') }}" name="end_date" class="textbox-end-date" 
-              value="{{ old('end_date', $post->end_date ? \Carbon\Carbon::parse($post->end_date)->format('Y-m-d') : '') }}"> --}}
 
             @error('end_date')
               <div class="alert-danger">{{ $message }}</div>

@@ -66,8 +66,8 @@ Route::middleware('auth')->group(function () {
   // 投稿削除処理
   Route::delete('/my/catpost/{post}/delete', [PostController::class, 'destroy'])->name('catpost.destroy');
 
-// お気に入りトグル
-Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+  // お気に入りトグル
+  Route::post('/favorites/{post}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 
   // お気に入り一覧表示
   Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');

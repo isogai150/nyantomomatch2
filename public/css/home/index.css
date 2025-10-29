@@ -100,7 +100,7 @@ h2 {
   border: 0.15vw solid #D3C6B7;
   border-radius: 1vw;
   text-align: center;
-  padding: 2%;
+  padding: 1% 0 2%;
   flex: 1 1 22%; /* 4列表示ベース */
   max-width: 24%;
   box-sizing: border-box;
@@ -121,7 +121,6 @@ h2 {
   position: relative;
   width: 100%;
   overflow: hidden;
-  border-radius: 1vw;
   margin-bottom: 3%;
 }
 .post-image img {
@@ -129,7 +128,6 @@ h2 {
   height: 14vw;
   object-fit: cover;
   object-position: center; /* 中央トリミングでバランスを取る */
-  border-radius: 1vw;
   display: block;
 }
 
@@ -162,6 +160,7 @@ h2 {
   display: flex;
   flex-direction: column;
   flex: 1;
+  padding: 0 5%;
 }
 
 /* タイトルとステータス */
@@ -368,6 +367,7 @@ h2 {
     width: 100%;
     max-width: none;
     margin-bottom: 5%;
+    padding-top: 2%;
   }
 
   .post-image img {
