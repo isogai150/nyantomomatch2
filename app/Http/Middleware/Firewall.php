@@ -12,18 +12,16 @@ class Firewall
     {
         if (app()->environment('production')) {
 
-            // .env に設定した許可IP一覧
-            $allowedIps = explode(',', env('ALLOWED_ADMIN_IPS', ''));
+            // envから許可IP一覧を取得（Renderで管理）
+            $allowedIps = array_map('trim', explode(',', env('ALLOWED_ADMIN_IPS', '')));
 
-            // CloudFlare を経由した本当のクライアントIPを取得
-            $clientIp = $request->header('CF-Connecting-IP')
-                ?: collect($request->getClientIps())->last()
-                ?: $request->ip();
+            // Cloudflare経由の場合は getClientIps の最後が正しいIP
+            $clientIp = collect($request->getClientIps())->last();
 
-            // ★デバッグ表示は消してOK（必要なら残す）
-            // logger("Client IP: " . $clientIp);
+            // デバッグログ（必要なければ削除）
+            // logger('Client IP: ' . $clientIp);
 
-            if (!IpUtils::checkIp(trim($clientIp), $allowedIps)) {
+            if (!IpUtils::checkIp($clientIp, $allowedIps)) {
                 abort(403, 'このIPアドレスからのアクセスは許可されていません。');
             }
         }
