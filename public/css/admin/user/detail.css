@@ -1,0 +1,102 @@
+@charset "UTF-8";
+
+/* 全体コンテナ */
+.main-content {
+    width: 100%;
+    padding: 2% 4%;
+    background-color: #FFFDF2;
+    font-family: "Noto Sans JP", sans-serif;
+    color: #503322;
+    box-sizing: border-box;
+}
+
+.main-content > a {
+    color: #503322;
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+.main-content > a:hover {
+    text-decoration: underline;
+}
+
+/* レイアウト */
+.detail-wrapper {
+    display: flex;
+    gap: 4%;
+    flex-wrap: wrap;
+}
+
+/* 左側：基本情報 */
+.user-info {
+    width: 48%;
+    background: #fff;
+    padding: 2rem;
+    border: 1px solid #EAD6A9;
+    border-radius: 10px;
+}
+
+/* プロフィール画像 */
+.user-image img {
+    width: 160px;
+    height: 160px;
+    border-radius: 100%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 1rem;
+}
+
+/* BANステータス */
+.status-active {
+    color: #3DA35D;
+    font-weight: bold;
+}
+.status-banned {
+    color: #C43B3B;
+    font-weight: bold;
+}
+
+/* BANボタン */
+.ban-btn {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0.7rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+}
+.ban-btn.ban { background-color: #D9534F; color: #fff; }
+.ban-btn.unban { background-color: #3DA35D; color: #fff; }
+
+/* 右側：活動統計 */
+.user-stats {
+    width: 48%;
+    background: #fff;
+    padding: 2rem;
+    border: 1px solid #EAD6A9;
+    border-radius: 10px;
+}
+
+.stats-box p {
+    font-size: 1.1rem;
+    margin: 0.6rem 0;
+}
+
+/* スマホ対応 */
+@media screen and (max-width: 390px) {
+    .detail-wrapper {
+        flex-direction: column;
+    }
+    .user-info,
+    .user-stats {
+        width: 100%;
+        margin-bottom: 1rem;
+        padding: 1.2rem;
+    }
+    .user-image img {
+        width: 120px;
+        height: 120px;
+    }
+}
