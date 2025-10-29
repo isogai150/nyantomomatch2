@@ -1,41 +1,45 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-// IPアドレスをあ扱うためのuse文
 use Symfony\Component\HttpFoundation\IpUtils;
 
 class Firewall
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
-     */
     public function handle(Request $request, Closure $next)
     {
-        // 本番環境のみ有効化
-        // app()->environment('production')はアプリケーションが本番環境かどうかを判定するために使用されるヘルパー関数
+        /**
+         * 本番環境のみ IP制限を有効化
+         *
+         * - 開発環境(local)では制限なし
+         * - デプロイ後に学校IPだけアクセス可 → 家ではアクセス不可
+         */
         if (app()->environment('production')) {
 
-            // if(true) {
-                // 環境変数から許可IPを取得
-                $allowedIps = explode(',', config('firewall.allowed_ips'));
-                $clientIp = collect($request->getClientIps())->last();
+            /**
+             * 許可IPの設定参照先を変更
+             * env('ALLOWED_ADMIN_IPS') → .env から直接取得する方式へ
+             * Render等の環境変数で簡単に管理できる
+             */
+            $allowedIps = explode(',', env('ALLOWED_ADMIN_IPS', ''));
 
-                // 一致しなかったら403エラー
-                if (!IpUtils::checkIp($clientIp, $allowedIps)) {
-                    abort(403, 'このIPアドレスからのアクセスは許可されていません。');
+            /**
+             * 実際のアクセス元IPを取得
+             * getClientIps() を使い、一番信頼できる値を最後に取得
+             */
+            $clientIp = collect($request->getClientIps())->last();
+
+            /**
+             * 許可IPに一致しない場合は403エラー
+             */
+            if (!IpUtils::checkIp($clientIp, $allowedIps)) {
+                abort(403, 'このIPアドレスからのアクセスは許可されていません。');
             }
         }
 
+        // 次のミドルウェアへ処理を渡す
         return $next($request);
     }
 }
