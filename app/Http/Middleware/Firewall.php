@@ -10,37 +10,24 @@ class Firewall
 {
     public function handle(Request $request, Closure $next)
     {
-        /**
-         * 本番環境のみ IP制限を有効化
-         *
-         * - 開発環境(local)では制限なし
-         * - デプロイ後に学校IPだけアクセス可 → 家ではアクセス不可
-         */
         if (app()->environment('production')) {
 
-            /**
-             * 許可IPの設定参照先を変更
-             * env('ALLOWED_ADMIN_IPS') → .env から直接取得する方式へ
-             * Render等の環境変数で簡単に管理できる
-             */
+            // .env に設定した許可IP一覧
             $allowedIps = explode(',', env('ALLOWED_ADMIN_IPS', ''));
 
-            /**
-             * 実際のアクセス元IPを取得
-             * getClientIps() を使い、一番信頼できる値を最後に取得
-             */
+            // CloudFlare を経由した本当のクライアントIPを取得
             $clientIp = $request->header('CF-Connecting-IP')
-            ?? $request->ip();
+                ?: collect($request->getClientIps())->last()
+                ?: $request->ip();
 
-            /**
-             * 許可IPに一致しない場合は403エラー
-             */
-            if (!IpUtils::checkIp($clientIp, $allowedIps)) {
+            // ★デバッグ表示は消してOK（必要なら残す）
+            // logger("Client IP: " . $clientIp);
+
+            if (!IpUtils::checkIp(trim($clientIp), $allowedIps)) {
                 abort(403, 'このIPアドレスからのアクセスは許可されていません。');
             }
         }
 
-        // 次のミドルウェアへ処理を渡す
         return $next($request);
     }
 }
