@@ -19,15 +19,6 @@ use App\Models\Authority;
 use App\Http\Controllers\PostReportController;
 use App\Http\Controllers\DompdfController;
 
-
-// s3用テスト
-// Route::get('/s3-test', function () {
-//     Storage::disk('s3')->put('test.txt', 'これはテストです');
-//     return 'アップロード完了';
-// });
-
-
-
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
 
@@ -211,23 +202,16 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
   });
 });
 
-// 確認用ルーティング
-// Route::get('/debug/ip', function (\Illuminate\Http\Request $request) {
-//     return response()->json([
-//         'client_ip' => $request->ip(),
-//         'all_ips' => $request->getClientIps(),
-//         'allowed_ips' => config('firewall.allowed_ips'),
-//     ]);
-// });
+// ✅Firewallデバッグ用 (確認できたら削除OK)
+Route::get('/debug/ip', function (\Illuminate\Http\Request $request) {
+    return response()->json([
+        'client_ip' => $request->ip(),
+        'getClientIps' => $request->getClientIps(),
+        'allowed_ips' => env('ALLOWED_ADMIN_IPS'),
+        'app_env' => env('APP_ENV'),
+    ]);
+});
 
-// Route::get('/s3-test', function () {
-//     try {
-//         $result = Storage::disk('s3')->put('test_upload.txt', 'テストファイルです');
-//         return $result ? 'アップロード成功！' : 'アップロード失敗！';
-//     } catch (\Exception $e) {
-//         return 'エラー発生: ' . $e->getMessage();
-//     }
-// });
 
 //ユーザー認証系
 Auth::routes();
