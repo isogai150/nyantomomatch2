@@ -76,7 +76,7 @@
         {{-- ステータス操作 --}}
         <div class="action-buttons">
             @if ($report->status === 0)
-                <form action="{{ route('catpost.destroy', $report->id) }}" method="POST" class="d-inline">
+                <form action="{{ route('catpost.destroy', $report->post->id) }}" method="POST" class="d-inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-success">投稿削除</button>

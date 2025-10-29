@@ -202,8 +202,5 @@ Route::put('post-reports/{report}/reject', [AdministratorController::class, 'pos
 //     }
 // });
 
-
-
-
 //ユーザー認証系
 Auth::routes();
