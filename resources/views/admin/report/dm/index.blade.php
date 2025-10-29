@@ -54,14 +54,14 @@
                         <div class="ok-btn">
                             <form action="{{ route('admin.report.resolve', $report->id) }}" method="POST">
                                 @csrf
-                                @method('PATCH')
+                                @method('POST')
                                 <button type="submit" onclick="return confirm('解決済みにしますか？')">解決済み</button>
                             </form>
                         </div>
                         <div class="no-btn">
                             <form action="{{ route('admin.report.reject', $report->id) }}" method="POST">
                                 @csrf
-                                @method('PATCH')
+                                @method('POST')
                                 <button type="submit" onclick="return confirm('却下しますか？')">却下</button>
                             </form>
                         </div>

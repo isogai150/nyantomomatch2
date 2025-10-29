@@ -1,0 +1,326 @@
+/* =============================
+   DM通報詳細ページ
+   ============================= */
+
+/* ========== ヘッダー部分 ========== */
+.dm-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #EAD6A9;
+}
+
+.back-btn {
+    background-color: #F7E8CC;
+    border: 1px solid #EAD6A9;
+    color: #503322;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.1s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.back-btn:hover {
+    background-color: #EAD6A9;
+    text-decoration: none;
+    color: #503322;
+    transform: translateY(-2px);
+}
+
+.back-btn i {
+    font-size: 0.85rem;
+}
+
+/* ========== 詳細情報コンテナ ========== */
+.detail-container {
+    background-color: #E8E8E8;
+    border-radius: 10px;
+    padding: 2.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== ユーザー情報グリッド ========== */
+.user-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* ========== 通報情報・メッセージ情報グリッド ========== */
+.report-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* ========== 情報セクション ========== */
+.info-section {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #503322;
+    margin: 0 0 1.2rem 0;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid #F7E8CC;
+}
+
+/* ========== 情報アイテム ========== */
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #503322;
+    font-size: 0.95rem;
+    min-width: 140px;
+    flex-shrink: 0;
+}
+
+.info-value {
+    color: #666;
+    font-size: 0.95rem;
+    word-break: break-word;
+}
+
+/* ========== ステータスバッジ ========== */
+.status-badge {
+    display: inline-block;
+    padding: 0.35rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-pending {
+    background-color: #FFF3CD;
+    color: #856404;
+    border: 1px solid #FFE5A1;
+}
+
+.status-approved {
+    background-color: #D4EDDA;
+    color: #155724;
+    border: 1px solid #C3E6CB;
+}
+
+.status-rejected {
+    background-color: #F8D7DA;
+    color: #721C24;
+    border: 1px solid #F5C6CB;
+}
+
+/* ========== 問題のメッセージセクション ========== */
+.message-section {
+    grid-column: 1 / -1;
+    margin-bottom: 2rem;
+}
+
+.message-box {
+    background-color: #F9F9F9;
+    border: 1px solid #DDD;
+    border-radius: 8px;
+    padding: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #333;
+    min-height: 100px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* ========== アクションボタン ========== */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 2px solid #DDD;
+}
+
+.action-form {
+    margin: 0;
+}
+
+.btn-ban,
+.btn-delete {
+    min-width: 160px;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    border: 2px solid;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* BANボタン（白背景・赤枠） */
+.btn-ban {
+    background-color: #FFFFFF;
+    color: #D9534F;
+    border-color: #D9534F;
+}
+
+.btn-ban:hover {
+    background-color: #D9534F;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(217, 83, 79, 0.3);
+}
+
+/* 削除ボタン（赤背景） */
+.btn-delete {
+    background-color: #D9534F;
+    color: #FFFFFF;
+    border-color: #D9534F;
+}
+
+.btn-delete:hover {
+    background-color: #C9302C;
+    border-color: #C9302C;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(217, 83, 79, 0.4);
+}
+
+/* 処理済みテキスト */
+.processed-text {
+    font-size: 1.1rem;
+    color: #999;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* =============================
+   レスポンシブ対応（タブレット）
+   ============================= */
+@media screen and (max-width: 768px) {
+    .detail-container {
+        padding: 1.5rem;
+    }
+
+    .user-info-grid,
+    .report-info-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .info-section {
+        padding: 1.2rem;
+    }
+
+    .section-title {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .info-label {
+        min-width: 120px;
+        font-size: 0.9rem;
+    }
+
+    .info-value {
+        font-size: 0.9rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .btn-ban,
+    .btn-delete {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+/* =============================
+   レスポンシブ対応（スマホ）
+   ============================= */
+@media screen and (max-width: 390px) {
+    .dm-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .detail-container {
+        padding: 1rem;
+    }
+
+    .user-info-grid,
+    .report-info-grid {
+        gap: 1rem;
+    }
+
+    .info-section {
+        padding: 1rem;
+    }
+
+    .section-title {
+        font-size: 0.95rem;
+        margin-bottom: 0.8rem;
+        padding-bottom: 0.6rem;
+    }
+
+    .info-item {
+        flex-direction: column;
+        margin-bottom: 0.8rem;
+    }
+
+    .info-label {
+        min-width: auto;
+        margin-bottom: 0.3rem;
+        font-size: 0.85rem;
+    }
+
+    .info-value {
+        font-size: 0.85rem;
+    }
+
+    .message-box {
+        padding: 1rem;
+        font-size: 0.9rem;
+        min-height: 80px;
+    }
+
+    .action-buttons {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+    }
+
+    .btn-ban,
+    .btn-delete {
+        font-size: 0.9rem;
+        padding: 0.7rem 1.5rem;
+    }
+
+    .processed-text {
+        font-size: 1rem;
+    }
+}
