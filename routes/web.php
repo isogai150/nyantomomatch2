@@ -17,6 +17,7 @@ use App\Http\Controllers\TransferController;
 use App\Http\Middleware\Firewall;
 use App\Models\Authority;
 use App\Http\Controllers\PostReportController;
+use App\Http\Controllers\DompdfController;
 
 
 // s3用テスト
@@ -142,6 +143,10 @@ Route::middleware('auth')->group(function () {
 
   // 投稿通報
   Route::post('/report/post/{post}', [PostReportController::class, 'store'])->name('report.post');
+
+  // 譲渡契約書PDF
+  Route::get('/transfer/{pair}/contract/pdf', [DompdfController::class, 'downloadContract'])->name('transfer.contract.pdf');
+
 });
 
 // 管理者ログイン関連
@@ -200,7 +205,7 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 
     // DM通報却下処理
     Route::post('report/dm/{id}/reject', [AdministratorController::class, 'dmReportReject'])->name('report.reject');
-    
+
     // DM通報詳細表示
     Route::get('report/dm/{id}', [AdministratorController::class, 'dmReportDetail'])->name('report.detail');
   });
