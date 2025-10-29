@@ -8,21 +8,17 @@ use Illuminate\Http\Request;
 class TrustProxies extends Middleware
 {
     /**
-     * The trusted proxies for this application.
-     *
-     * @var array<int, string>|string|null
+     * Render などのプロキシ配下を信頼する
      */
-    protected $proxies;
+    protected $proxies = '*';
 
     /**
-     * The headers that should be used to detect proxies.
-     *
-     * @var int
+     * X-Forwarded-* を使ってクライアントIPを正確に取得
+     * (Laravel 9 対応)
      */
     protected $headers =
         Request::HEADER_X_FORWARDED_FOR |
         Request::HEADER_X_FORWARDED_HOST |
         Request::HEADER_X_FORWARDED_PORT |
-        Request::HEADER_X_FORWARDED_PROTO |
-        Request::HEADER_X_FORWARDED_AWS_ELB;
+        Request::HEADER_X_FORWARDED_PROTO;
 }

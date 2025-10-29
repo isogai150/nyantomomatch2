@@ -122,4 +122,16 @@ class User extends Authenticatable
             }
         );
     }
+
+    // アクセサデフォルト画像
+    public function getImageUrlAttribute()
+{
+    if (!empty($this->image_path)) {
+        return \Storage::disk(config('filesystems.default'))->url('profile_images/' . $this->image_path);
+    }
+
+    // デフォルト猫画像
+    return asset('images/noimage/213b3adcd557d334ff485302f0739a07.png');
+}
+
 }

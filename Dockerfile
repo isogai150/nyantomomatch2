@@ -58,3 +58,4 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 RUN php artisan config:clear
 RUN php artisan cache:clear
 RUN php artisan route:clear
+RUN php artisan optimize:clear

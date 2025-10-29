@@ -17,15 +17,7 @@ use App\Http\Controllers\TransferController;
 use App\Http\Middleware\Firewall;
 use App\Models\Authority;
 use App\Http\Controllers\PostReportController;
-
-
-// s3用テスト
-// Route::get('/s3-test', function () {
-//     Storage::disk('s3')->put('test.txt', 'これはテストです');
-//     return 'アップロード完了';
-// });
-
-
+use App\Http\Controllers\DompdfController;
 
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
@@ -127,7 +119,7 @@ Route::middleware('auth')->group(function () {
 
   // 決済情報入力ページ表示
   Route::get('/checkout/{post}/payment', [PaymentController::class, 'showForm'])->name('payment.form');
-  
+
   // 契約書提出
   Route::post('/dm/{dm}/transfer/submit', [TransferController::class, 'submit'])->name('transfer.submit');
 
@@ -142,15 +134,18 @@ Route::middleware('auth')->group(function () {
 
   // 投稿通報
   Route::post('/report/post/{post}', [PostReportController::class, 'store'])->name('report.post');
+
+  // 譲渡契約書PDF
+  Route::get('/transfer/{pair}/contract/pdf', [DompdfController::class, 'downloadContract'])->name('transfer.contract.pdf');
 });
 
 // 管理者ログイン関連
 Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function () {
-  
+
   Route::get('login', [AdministratorController::class, 'showLoginForm'])->name('login');
-  
+
   Route::post('login', [AdministratorController::class, 'login']);
-  
+
   Route::post('logout', [AdministratorController::class, 'logout'])->name('logout');
 
   // ログイン後
@@ -189,8 +184,8 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
     // 通報ステータス更新（却下）
     Route::put('post-reports/{report}/reject', [AdministratorController::class, 'postReportReject'])->name('post.report.reject');
 
-    // ユーザーBAN
-    Route::post('user/{user}/ban', [AdministratorController::class, 'userBan'])->name('user.ban');
+    // メッセージ削除（管理者用）
+    Route::delete('dm/{dm}/message/{message}/delete', [AdministratorController::class, 'messageDestroy'])->name('dm.message.delete');
 
     // DM通報一覧表示
     Route::get('report/dm', [AdministratorController::class, 'dmReportList'])->name('report');
@@ -204,28 +199,31 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
     // DM通報詳細表示
     Route::get('report/dm/{id}', [AdministratorController::class, 'dmReportDetail'])->name('report.detail');
 
-    // メッセージ削除（管理者用）
-    Route::delete('dm/{dm}/message/{message}/delete', [AdministratorController::class, 'messageDestroy'])->name('dm.message.delete');
+    // ユーザー一覧表示
+    Route::get('users', [AdministratorController::class, 'userList'])->name('users');
+
+    // ユーザー詳細
+    Route::get('users/{id}', [AdministratorController::class, 'userDetail'])->name('user.detail');
+
+    // ユーザーBAN
+    Route::post('users/{id}/ban', [AdministratorController::class, 'userBan'])->name('user.ban');
+
+    // ユーザーBAN解除
+    Route::post('users/{id}/unban', [AdministratorController::class, 'userUnban'])->name('user.unban');
+
   });
 });
 
-// 確認用ルーティング
+// Firewallデバッグ用
 // Route::get('/debug/ip', function (\Illuminate\Http\Request $request) {
 //     return response()->json([
 //         'client_ip' => $request->ip(),
-//         'all_ips' => $request->getClientIps(),
-//         'allowed_ips' => config('firewall.allowed_ips'),
+//         'getClientIps' => $request->getClientIps(),
+//         'allowed_ips' => env('ALLOWED_ADMIN_IPS'),
+//         'app_env' => env('APP_ENV'),
 //     ]);
 // });
 
-// Route::get('/s3-test', function () {
-//     try {
-//         $result = Storage::disk('s3')->put('test_upload.txt', 'テストファイルです');
-//         return $result ? 'アップロード成功！' : 'アップロード失敗！';
-//     } catch (\Exception $e) {
-//         return 'エラー発生: ' . $e->getMessage();
-//     }
-// });
 
 //ユーザー認証系
 Auth::routes();
