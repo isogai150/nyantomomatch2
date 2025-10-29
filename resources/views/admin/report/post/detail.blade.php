@@ -40,7 +40,7 @@
                 </tr>
                 <tr>
                     <th>通報日時</th>
-                    <td>{{ $report->created_at->format('Y-m-d H:i') }}</td>
+                    <td>{{ $report->created_at->format('Y年n月j日 H:i') }}</td>
                 </tr>
                 <tr>
                     <th>ステータス</th>
@@ -69,7 +69,7 @@
                 </tr>
                 <tr>
                     <th>投稿日時</th>
-                    <td>{{ $report->post->created_at->format('Y-m-d H:i') }}</td>
+                    <td>{{ $report->post->created_at->format('Y年n月j日 H:i') }}</td>
                 </tr>
             </table>
 

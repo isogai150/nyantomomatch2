@@ -46,7 +46,7 @@
                         <span class="badge bg-secondary">却下</span>
                     @endif
                 </td>
-                <td>{{ $report->created_at->format('Y-m-d H:i') }}</td>
+                <td>{{ $report->created_at->format('Y年n月j日 H:i') }}</td>
                 <td>
                     <a href="{{ route('admin.post.report.detail', $report->id) }}"
                        class="btn btn-sm btn-info">

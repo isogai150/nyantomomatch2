@@ -33,7 +33,7 @@
                 {{-- メッセージID / 投稿日 / 投稿者 --}}
                 <li>
                     <h3>メッセージID：{{ $report->message_id }}</h3>
-                    <p class="text">投稿日：{{ $report->created_at->format('Y-m-d') }}</p>
+                    <p class="text">投稿日：{{ $report->created_at->format('Y年n月j日') }}</p>
                     <p>投稿者：{{ $report->user->name }}（{{ $report->user->email }}）</p>
                 </li>
 

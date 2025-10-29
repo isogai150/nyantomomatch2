@@ -41,7 +41,7 @@
 
                     <li>
                       {{-- メッセージの最終送信日の表示 --}}
-                        <span class="text">送信日</span><br>{{ $dm->created_at }}
+                        <span class="text">送信日</span><br>{{ $dm->created_at->format('Y年n月j日 H:i') }}
                     </li>
 
                     <li>

@@ -65,7 +65,7 @@
   </div>
   <div class="info-row">
     <span class="info-label">通報日時：</span>
-    <span class="info-value">{{ $report->created_at->format('Y/m/d H:i') }}</span>
+    <span class="info-value">{{ $report->created_at->format('Y年n月j日 H:i') }}</span>
   </div>
 
   <h3>メッセージ情報</h3>
