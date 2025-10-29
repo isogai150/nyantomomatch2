@@ -124,12 +124,14 @@
                                 <input id="signed_date" type="date" name="signed_date" class="input-form" required>
                             </div>
                         </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn-primary">提出する</button>
 
-
-
-                        <button type="submit" class="btn-primary">提出する</button>
+                            <a href="{{ route('transfer.contract.pdf', $pair->id) }}" class="btn-secondary">
+                                契約書PDF
+                            </a>
+                        </div>
                     </form>
-                    <a href="{{ route('transfer.contract.pdf', $pair->id) }}" class="btn-primary">PDFとして保存</a>
                 @else
                     <p>譲受者の署名をお待ちください</p>
                 @endif
