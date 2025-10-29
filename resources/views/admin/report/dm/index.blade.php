@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'DM詳細表示ページ')
+@section('title', 'DM通報一覧ページ')
 
 @section('content_header')
-    <h1>DM詳細表示ページ</h1>
+    <h1>DM通報一覧ページ</h1>
 @stop
 
 @section('content')
@@ -76,7 +76,7 @@
                 </li>
             </ul>
         </list-item>
-    @empty
+        @empty
         <list-item>
             <ul>
                 <li colspan="4" style="text-align: center; padding: 2rem; color: #999;">
