@@ -82,6 +82,31 @@ class User extends Authenticatable
         return $this->hasMany(Transfer::class, 'userB_id');
     }
 
+        // 自分がブロックしたユーザー
+    public function blocks()
+    {
+        return $this->hasMany(Block::class, 'blocker_id');
+    }
+
+    // 自分をブロックしているユーザー
+    public function blockedBy()
+    {
+        return $this->hasMany(Block::class, 'blocked_id');
+    }
+
+    // 相手をブロックしているか判定
+    public function isBlocking($userId)
+    {
+        return $this->blocks()->where('blocked_id', $userId)->exists();
+    }
+
+    // 相手からブロックされているか判定
+    public function isBlockedBy($userId)
+    {
+        return $this->blockedBy()->where('blocker_id', $userId)->exists();
+    }
+
+
     // アクセサ //
 
     // マイページ：ユーザーステータス

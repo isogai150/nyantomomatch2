@@ -137,6 +137,12 @@ Route::middleware('auth')->group(function () {
 
   // 譲渡契約書PDF
   Route::get('/transfer/{pair}/contract/pdf', [DompdfController::class, 'downloadContract'])->name('transfer.contract.pdf');
+
+  // ブロック登録
+  Route::post('/block/{userId}', [App\Http\Controllers\BlockController::class, 'store'])->name('block.store');
+
+  // ブロック解除
+  Route::delete('/block/{userId}', [App\Http\Controllers\BlockController::class, 'destroy'])->name('block.destroy');
 });
 
 // 管理者ログイン関連
