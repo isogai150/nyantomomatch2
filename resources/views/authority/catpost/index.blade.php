@@ -39,11 +39,11 @@
                 <p>総投稿数</p>
         </div>
         <div class="summary-item">
-            <h3>{{ $myCatposts->where('status', '譲渡完了')->count() }}</h3>
+            <h3>{{ $myCatposts->where('status', 2)->count() }}</h3>
                 <p>譲渡完了</p>
         </div>
         <div class="summary-item">
-            <h3>{{ $myCatposts->where('status', '募集中')->count() }}</h3>
+            <h3>{{ $myCatposts->where('status', 0)->count() }}</h3>
                 <p>募集中</p>
         </div>
     </div>

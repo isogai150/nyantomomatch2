@@ -191,7 +191,7 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 
     // ユーザーBAN
     Route::post('user/{user}/ban', [AdministratorController::class, 'userBan'])->name('user.ban');
-    
+
     // DM通報一覧表示
     Route::get('report/dm', [AdministratorController::class, 'dmReportList'])->name('report');
 
@@ -200,7 +200,7 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 
     // DM通報却下処理
     Route::post('report/dm/{id}/reject', [AdministratorController::class, 'dmReportReject'])->name('report.reject');
-    
+
     // DM通報詳細表示
     Route::get('report/dm/{id}', [AdministratorController::class, 'dmReportDetail'])->name('report.detail');
   });
