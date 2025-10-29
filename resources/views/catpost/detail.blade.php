@@ -5,6 +5,18 @@
 @endsection
 
 @section('content')
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('warning'))
+    <div class="alert alert-warning">
+        {{ session('warning') }}
+    </div>
+@endif
+
     <div class="post-detail-container">
 
         <div class="back">
@@ -44,6 +56,14 @@
                     <div class="top-title">
                         <h1 class="post-title">{{ $post->title }}</h1>
                         <p class="{{ $post->status_class }}">{{ $post->status_label }}</p>
+                        {{-- 通報ボタン（投稿通報） --}}
+@if(Auth::check() && Auth::id() !== $post->user_id)
+    <form action="{{ route('report.post', $post->id) }}" method="POST" class="report-form">
+        @csrf
+        <button type="submit" class="report-btn">通報</button>
+    </form>
+@endif
+
                     </div>
                     <div class="post-list">
                         <ul>

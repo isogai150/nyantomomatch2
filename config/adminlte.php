@@ -259,7 +259,7 @@ return [
 
     'use_route_url' => false,
     'dashboard_url' => 'home',
-    'logout_url' => 'logout',
+    'logout_url' => false,
     'login_url' => 'login',
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
@@ -366,11 +366,14 @@ return [
             'url'  => 'admin/profile',
             'icon' => 'fas fa-user',
         ],
-        [
-            'text' => 'ログアウト',
-            'url'  => 'logout',
-            'icon' => 'fas fa-sign-out-alt',
-        ],
+[
+    'text' => 'ログアウト',
+    'icon' => 'fas fa-sign-out-alt',
+    'route' => 'admin.logout',
+    'method' => 'post',
+    'id' => 'admin-logout-btn',
+    'onclick' => "event.preventDefault();document.getElementById('logout-form').submit();"
+],
     ],
 
 

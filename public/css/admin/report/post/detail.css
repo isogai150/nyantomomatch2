@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+.report-detail-container {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.back-area {
+    margin-bottom: 20px;
+}
+
+.report-box {
+    margin-bottom: 35px;
+}
+
+.report-box h3,
+h3.mt-4 {
+    color: #503322;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.table th {
+    background: #F2E4D4;
+    color: #503322;
+    width: 200px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table td {
+    background: #fff;
+    vertical-align: middle;
+}
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 15px;
+}

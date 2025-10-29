@@ -20,11 +20,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable()->comment('メールアドレス認証日');
             $table->string('password')->comment('パスワード');
             $table->rememberToken()->comment('ログイン状態の記憶');
-            $table->timestamps();
-            // ===========================追加カラム============================
             $table->string('image_path')->nullable()->comment('画像パス');
             $table->text('description')->nullable()->comment('ユーザー詳細');
             $table->tinyInteger('role')->default(0)->comment('ロール 0:一般ユーザー / 1:権限付与者');
+            $table->tinyInteger('is_banned')->default(0)->comment('ユーザーBANフラグ 0：通常 / 1：BAN');
+            $table->timestamps();
             $table->softDeletes()->comment('削除日');
         });
     }

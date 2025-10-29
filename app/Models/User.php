@@ -19,6 +19,7 @@ class User extends Authenticatable
         'password',
         'description',
         'image_path',
+        'is_banned'
     ];
     protected $hidden = ['password', 'remember_token'];
     protected $casts = [
