@@ -374,16 +374,6 @@ return [
     'id' => 'admin-logout-btn',
     'onclick' => "event.preventDefault();document.getElementById('logout-form').submit();"
 ],
-[
-    'type' => 'custom',
-    'html' => '
-        <form id="logout-form" action="' . route('admin.logout') . '" method="POST" style="display: none;">
-            ' . csrf_field() . '
-        </form>
-    '
-],
-
-
     ],
 
 
