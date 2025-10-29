@@ -119,7 +119,7 @@ Route::middleware('auth')->group(function () {
 
   // 決済情報入力ページ表示
   Route::get('/checkout/{post}/payment', [PaymentController::class, 'showForm'])->name('payment.form');
-  
+
   // 契約書提出
   Route::post('/dm/{dm}/transfer/submit', [TransferController::class, 'submit'])->name('transfer.submit');
 
@@ -137,16 +137,15 @@ Route::middleware('auth')->group(function () {
 
   // 譲渡契約書PDF
   Route::get('/transfer/{pair}/contract/pdf', [DompdfController::class, 'downloadContract'])->name('transfer.contract.pdf');
-
 });
 
 // 管理者ログイン関連
 Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function () {
-  
+
   Route::get('login', [AdministratorController::class, 'showLoginForm'])->name('login');
-  
+
   Route::post('login', [AdministratorController::class, 'login']);
-  
+
   Route::post('logout', [AdministratorController::class, 'logout'])->name('logout');
 
   // ログイン後
@@ -187,7 +186,7 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 
     // ユーザーBAN
     Route::post('user/{user}/ban', [AdministratorController::class, 'userBan'])->name('user.ban');
-    
+
     // DM通報一覧表示
     Route::get('report/dm', [AdministratorController::class, 'dmReportList'])->name('report');
 
@@ -202,15 +201,15 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
   });
 });
 
-// ✅Firewallデバッグ用 (確認できたら削除OK)
-Route::get('/debug/ip', function (\Illuminate\Http\Request $request) {
-    return response()->json([
-        'client_ip' => $request->ip(),
-        'getClientIps' => $request->getClientIps(),
-        'allowed_ips' => env('ALLOWED_ADMIN_IPS'),
-        'app_env' => env('APP_ENV'),
-    ]);
-});
+// Firewallデバッグ用
+// Route::get('/debug/ip', function (\Illuminate\Http\Request $request) {
+//     return response()->json([
+//         'client_ip' => $request->ip(),
+//         'getClientIps' => $request->getClientIps(),
+//         'allowed_ips' => env('ALLOWED_ADMIN_IPS'),
+//         'app_env' => env('APP_ENV'),
+//     ]);
+// });
 
 
 //ユーザー認証系
