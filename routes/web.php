@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\TransferController;
 use App\Http\Middleware\Firewall;
 use App\Models\Authority;
+use App\Http\Controllers\PostReportController;
+
 
 // s3用テスト
 // Route::get('/s3-test', function () {
@@ -73,7 +75,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 
   // ログアウト
-  Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+  Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
   // DM詳細ページ（チャット部屋）
   Route::get('/dm/{dm}', [PairController::class, 'show'])->name('dm.show');
@@ -125,43 +127,82 @@ Route::middleware('auth')->group(function () {
 
   // 決済情報入力ページ表示
   Route::get('/checkout/{post}/payment', [PaymentController::class, 'showForm'])->name('payment.form');
+  
+  // 契約書提出
+  Route::post('/dm/{dm}/transfer/submit', [TransferController::class, 'submit'])->name('transfer.submit');
 
+  // 譲渡資料送信（投稿者用）
+  Route::post('/dm/{dm}/transfer/send', [TransferController::class, 'send'])->name('transfer.send');
+
+  // 譲渡資料確認（里親希望者用）
+  Route::get('/dm/{dm}/document', [TransferController::class, 'showDocument'])->name('document.show');
+
+  // 双方の合意（両者押下で成立）
+  Route::post('/dm/{dm}/transfer/agree', [TransferController::class, 'agree'])->name('transfer.agree');
+
+  // 投稿通報
+  Route::post('/report/post/{post}', [PostReportController::class, 'store'])->name('report.post');
 });
 
 // 管理者ログイン関連
 Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function () {
+  
   Route::get('login', [AdministratorController::class, 'showLoginForm'])->name('login');
+  
   Route::post('login', [AdministratorController::class, 'login']);
+  
   Route::post('logout', [AdministratorController::class, 'logout'])->name('logout');
 
   // ログイン後
   Route::middleware('auth:admin')->group(function () {
+
     // ダッシュボード
     Route::get('dashboard', [AdministratorController::class, 'index'])->name('dashboard');
+
     // 投稿権限申請一覧表示
     Route::get('authority', [AdministratorController::class, 'authorityList'])->name('authority');
+
     // 投稿権限申請キャンセル処理
     Route::delete('authority/{authority}/cancel', [AdministratorController::class, 'authorityCancel'])->name('authority.cancel');
+
     // 投稿権限申請承認処理
     Route::put('authority/{authority}/approval', [AdministratorController::class, 'AuthorityApproval'])->name('authority.approval');
+
     // 投稿権限申請詳細表示
     Route::get('authority/{authority}', [AdministratorController::class, 'authorityDetail'])->name('authority.detail');
+
     // DM一覧表示
     Route::get('dm', [AdministratorController::class, 'dmList'])->name('dm');
+
     // DM詳細表示
     Route::get('dm/{dm}', [AdministratorController::class, 'detail'])->name('dm.detail');
+
+    //投稿通報一覧表示
+    Route::get('post-reports', [AdministratorController::class, 'postReports'])->name('post.reports');
+
+    // 投稿通報詳細
+    Route::get('post-reports/{report}', [AdministratorController::class, 'postReportDetail'])->name('post.report.detail');
+
+    // 通報ステータス更新（対応済）
+    Route::put('post-reports/{report}/resolve', [AdministratorController::class, 'postReportResolve'])->name('post.report.resolve');
+
+    // 通報ステータス更新（却下）
+    Route::put('post-reports/{report}/reject', [AdministratorController::class, 'postReportReject'])->name('post.report.reject');
+
+    // ユーザーBAN
+    Route::post('user/{user}/ban', [AdministratorController::class, 'userBan'])->name('user.ban');
+    
     // DM通報一覧表示
     Route::get('report/dm', [AdministratorController::class, 'dmReportList'])->name('report');
 
-    // DM通報一覧表示
-    Route::get('report/dm', [AdministratorController::class, 'dmReportList'])->name('report');
     // DM通報解決済み処理
-    Route::patch('report/dm/{id}/resolve', [AdministratorController::class, 'dmReportResolve'])->name('report.resolve');
+    Route::post('report/dm/{id}/resolve', [AdministratorController::class, 'dmReportResolve'])->name('report.resolve');
+
     // DM通報却下処理
-    Route::patch('report/dm/{id}/reject', [AdministratorController::class, 'dmReportReject'])->name('report.reject');
+    Route::post('report/dm/{id}/reject', [AdministratorController::class, 'dmReportReject'])->name('report.reject');
+    
     // DM通報詳細表示
     Route::get('report/dm/{id}', [AdministratorController::class, 'dmReportDetail'])->name('report.detail');
-
   });
 });
 
@@ -182,20 +223,6 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 //         return 'エラー発生: ' . $e->getMessage();
 //     }
 // });
-
-// 契約書提出
-Route::post('/dm/{dm}/transfer/submit', [TransferController::class, 'submit'])
-    ->name('transfer.submit');
-
-// 譲渡資料送信（投稿者用）
-Route::post('/dm/{dm}/transfer/send', [TransferController::class, 'send'])->name('transfer.send');
-
-// 譲渡資料確認（里親希望者用）
-Route::get('/dm/{dm}/document', [TransferController::class, 'showDocument'])->name('document.show');
-
-// 双方の合意（両者押下で成立）
-Route::post('/dm/{dm}/transfer/agree', [TransferController::class, 'agree'])->name('transfer.agree');
-
 
 //ユーザー認証系
 Auth::routes();

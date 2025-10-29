@@ -351,6 +351,48 @@
   margin: 0.4vw 0;
 }
 
+/* 通報ボタン */
+.report-btn {
+  display: block;
+  width: 100%;
+  background: #F6A5A5;
+  color: hsl(22, 40%, 22%);
+  text-align: center;
+  border-radius: 0.8vw;
+  font-weight: bold;
+  font-size: 1.1vw;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+}
+
+.report-btn:hover {
+  background: #F28B8B;
+  transform: scale(1.02);
+}
+
+.alert {
+  width: 100%;
+  padding: 1vw;
+  margin-bottom: 1vw;
+  border-radius: 0.5vw;
+  font-weight: bold;
+  font-size: 1vw;
+  text-align: center;
+}
+
+.alert-success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 0.2vw solid #2e7d32;
+}
+
+.alert-warning {
+  background-color: #fff3e0;
+  color: #ef6c00;
+  border: 0.2vw solid #ef6c00;
+}
+
 /* ==========================
    スマホ対応（390px以下）
 ========================== */
@@ -468,5 +510,15 @@
     margin-top: 5%;
     font-size: 0.8rem;
     text-align: center;
+  }
+
+  .report-btn {
+    font-size: 0.9rem;
+    padding: 3% 0;
+  }
+
+  .alert {
+    font-size: 0.9rem;
+    padding: 3%;
   }
 }

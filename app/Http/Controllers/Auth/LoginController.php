@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // ←これ追加！
 
 
 
@@ -42,10 +43,21 @@ class LoginController extends Controller
         $this->middleware('auth')->only('logout');
     }
 
+protected function authenticated($request, $user)
+{
+    if ($user->is_banned == 1) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')->withErrors([
+            'email' => 'アカウントが利用停止されています。サポートへお問い合わせください。',
+        ]);
+    }
+}
 
 
-
-public function logout(Request $request)
+    public function logout(Request $request)
     {
         $this->guard()->logout();
 
@@ -56,4 +68,3 @@ public function logout(Request $request)
         return redirect()->route('posts.index');
     }
 }
-
