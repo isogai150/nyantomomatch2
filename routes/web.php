@@ -203,6 +203,9 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 
     // DM通報詳細表示
     Route::get('report/dm/{id}', [AdministratorController::class, 'dmReportDetail'])->name('report.detail');
+
+    // メッセージ削除（管理者用）
+    Route::delete('dm/{dm}/message/{message}/delete', [AdministratorController::class, 'messageDestroy'])->name('dm.message.delete');
   });
 });
 

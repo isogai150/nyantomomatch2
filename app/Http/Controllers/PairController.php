@@ -105,8 +105,6 @@ class PairController extends Controller
         ]);
     }
 
-// =======================================================================
-
     // Ajaxでメッセージを削除（DELETE通信）
     public function destroy(Message $message)
     {
@@ -121,8 +119,6 @@ class PairController extends Controller
         // フロント側で非表示にできるよう成功レスポンスを返す
         return response()->json(['success' => true]);
     }
-
-// =======================================================================
 
     // DM一覧表示
     public function index(DmSearchRequest $request)
