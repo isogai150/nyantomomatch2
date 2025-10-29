@@ -85,15 +85,16 @@
 
   @if($report->status == 0)
     <div class="button-container">
-      <form action="" method="delete">
+      <form action="{{ Route('admin.user.ban', $report->user->id) }}" method="post">
         @csrf
-        @method('delete')
+        @method('post')
         <button type="submit" class="ban-btn" onclick="return confirm('この通報をBANしますか?')">
           BAN
         </button>
       </form>
 
-      <form action="" method="delete">
+      {{-- <form action="{{ Route('dm.message.delete', $message->user->id) }}" method="delete"> --}}
+      <form action="#" method="delete">
         @csrf
         @method('delete')
         <button type="submit" class="delete-btn" onclick="return confirm('この通報を削除しますか?')">
