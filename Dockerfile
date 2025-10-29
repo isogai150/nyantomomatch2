@@ -52,7 +52,7 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 
 RUN php artisan migrate:fresh --force
-RUN php artisan db:seed --force
+# RUN php artisan db:seed --force
 
 
 RUN php artisan config:clear
