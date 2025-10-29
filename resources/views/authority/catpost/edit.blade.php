@@ -6,12 +6,16 @@
 
 @section('content')
 <div class="backgroundcolor-position">
+{{-- ここの中にコードを書く --}}
+{{-- =================================================================================================== --}}
+
   <div class="main-content">
     <h2>投稿を編集</h2>
     <h3>猫の里親を募集する<br class="br-sp">投稿を編集します。</h3>
 
     <div class="background-form">
       <h3>基本情報</h3>
+
 
       <form action="{{ route('catpost.update', $post->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -142,17 +146,21 @@
 
     </div>
 
-    {{-- 写真・動画 --}}
+{{-- ======================================================== --}}
+{{-- 写真・動画 --}}
+
     <div class="background-photo-move">
 
       <label for="image">写真・動画</label>
-      <p>猫の写真を最大3枚、動画を1本まで追加できます。</p>
+      <br><br><br>
+      <p>猫の写真を最大3枚、動画を1本まで追加できます。</p><br>
 
+      {{-- 既存メディアのプレビュー --}}
       <div id="media-container" class="media-preview-grid">
         {{-- 既存画像 --}}
         @foreach($post->images as $image)
           <div class="preview-item">
-            <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $image->image_path) }}" class="preview-image" alt="猫の画像">
+            <img src="{{ asset($image->image_path) }}" class="preview-image" alt="猫の画像">
             <button type="button" class="remove-btn" data-type="image" data-id="{{ $image->id }}">×</button>
           </div>
         @endforeach
@@ -161,7 +169,7 @@
         @foreach($post->videos as $video)
           <div class="preview-item" style="width: 150px; height: 150px;">
             <video controls class="preview-video" preload="metadata" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px; display: block;">
-              <source src="{{ Storage::disk(config('filesystems.default'))->url('post_videos/' . $video->video_path) }}" type="video/mp4">
+              <source src="{{ asset($video->video_path) }}" type="video/mp4">
               <p>お使いのブラウザは動画再生に対応していません。</p>
             </video>
             <button type="button" class="remove-btn" data-type="video" data-id="{{ $video->id }}">×</button>
@@ -169,19 +177,24 @@
         @endforeach
       </div>
 
-      <p>画像（最大3枚まで）、<br class="br-sp">または動画（最大1本）</p><br>
+      <br>
+
+      {{-- 選択ボタン --}}
+      <button type="button" id="selectImageBtn" class="select-media-btn">画像を追加</button>
+      <button type="button" id="selectVideoBtn" class="select-media-btn">動画を追加</button>
+      <br><br>
 
       {{-- 新規画像アップロード --}}
-      <input type="file" name="image[]" id="imageInput" accept="image/*" multiple>
-      @error('image')
+      <input type="file" name="images[]" id="imageInput" accept="image/*" multiple style="display:none;">
+      @error('images')
+        <div class="alert-danger">{{ $message }}</div>
+      @enderror
+      @error('images.*')
         <div class="alert-danger">{{ $message }}</div>
       @enderror
 
-      <br>
-      <br>
-
       {{-- 新規動画アップロード --}}
-      <input type="file" name="video" id="videoInput" accept="video/*">
+      <input type="file" name="video" id="videoInput" accept="video/*" style="display:none;">
       @error('video')
         <div class="alert-danger">{{ $message }}</div>
       @enderror
@@ -192,6 +205,8 @@
       {{-- 動画プレビュー専用領域（追加） --}}
       <div id="video-preview-container" class="preview-grid"></div>
     </div>
+
+  {{-- ======================================================== --}}
 
     {{-- 健康状態 --}}
     <div class="background-health">
@@ -244,6 +259,9 @@
 
       </form>
   </div>
+
+{{-- =================================================================================================== --}}
+{{-- bladeここまで --}}
 </div>
 @endsection
 

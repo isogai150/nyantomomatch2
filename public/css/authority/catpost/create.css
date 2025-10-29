@@ -13,6 +13,7 @@
 
 /* バリデーションメッセージ */
 .alert-danger {
+    /* text-align: center; */
     text-align: left;
     color: red;
     font-size: 14px;
@@ -98,7 +99,8 @@ textarea {
 }
 
 .flexblock {
-    font-size: 0;
+    /* margin-right: 10%; */
+font-size: 0;
 }
 
 /* テキストボックス（年齢） */
@@ -163,9 +165,9 @@ textarea {
     border-width:1.5px;
     border-radius: 5px;
     width: 30%;
-    padding: 6px 8px;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 6px 8px;
     font-size: 16px;
     color: #503322;
 }
@@ -270,6 +272,10 @@ textarea {
 /* 画像の見た目 */
 .preview-image {
     max-width: 150px;
+    border-radius: 10px;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
     border-radius: 20px;
     box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
@@ -277,6 +283,20 @@ textarea {
 /* 動画の見た目 */
 .preview-video {
     max-width: 150px;
+    border-radius: 10px;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    display: block;
+}
+
+/* video要素全体のスタイル */
+video {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
     border-radius: 20px;
     box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
@@ -297,49 +317,59 @@ textarea {
     line-height: 20px;
 }
 
-/* ファイル選択カスタマイズ */
-.file-input-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin: 10px 0;
-}
+/* ==================================================== */
+/* 画像・動画選択ボタンのスタイル（編集画面用） */
+/* ==================================================== */
 
-.hidden-input {
-    display: none;
-}
-
-.select-file-btn {
-    padding: 10px 20px;
+.select-media-btn {
     background-color: #F6D8B3;
     color: #503322;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
-}
-
-.select-file-btn:hover {
-    background-color: #F6D8B3;
-}
-
-.select-file-btn:active {
-    transform: scale(0.98);
-}
-
-.selected-info {
-    color: #503322;
-    font-size: 14px;
-}
-
-.selected-info.has-files {
-    color: #503322;
+    padding: 10px 20px;
+    font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: opacity 0.3s;
+}
+
+.select-media-btn:hover:not(:disabled) {
+    opacity: 0.8;
+}
+
+.select-media-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ==================================================== */
+/* 画像・動画選択ボタンのスタイル */
+/* ==================================================== */
+
+.select-media-btn {
+    background-color: #F6D8B3;
+    color: #503322;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: opacity 0.3s;
+}
+
+.select-media-btn:hover:not(:disabled) {
+    opacity: 0.8;
+}
+
+.select-media-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 /* ======================================================================= */
-/* 健康状態・詳細説明・費用 */
 /* ======================================================================= */
 
 /* 健康状態の背景の白枠部分 */
@@ -363,7 +393,7 @@ textarea {
 /* 費用の背景の白枠部分 */
 .background-price {
     background: #ffffff;
-    border-radius: 20px;
+    border-radius: 0px;
     padding: 5% 15%;
     margin: 3% 2%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -386,7 +416,6 @@ textarea {
 .botten:hover {
     /* カーソルホバー時に設定した透明度で反応させる */
     opacity: 0.8;
-    cursor: pointer;
 }
 
 /* 投稿を作成ボタン：センター */
@@ -552,7 +581,7 @@ textarea {
     /* 掲載開始日・掲載終了日 */
     .container-flex.date-range input[type="date"],
     .container-flex.date-range input[type="text"] {
-        width: 100%;
+        width: 120%;
     }
 
     /* ボタン */
@@ -572,21 +601,16 @@ textarea {
         display: block;
     }
 
-    /* プレビュー画像・動画（スマホ） */
     .preview-image,
     .preview-video {
-    max-width: 100px;
+        width: 100px;
     }
 
-    .file-input-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    }
-
-    .select-file-btn {
-    width: 100%;
-    text-align: center;
+    /* 画像・動画選択ボタン：スマホ用サイズ調整 */
+    .select-media-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+        margin-right: 5px;
+        margin-bottom: 10px;
     }
 }
-
