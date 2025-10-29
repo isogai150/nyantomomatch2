@@ -29,7 +29,8 @@ class Firewall
              * 実際のアクセス元IPを取得
              * getClientIps() を使い、一番信頼できる値を最後に取得
              */
-            $clientIp = collect($request->getClientIps())->last();
+            $clientIp = $request->header('CF-Connecting-IP')
+            ?? $request->ip();
 
             /**
              * 許可IPに一致しない場合は403エラー
