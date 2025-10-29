@@ -10,17 +10,22 @@ class Firewall
 {
     public function handle(Request $request, Closure $next)
     {
+        // 本番環境のみIP制限
         if (app()->environment('production')) {
 
-            // envから許可IP一覧を取得（Renderで管理）
-            $allowedIps = array_map('trim', explode(',', env('ALLOWED_ADMIN_IPS', '')));
+            // 許可IPを .env から取得
+            $allowedIps = explode(',', env('ALLOWED_ADMIN_IPS', ''));
 
-            // Cloudflare経由の場合は getClientIps の最後が正しいIP
+            // 最後のIPがユーザーの実IP
             $clientIp = collect($request->getClientIps())->last();
 
-            // デバッグログ（必要なければ削除）
-            // logger('Client IP: ' . $clientIp);
+            // デバッグ表示が必要な場合のみ
+            // \Log::info('Client IP check', [
+            //     'clientIp' => $clientIp,
+            //     'allowedIps' => $allowedIps
+            // ]);
 
+            // 許可されていなければ 403
             if (!IpUtils::checkIp($clientIp, $allowedIps)) {
                 abort(403, 'このIPアドレスからのアクセスは許可されていません。');
             }
