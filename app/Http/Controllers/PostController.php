@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Requests\CatPost;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Administrator;
 
 class PostController extends Controller
 {
@@ -55,8 +56,6 @@ class PostController extends Controller
         return view('catpost.detail', compact('post'));
     }
 
-// =================================================================================
-
     // 自分の投稿一覧表示機能
     public function myCatpost()
     {
@@ -92,8 +91,6 @@ public function destroy(Post $post)
         return redirect()->route('mycatpost.index')->with('error', '投稿の削除に失敗しました。');
     }
 }
-
-// =================================================================================
 
     // 猫の情報投稿作成画面
     public function create()
@@ -167,8 +164,6 @@ public function store(CatPost $request)
     return redirect()->route('catpost.index')->with('success', '投稿が作成されました！')->with('clear_storage', true);
 }
 
-// =================================================================================
-
     // 画像のアップロード
     public function image(Request $request)
     {
@@ -195,8 +190,6 @@ public function store(CatPost $request)
     return redirect('/');
     }
 
-// =================================================================================
-
     // 猫の投稿編集
     public function createedit()
     {
@@ -206,8 +199,6 @@ public function store(CatPost $request)
             'user' => $user,
         ]);
     }
-
-// =================================================================================
 
 // 編集画面表示
 public function edit($id)
@@ -290,10 +281,29 @@ public function update(CatPost $request, Post $post)
         ]);
     }
 
+    // 投稿削除処理
+public function destroy(Post $post)
+{
+    $user = auth()->user(); // 一般ユーザーガード
+    $admin = auth('admin')->user(); // 管理者ガード
+
+    // 権限チェック
+    if (!$admin && $post->user_id !== $user->id) {
+        abort(403, 'この投稿を削除する権限がありません。');
+    }
+
+    // 削除処理
+    $post->delete();
+
+    // 管理者か一般かでリダイレクト先変更
+    if ($admin) {
+        return redirect()->route('admin.post.reports')->with('success', '投稿を削除しました');
+    }
+
+    return redirect()->route('mypage.index')->with('success', '投稿を削除しました');
+}
     return redirect()->route('mycatpost.index')->with('success', '投稿が更新されました！');
 }
-
-// ==================================================
 
 public function deleteMedia($type, $id)
 {
@@ -312,6 +322,5 @@ public function deleteMedia($type, $id)
 
     return response()->json(['success' => true]);
 }
-
 
 }
