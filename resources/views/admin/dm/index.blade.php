@@ -26,8 +26,8 @@
                       <ul class="action-btn">
                         <li class="icon">
                           @if($dm->userA->image_path)
-                            {{-- <img src="{{ asset('storage/profile_images/' . $dm->userA->image_path) }}" alt="{{ $dm->userA->name }}"> --}}
-                            <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userA->image_path) }}" alt="{{ $dm->userA->name }}">
+                            <img src="{{ asset('storage/profile_images/' . $dm->userA->image_path) }}" alt="{{ $dm->userA->name }}">
+                            {{-- <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userA->image_path) }}" alt="{{ $dm->userA->name }}"> --}}
                             @else
                             <div class="user-avatar-placeholder">
                                 <span>{{ mb_substr($dm->userA->name, 0, 1) }}</span>
@@ -37,8 +37,8 @@
                         <p class="dot">・</p>
                         <li class="icon">
                           @if($dm->userB->image_path)
-                            {{-- <img src="{{ asset('storage/profile_images/' . $dm->userB->image_path) }}" alt="{{ $dm->userB->name }}"> --}}
-                            <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userB->image_path) }}" alt="{{ $dm->userB->name }}">
+                            <img src="{{ asset('storage/profile_images/' . $dm->userB->image_path) }}" alt="{{ $dm->userB->name }}">
+                            {{-- <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userB->image_path) }}" alt="{{ $dm->userB->name }}"> --}}
                           @else
                             <div class="user-avatar-placeholder">
                                 <span>{{ mb_substr($dm->userB->name, 0, 1) }}</span>

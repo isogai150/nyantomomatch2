@@ -44,9 +44,9 @@
           {{-- 投稿画像（最初の1枚を表示） --}}
           @if ($catpost->images->isNotEmpty())
             {{-- Seeder時（開発中） --}}
-            {{-- <img src="{{ asset(str_replace('public/', '', $catpost->images->first()->image_path)) }}" alt="投稿画像"> --}}
+            <img src="{{ asset(str_replace('public/', '', $catpost->images->first()->image_path)) }}" alt="投稿画像">
             {{-- 本番用（storage:linkを使用してストレージパスへ変更予定） --}}
-            <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $catpost->images->first()->image_path) }}" alt="投稿画像">
+            {{-- <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $catpost->images->first()->image_path) }}" alt="投稿画像"> --}}
           @else
             <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image">
           @endif
