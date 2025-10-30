@@ -184,6 +184,9 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
     // 通報ステータス更新（却下）
     Route::put('post-reports/{report}/reject', [AdministratorController::class, 'postReportReject'])->name('post.report.reject');
 
+    // メッセージ削除（管理者用）
+    Route::delete('dm/{dm}/message/{message}/delete', [AdministratorController::class, 'messageDestroy'])->name('dm.message.delete');
+
     // DM通報一覧表示
     Route::get('report/dm', [AdministratorController::class, 'dmReportList'])->name('report');
 
@@ -207,6 +210,7 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 
     // ユーザーBAN解除
     Route::post('users/{id}/unban', [AdministratorController::class, 'userUnban'])->name('user.unban');
+
   });
 });
 

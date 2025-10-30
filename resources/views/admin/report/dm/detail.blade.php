@@ -83,27 +83,37 @@
     @endif
   </div>
 
-  @if($report->status == 0)
-    <div class="button-container">
-      <form action="" method="delete">
-        @csrf
-        @method('delete')
-        <button type="submit" class="ban-btn" onclick="return confirm('この通報をBANしますか?')">
-          BAN
-        </button>
-      </form>
+@if($report->status == 0)
+  <div class="button-container">
+    <form action="{{ route('admin.user.ban', $reportedUser->id ?? 0) }}" method="post" style="display: inline;">
+      @csrf
+      @method('post')
+      <button type="submit" class="ban-btn" onclick="return confirm('このユーザーをBANしますか?')">
+        BAN
+      </button>
+    </form>
 
-      <form action="" method="delete">
+    @if($reportedMessage)
+      @php
+        // メッセージが属するDM（pair_id）を取得
+        $dmId = $reportedMessage->pair_id;
+      @endphp
+      <form action="{{ route('admin.dm.message.delete', ['dm' => $dmId, 'message' => $reportedMessage->id]) }}" method="post" style="display: inline;">
         @csrf
         @method('delete')
-        <button type="submit" class="delete-btn" onclick="return confirm('この通報を削除しますか?')">
+        <button type="submit" class="delete-btn" onclick="return confirm('このメッセージを削除しますか?')">
           削除
         </button>
       </form>
-    </div>
-  @else
-    <p class="processed-text">処理済み</p>
-  @endif
+    @else
+      <button type="button" class="delete-btn" disabled>
+        削除（メッセージなし）
+      </button>
+    @endif
+  </div>
+@else
+  <p class="processed-text">処理済み</p>
+@endif
 </div>
 
 {{-- ============================================================== --}}

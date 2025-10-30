@@ -208,6 +208,17 @@ class AdministratorController extends Controller
         return view('admin.report.dm.detail', compact('report'));
     }
 
+    // メッセージ削除（管理者用）
+    public function messageDestroy($dm, $message)
+    {
+        $messageModel = Message::findOrFail($message);
+
+        // 削除処理
+        $messageModel->delete();
+
+        return redirect()->route('admin.report')->with('success', 'メッセージを削除しました');
+    }
+
     // ユーザー一覧
     public function userList()
     {
