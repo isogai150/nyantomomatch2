@@ -79,9 +79,9 @@
 @section('script')
 <script>
 
-        function clickEvent() {
+    function clickEvent() {
         alert('パスワード再設定が完了しました。');
-        return view('auth.login');
+        // return view('auth.login');
     }
 
 </script>
