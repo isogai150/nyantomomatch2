@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .main-content {
-    padding: 10% 0 5% 0;
+    padding: 10% 1% 5%;
     max-width: 1240px;
     width: 100%; /* 小さい画面では100% */
     margin: 0 auto;
