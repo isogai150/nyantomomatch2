@@ -39,7 +39,7 @@
       </div>
 
       <div class="password-forget">
-        <p><a href="">パスワードを<br class="br-sp">忘れた方</a></p>
+        <p><a href="{{ route('password.request') }}">パスワードを<br class="br-sp">忘れた方</a></p>
       </div>
 
 {{-- ======================================== --}}
