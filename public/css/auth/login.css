@@ -162,3 +162,46 @@ span:hover {
 
 }
 
+
+
+/* ==================================================== */
+/* パスワード再設定ページ用 */
+/* ==================================================== */
+
+/* 成功メッセージ */
+.status-message {
+  text-align: center;
+  color: #4CAF50;
+  background-color: #E8F5E9;
+  padding: 3%;
+  border-radius: 8px;
+  margin-bottom: 5%;
+  font-weight: bold;
+}
+
+/* form-group のマージン調整 */
+.form-group {
+  margin-bottom: 0;
+}
+
+/* テキスト左寄せ */
+.text-left {
+  text-align: left;
+}
+
+/* ==================================================== */
+/* スマホ用画面（追加分） */
+/* ==================================================== */
+@media (max-width: 390px) {
+  
+  .status-message {
+    font-size: 14px;
+    padding: 5%;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+}
