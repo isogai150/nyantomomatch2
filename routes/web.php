@@ -224,10 +224,6 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 
     // 譲渡成立一覧
     Route::get('transfer', [AdministratorController::class, 'transferList'])->name('transfer');
-
-    // 譲渡成立詳細表示
-    Route::get('transfer/{transfer}', [AdministratorController::class, 'transferDetail'])->name('transfer.detail');
-
   });
 });
 

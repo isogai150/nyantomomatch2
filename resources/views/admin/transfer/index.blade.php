@@ -14,7 +14,6 @@
                 <li>投稿タイトル</li>
                 <li>成立日</li>
                 <li>譲渡費</li>
-                <li>詳細</li>
             </ul>
         </div>
 
@@ -57,11 +56,6 @@
                     {{-- 譲渡費 --}}
                     <li>
                         <p>{{ $transfer->post->cost_class }}</p>
-                    </li>
-
-                    {{-- 詳細ページへ --}}
-                    <li>
-                        <a href="{{ route('admin.transfer.detail', $transfer->id) }}" class="description-btn">詳細</a>
                     </li>
 
                 </ul>
