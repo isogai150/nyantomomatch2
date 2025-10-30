@@ -18,6 +18,8 @@ use App\Http\Middleware\Firewall;
 use App\Models\Authority;
 use App\Http\Controllers\PostReportController;
 use App\Http\Controllers\DompdfController;
+use App\Http\Controllers\BlockController;
+use App\Http\Controllers\MessageReportController;
 
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
@@ -139,10 +141,13 @@ Route::middleware('auth')->group(function () {
   Route::get('/transfer/{pair}/contract/pdf', [DompdfController::class, 'downloadContract'])->name('transfer.contract.pdf');
 
   // ブロック登録
-  Route::post('/block/{userId}', [App\Http\Controllers\BlockController::class, 'store'])->name('block.store');
+  Route::post('/block/{userId}', [BlockController::class, 'store'])->name('block.store');
 
   // ブロック解除
-  Route::delete('/block/{userId}', [App\Http\Controllers\BlockController::class, 'destroy'])->name('block.destroy');
+  Route::delete('/block/{userId}', [BlockController::class, 'destroy'])->name('block.destroy');
+
+  // メッセージ通報機能
+  Route::post('/dm/{dm}/message/{message}/report', [MessageReportController::class, 'store'])->name('report.message');
 });
 
 // 管理者ログイン関連

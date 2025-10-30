@@ -7,12 +7,13 @@ use App\Models\PostReport;
 
 class PostReportController extends Controller
 {
-            public function store($postId)
+    public function store($postId)
     {
         // 二重通報防止
         if (PostReport::where('user_id', auth()->id())
             ->where('post_id', $postId)
-            ->exists()) {
+            ->exists()
+        ) {
             return back()->with('warning', 'すでに通報済みです');
         }
 
