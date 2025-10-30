@@ -7,7 +7,7 @@ return [
     'convert_entities' => true,
 
     'options' => [
-        // --- ✅日本語フォント設定（重要）---
+
         'font_dir'   => storage_path('fonts'),
         'font_cache' => storage_path('fonts'),
 

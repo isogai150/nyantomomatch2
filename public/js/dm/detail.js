@@ -128,12 +128,20 @@ $(function () {
       <div class="dm-message ${isMine ? 'mine' : 'other'}" data-id="${msg.id}">
         <div class="dm-text">${msg.content}</div>
         <div class="dm-time">${msg.created_at}</div>
-        ${isMine ? `
-          <div class="dm-actions">
-            <button class="edit-btn">編集</button>
-            <button class="delete-btn">削除</button>
-          </div>
-        ` : ''}
+        <div class="dm-actions">
+          ${isMine
+            ? `
+              <button class="edit-btn">編集</button>
+              <button class="delete-btn">削除</button>
+            `
+            : `
+              <form action="/dm/${msg.pair_id}/message/${msg.id}/report" method="POST" onsubmit="return confirm('このメッセージを通報しますか？');">
+                <input type="hidden" name="_token" value="${csrfToken}">
+                <button type="submit" class="report-btn">通報</button>
+              </form>
+            `
+          }
+        </div>
       </div>
     `);
   }

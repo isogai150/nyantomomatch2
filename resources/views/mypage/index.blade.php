@@ -31,7 +31,8 @@ use Illuminate\Support\Facades\Storage;
           <!-- 画像表示エリア（クリック可能） -->
           <label for="imageInput" style="cursor: pointer;">
             @if($user && $user->image_path)
-              <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $user->image_path) }}" alt="{{ $user->name }}" class="profile-image" id="previewImage">
+            <img src="{{ Storage::url('profile_images/' . $user->image_path) }}" alt="{{ $user->name }}" class="profile-image" id="previewImage">
+            {{-- <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $user->image_path) }}" alt="{{ $user->name }}" class="profile-image" id="previewImage"> --}}
             @else
               <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="デフォルト画像" class="profile-image" id="previewImage">
             @endif
@@ -139,7 +140,7 @@ use Illuminate\Support\Facades\Storage;
       </p>
     </div>
 
-    <form action="#" method="POST">
+    <form action="{{ route('request.post.permission') }}" method="POST">
       @csrf
       <div class="form-group">
         <h3>申請理由</h3>

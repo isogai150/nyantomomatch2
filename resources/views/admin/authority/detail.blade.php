@@ -13,7 +13,7 @@
     <h3>申請者情報</h3>
     <p>名前：{{ $authority->user->name }}</p>
     <p>メールアドレス：{{ $authority->user->email }}</p>
-    <p>申請日：{{ $authority->created_at->format('Y/m/d H:i') }}</p>
+    <p>申請日：{{ $authority->created_at->format('Y年n月j日 H:i') }}</p>
     <p>ステータス：{{ $authority->status_label }}</p>
   </div>
 

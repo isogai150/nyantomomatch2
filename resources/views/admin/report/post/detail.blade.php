@@ -1,89 +1,69 @@
 @extends('adminlte::page')
 
-@section('title', '通報詳細')
+@section('title', '投稿通報詳細')
 
 @section('content_header')
-    <h1>投稿通報詳細</h1>
+    <h1 class="page-title"><i class="fas fa-info-circle"></i> 投稿通報詳細</h1>
 @stop
 
 @section('content')
+<div class="admin-box">
 
-    <div class="report-detail-container">
+    <div class="back-area mb-3">
+        <a href="{{ route('admin.post.reports') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-arrow-left"></i> 一覧に戻る
+        </a>
+    </div>
 
-        <div class="back-area">
-            <a href="{{ route('admin.post.reports') }}" class="btn btn-secondary btn-sm">
-                ＜ 一覧に戻る
-            </a>
-        </div>
+    {{-- ======= メッセージ ======= --}}
+    @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+    @if (session('warning'))
+        <div class="alert alert-warning">{{ session('warning') }}</div>
+    @endif
 
-        {{-- 成功メッセージ --}}
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+    {{-- ======= 通報情報 ======= --}}
+    <div class="report-section">
+        <h3><i class="fas fa-flag"></i> 通報情報</h3>
+        <table class="table table-bordered">
+            <tr><th>通報ID</th><td>{{ $report->id }}</td></tr>
+            <tr><th>通報者</th><td>{{ $report->user->name ?? '削除済み' }}</td></tr>
+            <tr><th>通報日時</th><td>{{ $report->created_at->format('Y年n月j日 H:i') }}</td></tr>
+            <tr>
+                <th>ステータス</th>
+                <td>
+                    @if ($report->status === 0)
+                        <span class="badge bg-warning text-dark">未対応</span>
+                    @elseif($report->status === 1)
+                        <span class="badge bg-success">対応済み</span>
+                    @else
+                        <span class="badge bg-secondary">却下</span>
+                    @endif
+                </td>
+            </tr>
+        </table>
+    </div>
 
-        {{-- 警告メッセージ --}}
-        @if (session('warning'))
-            <div class="alert alert-warning">{{ session('warning') }}</div>
-        @endif
+    {{-- ======= 投稿情報 ======= --}}
+    <div class="report-section mt-4">
+        <h3><i class="fas fa-cat"></i> 通報対象の投稿情報</h3>
+        <table class="table table-bordered">
+            <tr><th>投稿タイトル</th><td>{{ $report->post->title ?? '削除済み' }}</td></tr>
+            <tr><th>投稿者</th><td>{{ $report->post->user->name ?? '削除済み' }}</td></tr>
+            <tr><th>投稿日時</th><td>{{ $report->post->created_at->format('Y年n月j日 H:i') }}</td></tr>
+        </table>
+    </div>
 
+    {{-- ======= 管理者操作 ======= --}}
+    <div class="report-section mt-4">
+        <h3><i class="fas fa-tools"></i> 管理者操作</h3>
 
-        <div class="report-box">
-            <h3>通報情報</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th>通報ID</th>
-                    <td>{{ $report->id }}</td>
-                </tr>
-                <tr>
-                    <th>通報者</th>
-                    <td>{{ $report->user->name ?? '削除済み' }}</td>
-                </tr>
-                <tr>
-                    <th>通報日時</th>
-                    <td>{{ $report->created_at->format('Y-m-d H:i') }}</td>
-                </tr>
-                <tr>
-                    <th>ステータス</th>
-                    <td>
-                        @if ($report->status === 0)
-                            <span class="badge bg-warning">未対応</span>
-                        @elseif($report->status === 1)
-                            <span class="badge bg-success">対応済み</span>
-                        @else
-                            <span class="badge bg-secondary">却下</span>
-                        @endif
-                    </td>
-                </tr>
-            </table>
-
-
-            <h3 class="mt-4">通報対象の投稿情報</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th>投稿タイトル</th>
-                    <td>{{ $report->post->title ?? '削除済み' }}</td>
-                </tr>
-                <tr>
-                    <th>投稿者</th>
-                    <td>{{ $report->post->user->name ?? '削除済み' }}</td>
-                </tr>
-                <tr>
-                    <th>投稿日時</th>
-                    <td>{{ $report->post->created_at->format('Y-m-d H:i') }}</td>
-                </tr>
-            </table>
-
-        </div>
-
-
-        {{-- ⚡管理者操作欄 --}}
-        <h3 class="mt-4">管理者操作</h3>
         <div class="action-buttons">
             @if ($report->status === 0)
-
                 {{-- 投稿削除 --}}
                 <form action="{{ route('catpost.destroy', $report->post->id) }}" method="POST"
-                    onsubmit="return confirm('本当に投稿を削除しますか？');">
+                      onsubmit="return confirm('本当に投稿を削除しますか？');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-warning">
@@ -110,7 +90,6 @@
                     </form>
                 @endif
 
-
                 {{-- 通報者BAN / BAN解除 --}}
                 @if ($report->user && $report->user->is_banned == 0)
                     <form action="{{ route('admin.user.ban', $report->user->id) }}" method="POST"
@@ -129,7 +108,6 @@
                         </button>
                     </form>
                 @endif
-
 
                 {{-- 対応済み --}}
                 <form action="{{ route('admin.post.report.resolve', $report->id) }}" method="POST">
@@ -152,11 +130,10 @@
                 <p class="text-muted">※ すでに処理済みの通報です</p>
             @endif
         </div>
-
     </div>
-
+</div>
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/admin/report/post/detail.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin/report/post/detail.css') }}">
 @stop

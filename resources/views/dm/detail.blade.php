@@ -17,13 +17,37 @@
                 <div class="dm-user-icon">
                     {{-- 投稿者のプロフィール画像 --}}
                     @if (!empty($partner->image_path))
-                        <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $partner->image_path) }}" alt="{{ $partner->name }}" class="user-image">
+                        <img src="{{ asset(str_replace('public/', '', $post->user->image_path)) }}" alt="投稿者のプロフィール画像"
+                            class="user-image">
+                        {{-- <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $partner->image_path) }}" alt="{{ $partner->name }}" class="user-image"> --}}
                     @else
                         <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"
                             class="user-image">
                     @endif
                 </div>
                 <div class="dm-user-name">{{ $partner->name ?? '相手のユーザー' }}さん</div>
+
+                {{-- ============================= --}}
+                {{-- ブロック／ブロック解除ボタン --}}
+                {{-- ============================= --}}
+                <div class="dm-block-buttons">
+                    {{-- 自分が相手をブロックしている場合 --}}
+                    @if ($isBlocking)
+                        <form action="{{ route('block.destroy', $partner->id) }}" method="POST" class="unblock-form"
+                            onsubmit="return confirm('このユーザーのブロックを解除しますか？');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-unblock">ブロック解除</button>
+                        </form>
+                    {{-- 相手にブロックされていない && 自分もブロックしていない場合 --}}
+                    @elseif (!$isBlockedBy)
+                        <form action="{{ route('block.store', $partner->id) }}" method="POST" class="block-form"
+                            onsubmit="return confirm('このユーザーをブロックしますか？');">
+                            @csrf
+                            <button type="submit" class="btn-block">ブロック</button>
+                        </form>
+                    @endif
+                </div>
             </div>
         </div>
 
@@ -37,8 +61,9 @@
                     @endphp
 
                     @if ($imagePath)
-                        <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $firstImage) }}"
-                            alt="猫の写真" class="dm-post-img">
+                        <img src="{{ asset($imagePath) }}" alt="猫の写真" class="dm-post-img">
+                        {{-- <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $firstImage) }}"
+                            alt="猫の写真" class="dm-post-img"> --}}
                     @else
                         <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"
                             class="dm-post-img">
@@ -107,24 +132,63 @@
 {{-- 譲渡関連ボタンここまで --}}
 {{-- ============================= --}}
 
-        {{-- ======= メッセージ一覧 ======= --}}
-        <div id="dm-messages" class="dm-messages">
-            @foreach ($messages as $message)
-                <div class="dm-message {{ $message->user_id === auth()->id() ? 'mine' : 'other' }}"
-                    data-id="{{ $message->id }}">
-                    <div class="dm-text">{{ $message->content }}</div>
-                    <div class="dm-time">{{ $message->created_at->format('Y年n月j日 H:i') }}</div>
+{{-- ======= メッセージ一覧 ======= --}}
+<div id="dm-messages" class="dm-messages">
+    @foreach ($messages as $message)
+        <div class="dm-message {{ $message->user_id === auth()->id() ? 'mine' : 'other' }}" data-id="{{ $message->id }}">
+            <div class="dm-text">{{ $message->content }}</div>
+            <div class="dm-time">{{ $message->created_at->format('Y年n月j日 H:i') }}</div>
+
+            {{-- 自分のメッセージには編集・削除、相手のメッセージには通報 --}}
+            @if ($message->user_id === auth()->id())
+                <div class="dm-actions">
+                    <button class="edit-btn">編集</button>
+                    <button class="delete-btn">削除</button>
                 </div>
-            @endforeach
+            @else
+    <div class="dm-actions">
+        <form action="{{ route('report.message', ['dm' => $dm->id, 'message' => $message->id]) }}" method="POST" onsubmit="return confirm('このメッセージを通報しますか？');">
+            @csrf
+            <button type="submit" class="report-btn">通報</button>
+        </form>
+    </div>
+            @endif
+        </div>
+    @endforeach
+</div>
+
+
+{{-- ========================= --}}
+{{-- メッセージ送信フォーム --}}
+{{-- ========================= --}}
+<div class="dm-send-area">
+
+    {{-- 自分が相手をブロックしている場合 --}}
+    @if ($isBlocking)
+        <div class="block-message warning">
+            あなたはこのユーザーをブロックしています。<br>
+            メッセージを送信するにはブロックを解除してください。
         </div>
 
-        {{-- ======= メッセージ送信フォーム ======= --}}
+
+    {{-- 相手にブロックされている場合 --}}
+    @elseif ($isBlockedBy)
+        <div class="block-message danger">
+            このユーザーによりブロックされています。<br>
+            メッセージを送信することはできません。
+        </div>
+
+    {{-- 通常の送信フォーム --}}
+    @else
         <form id="dm-form" class="dm-form" method="POST" autocomplete="off">
             @csrf
             <textarea id="message-input" name="message" placeholder="メッセージを入力..." required></textarea>
             <button type="submit" id="send-btn">送信</button>
         </form>
-    </div>
+    @endif
+
+</div>
+
 @endsection
 
 @section('script')
