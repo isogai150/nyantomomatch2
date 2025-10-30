@@ -39,11 +39,11 @@
                 <p>総投稿数</p>
         </div>
         <div class="summary-item">
-            <h3>{{ $myCatposts->where('status', '譲渡完了')->count() }}</h3>
+            <h3>{{ $myCatposts->where('status', 2)->count() }}</h3>
                 <p>譲渡完了</p>
         </div>
         <div class="summary-item">
-            <h3>{{ $myCatposts->where('status', '募集中')->count() }}</h3>
+            <h3>{{ $myCatposts->where('status', 0)->count() }}</h3>
                 <p>募集中</p>
         </div>
     </div>
@@ -59,6 +59,7 @@
         <div class="post-image">
             {{-- 投稿の画像 --}}
             @if($post->images->isNotEmpty())
+            {{-- <img id="main-image" src="{{ asset(str_replace('public/', '', $post->images->first()->image_path)) }}"> --}}
             <img id="main-image" src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $post->images->first()->image_path) }}">
             @else
             <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}" alt="No Image"

@@ -58,3 +58,4 @@ RUN php artisan db:seed --force
 RUN php artisan config:clear
 RUN php artisan cache:clear
 RUN php artisan route:clear
+RUN php artisan optimize:clear

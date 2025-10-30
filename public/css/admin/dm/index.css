@@ -59,8 +59,9 @@ list-item ul:nth-child(even) {
 }
 
 /* 行間の余白 */
-list-item ul li {
-    padding: 0.6rem 0.3rem;
+list-item ul {
+    padding: 1.2rem 0.6rem;
+    margin-bottom: 0.5rem;
 }
 
 /* 各カラムの整列 */
@@ -145,10 +146,51 @@ list-item ul li h3 {
 /* ===================================================================== */
 
 /* アイコンの画像部分 */
-.icon {
-    padding: 2.0rem;
-    background-color: #1A7F37;
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.action-btn .icon {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
+    /* background-color: #e0e0e0; */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn .icon img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #D3C6B7;
+    font-size: 24px;
+}
+
+.action-btn .dot {
+    margin: 0;
+    padding: 0;
+    color: #503322;
+    line-height: 1;
 }
 
 .dot {
@@ -158,6 +200,10 @@ list-item ul li h3 {
 /* 送信日 */
 .text {
     font-weight: bold;
+}
+
+.br-sp {
+    display: block;
 }
 
 /* ===================================================================== */
@@ -196,15 +242,14 @@ list-item ul li h3 {
         text-align: center;
     }
 
-    .action-btn {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
     .action-btn .ok-btn button,
     .action-btn .no-btn button {
         width: 100%;
         font-size: 0.85rem;
         padding: 0.5rem 0;
+    }
+
+    .br-sp {
+    display: none;
     }
 }

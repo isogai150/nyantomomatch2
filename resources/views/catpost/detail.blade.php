@@ -25,6 +25,8 @@
 
         <div class="post-media">
             @if ($post->images->isNotEmpty())
+                {{-- <img id="main-image" src="{{ asset(str_replace('public/', '', $post->images->first()->image_path)) }}"
+                    alt="メイン画像" class="main-photo"> --}}
                 <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $post->images->first()->image_path) }}"
                     alt="投稿画像" class="main-photo" id="main-image">
             @else
@@ -36,11 +38,13 @@
             <div class="thumbnail-list">
 <div class="thumbnail-list">
     @foreach ($post->images as $image)
+        {{-- <img src="{{ asset(str_replace('public/', '', $image->image_path)) }}" class="thumbnail" alt="サムネイル画像"> --}}
         <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $image->image_path) }}" class="thumbnail" alt="サムネイル画像">
     @endforeach
 
     @foreach ($post->videos as $video)
         <video class="thumbnail" muted>
+            {{-- <source src="{{ asset(str_replace('public/', '', $video->video_path)) }}" type="video/mp4"> --}}
             <source src="{{ Storage::disk(config('filesystems.default'))->url('post_videos/' . $video->video_path) }}" type="video/mp4">
         </video>
     @endforeach
@@ -129,6 +133,15 @@
             <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}"
                 alt="No Image" class="user-image" id="previewImage">
         @endif
+
+
+        {{-- @if (!empty($post->user->image_path))
+            <img src="{{ asset(str_replace('public/', '', $post->user->image_path)) }}"
+                alt="投稿者のプロフィール画像" class="user-image">
+        @else
+            <img src="{{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}"
+                alt="No Image" class="user-image">
+        @endif --}}
 
                         <p class="user-name">{{ $post->user->name }}</p>
                     </div>

@@ -25,23 +25,37 @@
                     <li>
                       <ul class="action-btn">
                         <li class="icon">
-                          {{ $dm->userA->image_path }}
+                          @if($dm->userA->image_path)
+                            {{-- <img src="{{ asset('storage/profile_images/' . $dm->userA->image_path) }}" alt="{{ $dm->userA->name }}"> --}}
+                            <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userA->image_path) }}" alt="{{ $dm->userA->name }}">
+                            @else
+                            <div class="user-avatar-placeholder">
+                                <span>{{ mb_substr($dm->userA->name, 0, 1) }}</span>
+                            </div>
+                          @endif
                         </li>
                         <p class="dot">・</p>
                         <li class="icon">
-                          {{ $dm->userB->image_path }}
+                          @if($dm->userB->image_path)
+                            {{-- <img src="{{ asset('storage/profile_images/' . $dm->userB->image_path) }}" alt="{{ $dm->userB->name }}"> --}}
+                            <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userB->image_path) }}" alt="{{ $dm->userB->name }}">
+                          @else
+                            <div class="user-avatar-placeholder">
+                                <span>{{ mb_substr($dm->userB->name, 0, 1) }}</span>
+                            </div>
+                          @endif
                         </li>
                       </ul>
                     </li>
 
                     <li>
                       {{-- ユーザー名（A・B）の表示 --}}
-                        <h3>{{ $dm->userA->name }}・{{ $dm->userB->name }}<br>のDM</h3>
+                        <h3>{{ $dm->userA->name }}・{{ $dm->userB->name }}<br class="br-sp">のDM</h3>
                     </li>
 
                     <li>
                       {{-- メッセージの最終送信日の表示 --}}
-                        <span class="text">送信日</span><br>{{ $dm->created_at }}
+                        <span class="text">送信日</span><br class="br-sp">{{ $dm->created_at->format('Y年n月j日 H:i') }}
                     </li>
 
                     <li>

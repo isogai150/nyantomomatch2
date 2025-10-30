@@ -40,7 +40,7 @@
                 </tr>
                 <tr>
                     <th>通報日時</th>
-                    <td>{{ $report->created_at->format('Y-m-d H:i') }}</td>
+                    <td>{{ $report->created_at->format('Y年n月j日 H:i') }}</td>
                 </tr>
                 <tr>
                     <th>ステータス</th>
@@ -69,7 +69,7 @@
                 </tr>
                 <tr>
                     <th>投稿日時</th>
-                    <td>{{ $report->post->created_at->format('Y-m-d H:i') }}</td>
+                    <td>{{ $report->post->created_at->format('Y年n月j日 H:i') }}</td>
                 </tr>
             </table>
 
@@ -82,9 +82,8 @@
             @if ($report->status === 0)
 
                 {{-- 投稿削除 --}}
-                <form action="{{ route('catpost.destroy', $report->post->id) }}" 
-                      method="POST" 
-                      onsubmit="return confirm('本当に投稿を削除しますか？');">
+                <form action="{{ route('catpost.destroy', $report->post->id) }}" method="POST"
+                    onsubmit="return confirm('本当に投稿を削除しますか？');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-warning">
@@ -92,25 +91,45 @@
                     </button>
                 </form>
 
-                {{-- 投稿者BAN --}}
-                <form action="{{ route('admin.user.ban', $report->post->user->id) }}"
-                      method="POST"
-                      onsubmit="return confirm('本当にBANしますか？');">
-                    @csrf
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-user-slash"></i> 投稿者BAN
-                    </button>
-                </form>
+                {{-- 投稿者BAN / BAN解除 --}}
+                @if ($report->post->user && $report->post->user->is_banned == 0)
+                    <form action="{{ route('admin.user.ban', $report->post->user->id) }}" method="POST"
+                        onsubmit="return confirm('本当にBANしますか？');">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-user-slash"></i> 投稿者BAN
+                        </button>
+                    </form>
+                @else
+                    <form action="{{ route('admin.user.unban', $report->post->user->id) }}" method="POST"
+                        onsubmit="return confirm('BAN解除しますか？');">
+                        @csrf
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-user-check"></i> BAN解除
+                        </button>
+                    </form>
+                @endif
 
-                {{-- 通報者BAN（危険） --}}
-                <form action="{{ route('admin.user.ban', $report->user->id) }}"
-                      method="POST"
-                      onsubmit="return confirm('通報者をBANしてもよろしいですか？');">
-                    @csrf
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-user-times"></i> 通報者BAN
-                    </button>
-                </form>
+
+                {{-- 通報者BAN / BAN解除 --}}
+                @if ($report->user && $report->user->is_banned == 0)
+                    <form action="{{ route('admin.user.ban', $report->user->id) }}" method="POST"
+                        onsubmit="return confirm('通報者をBANしてもよろしいですか？');">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-user-times"></i> 通報者BAN
+                        </button>
+                    </form>
+                @else
+                    <form action="{{ route('admin.user.unban', $report->user->id) }}" method="POST"
+                        onsubmit="return confirm('BAN解除しますか？');">
+                        @csrf
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-user-check"></i> BAN解除
+                        </button>
+                    </form>
+                @endif
+
 
                 {{-- 対応済み --}}
                 <form action="{{ route('admin.post.report.resolve', $report->id) }}" method="POST">
@@ -129,7 +148,6 @@
                         <i class="fas fa-ban"></i> 却下する
                     </button>
                 </form>
-
             @else
                 <p class="text-muted">※ すでに処理済みの通報です</p>
             @endif
