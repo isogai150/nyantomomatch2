@@ -105,7 +105,7 @@ class PairController extends Controller
         ]);
     }
 
-    // Ajaxでメッセージを削除（DELETE通信）
+    // // Ajaxでメッセージを削除（DELETE通信）
     public function destroy(Message $message)
     {
         // 自分以外のメッセージを削除しようとした場合は403エラー
@@ -128,9 +128,9 @@ class PairController extends Controller
 
         // ログインユーザーが関わるペアを取得（投稿情報も含める）
         $pairs = Pair::with(['userA', 'userB', 'post'])
-        ->where('userA_id', $userId)
-        ->orWhere('userB_id', $userId)
-        ->get();
+            ->where('userA_id', $userId)
+            ->orWhere('userB_id', $userId)
+            ->get();
 
         $conversationUsers = [];
 
@@ -283,5 +283,4 @@ class PairController extends Controller
 
         return redirect()->route('dm.index')->with('success', 'メッセージを削除しました');
     }
-
 }
