@@ -1,32 +1,32 @@
 @charset "UTF-8";
 
-.report-detail-container {
+.admin-box {
     background: #fff;
     padding: 25px;
     border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
-.back-area {
-    margin-bottom: 20px;
+.page-title {
+    color: #503322;
+    font-weight: bold;
 }
 
-.report-box {
-    margin-bottom: 35px;
-}
-
-.report-box h3,
-h3.mt-4 {
+.report-section h3 {
     color: #503322;
     font-weight: bold;
     margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .table th {
     background: #F2E4D4;
     color: #503322;
     width: 200px;
-    vertical-align: middle;
     text-align: center;
+    vertical-align: middle;
 }
 
 .table td {
@@ -37,6 +37,6 @@ h3.mt-4 {
 .action-buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
     margin-top: 15px;
 }
