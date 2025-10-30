@@ -25,6 +25,18 @@ class PairController extends Controller
         // 現在ログインしているユーザーと userA_id を比較して相手を特定
         $partner = $dm->userA->id === auth()->id() ? $dm->userB : $dm->userA;
 
+        // 現在のユーザー
+        $user = auth()->user();
+
+        // ==============================
+        // ブロック状態の確認
+        // ==============================
+        // 自分が相手をブロックしているか
+        $isBlocking = $user->isBlocking($partner->id);
+
+        // 相手にブロックされているか
+        $isBlockedBy = $user->isBlockedBy($partner->id);
+
         // このDMに紐づくメッセージを古い順で取得
         $messages = $dm->messages()
             ->orderBy('created_at', 'asc')
@@ -34,8 +46,9 @@ class PairController extends Controller
         $post = $dm->post;
 
         // Bladeへデータを渡して画面表示
-        return view('dm.detail', compact('dm', 'partner', 'post', 'messages'));
+        return view('dm.detail', compact('dm', 'partner', 'post', 'messages', 'isBlocking', 'isBlockedBy'));
     }
+
 
     // Ajaxでメッセージを取得（3秒ごと）
     public function fetch($dm)
@@ -105,7 +118,7 @@ class PairController extends Controller
         ]);
     }
 
-    // Ajaxでメッセージを削除（DELETE通信）
+    // // Ajaxでメッセージを削除（DELETE通信）
     public function destroy(Message $message)
     {
         // 自分以外のメッセージを削除しようとした場合は403エラー
@@ -128,9 +141,9 @@ class PairController extends Controller
 
         // ログインユーザーが関わるペアを取得（投稿情報も含める）
         $pairs = Pair::with(['userA', 'userB', 'post'])
-        ->where('userA_id', $userId)
-        ->orWhere('userB_id', $userId)
-        ->get();
+            ->where('userA_id', $userId)
+            ->orWhere('userB_id', $userId)
+            ->get();
 
         $conversationUsers = [];
 
@@ -283,5 +296,4 @@ class PairController extends Controller
 
         return redirect()->route('dm.index')->with('success', 'メッセージを削除しました');
     }
-
 }

@@ -113,20 +113,24 @@
                         @csrf
 
                         <div class="form-items">
-                        <div class="form-item">
-                            <label for="buyer_signature">譲受者署名</label>
-                            <input id="buyer_signature" type="text" name="buyer_signature" class="input-form" required>
+                            <div class="form-item">
+                                <label for="buyer_signature">譲受者署名</label>
+                                <input id="buyer_signature" type="text" name="buyer_signature" class="input-form"
+                                    required>
+                            </div>
+
+                            <div class="form-item">
+                                <label for="signed_date">署名日</label>
+                                <input id="signed_date" type="date" name="signed_date" class="input-form" required>
+                            </div>
                         </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn-primary">提出する</button>
 
-                        <div class="form-item">
-                            <label for="signed_date">署名日</label>
-                            <input id="signed_date" type="date" name="signed_date" class="input-form" required>
+                            <a href="{{ route('transfer.contract.pdf', $pair->id) }}" class="btn-secondary">
+                                契約書PDF
+                            </a>
                         </div>
-                        </div>
-
-
-
-                        <button type="submit" class="btn-primary">提出する</button>
                     </form>
                 @else
                     <p>譲受者の署名をお待ちください</p>
