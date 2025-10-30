@@ -232,14 +232,14 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 });
 
 // Firewallデバッグ用
-// Route::get('/debug/ip', function (\Illuminate\Http\Request $request) {
-//     return response()->json([
-//         'client_ip' => $request->ip(),
-//         'getClientIps' => $request->getClientIps(),
-//         'allowed_ips' => env('ALLOWED_ADMIN_IPS'),
-//         'app_env' => env('APP_ENV'),
-//     ]);
-// });
+Route::get('/debug/ip', function (\Illuminate\Http\Request $request) {
+    return response()->json([
+        'client_ip' => $request->ip(),
+        'getClientIps' => $request->getClientIps(),
+        'allowed_ips' => env('ALLOWED_ADMIN_IPS'),
+        'app_env' => env('APP_ENV'),
+    ]);
+});
 
 
 //ユーザー認証系
