@@ -178,7 +178,7 @@ public function store(CatPost $request)
         $request->file('image')->store('public/' . $dir);
 
         // ページを更新
-        return redirect('/');
+        // return redirect('/');
 
         $image = new User();
 
