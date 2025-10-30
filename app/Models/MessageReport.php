@@ -9,6 +9,13 @@ class MessageReport extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'pair_id',
+        'message_id',
+        'status',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

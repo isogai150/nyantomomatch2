@@ -129,16 +129,31 @@
 {{-- 譲渡関連ボタンここまで --}}
 {{-- ============================= --}}
 
-        {{-- ======= メッセージ一覧 ======= --}}
-        <div id="dm-messages" class="dm-messages">
-            @foreach ($messages as $message)
-                <div class="dm-message {{ $message->user_id === auth()->id() ? 'mine' : 'other' }}"
-                    data-id="{{ $message->id }}">
-                    <div class="dm-text">{{ $message->content }}</div>
-                    <div class="dm-time">{{ $message->created_at->format('Y年n月j日 H:i') }}</div>
+{{-- ======= メッセージ一覧 ======= --}}
+<div id="dm-messages" class="dm-messages">
+    @foreach ($messages as $message)
+        <div class="dm-message {{ $message->user_id === auth()->id() ? 'mine' : 'other' }}" data-id="{{ $message->id }}">
+            <div class="dm-text">{{ $message->content }}</div>
+            <div class="dm-time">{{ $message->created_at->format('Y年n月j日 H:i') }}</div>
+
+            {{-- 自分のメッセージには編集・削除、相手のメッセージには通報 --}}
+            @if ($message->user_id === auth()->id())
+                <div class="dm-actions">
+                    <button class="edit-btn">編集</button>
+                    <button class="delete-btn">削除</button>
                 </div>
-            @endforeach
+            @else
+    <div class="dm-actions">
+        <form action="{{ route('report.message', ['dm' => $dm->id, 'message' => $message->id]) }}" method="POST" onsubmit="return confirm('このメッセージを通報しますか？');">
+            @csrf
+            <button type="submit" class="report-btn">通報</button>
+        </form>
+    </div>
+            @endif
         </div>
+    @endforeach
+</div>
+
 
 {{-- ========================= --}}
 {{-- メッセージ送信フォーム --}}

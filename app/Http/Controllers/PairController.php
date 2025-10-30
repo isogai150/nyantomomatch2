@@ -51,24 +51,25 @@ class PairController extends Controller
 
 
     // Ajaxでメッセージを取得（3秒ごと）
-    public function fetch($dm)
-    {
-        // pair_id が一致するメッセージを古い順に取得
-        $messages = Message::where('pair_id', $dm)
-            ->orderBy('created_at', 'asc')
-            ->get()
-            ->map(function ($msg) {
-                return [
-                    'id' => $msg->id, // ← update/delete用にIDも追加
-                    'user_id' => $msg->user_id,
-                    'content' => e($msg->content),
-                    'created_at' => $msg->created_at->format('Y年m月d日 H:i'),
-                ];
-            });
+public function fetch($dm)
+{
+    $dm = Pair::findOrFail($dm);
 
-        // JSON形式で返す（JavaScript側で利用）
-        return response()->json(['messages' => $messages]);
-    }
+    $messages = $dm->messages()
+        ->orderBy('created_at', 'asc')
+        ->get()
+        ->map(function ($msg) use ($dm) {
+            return [
+                'id' => $msg->id,
+                'user_id' => $msg->user_id,
+                'content' => $msg->content,
+                'created_at' => $msg->created_at->format('Y-m-d H:i'),
+                'pair_id' => $dm->id, // ← これを追加！
+            ];
+        });
+
+    return response()->json(['messages' => $messages]);
+}
 
     // Ajaxでメッセージ送信
     public function send(MessageSendRequest $request, $dm)
