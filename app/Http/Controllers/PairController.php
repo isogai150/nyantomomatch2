@@ -25,6 +25,18 @@ class PairController extends Controller
         // 現在ログインしているユーザーと userA_id を比較して相手を特定
         $partner = $dm->userA->id === auth()->id() ? $dm->userB : $dm->userA;
 
+        // 現在のユーザー
+        $user = auth()->user();
+
+        // ==============================
+        // ブロック状態の確認
+        // ==============================
+        // 自分が相手をブロックしているか
+        $isBlocking = $user->isBlocking($partner->id);
+
+        // 相手にブロックされているか
+        $isBlockedBy = $user->isBlockedBy($partner->id);
+
         // このDMに紐づくメッセージを古い順で取得
         $messages = $dm->messages()
             ->orderBy('created_at', 'asc')
@@ -34,8 +46,9 @@ class PairController extends Controller
         $post = $dm->post;
 
         // Bladeへデータを渡して画面表示
-        return view('dm.detail', compact('dm', 'partner', 'post', 'messages'));
+        return view('dm.detail', compact('dm', 'partner', 'post', 'messages', 'isBlocking', 'isBlockedBy'));
     }
+
 
     // Ajaxでメッセージを取得（3秒ごと）
     public function fetch($dm)
