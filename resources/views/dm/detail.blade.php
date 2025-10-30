@@ -24,6 +24,28 @@
                     @endif
                 </div>
                 <div class="dm-user-name">{{ $partner->name ?? '相手のユーザー' }}さん</div>
+
+                {{-- ============================= --}}
+                {{-- ブロック／ブロック解除ボタン --}}
+                {{-- ============================= --}}
+                <div class="dm-block-buttons">
+                    {{-- 自分が相手をブロックしている場合 --}}
+                    @if ($isBlocking)
+                        <form action="{{ route('block.destroy', $partner->id) }}" method="POST" class="unblock-form"
+                            onsubmit="return confirm('このユーザーのブロックを解除しますか？');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-unblock">ブロック解除</button>
+                        </form>
+                    {{-- 相手にブロックされていない && 自分もブロックしていない場合 --}}
+                    @elseif (!$isBlockedBy)
+                        <form action="{{ route('block.store', $partner->id) }}" method="POST" class="block-form"
+                            onsubmit="return confirm('このユーザーをブロックしますか？');">
+                            @csrf
+                            <button type="submit" class="btn-block">ブロック</button>
+                        </form>
+                    @endif
+                </div>
             </div>
         </div>
 
@@ -118,13 +140,37 @@
             @endforeach
         </div>
 
-        {{-- ======= メッセージ送信フォーム ======= --}}
+{{-- ========================= --}}
+{{-- メッセージ送信フォーム --}}
+{{-- ========================= --}}
+<div class="dm-send-area">
+
+    {{-- 自分が相手をブロックしている場合 --}}
+    @if ($isBlocking)
+        <div class="block-message warning">
+            あなたはこのユーザーをブロックしています。<br>
+            メッセージを送信するにはブロックを解除してください。
+        </div>
+
+
+    {{-- 相手にブロックされている場合 --}}
+    @elseif ($isBlockedBy)
+        <div class="block-message danger">
+            このユーザーによりブロックされています。<br>
+            メッセージを送信することはできません。
+        </div>
+
+    {{-- 通常の送信フォーム --}}
+    @else
         <form id="dm-form" class="dm-form" method="POST" autocomplete="off">
             @csrf
             <textarea id="message-input" name="message" placeholder="メッセージを入力..." required></textarea>
             <button type="submit" id="send-btn">送信</button>
         </form>
-    </div>
+    @endif
+
+</div>
+
 @endsection
 
 @section('script')

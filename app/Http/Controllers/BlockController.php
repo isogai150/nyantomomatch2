@@ -8,9 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 class BlockController extends Controller
 {
-    /**
-     * ブロック登録処理
-     */
+
+    // ブロック登録
     public function store($blockedId)
     {
         $user = Auth::user();
@@ -37,9 +36,7 @@ class BlockController extends Controller
         return back()->with('success', 'ユーザーをブロックしました。');
     }
 
-    /**
-     * ブロック解除処理
-     */
+    // ブロック解除
     public function destroy($blockedId)
     {
         $user = Auth::user();
