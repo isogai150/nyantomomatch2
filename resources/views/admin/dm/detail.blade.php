@@ -41,11 +41,6 @@
                 @if($isUserA)
                     {{-- ユーザーAのメッセージ（左側） --}}
                     <div class="icon">
-                        {{-- @if($sender->icon_path)
-                            <img src="{{ $sender->icon_path }}" alt="{{ $sender->name }}のアイコン">
-                        @else
-                            <div class="default-icon" style="background-color: #FFB6C1;"></div>
-                        @endif --}}
                         @if($dm->userA->image_path)
                             {{-- <img src="{{ asset('storage/profile_images/' . $dm->userA->image_path) }}" alt="{{ $dm->userA->name }}"> --}}
                             <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userA->image_path) }}" alt="{{ $dm->userA->name }}">
