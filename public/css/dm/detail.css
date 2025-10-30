@@ -168,6 +168,7 @@
   margin-top: 0.5rem;
   font-size: 1.1rem;
   font-weight: bold;
+  color: #503322;
 }
 
 /* ==========================
@@ -193,12 +194,21 @@
 }
 
 /* メッセージ本文 */
-.dm-text {
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.625rem;
+.other .dm-text {
+  padding: 0.75rem 0.75rem;
+  border-radius: 0.625rem 0.625rem 0.625rem 0;
   background-color: #FFF6D1;
   color: #503322;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
+  white-space: pre-wrap;
+}
+
+.mine .dm-text {
+  padding: 0.75rem 0.75rem;
+  border-radius: 0.625rem 0.625rem 0 0.625rem;
+  background-color: #FFF6D1;
+  color: #503322;
+  font-size: 1.2rem;
   white-space: pre-wrap;
 }
 

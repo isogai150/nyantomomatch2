@@ -47,8 +47,8 @@
                             <div class="default-icon" style="background-color: #FFB6C1;"></div>
                         @endif --}}
                         @if($dm->userA->image_path)
-                            <img src="{{ asset('storage/profile_images/' . $dm->userA->image_path) }}" alt="{{ $dm->userA->name }}">
-                            {{-- <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userA->image_path) }}" alt="{{ mb_substr($dm->userA->name) }}"> --}}
+                            {{-- <img src="{{ asset('storage/profile_images/' . $dm->userA->image_path) }}" alt="{{ $dm->userA->name }}"> --}}
+                            <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userA->image_path) }}" alt="{{ $dm->userA->name }}">
                         @else
                             <div class="user-avatar-placeholder">
                                 <span>{{ mb_substr($dm->userA->name, 0, 1) }}</span>
@@ -72,14 +72,9 @@
                 @if(!$isUserA)
                     {{-- ユーザーBのメッセージ（右側） --}}
                     <div class="icon">
-                        {{-- @if($sender->icon_path)
-                            <img src="{{ $sender->icon_path }}" alt="{{ $sender->name }}のアイコン">
-                        @else
-                            <div class="default-icon" style="background-color: #FFFFFF;"></div>
-                        @endif --}}
                         @if($dm->userB->image_path)
-                            <img src="{{ asset('storage/profile_images/' . $dm->userB->image_path) }}" alt="{{ $dm->userB->name }}">
-                            {{-- <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userB->image_path) }}" alt="{{ mb_substr($dm->userB->name) }}"> --}}
+                            {{-- <img src="{{ asset('storage/profile_images/' . $dm->userB->image_path) }}" alt="{{ $dm->userB->name }}"> --}}
+                            <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userB->image_path) }}" alt="{{ $dm->userB->name }}">
                         @else
                             <div class="user-avatar-placeholder">
                                 <span>{{ mb_substr($dm->userB->name, 0, 1) }}</span>
