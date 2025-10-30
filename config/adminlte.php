@@ -356,7 +356,7 @@ return [
         ],
         [
             'text' => '譲渡成立一覧',
-            'url'  => 'admin/transfers',
+            'url'  => 'admin/transfer',
             'icon' => 'fas fa-handshake',
         ],
 
