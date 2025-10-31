@@ -63,7 +63,7 @@ public function fetch($dm)
                 'id' => $msg->id,
                 'user_id' => $msg->user_id,
                 'content' => $msg->content,
-                'created_at' => $msg->created_at->format('Y-m-d H:i'),
+                'created_at' => $msg->created_at->format('Y年m月d日 H:i'),
                 'pair_id' => $dm->id, // ← これを追加！
             ];
         });
