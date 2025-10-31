@@ -1,0 +1,50 @@
+/* public/css/errors.css */
+.error-wrapper {
+    background-color: #FFFDF2;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #503322;
+    padding: 2rem;
+}
+
+.error-code {
+    font-size: 5rem;
+    font-weight: bold;
+    color: #D58A5A;
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    line-height: 1.8;
+}
+
+.cat-icon {
+    font-size: 3rem;
+    margin: 1rem 0;
+    animation: float 2s ease-in-out infinite;
+}
+
+.btn-back {
+    background-color: #D58A5A;
+    color: white;
+    padding: 0.7rem 2rem;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-back:hover {
+    background-color: #B8744C;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+}
