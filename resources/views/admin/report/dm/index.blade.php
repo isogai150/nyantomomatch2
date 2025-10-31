@@ -55,7 +55,7 @@
                             <form action="{{ route('admin.report.resolve', $report->id) }}" method="POST">
                                 @csrf
                                 @method('POST')
-                                <button type="submit" onclick="return confirm('解決済みにしますか？')">解決済み</button>
+                                <button type="submit" onclick="return confirm('解決済みにしますか？')">対応済み</button>
                             </form>
                         </div>
                         <div class="no-btn">
