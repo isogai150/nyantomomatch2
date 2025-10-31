@@ -145,19 +145,19 @@ class AdministratorController extends Controller
         return view('admin.report.post.index', compact('reports'));
     }
 
-    // 投稿通報詳細表示
-    public function postReportDetail($id)
-    {
-        // ↓ 削除済みの投稿も取得できるように withTrashed() を追加
-        $report = PostReport::with([
-            'user',
-            'post' => function ($query) {
-                $query->withTrashed()->with('user');
-            },
-        ])->findOrFail($id);
+// 投稿通報詳細表示
+public function postReportDetail($id)
+{
+    $report = PostReport::with(['user', 'post.user', 'post.images', 'post.videos'])->findOrFail($id);
 
-        return view('admin.report.post.detail', compact('report'));
+    // 投稿が削除済み（論理削除）または存在しない場合は null 扱いにする
+    if (!$report->post || $report->post->trashed()) {
+        $report->post = null;
     }
+
+    return view('admin.report.post.detail', compact('report'));
+}
+
 
 
     // 投稿削除（管理者用）

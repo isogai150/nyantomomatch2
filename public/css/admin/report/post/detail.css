@@ -144,6 +144,21 @@ h3 {
     text-align: right;
 }
 
+.disabled-btn {
+    background-color: #b0b0b0;
+    color: #fff;
+    cursor: not-allowed;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-weight: bold;
+    opacity: 0.8;
+}
+.disabled-btn:hover {
+    background-color: #b0b0b0;
+}
+
+
 /* =============================
    レスポンシブ対応
    ============================= */

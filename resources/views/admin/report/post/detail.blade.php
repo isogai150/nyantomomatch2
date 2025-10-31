@@ -71,16 +71,20 @@
         </div>
 
 
-        {{-- ======= 投稿内容 ======= --}}
-        <h3>投稿内容</h3>
-        <div class="message-content">
-            {{-- 画像 --}}
+{{-- ======= 投稿内容 ======= --}}
+<h3>投稿内容</h3>
+<div class="message-content">
+    @if ($report->post)
+        {{-- 画像 --}}
+        @if ($report->post->images && $report->post->images->count() > 0)
             @foreach ($report->post->images as $image)
                 <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $image->image_path) }}"
                     class="thumbnail" alt="サムネイル画像">
             @endforeach
+        @endif
 
-            {{-- 動画 --}}
+        {{-- 動画 --}}
+        @if ($report->post->videos && $report->post->videos->count() > 0)
             @foreach ($report->post->videos as $video)
                 <video class="thumbnail" muted controls>
                     <source
@@ -88,43 +92,64 @@
                         type="video/mp4">
                 </video>
             @endforeach
+        @endif
 
-            <p class="description-text">{{ $report->post->description ?? '内容が削除されています。' }}</p>
-        </div>
+        {{-- 投稿説明文 --}}
+        <p class="description-text">{{ $report->post->description ?? '内容が削除されています。' }}</p>
+    @else
+        {{-- 投稿が削除済みの場合 --}}
+        <p class="description-text">この投稿は削除されています。</p>
+    @endif
+</div>
 
-        {{-- ======= 管理者操作 ======= --}}
-        @if ($report->status == 0)
-            <div class="button-container">
-                {{-- 投稿者BAN / BAN解除 --}}
-                @if ($report->post->user && $report->post->user->is_banned == 0)
-                    <form action="{{ route('admin.user.ban', $report->post->user->id) }}" method="POST"
-                        onsubmit="return confirm('投稿者をBANしますか？');">
-                        @csrf
-                        <button type="submit" class="ban-btn">投稿者BAN</button>
-                    </form>
-                @else
-                    <form action="{{ route('admin.user.unban', $report->post->user->id) }}" method="POST"
-                        onsubmit="return confirm('BAN解除しますか？');">
-                        @csrf
-                        <button type="submit" class="delete-btn">BAN解除</button>
-                    </form>
-                @endif
+{{-- ======= 管理者操作 ======= --}}
+@if ($report->status == 0)
+    <div class="button-container">
 
-                {{-- 投稿削除 --}}
-                <form action="{{ route('admin.post.delete', $report->post->id) }}" method="POST"
-                    onsubmit="return confirm('本当に投稿を削除しますか？');">
+        {{-- 投稿者BAN / BAN解除 --}}
+        @if ($report->post && $report->post->user)
+            @if ($report->post->user->is_banned == 0)
+                <form action="{{ route('admin.user.ban', $report->post->user->id) }}" method="POST"
+                    onsubmit="return confirm('投稿者をBANしますか？');">
                     @csrf
-                    @method('DELETE')
-                    <button type="submit" class="ok-btn">投稿削除</button>
+                    <button type="submit" class="ban-btn">投稿者BAN</button>
                 </form>
-            </div>
+            @else
+                <form action="{{ route('admin.user.unban', $report->post->user->id) }}" method="POST"
+                    onsubmit="return confirm('BAN解除しますか？');">
+                    @csrf
+                    <button type="submit" class="delete-btn">BAN解除</button>
+                </form>
+            @endif
         @else
-            <p class="processed-text">処理済み</p>
+            {{-- 投稿が削除されていてもBAN操作は常に可能 --}}
+            <form action="{{ route('admin.user.ban', optional($report->user)->id) }}" method="POST"
+                onsubmit="return confirm('投稿者をBANしますか？');">
+                @csrf
+                <button type="submit" class="ban-btn">投稿者BAN</button>
+            </form>
+        @endif
+
+        {{-- 投稿削除 --}}
+        @if ($report->post)
+            <form action="{{ route('admin.post.delete', $report->post->id) }}" method="POST"
+                onsubmit="return confirm('本当に投稿を削除しますか？');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="ok-btn">投稿削除</button>
+            </form>
+        @else
+            {{-- 投稿が削除済みの場合 --}}
+            <button type="button" class="disabled-btn" disabled>投稿削除済み</button>
         @endif
     </div>
-    {{-- ============================================================== --}}
-@stop
+@else
+    <p class="processed-text">処理済み</p>
+@endif
 
-@section('css')
-    <link rel="stylesheet" href="{{ asset('css/admin/report/post/detail.css') }}">
-@stop
+
+    @stop
+
+    @section('css')
+        <link rel="stylesheet" href="{{ asset('css/admin/report/post/detail.css') }}">
+    @stop
