@@ -1,65 +1,82 @@
 @extends('layouts.app')
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/auth/login.css') }}">
+@endsection
+
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+<div class="main-content">
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
+<div class="background">
+  <div class="allfonts">
 
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <div class="titlefont">
+      <p>パスワード再設定</p>
     </div>
+
+    <div class="subtitle">
+      <p>新しいパスワードを入力してください</p>
+    </div>
+
+    <div class="form-container">
+
+      {{-- バリデーションエラー表示 --}}
+      @if($errors->any())
+      <div class="alert-danger">
+        @foreach($errors->all() as $message)
+        <p>{{ $message }}</p>
+        @endforeach
+      </div>
+      @endif
+
+      <form action="{{ route('password.update') }}" method="POST" novalidate>
+        @csrf
+
+        {{-- トークンを隠しフィールドで送信 --}}
+        <input type="hidden" name="token" value="{{ $token }}">
+
+        <div class="form-group">
+          <div class="labelfonts">
+            <label for="email"><div class="text-left">メールアドレス</div></label>
+          </div>
+          <input type="email" class="textbox" id="email" name="email" placeholder="メールアドレスを入力してください" value="{{ old('email', $email ?? '') }}" />
+        </div>
+
+        <div class="form-group">
+          <div class="labelfonts">
+            <label for="password"><div class="text-left">新しいパスワード</div></label>
+          </div>
+          <input type="password" class="textbox" id="password" name="password" placeholder="8文字以上のパスワードを入力してください">
+        </div>
+
+        <div class="form-group">
+          <div class="labelfonts">
+            <label for="password_confirmation"><div class="text-left">パスワード確認</div></label>
+          </div>
+          <input type="password" class="textbox" id="password_confirmation" name="password_confirmation" placeholder="確認のため再度パスワードを入力してください">
+        </div>
+
+        <button type="submit" class="botten">パスワードを更新</button>
+      </form>
+
+      <div class="login-prompt">
+        <p><a href="{{ route('login') }}"><span>ログインページに戻る</span></a></p>
+      </div>
+
+    </div>
+
+  </div>
 </div>
+
+</div>
+@endsection
+
+@section('script')
+<script>
+    // パスワードリセット成功時にアラートを表示してからログインページに遷移
+    @if(session('password_reset_success'))
+        alert('パスワード再設定が完了しました。');
+        window.location.href = '/';
+    @endif
+</script>
 @endsection
