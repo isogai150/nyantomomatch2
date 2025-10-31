@@ -297,4 +297,14 @@ public function transferList()
         return view('admin.transfer.index', compact('transfers'));
 }
 
+// 管理者退会
+public function destroy(Request $request)
+{
+    $admin = Auth::guard('admin')->user();
+    $admin->delete();
+    Auth::guard('admin')->logout();
+
+    return redirect('/admin/login')->with('success', '退会が完了しました');
+}
+
 }

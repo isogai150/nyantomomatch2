@@ -228,10 +228,39 @@ Route::delete('post/{post}/delete', [AdministratorController::class, 'postDestro
 
     // 譲渡成立一覧
     Route::get('transfer', [AdministratorController::class, 'transferList'])->name('transfer');
+
+    //管理者退会
+    Route::delete('account/delete', [AdministratorController::class, 'destroy'])->name('user.delete');
   });
 });
 
-// Firewallデバッグ用
+
+
+
+
+// =====================================デバック用============================================
+// エラーハンドリング（デバック用）
+// Route::get('/test403', function () {
+//     abort(403);
+// })->name('test.403');
+
+// Route::get('/test404', function () {
+//     abort(404);
+// })->name('test.404');
+
+// Route::get('/test419', function () {
+//     abort(419);
+// })->name('test.419');
+
+// Route::get('/test500', function () {
+//     abort(500);
+// })->name('test.500');
+
+// Route::get('/test503', function () {
+//     abort(503);
+// })->name('test.503');
+
+// Firewall（IPアドレスデバック用）
 // Route::get('/debug/ip', function (\Illuminate\Http\Request $request) {
 //     return response()->json([
 //         'client_ip' => $request->ip(),
