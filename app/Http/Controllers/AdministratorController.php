@@ -12,6 +12,7 @@ use App\Models\Authority;
 use App\Models\PostReport;
 use App\Models\MessageReport;
 use App\Models\Transfer;
+use Illuminate\Support\Facades\Storage;
 
 class AdministratorController extends Controller
 {
@@ -110,13 +111,14 @@ class AdministratorController extends Controller
         return view('admin.authority.detail', compact('authority'));
     }
 
-    // DM 関連
+    // DM一覧表示
     public function dmList()
     {
         $dms = Pair::whereNull('deleted_at')->get();
         return view('admin.dm.index', compact('dms'));
     }
 
+    // DM詳細表示
     public function detail($id)
     {
         $dm = Pair::with(['userA', 'userB'])->findOrFail($id);
@@ -128,7 +130,7 @@ class AdministratorController extends Controller
         return view('admin.dm.detail', compact('dm', 'messages'));
     }
 
-    // 投稿通報関連
+    // 投稿通報一覧表示
     public function postReports()
     {
         $reports = PostReport::with(['user', 'post'])
@@ -139,11 +141,31 @@ class AdministratorController extends Controller
         return view('admin.report.post.index', compact('reports'));
     }
 
+    // 投稿通報詳細表示
     public function postReportDetail($id)
     {
         $report = PostReport::with(['user', 'post'])->findOrFail($id);
         return view('admin.report.post.detail', compact('report'));
     }
+
+    // 管理者用投稿削除
+public function postDestroy($post)
+{
+    $postModel = Post::findOrFail($post);
+
+    // 関連メディアも削除（必要に応じて）
+    foreach ($postModel->images as $image) {
+        Storage::disk(config('filesystems.default'))->delete('post_images/' . $image->image_path);
+    }
+    foreach ($postModel->videos as $video) {
+        Storage::disk(config('filesystems.default'))->delete('post_videos/' . $video->video_path);
+    }
+
+    $postModel->delete();
+
+    return redirect()->route('admin.post.reports')->with('success', '投稿を削除しました');
+}
+
 
     public function postReportResolve($id)
     {
@@ -159,7 +181,7 @@ class AdministratorController extends Controller
         return redirect()->route('admin.post.reports');
     }
 
-    // BAN関連
+    // ユーザーBAN
     public function userBan($id)
     {
         $user = User::findOrFail($id);
@@ -168,6 +190,7 @@ class AdministratorController extends Controller
         return redirect()->back();
     }
 
+    // BAN解除
     public function userUnban($id)
     {
         $user = User::findOrFail($id);
@@ -176,7 +199,7 @@ class AdministratorController extends Controller
         return redirect()->back();
     }
 
-    // DM通報関連
+    // DM通報一覧表示
     public function dmReportList()
     {
         $reports = MessageReport::with('user')
@@ -203,22 +226,34 @@ class AdministratorController extends Controller
         return redirect()->route('admin.report');
     }
 
+    // DM通報詳細表示
     public function dmReportDetail($id)
     {
         $report = MessageReport::with('user')->findOrFail($id);
         return view('admin.report.dm.detail', compact('report'));
     }
 
-    // メッセージ削除（管理者用）
-    public function messageDestroy($dm, $message)
-    {
-        $messageModel = Message::findOrFail($message);
+    // メッセージ削除
+public function messageDestroy(Request $request, $dm, $message)
+{
+    $messageModel = Message::findOrFail($message);
+    $messageModel->delete();
 
-        // 削除処理
-        $messageModel->delete();
-
-        return redirect()->route('admin.report')->with('success', 'メッセージを削除しました');
+    if ($request->input('from') === 'report_detail') {
+        // DM通報詳細ページに戻る
+        $report = MessageReport::where('message_id', $message)->first();
+        if ($report) {
+            return redirect()
+                ->route('admin.report.detail', ['id' => $report->id])
+                ->with('success', 'メッセージを削除しました');
+        }
     }
+
+    // 通常はDM一覧に戻す
+    return redirect()
+        ->route('admin.dm.detail', ['dm' => $dm])
+        ->with('success', 'メッセージを削除しました');
+}
 
     // ユーザー一覧
     public function userList()
@@ -255,6 +290,7 @@ $reportCount = $dmReportCount + $postReportCount;
     ));
 }
 
+// 譲渡成立一覧表示
 public function transferList()
 {
     $transfers = Transfer::orderBy('id')->get();

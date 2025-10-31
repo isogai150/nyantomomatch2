@@ -105,7 +105,7 @@
             @endif
 
             {{-- 投稿削除 --}}
-            <form action="{{ route('catpost.destroy', $report->post->id) }}" method="POST"
+            <form action="{{ route('admin.post.delete', $report->post->id) }}" method="POST"
                   onsubmit="return confirm('本当に投稿を削除しますか？');">
                 @csrf
                 @method('DELETE')

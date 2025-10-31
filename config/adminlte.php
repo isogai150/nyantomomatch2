@@ -33,9 +33,6 @@ return [
     // ファピコン
     'use_ico_only' => true,
     'use_full_favicon' => true,
-    'favicon' => [
-    'path' => 'public/images/favicon/favicon24x24.ico',
-],
 
     /*
     |--------------------------------------------------------------------------

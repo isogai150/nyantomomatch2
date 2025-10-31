@@ -189,6 +189,10 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
     // 投稿通報詳細
     Route::get('post-reports/{report}', [AdministratorController::class, 'postReportDetail'])->name('post.report.detail');
 
+    // 投稿削除（管理者用）
+Route::delete('post/{post}/delete', [AdministratorController::class, 'postDestroy'])->name('post.delete');
+
+
     // 通報ステータス更新（対応済）
     Route::put('post-reports/{report}/resolve', [AdministratorController::class, 'postReportResolve'])->name('post.report.resolve');
 

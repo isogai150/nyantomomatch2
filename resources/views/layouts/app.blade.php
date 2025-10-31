@@ -12,7 +12,7 @@
   {{-- ファピコン --}}
   {{-- <link rel="icon" href="public/images/favicon/favicon24x24.ico"> --}}
 
-  <link rel="icon" href="{{ asset('images/favicon/favicon24x24.ico') }}">
+  <link rel="icon" href="{{ asset('/favicons/favicon.ico') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   @yield('styles')
   <link rel="stylesheet" href="{{  asset('css/layouts/app.css') }}">
