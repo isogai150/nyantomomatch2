@@ -32,8 +32,8 @@ class FavoriteController extends Controller
             ->withPivot('created_at')
             ->with([
                 'images' => function ($query) {
-                    // 最初の画像のみ取得（パフォーマンス向上）
-                    $query->orderBy('id', 'asc')->limit(1);
+                    // 全ての画像を取得（bladeで最初の1枚を出力指示）
+                    $query->orderBy('id', 'asc');
                 },
                 'user:id,name,image_path' // 投稿者情報（必要な場合のみ）
             ])
