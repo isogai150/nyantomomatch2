@@ -160,8 +160,8 @@
         {{-- 既存画像 --}}
         @foreach($post->images as $image)
           <div class="preview-item">
-            <img src="{{ asset(str_replace('public/', '', $image->image_path)) }}" class="preview-image" alt="猫の画像">
-            {{-- <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $image->image_path) }}" class="preview-image" alt="猫の画像"> --}}
+            {{-- <img src="{{ asset(str_replace('public/', '', $image->image_path)) }}" class="preview-image" alt="猫の画像"> --}}
+            <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $image->image_path) }}" class="preview-image" alt="猫の画像">
             <button type="button" class="remove-btn" data-type="image" data-id="{{ $image->id }}">×</button>
           </div>
         @endforeach
