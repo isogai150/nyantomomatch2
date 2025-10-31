@@ -329,12 +329,9 @@ return [
         ['header' => '管理メニュー'],
 
         [
-            'text' => '投稿関連',
-            'icon' => 'fas fa-cat',
-            'submenu' => [
-                ['text' => '投稿一覧', 'url' => 'admin/posts', 'icon' => 'fas fa-list'],
-                ['text' => '投稿通報一覧', 'url' => 'admin/post-reports', 'icon' => 'fas fa-flag'],
-            ],
+            'text' => '投稿通報一覧',
+            'url' => 'admin/post-reports',
+            'icon' => 'fas fa-flag',
         ],
         [
             'text' => 'DM関連',
@@ -356,16 +353,11 @@ return [
         ],
         [
             'text' => '譲渡成立一覧',
-            'url'  => 'admin/transfers',
+            'url'  => 'admin/transfer',
             'icon' => 'fas fa-handshake',
         ],
 
         ['header' => 'システム設定'],
-        [
-            'text' => 'マイページ',
-            'url'  => 'admin/profile',
-            'icon' => 'fas fa-user',
-        ],
 [
     'text' => 'ログアウト',
     'icon' => 'fas fa-sign-out-alt',

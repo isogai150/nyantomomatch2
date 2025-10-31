@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Authority;
 use App\Models\PostReport;
 use App\Models\MessageReport;
+use App\Models\Transfer;
 
 class AdministratorController extends Controller
 {
@@ -252,6 +253,12 @@ $reportCount = $dmReportCount + $postReportCount;
         'messageCount',
         'reportCount'
     ));
+}
+
+public function transferList()
+{
+    $transfers = Transfer::orderBy('id')->get();
+        return view('admin.transfer.index', compact('transfers'));
 }
 
 }
