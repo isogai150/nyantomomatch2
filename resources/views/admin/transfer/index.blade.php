@@ -29,6 +29,8 @@
 
                         <p>{{ $transfer->userA->name }}</p>
 
+                        <p class="dot">・</p>
+
                         <img src="@if ($transfer->userB->image_path) {{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $transfer->userB->image_path) }}
                 @else
                     {{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }} @endif"

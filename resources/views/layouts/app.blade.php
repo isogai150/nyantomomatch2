@@ -10,7 +10,7 @@
 {{-- ================================================================ --}}
   <title>にゃん×とも×まっち</title>
   {{-- ファピコン --}}
-  <link rel="icon" href="public/images/favicon/favicon24x24.ico">
+  {{-- <link rel="icon" href="public/images/favicon/favicon24x24.ico"> --}}
 
   <link rel="icon" href="{{ asset('images/favicon/favicon24x24.ico') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">

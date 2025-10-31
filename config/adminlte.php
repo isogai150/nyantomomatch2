@@ -33,6 +33,9 @@ return [
     // ファピコン
     'use_ico_only' => true,
     'use_full_favicon' => true,
+    'favicon' => [
+    'path' => 'public/images/favicon/favicon24x24.ico',
+],
 
     /*
     |--------------------------------------------------------------------------
@@ -258,7 +261,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => false,
     'logout_url' => false,
     'login_url' => 'login',
     'register_url' => 'register',

@@ -1,21 +1,23 @@
 @extends('adminlte::page')
 
-@section('title', '投稿通報詳細')
+@section('title', '投稿通報詳細表示ページ')
 
 @section('content_header')
-    <h1 class="page-title"><i class="fas fa-info-circle"></i> 投稿通報詳細</h1>
+    <h1>投稿通報詳細表示ページ - ID：{{ $report->id }}</h1>
 @stop
 
 @section('content')
-<div class="admin-box">
+{{-- ============================================================== --}}
+<div class="main-content">
 
-    <div class="back-area mb-3">
-        <a href="{{ route('admin.post.reports') }}" class="btn btn-outline-secondary btn-sm">
-            <i class="fas fa-arrow-left"></i> 一覧に戻る
+    {{-- ======= 戻るボタン ======= --}}
+    <div class="dm-header">
+        <a href="{{ route('admin.post.reports') }}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> 戻る
         </a>
     </div>
 
-    {{-- ======= メッセージ ======= --}}
+    {{-- ======= フラッシュメッセージ ======= --}}
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -24,116 +26,99 @@
     @endif
 
     {{-- ======= 通報情報 ======= --}}
-    <div class="report-section">
-        <h3><i class="fas fa-flag"></i> 通報情報</h3>
-        <table class="table table-bordered">
-            <tr><th>通報ID</th><td>{{ $report->id }}</td></tr>
-            <tr><th>通報者</th><td>{{ $report->user->name ?? '削除済み' }}</td></tr>
-            <tr><th>通報日時</th><td>{{ $report->created_at->format('Y年n月j日 H:i') }}</td></tr>
-            <tr>
-                <th>ステータス</th>
-                <td>
-                    @if ($report->status === 0)
-                        <span class="badge bg-warning text-dark">未対応</span>
-                    @elseif($report->status === 1)
-                        <span class="badge bg-success">対応済み</span>
-                    @else
-                        <span class="badge bg-secondary">却下</span>
-                    @endif
-                </td>
-            </tr>
-        </table>
+    <h3>通報情報</h3>
+    <div class="info-row">
+        <span class="info-label">通報ID：</span>
+        <span class="info-value">{{ $report->id }}</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">通報者：</span>
+        <span class="info-value">{{ $report->user->name ?? '削除済み' }}</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">通報日時：</span>
+        <span class="info-value">{{ $report->created_at->format('Y年n月j日 H:i') }}</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">ステータス：</span>
+        <span class="info-value">
+            @if ($report->status == 0)
+                対応待ち
+            @elseif($report->status == 1)
+                解決済み
+            @elseif($report->status == 2)
+                却下
+            @endif
+        </span>
     </div>
 
     {{-- ======= 投稿情報 ======= --}}
-    <div class="report-section mt-4">
-        <h3><i class="fas fa-cat"></i> 通報対象の投稿情報</h3>
-        <table class="table table-bordered">
-            <tr><th>投稿タイトル</th><td>{{ $report->post->title ?? '削除済み' }}</td></tr>
-            <tr><th>投稿者</th><td>{{ $report->post->user->name ?? '削除済み' }}</td></tr>
-            <tr><th>投稿日時</th><td>{{ $report->post->created_at->format('Y年n月j日 H:i') }}</td></tr>
-        </table>
+    <h3>通報対象の投稿情報</h3>
+    <div class="info-row">
+        <span class="info-label">投稿タイトル：</span>
+        <span class="info-value">{{ $report->post->title ?? '削除済み' }}</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">投稿者：</span>
+        <span class="info-value">{{ $report->post->user->name ?? '削除済み' }}</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">投稿日時：</span>
+        <span class="info-value">{{ $report->post->created_at->format('Y年n月j日 H:i') }}</span>
+    </div>
+
+    {{-- ======= 投稿内容 ======= --}}
+    <h3>投稿内容</h3>
+    <div class="message-content">
+        {{-- 画像 --}}
+        @foreach ($report->post->images as $image)
+            <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $image->image_path) }}"
+                class="thumbnail" alt="サムネイル画像">
+        @endforeach
+
+        {{-- 動画 --}}
+        @foreach ($report->post->videos as $video)
+            <video class="thumbnail" muted controls>
+                <source src="{{ Storage::disk(config('filesystems.default'))->url('post_videos/' . $video->video_path) }}" type="video/mp4">
+            </video>
+        @endforeach
+
+        <p class="description-text">{{ $report->post->description ?? '内容が削除されています。' }}</p>
     </div>
 
     {{-- ======= 管理者操作 ======= --}}
-    <div class="report-section mt-4">
-        <h3><i class="fas fa-tools"></i> 管理者操作</h3>
-
-        <div class="action-buttons">
-            @if ($report->status === 0)
-                {{-- 投稿削除 --}}
-                <form action="{{ route('catpost.destroy', $report->post->id) }}" method="POST"
-                      onsubmit="return confirm('本当に投稿を削除しますか？');">
+    @if ($report->status == 0)
+        <div class="button-container">
+            {{-- 投稿者BAN / BAN解除 --}}
+            @if ($report->post->user && $report->post->user->is_banned == 0)
+                <form action="{{ route('admin.user.ban', $report->post->user->id) }}" method="POST"
+                      onsubmit="return confirm('投稿者をBANしますか？');">
                     @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-warning">
-                        <i class="fas fa-trash-alt"></i> 投稿削除
-                    </button>
-                </form>
-
-                {{-- 投稿者BAN / BAN解除 --}}
-                @if ($report->post->user && $report->post->user->is_banned == 0)
-                    <form action="{{ route('admin.user.ban', $report->post->user->id) }}" method="POST"
-                        onsubmit="return confirm('本当にBANしますか？');">
-                        @csrf
-                        <button type="submit" class="btn btn-danger">
-                            <i class="fas fa-user-slash"></i> 投稿者BAN
-                        </button>
-                    </form>
-                @else
-                    <form action="{{ route('admin.user.unban', $report->post->user->id) }}" method="POST"
-                        onsubmit="return confirm('BAN解除しますか？');">
-                        @csrf
-                        <button type="submit" class="btn btn-warning">
-                            <i class="fas fa-user-check"></i> BAN解除
-                        </button>
-                    </form>
-                @endif
-
-                {{-- 通報者BAN / BAN解除 --}}
-                @if ($report->user && $report->user->is_banned == 0)
-                    <form action="{{ route('admin.user.ban', $report->user->id) }}" method="POST"
-                        onsubmit="return confirm('通報者をBANしてもよろしいですか？');">
-                        @csrf
-                        <button type="submit" class="btn btn-danger">
-                            <i class="fas fa-user-times"></i> 通報者BAN
-                        </button>
-                    </form>
-                @else
-                    <form action="{{ route('admin.user.unban', $report->user->id) }}" method="POST"
-                        onsubmit="return confirm('BAN解除しますか？');">
-                        @csrf
-                        <button type="submit" class="btn btn-warning">
-                            <i class="fas fa-user-check"></i> BAN解除
-                        </button>
-                    </form>
-                @endif
-
-                {{-- 対応済み --}}
-                <form action="{{ route('admin.post.report.resolve', $report->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <button type="submit" class="btn btn-success">
-                        <i class="fas fa-check-circle"></i> 対応済みにする
-                    </button>
-                </form>
-
-                {{-- 却下 --}}
-                <form action="{{ route('admin.post.report.reject', $report->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <button type="submit" class="btn btn-secondary">
-                        <i class="fas fa-ban"></i> 却下する
-                    </button>
+                    <button type="submit" class="ban-btn">投稿者BAN</button>
                 </form>
             @else
-                <p class="text-muted">※ すでに処理済みの通報です</p>
+                <form action="{{ route('admin.user.unban', $report->post->user->id) }}" method="POST"
+                      onsubmit="return confirm('BAN解除しますか？');">
+                    @csrf
+                    <button type="submit" class="delete-btn">BAN解除</button>
+                </form>
             @endif
+
+            {{-- 投稿削除 --}}
+            <form action="{{ route('catpost.destroy', $report->post->id) }}" method="POST"
+                  onsubmit="return confirm('本当に投稿を削除しますか？');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="ok-btn">投稿削除</button>
+            </form>
         </div>
-    </div>
+    @else
+        <p class="processed-text">処理済み</p>
+    @endif
 </div>
+{{-- ============================================================== --}}
 @stop
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/admin/report/post/detail.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/report/post/detail.css') }}">
 @stop

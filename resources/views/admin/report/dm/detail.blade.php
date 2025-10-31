@@ -89,7 +89,7 @@
       @csrf
       @method('post')
       <button type="submit" class="ban-btn" onclick="return confirm('このユーザーをBANしますか?')">
-        BAN
+        投稿者BAN
       </button>
     </form>
 
@@ -102,7 +102,7 @@
     @csrf
     @method('delete')
     <button type="submit" class="delete-btn" onclick="return confirm('このメッセージを削除しますか?')">
-      削除
+      メッセージ削除
     </button>
   </form>
 @else

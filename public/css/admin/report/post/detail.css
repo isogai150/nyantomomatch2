@@ -1,42 +1,187 @@
-@charset "UTF-8";
+/* =============================
+   管理者 投稿通報詳細ページ
+   ============================= */
 
-.admin-box {
-    background: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+.main-content {
+    width: 100%;
+    padding: 2% 4%;
+    background-color: #FFFDF2;
+    font-family: "Noto Sans JP", sans-serif;
+    color: #503322;
+    box-sizing: border-box;
 }
 
-.page-title {
-    color: #503322;
-    font-weight: bold;
+/* ヘッダー部分 */
+.dm-header {
+    margin-bottom: 2rem;
 }
 
-.report-section h3 {
+/* 戻るボタン */
+.back-btn {
+    display: inline-block;
+    background-color: #F7E8CC;
+    border: 1px solid #EAD6A9;
     color: #503322;
-    font-weight: bold;
-    margin-bottom: 15px;
+    font-size: 0.95rem;
+    padding: 0.6rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.back-btn:hover {
+    background-color: #EAD6A9;
+    color: #503322;
+}
+.back-btn i {
+    margin-right: 0.5rem;
+}
+
+/* 見出し */
+h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #503322;
+    margin-top: 2.5rem;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #EAD6A9;
+}
+.main-content > h3:first-of-type {
+    margin-top: 1.5rem;
+}
+
+/* 情報行 */
+.info-row {
     display: flex;
-    align-items: center;
-    gap: 6px;
+    align-items: flex-start;
+    margin-bottom: 0.8rem;
+    line-height: 1.8;
+}
+.info-label {
+    min-width: 180px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+.info-value {
+    flex: 1;
+    font-size: 1rem;
 }
 
-.table th {
-    background: #F2E4D4;
-    color: #503322;
-    width: 200px;
-    text-align: center;
-    vertical-align: middle;
+/* 投稿内容部分 */
+.message-content {
+    background-color: #FFFFFF;
+    border: 1px solid #EAD6A9;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    line-height: 1.6;
+    font-size: 1rem;
+    word-break: break-word;
+}
+.thumbnail {
+    width: 180px;
+    height: auto;
+    margin: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #EAD6A9;
+    object-fit: cover;
+}
+.description-text {
+    margin-top: 1rem;
 }
 
-.table td {
-    background: #fff;
-    vertical-align: middle;
-}
-
-.action-buttons {
+/* ボタンコンテナ */
+.button-container {
+    margin-top: 2.5rem;
     display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 15px;
+}
+
+/* ボタン共通 */
+.ok-btn,
+.no-btn,
+.delete-btn,
+.ban-btn {
+    border: none;
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.7rem 2.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    min-width: 140px;
+}
+
+/* ボタン色 */
+.ban-btn {
+    background-color: #D9534F;
+}
+.ban-btn:hover {
+    background-color: #C9302C;
+}
+.ok-btn {
+    background-color: #3DA35D;
+}
+.ok-btn:hover {
+    background-color: #348C50;
+}
+.delete-btn {
+    background-color: #6C757D;
+}
+.delete-btn:hover {
+    background-color: #5A6268;
+}
+
+/* 処理済み表示 */
+.processed-text {
+    margin-top: 2.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #6C757D;
+    text-align: right;
+}
+
+/* =============================
+   レスポンシブ対応
+   ============================= */
+@media screen and (max-width: 768px) {
+    .info-row {
+        flex-direction: column;
+    }
+    .info-label {
+        min-width: auto;
+        margin-bottom: 0.3rem;
+    }
+    .button-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .ban-btn,
+    .ok-btn,
+    .delete-btn {
+        width: 100%;
+        padding: 0.8rem 1rem;
+    }
+    .thumbnail {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 390px) {
+    .back-btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 1.2rem;
+    }
+    h3 {
+        font-size: 1rem;
+    }
+    .info-label,
+    .info-value {
+        font-size: 0.95rem;
+    }
+    .processed-text {
+        text-align: center;
+    }
 }

@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 
   // ログアウト
-  Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+  Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
   // DM詳細ページ（チャット部屋）
   Route::get('/dm/{dm}', [PairController::class, 'show'])->name('dm.show');
@@ -157,7 +157,7 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 
   Route::post('login', [AdministratorController::class, 'login']);
 
-  Route::post('logout', [AdministratorController::class, 'logout'])->name('logout');
+  Route::get('logout', [AdministratorController::class, 'logout'])->name('logout');
 
   // ログイン後
   Route::middleware('auth:admin')->group(function () {
