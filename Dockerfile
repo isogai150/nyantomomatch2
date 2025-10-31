@@ -55,6 +55,8 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 # RUN php artisan db:seed --force
 
 
-RUN php artisan config:clear && \
+# Clear Laravel caches before starting Apache
+RUN php artisan view:clear && \
+    php artisan route:clear && \
+    php artisan config:clear && \
     php artisan cache:clear
-#   php artisan config:cache 
