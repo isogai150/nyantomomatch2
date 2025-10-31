@@ -59,3 +59,7 @@ RUN php artisan config:clear
 RUN php artisan cache:clear
 RUN php artisan route:clear
 RUN php artisan optimize:clear
+
+
+# 起動コマンド
+CMD ["apache2-foreground"]
