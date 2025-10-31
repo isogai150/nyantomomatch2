@@ -28,7 +28,7 @@ li {
 .list-header ul,
 list-item ul {
     display: grid;
-    grid-template-columns: 1.5fr 1.3fr 1fr 1fr;
+    grid-template-columns: minmax(150px, 1.5fr) minmax(130px, 1.3fr) minmax(100px, 1fr) minmax(100px, 1fr) minmax(150px, 1.5fr);
     align-items: center;
     text-align: center;
     padding: 1rem;
