@@ -71,8 +71,12 @@ class AdministratorController extends Controller
         }
 
         return view('admin.dashboard.index', compact(
-            'userCount', 'dmCount', 'messageCount', 'postCount',
-            'userData', 'postData'
+            'userCount',
+            'dmCount',
+            'messageCount',
+            'postCount',
+            'userData',
+            'postData'
         ));
     }
 
@@ -144,27 +148,30 @@ class AdministratorController extends Controller
     // 投稿通報詳細表示
     public function postReportDetail($id)
     {
-        $report = PostReport::with(['user', 'post'])->findOrFail($id);
+        // ↓ 削除済みの投稿も取得できるように withTrashed() を追加
+        $report = PostReport::with([
+            'user',
+            'post' => function ($query) {
+                $query->withTrashed()->with('user');
+            },
+        ])->findOrFail($id);
+
         return view('admin.report.post.detail', compact('report'));
     }
 
-    // 管理者用投稿削除
-public function postDestroy($post)
-{
-    $postModel = Post::findOrFail($post);
 
-    // 関連メディアも削除（必要に応じて）
-    foreach ($postModel->images as $image) {
-        Storage::disk(config('filesystems.default'))->delete('post_images/' . $image->image_path);
+    // 投稿削除（管理者用）
+    public function postDestroy(Post $post)
+    {
+        // 関連する譲渡データがあるか確認
+        if ($post->transfers()->exists()) {
+            return redirect()->back()->with('warning', 'この投稿は譲渡成立済みのため削除できません。');
+        }
+
+        $post->delete();
+        return redirect()->route('admin.post.reports')->with('success', '投稿を削除しました');
     }
-    foreach ($postModel->videos as $video) {
-        Storage::disk(config('filesystems.default'))->delete('post_videos/' . $video->video_path);
-    }
 
-    $postModel->delete();
-
-    return redirect()->route('admin.post.reports')->with('success', '投稿を削除しました');
-}
 
 
     public function postReportResolve($id)
@@ -234,26 +241,26 @@ public function postDestroy($post)
     }
 
     // メッセージ削除
-public function messageDestroy(Request $request, $dm, $message)
-{
-    $messageModel = Message::findOrFail($message);
-    $messageModel->delete();
+    public function messageDestroy(Request $request, $dm, $message)
+    {
+        $messageModel = Message::findOrFail($message);
+        $messageModel->delete();
 
-    if ($request->input('from') === 'report_detail') {
-        // DM通報詳細ページに戻る
-        $report = MessageReport::where('message_id', $message)->first();
-        if ($report) {
-            return redirect()
-                ->route('admin.report.detail', ['id' => $report->id])
-                ->with('success', 'メッセージを削除しました');
+        if ($request->input('from') === 'report_detail') {
+            // DM通報詳細ページに戻る
+            $report = MessageReport::where('message_id', $message)->first();
+            if ($report) {
+                return redirect()
+                    ->route('admin.report.detail', ['id' => $report->id])
+                    ->with('success', 'メッセージを削除しました');
+            }
         }
-    }
 
-    // 通常はDM一覧に戻す
-    return redirect()
-        ->route('admin.dm.detail', ['dm' => $dm])
-        ->with('success', 'メッセージを削除しました');
-}
+        // 通常はDM一覧に戻す
+        return redirect()
+            ->route('admin.dm.detail', ['dm' => $dm])
+            ->with('success', 'メッセージを削除しました');
+    }
 
     // ユーザー一覧
     public function userList()
@@ -263,48 +270,47 @@ public function messageDestroy(Request $request, $dm, $message)
     }
 
     // ユーザー詳細
-public function userDetail($id)
-{
-    $user = User::findOrFail($id);
+    public function userDetail($id)
+    {
+        $user = User::findOrFail($id);
 
-    // 投稿数
-    $postCount = Post::where('user_id', $user->id)->count();
+        // 投稿数
+        $postCount = Post::where('user_id', $user->id)->count();
 
-    // メッセージ送信数 ← 修正！
-    $messageCount = Message::where('user_id', $user->id)->count();
+        // メッセージ送信数 ← 修正！
+        $messageCount = Message::where('user_id', $user->id)->count();
 
-    // 通報数
-$dmReportCount = MessageReport::where('user_id', $user->id)->count();
+        // 通報数
+        $dmReportCount = MessageReport::where('user_id', $user->id)->count();
 
-$postReportCount = PostReport::whereHas('post', function ($q) use ($user) {
-    $q->where('user_id', $user->id);
-})->count();
+        $postReportCount = PostReport::whereHas('post', function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+        })->count();
 
-$reportCount = $dmReportCount + $postReportCount;
+        $reportCount = $dmReportCount + $postReportCount;
 
-    return view('admin.user.detail', compact(
-        'user',
-        'postCount',
-        'messageCount',
-        'reportCount'
-    ));
-}
+        return view('admin.user.detail', compact(
+            'user',
+            'postCount',
+            'messageCount',
+            'reportCount'
+        ));
+    }
 
-// 譲渡成立一覧表示
-public function transferList()
-{
-    $transfers = Transfer::orderBy('id')->get();
+    // 譲渡成立一覧表示
+    public function transferList()
+    {
+        $transfers = Transfer::orderBy('id')->get();
         return view('admin.transfer.index', compact('transfers'));
-}
+    }
 
-// 管理者退会
-public function destroy(Request $request)
-{
-    $admin = Auth::guard('admin')->user();
-    $admin->delete();
-    Auth::guard('admin')->logout();
+    // 管理者退会
+    public function destroy(Request $request)
+    {
+        $admin = Auth::guard('admin')->user();
+        $admin->delete();
+        Auth::guard('admin')->logout();
 
-    return redirect('/admin/login')->with('success', '退会が完了しました');
-}
-
+        return redirect('/admin/login')->with('success', '退会が完了しました');
+    }
 }
