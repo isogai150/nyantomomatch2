@@ -56,5 +56,5 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 
 RUN php artisan config:clear && \
-RUN php artisan cache:clear && \
-RUN php artisan config:cache
+    php artisan cache:clear && \
+    php artisan config:cache
