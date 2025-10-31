@@ -228,17 +228,6 @@
 
     </div>
 
-{{-- ======================================== --}}
-{{-- 「投稿を作成」の上部に全てのバリデーションメッセージを表示させる --}}
-    {{-- @if($errors->any())
-      <div class="alert alert-danger">
-        @foreach($errors->all() as $message)
-          <p>{{ $message }}</p>
-        @endforeach
-      </div>
-    @endif --}}
-{{-- ======================================== --}}
-
     {{-- 投稿を作成ボタン --}}
     <div class="btn">
       <br><br>
@@ -255,5 +244,9 @@
 
 {{-- js使うときは書く使わないときは書かなくて良い --}}
 @section('script')
+<script>
+    // バリデーションエラーがある場合のみtrue
+    window.keepStorage = {{ $errors->any() ? 'true' : 'false' }};
+</script>
 <script src="{{ asset('js/authority/catpost/create.js') }}"></script>
 @endsection

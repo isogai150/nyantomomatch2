@@ -1,6 +1,7 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', function() {
+    // DOM要素
     const $previewContainer = document.getElementById('preview-container');
     const $videoPreviewContainer = document.getElementById('video-preview-container');
     const $imageInput = document.getElementById('imageInput');
@@ -14,512 +15,300 @@ document.addEventListener('DOMContentLoaded', function() {
     const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
     const MAX_VIDEO_SIZE = 10 * 1024 * 1024; // 10MB
     const MAX_IMAGES = 3;
-    const DB_NAME = 'CatPostDB';
-    const DB_VERSION = 1;
-    const STORE_NAME = 'mediaFiles';
+    const STORAGE_KEY = 'catpost_media';
 
+    // 状態管理
     let selectedFiles = [];
     let selectedVideo = null;
-    let db = null;
 
-    // IndexedDBを初期化
-    function initDB() {
-        return new Promise((resolve, reject) => {
-            const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-            request.onerror = () => reject(request.error);
-            request.onsuccess = () => {
-                db = request.result;
-                resolve(db);
-            };
-
-            request.onupgradeneeded = (event) => {
-                const db = event.target.result;
-                if (!db.objectStoreNames.contains(STORE_NAME)) {
-                    db.createObjectStore(STORE_NAME, { keyPath: 'id' });
-                }
-            };
-        });
+    // ========================================
+    // ストレージ管理（簡潔化）
+    // ========================================
+    
+    // 保存
+    function saveToStorage() {
+        const data = {
+            images: selectedFiles.filter(f => f !== null).map(f => ({
+                name: f.name,
+                type: f.type,
+                size: f.size,
+                file: f
+            })),
+            video: selectedVideo ? {
+                name: selectedVideo.name,
+                type: selectedVideo.type,
+                size: selectedVideo.size,
+                file: selectedVideo
+            } : null
+        };
+        
+        try {
+            // IndexedDBではなくメモリ上に保持（セッション内のみ有効）
+            sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
+                imageCount: data.images.length,
+                videoName: data.video?.name || null
+            }));
+            console.log('ストレージに保存:', data.images.length, '枚の画像');
+        } catch (e) {
+            console.warn('保存失敗:', e);
+        }
     }
 
-    // IndexedDBにデータを保存
-    function saveToIndexedDB(key, data) {
-        return new Promise((resolve, reject) => {
-            if (!db) {
-                reject('Database not initialized');
-                return;
-            }
-
-            const transaction = db.transaction([STORE_NAME], 'readwrite');
-            const store = transaction.objectStore(STORE_NAME);
-            const request = store.put({ id: key, data: data });
-
-            request.onsuccess = () => resolve();
-            request.onerror = () => reject(request.error);
-        });
+    // クリア（ブラウザリロード時・投稿成功時に実行）
+    function clearStorage() {
+        sessionStorage.removeItem(STORAGE_KEY);
+        console.log('🗑️ ストレージをクリア');
     }
 
-    // IndexedDBからデータを取得
-    function getFromIndexedDB(key) {
-        return new Promise((resolve, reject) => {
-            if (!db) {
-                reject('Database not initialized');
-                return;
-            }
-
-            const transaction = db.transaction([STORE_NAME], 'readonly');
-            const store = transaction.objectStore(STORE_NAME);
-            const request = store.get(key);
-
-            request.onsuccess = () => {
-                resolve(request.result ? request.result.data : null);
-            };
-            request.onerror = () => reject(request.error);
-        });
+    // 初期化時の処理
+    function initStorage() {
+        // window.keepStorageはBladeから渡される
+        // バリデーションエラー時はtrue、それ以外はfalse
+        const keepStorage = window.keepStorage === true;
+        
+        console.log('=== 初期化 ===');
+        console.log('keepStorage:', keepStorage);
+        
+        if (!keepStorage) {
+            // 通常のページ読み込み・リロード時：ストレージをクリア
+            clearStorage();
+            selectedFiles = [];
+            selectedVideo = null;
+        }
+        // バリデーションエラー時は何もしない（ファイルは残らないが、フォームの他の値はold()で復元される）
     }
 
-    // IndexedDBからデータを削除
-    function deleteFromIndexedDB(key) {
-        return new Promise((resolve, reject) => {
-            if (!db) {
-                reject('Database not initialized');
-                return;
-            }
+    // ========================================
+    // UI更新関数
+    // ========================================
+    
+    function updateRemainingCount() {
+        const remaining = MAX_IMAGES - selectedFiles.filter(f => f !== null).length;
+        $remainingNumber.textContent = remaining;
 
-            const transaction = db.transaction([STORE_NAME], 'readwrite');
-            const store = transaction.objectStore(STORE_NAME);
-            const request = store.delete(key);
-
-            request.onsuccess = () => resolve();
-            request.onerror = () => reject(request.error);
-        });
+        $selectImageBtn.disabled = remaining <= 0;
+        $selectImageBtn.style.opacity = remaining <= 0 ? '0.5' : '1';
+        $selectImageBtn.style.cursor = remaining <= 0 ? 'not-allowed' : 'pointer';
     }
 
-    // ファイルサイズをフォーマット
+    function updateInputFiles() {
+        const dataTransfer = new DataTransfer();
+        selectedFiles.filter(f => f !== null).forEach(file => {
+            dataTransfer.items.add(file);
+        });
+        $imageInput.files = dataTransfer.files;
+    }
+
     function formatFileSize(bytes) {
         return (bytes / 1024 / 1024).toFixed(2) + 'MB';
     }
 
-    // 残り画像枚数を計算
-    function getRemainingImageCount() {
-        const validCount = selectedFiles.filter(f => f !== null).length;
-        return MAX_IMAGES - validCount;
-    }
-
-    // 残り枚数表示を更新
-    function updateRemainingCount() {
-        const remaining = getRemainingImageCount();
-        $remainingNumber.textContent = remaining;
-
-        if (remaining <= 0) {
-            $selectImageBtn.disabled = true;
-            $selectImageBtn.style.opacity = '0.5';
-            $selectImageBtn.style.cursor = 'not-allowed';
-        } else {
-            $selectImageBtn.disabled = false;
-            $selectImageBtn.style.opacity = '1';
-            $selectImageBtn.style.cursor = 'pointer';
-        }
-    }
-
-    // FileListを更新してinputに設定
-    function updateInputFiles() {
-        const dataTransfer = new DataTransfer();
-        const validFiles = selectedFiles.filter(f => f !== null);
-
-        validFiles.forEach(file => {
-            dataTransfer.items.add(file);
-        });
-
-        $imageInput.files = dataTransfer.files;
-        console.log('imageInput.files更新完了:', $imageInput.files.length, '件');
-    }
-
-    // 画像をIndexedDBに保存
-    async function saveImagesToStorage() {
-        const validFiles = selectedFiles.filter(f => f !== null);
-        const filesData = validFiles.map(file => ({
-            name: file.name,
-            type: file.type,
-            size: file.size,
-            file: file // Fileオブジェクトをそのまま保存
-        }));
-
-        try {
-            await saveToIndexedDB('images', filesData);
-            console.log('画像をIndexedDBに保存しました');
-        } catch (e) {
-            console.warn('IndexedDBへの保存に失敗:', e);
-        }
-    }
-
-    // 動画をIndexedDBに保存
-    async function saveVideoToStorage() {
-        if (!selectedVideo) {
-            await deleteFromIndexedDB('video');
-            return;
-        }
-
-        const videoData = {
-            name: selectedVideo.name,
-            type: selectedVideo.type,
-            size: selectedVideo.size,
-            file: selectedVideo // Fileオブジェクトをそのまま保存
-        };
-
-        try {
-            await saveToIndexedDB('video', videoData);
-            console.log('動画をIndexedDBに保存しました');
-        } catch (error) {
-            console.warn('IndexedDBへの保存に失敗:', error);
-        }
-    }
-
-    // IndexedDBから画像を復元
-    async function restoreImagesFromStorage() {
-        try {
-            const filesData = await getFromIndexedDB('images');
-            if (!filesData || filesData.length === 0) return;
-
-            console.log('IndexedDBから画像を復元中:', filesData.length, '件');
-
-            for (let i = 0; i < filesData.length; i++) {
-                const fileData = filesData[i];
-                const file = fileData.file;
-
-                selectedFiles.push(file);
-
-                // プレビュー表示
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const item = document.createElement('div');
-                    item.className = 'preview-item';
-                    item.dataset.fileIndex = i;
-
-                    const img = document.createElement('img');
-                    img.src = event.target.result;
-                    img.className = 'preview-image';
-                    img.style.cssText = 'width:150px; height:150px; object-fit:cover; border-radius:10px;';
-
-                    const removeBtn = document.createElement('button');
-                    removeBtn.type = 'button';
-                    removeBtn.className = 'remove-btn new';
-                    removeBtn.textContent = '×';
-                    removeBtn.dataset.fileIndex = i;
-
-                    item.appendChild(img);
-                    item.appendChild(removeBtn);
-                    $previewContainer.appendChild(item);
-                };
-                reader.readAsDataURL(file);
-            }
-
-            updateRemainingCount();
-            updateInputFiles();
-        } catch (e) {
-            console.error('画像の復元に失敗:', e);
-            await deleteFromIndexedDB('images');
-        }
-    }
-
-    // IndexedDBから動画を復元
-    async function restoreVideoFromStorage() {
-        try {
-            const videoData = await getFromIndexedDB('video');
-            if (!videoData) return;
-
-            console.log('IndexedDBから動画を復元中');
-
-            selectedVideo = videoData.file;
-
-            // videoInputに設定
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(selectedVideo);
-            $videoInput.files = dataTransfer.files;
-
-            // プレビュー表示
+    // ========================================
+    // プレビュー生成関数
+    // ========================================
+    
+    function createImagePreview(file, index) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
             const item = document.createElement('div');
             item.className = 'preview-item';
-            item.style.cssText = 'width:150px; height:150px;';
+            item.dataset.fileIndex = index;
 
-            const videoURL = URL.createObjectURL(selectedVideo);
-
-            const video = document.createElement('video');
-            video.controls = true;
-            video.className = 'preview-video';
-            video.preload = 'metadata';
-            video.style.cssText = 'width:150px; height:150px; object-fit:cover; border-radius:10px; display:block;';
-
-            const source = document.createElement('source');
-            source.src = videoURL;
-            source.type = videoData.type;
-
-            video.appendChild(source);
-            video.appendChild(document.createTextNode('お使いのブラウザは動画再生に対応していません。'));
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.className = 'preview-image';
+            img.style.cssText = 'width:150px; height:150px; object-fit:cover; border-radius:10px;';
 
             const removeBtn = document.createElement('button');
             removeBtn.type = 'button';
-            removeBtn.className = 'remove-btn video-new';
+            removeBtn.className = 'remove-btn';
             removeBtn.textContent = '×';
+            removeBtn.dataset.fileIndex = index;
 
-            item.appendChild(video);
+            item.appendChild(img);
             item.appendChild(removeBtn);
-            $videoPreviewContainer.appendChild(item);
-
-            // 動画選択ボタンを無効化
-            $selectVideoBtn.disabled = true;
-            $selectVideoBtn.style.opacity = '0.5';
-            $selectVideoBtn.style.cursor = 'not-allowed';
-        } catch (e) {
-            console.error('動画の復元に失敗:', e);
-            await deleteFromIndexedDB('video');
-        }
+            $previewContainer.appendChild(item);
+        };
+        reader.readAsDataURL(file);
     }
 
-    // IndexedDBを初期化してから復元
-    initDB().then(async () => {
-        await restoreImagesFromStorage();
-        await restoreVideoFromStorage();
-        updateRemainingCount();
-    }).catch(err => {
-        console.error('IndexedDB初期化エラー:', err);
-        updateRemainingCount();
-    });
+    function createVideoPreview(file) {
+        const item = document.createElement('div');
+        item.className = 'preview-item';
+        item.style.cssText = 'width:150px; height:150px;';
 
-    // 画像選択ボタン
-    $selectImageBtn.addEventListener('click', function() {
-        if (getRemainingImageCount() > 0) {
-            const tempInput = document.createElement('input');
-            tempInput.type = 'file';
-            tempInput.accept = 'image/*';
-            tempInput.multiple = true;
-            tempInput.style.display = 'none';
+        const video = document.createElement('video');
+        video.controls = true;
+        video.className = 'preview-video';
+        video.preload = 'metadata';
+        video.style.cssText = 'width:150px; height:150px; object-fit:cover; border-radius:10px;';
 
-            tempInput.addEventListener('change', function(e) {
-                handleImageSelect(e);
-                document.body.removeChild(tempInput);
-            });
+        const source = document.createElement('source');
+        source.src = URL.createObjectURL(file);
+        source.type = file.type;
 
-            document.body.appendChild(tempInput);
-            tempInput.click();
-        }
-    });
+        video.appendChild(source);
 
-    // 動画選択ボタン
-    $selectVideoBtn.addEventListener('click', function() {
-        if (!selectedVideo) {
-            const tempInput = document.createElement('input');
-            tempInput.type = 'file';
-            tempInput.accept = 'video/*';
-            tempInput.style.display = 'none';
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'remove-btn video';
+        removeBtn.textContent = '×';
 
-            tempInput.addEventListener('change', function(e) {
-                handleVideoSelect(e);
-                document.body.removeChild(tempInput);
-            });
+        item.appendChild(video);
+        item.appendChild(removeBtn);
+        $videoPreviewContainer.innerHTML = '';
+        $videoPreviewContainer.appendChild(item);
 
-            document.body.appendChild(tempInput);
-            tempInput.click();
-        }
-    });
+        $selectVideoBtn.disabled = true;
+        $selectVideoBtn.style.opacity = '0.5';
+        $selectVideoBtn.style.cursor = 'not-allowed';
+    }
 
-    // 画像選択処理
-    function handleImageSelect(e) {
-        const files = Array.from(e.target.files);
-
-        if (files.length === 0) return;
-
-        console.log('選択されたファイル:', files.length);
-
-        const remaining = getRemainingImageCount();
+    // ========================================
+    // ファイル選択処理
+    // ========================================
+    
+    function handleImageSelect(files) {
+        const remaining = MAX_IMAGES - selectedFiles.filter(f => f !== null).length;
 
         if (files.length > remaining) {
             alert(`アップロードできるのはあと ${remaining} 枚までです。`);
             return;
         }
 
-        let hasOversizedFile = false;
-        files.forEach(file => {
+        // サイズチェック
+        for (let file of files) {
             if (file.size > MAX_IMAGE_SIZE) {
-                alert(`❌ 画像「${file.name}」のサイズが大きすぎます。\n\nファイルサイズ: ${formatFileSize(file.size)}\n上限: 2MB\n\n2MB以下の画像を選択してください。`);
-                hasOversizedFile = true;
+                alert(`❌ 画像「${file.name}」のサイズが大きすぎます。\n\nファイルサイズ: ${formatFileSize(file.size)}\n上限: 2MB`);
+                return;
             }
-        });
-
-        if (hasOversizedFile) {
-            return;
-        }
-
-        files.forEach((file, index) => {
             if (!file.type.startsWith('image/')) {
                 alert('画像ファイルのみアップロードできます');
                 return;
             }
+        }
 
+        // ファイル追加とプレビュー表示
+        files.forEach(file => {
+            const index = selectedFiles.length;
             selectedFiles.push(file);
-            const fileIndex = selectedFiles.length - 1;
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const item = document.createElement('div');
-                item.className = 'preview-item';
-                item.dataset.fileIndex = fileIndex;
-
-                const img = document.createElement('img');
-                img.src = event.target.result;
-                img.className = 'preview-image';
-                img.style.cssText = 'width:150px; height:150px; object-fit:cover; border-radius:10px;';
-
-                const removeBtn = document.createElement('button');
-                removeBtn.type = 'button';
-                removeBtn.className = 'remove-btn new';
-                removeBtn.textContent = '×';
-                removeBtn.dataset.fileIndex = fileIndex;
-
-                item.appendChild(img);
-                item.appendChild(removeBtn);
-                $previewContainer.appendChild(item);
-            };
-            reader.readAsDataURL(file);
+            createImagePreview(file, index);
         });
 
-        console.log('selectedFiles配列:', selectedFiles.length);
         updateRemainingCount();
         updateInputFiles();
-        saveImagesToStorage();
+        saveToStorage();
     }
 
-    // 動画選択処理
-    function handleVideoSelect(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-
+    function handleVideoSelect(file) {
         if (!file.type.startsWith('video/')) {
             alert('動画ファイルのみアップロードできます');
             return;
         }
 
         if (file.size > MAX_VIDEO_SIZE) {
-            alert(`❌ 動画「${file.name}」のサイズが大きすぎます。\n\nファイルサイズ: ${formatFileSize(file.size)}\n上限: 10MB\n\n10MB以下の動画を選択してください。`);
+            alert(`❌ 動画「${file.name}」のサイズが大きすぎます。\n\nファイルサイズ: ${formatFileSize(file.size)}\n上限: 10MB`);
             return;
         }
 
         selectedVideo = file;
-        console.log('動画ファイルを保存:', selectedVideo.name);
 
         const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(selectedVideo);
+        dataTransfer.items.add(file);
         $videoInput.files = dataTransfer.files;
 
-        $videoPreviewContainer.innerHTML = '';
-
-        const item = document.createElement('div');
-        item.className = 'preview-item';
-        item.style.cssText = 'width:150px; height:150px;';
-
-        const videoURL = URL.createObjectURL(file);
-
-        const video = document.createElement('video');
-        video.controls = true;
-        video.className = 'preview-video';
-        video.preload = 'metadata';
-        video.style.cssText = 'width:150px; height:150px; object-fit:cover; border-radius:10px; display:block;';
-
-        const source = document.createElement('source');
-        source.src = videoURL;
-        source.type = file.type;
-
-        video.appendChild(source);
-        video.appendChild(document.createTextNode('お使いのブラウザは動画再生に対応していません。'));
-
-        const removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.className = 'remove-btn video-new';
-        removeBtn.textContent = '×';
-
-        item.appendChild(video);
-        item.appendChild(removeBtn);
-        $videoPreviewContainer.appendChild(item);
-
-        $selectVideoBtn.disabled = true;
-        $selectVideoBtn.style.opacity = '0.5';
-        $selectVideoBtn.style.cursor = 'not-allowed';
-
-        saveVideoToStorage();
+        createVideoPreview(file);
+        saveToStorage();
     }
 
-    // 新規画像削除
-    $previewContainer.addEventListener('click', function(e) {
-        if (e.target.classList.contains('remove-btn') && e.target.classList.contains('new')) {
-            e.preventDefault();
-            e.stopPropagation();
+    // ========================================
+    // イベントリスナー
+    // ========================================
+    
+    // 画像選択ボタン
+    $selectImageBtn.addEventListener('click', function() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.multiple = true;
+        input.style.display = 'none';
 
-            const item = e.target.closest('.preview-item');
-            const fileIndex = parseInt(e.target.dataset.fileIndex);
+        input.addEventListener('change', function(e) {
+            handleImageSelect(Array.from(e.target.files));
+            document.body.removeChild(input);
+        });
 
-            console.log('削除するファイルインデックス:', fileIndex);
+        document.body.appendChild(input);
+        input.click();
+    });
 
-            if (!isNaN(fileIndex) && fileIndex >= 0 && fileIndex < selectedFiles.length) {
-                selectedFiles[fileIndex] = null;
-                console.log('削除後のファイル数:', selectedFiles.filter(f => f !== null).length);
+    // 動画選択ボタン
+    $selectVideoBtn.addEventListener('click', function() {
+        if (selectedVideo) return;
+
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'video/*';
+        input.style.display = 'none';
+
+        input.addEventListener('change', function(e) {
+            if (e.target.files[0]) {
+                handleVideoSelect(e.target.files[0]);
             }
+            document.body.removeChild(input);
+        });
 
-            item.remove();
-            updateRemainingCount();
-            updateInputFiles();
-            saveImagesToStorage();
+        document.body.appendChild(input);
+        input.click();
+    });
+
+    // 画像削除
+    $previewContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-btn')) {
+            e.preventDefault();
+            const fileIndex = parseInt(e.target.dataset.fileIndex);
+            
+            if (!isNaN(fileIndex)) {
+                selectedFiles[fileIndex] = null;
+                e.target.closest('.preview-item').remove();
+                updateRemainingCount();
+                updateInputFiles();
+                saveToStorage();
+            }
         }
     });
 
-    // 新規動画削除
+    // 動画削除
     $videoPreviewContainer.addEventListener('click', function(e) {
-        if (e.target.classList.contains('remove-btn') && e.target.classList.contains('video-new')) {
+        if (e.target.classList.contains('remove-btn')) {
             e.preventDefault();
-            e.stopPropagation();
-
-            e.target.closest('.preview-item').remove();
-
             selectedVideo = null;
             $videoInput.value = '';
-            console.log('動画ファイルをクリア');
+            $videoPreviewContainer.innerHTML = '';
 
             $selectVideoBtn.disabled = false;
             $selectVideoBtn.style.opacity = '1';
             $selectVideoBtn.style.cursor = 'pointer';
-
-            deleteFromIndexedDB('video');
+            saveToStorage();
         }
     });
 
-// フォーム送信時の処理
-$form.addEventListener('submit', function(e) {
-    console.log('=== フォーム送信 ===');
-    console.log('画像ファイル数:', $imageInput.files.length);
-    console.log('動画ファイル:', $videoInput.files.length > 0 ? $videoInput.files[0].name : 'なし');
-
-    // 画像が1枚も選択されていない場合はエラー表示
-    if ($imageInput.files.length === 0) {
-        e.preventDefault();
-        alert('最低1枚の画像を選択してください。');
-        return false;
-    }
-
-    const formData = new FormData(this);
-    console.log('FormData内容:');
-    for (let pair of formData.entries()) {
-        if (pair[1] instanceof File) {
-            console.log(pair[0] + ':', pair[1].name);
-        } else {
-            console.log(pair[0] + ':', pair[1]);
+    // フォーム送信
+    $form.addEventListener('submit', function(e) {
+        if ($imageInput.files.length === 0) {
+            e.preventDefault();
+            alert('最低1枚の画像を選択してください。');
+            return false;
         }
-    }
-});
+        
+        // 送信成功後はストレージをクリア（リダイレクト先でクリアされる）
+        console.log('フォーム送信:', $imageInput.files.length, '枚の画像');
+    });
 
-    // 投稿成功時にIndexedDBをクリア
-    if (window.location.search.includes('success') || document.referrer.includes('catpost')) {
-        deleteFromIndexedDB('images').catch(() => {});
-        deleteFromIndexedDB('video').catch(() => {});
-    }
+    // ========================================
+    // 初期化実行
+    // ========================================
+    
+    initStorage();
+    updateRemainingCount();
 });
-
-// 編集日：251028
