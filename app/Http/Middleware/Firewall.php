@@ -36,14 +36,17 @@ class Firewall
         // in_array()は配列内に指定した値が存在するか確認する関数
         if (!in_array($clientIp, $allowedIps)) {
             // 許可されていないIPアドレスからのアクセスの場合
-            // 403ステータスコードとともにJSON形式でエラー情報を返す
-            // このレスポンスはデバッグ用の情報も含んでいる
-            return response()->json([
-                'client_ip' => $clientIp,                    // 検出されたクライアントIP
-                'getClientIps' => $ips,                      // 取得した全てのIP(デバッグ用)
-                'allowed_ips' => env('ALLOWED_ADMIN_IPS'),   // 許可されているIP(.envの値)
-                'app_env' => config('app.env'),              // 現在の環境(production/local等)
-            ], 403); // 403 Forbidden = アクセス権限なし
+            // 403ステータスコードの例外を投げて、Laravelの標準エラーページを表示
+            // （以前のJSONレスポンスはコメントアウトで残す）
+            
+            // return response()->json([
+            //     'client_ip' => $clientIp,                    // 検出されたクライアントIP
+            //     'getClientIps' => $ips,                      // 取得した全てのIP(デバッグ用)
+            //     'allowed_ips' => env('ALLOWED_ADMIN_IPS'),   // 許可されているIP(.envの値)
+            //     'app_env' => config('app.env'),              // 現在の環境(production/local等)
+            // ], 403); // 403 Forbidden = アクセス権限なし
+
+            abort(403, 'このIPアドレスからのアクセスは許可されていません。');
         }
         
         // IPアドレスが許可リストに含まれている場合は、次の処理へ進む

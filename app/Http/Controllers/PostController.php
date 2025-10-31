@@ -91,7 +91,7 @@ public function destroy(Post $post)
         return redirect()->route('admin.post.reports')->with('success', '投稿を削除しました');
     }
 
-    return redirect()->route('mypage.index')->with('success', '投稿を削除しました');
+    return redirect()->route('mycatpost.index')->with('success', '投稿を削除しました');
 }
 
     // 猫の情報投稿作成画面
@@ -178,7 +178,7 @@ public function store(CatPost $request)
         $request->file('image')->store('public/' . $dir);
 
         // ページを更新
-        return redirect('/');
+        // return redirect('/');
 
         $image = new User();
 

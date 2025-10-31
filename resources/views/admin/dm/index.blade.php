@@ -7,68 +7,66 @@
 @stop
 
 @section('content')
-{{--ここにメインのコードを記述--}}
 {{-- ============================================================== --}}
-    <div class="main-content">
-        <div class="list-header">
-            <ul>
-                <li>ユーザーアイコン</li>
-                <li>ユーザー名</li>
-                <li>投稿日時</li>
-                <li>詳細表示</li>
-            </ul>
-        </div>
-        <list-item>
-            @foreach ($dms as $dm)
-                <ul>
-
-                    <li>
-                      <ul class="action-btn">
-                        <li class="icon">
-                          @if($dm->userA->image_path)
-                            <img src="{{ asset('storage/profile_images/' . $dm->userA->image_path) }}" alt="{{ $dm->userA->name }}">
-                            {{-- <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userA->image_path) }}" alt="{{ $dm->userA->name }}"> --}}
-                            @else
-                            <div class="user-avatar-placeholder">
-                                <span>{{ mb_substr($dm->userA->name, 0, 1) }}</span>
-                            </div>
-                          @endif
-                        </li>
-                        <p class="dot">・</p>
-                        <li class="icon">
-                          @if($dm->userB->image_path)
-                            <img src="{{ asset('storage/profile_images/' . $dm->userB->image_path) }}" alt="{{ $dm->userB->name }}">
-                            {{-- <img src="{{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userB->image_path) }}" alt="{{ $dm->userB->name }}"> --}}
-                          @else
-                            <div class="user-avatar-placeholder">
-                                <span>{{ mb_substr($dm->userB->name, 0, 1) }}</span>
-                            </div>
-                          @endif
-                        </li>
-                      </ul>
-                    </li>
-
-                    <li>
-                      {{-- ユーザー名（A・B）の表示 --}}
-                        <h3>{{ $dm->userA->name }}・{{ $dm->userB->name }}<br class="br-sp">のDM</h3>
-                    </li>
-
-                    <li>
-                      {{-- メッセージの最終送信日の表示 --}}
-                        <span class="text">送信日</span><br class="br-sp">{{ $dm->created_at->format('Y年n月j日 H:i') }}
-                    </li>
-
-                    <li>
-                        <a href="{{ route('admin.dm.detail', $dm->id) }}" class="discription-btn">詳細表示</a>
-                        {{-- <a href="#" class="discription-btn">詳細表示</a> --}}
-                    </li>
-                </ul>
-            @endforeach
-
-        </list-item>
+<div class="main-content">
+    <div class="list-header">
+        <ul>
+            <li>ユーザー</li>
+            <li>DMタイトル</li>
+            <li>最終送信日</li>
+            <li>詳細</li>
+        </ul>
     </div>
+
+    <list-item>
+        @foreach ($dms as $dm)
+            <ul>
+                {{-- ======= ユーザー ======= --}}
+                <li class="user-info">
+                    {{-- userA --}}
+                    <img src="@if ($dm->userA->image_path)
+                        {{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userA->image_path) }}
+                    @else
+                        {{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}
+                    @endif"
+                    alt="{{ $dm->userA->name }}" class="user-icon">
+
+                    <p>{{ $dm->userA->name }}</p>
+
+                    <p class="dot">・</p>
+
+                    {{-- userB --}}
+                    <img src="@if ($dm->userB->image_path)
+                        {{ Storage::disk(config('filesystems.default'))->url('profile_images/' . $dm->userB->image_path) }}
+                    @else
+                        {{ asset('images/noimage/213b3adcd557d334ff485302f0739a07.png') }}
+                    @endif"
+                    alt="{{ $dm->userB->name }}" class="user-icon">
+
+                    <p>{{ $dm->userB->name }}</p>
+                </li>
+
+                {{-- ======= DMタイトル ======= --}}
+                <li>
+                    <p>{{ $dm->userA->name }}・{{ $dm->userB->name }} のDM</p>
+                </li>
+
+                {{-- ======= 最終送信日 ======= --}}
+                <li>
+                    <p>{{ $dm->created_at->format('Y年n月j日 H:i') }}</p>
+                </li>
+
+                {{-- ======= 詳細ボタン ======= --}}
+                <li>
+                    <a href="{{ route('admin.dm.detail', $dm->id) }}" class="description-btn">詳細表示</a>
+                </li>
+            </ul>
+        @endforeach
+    </list-item>
+</div>
 {{-- ============================================================== --}}
+@stop
+
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/admin/dm/index.css') }}">
-@stop
 @stop

@@ -131,7 +131,7 @@ h3 {
 
 /* 削除ボタン */
 .delete-btn {
-    background-color: #6C757D;
+    background-color: #3DA35D;
     border: none;
     color: #FFFFFF;
     font-size: 0.95rem;
@@ -144,7 +144,7 @@ h3 {
 }
 
 .delete-btn:hover {
-    background-color: #5A6268;
+    background-color: #348C50;
 }
 
 /* 処理済みテキスト */

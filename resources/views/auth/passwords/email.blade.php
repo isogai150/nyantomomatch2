@@ -1,47 +1,63 @@
 @extends('layouts.app')
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/auth/login.css') }}">
+@endsection
+
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+<div class="main-content">
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+<div class="background">
+  <div class="allfonts">
 
-                    <form method="POST" action="{{ route('password.email') }}">
-                        @csrf
-
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Send Password Reset Link') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <div class="titlefont">
+      <p>パスワード再設定</p>
     </div>
+
+    <div class="subtitle">
+      <p>登録された下記のメールアドレスに<br>再設定用のリンクを送信します</p>
+    </div>
+
+    <div class="form-container">
+      
+      {{-- セッションメッセージ表示 --}}
+      @if (session('status'))
+      <div class="status-message">
+        <p>{{ session('status') }}</p>
+      </div>
+      @endif
+
+      {{-- バリデーションエラー表示 --}}
+      @if($errors->any())
+      <div class="alert-danger">
+        @foreach($errors->all() as $message)
+        <p>{{ $message }}</p>
+        @endforeach
+      </div>
+      @endif
+
+      <form action="{{ route('password.email') }}" method="POST" novalidate>
+        @csrf
+
+        <div class="form-group">
+          <div class="labelfonts">
+            <label for="email"><div class="text-left">メールアドレス</div></label>
+          </div>
+          <input type="email" class="textbox" id="email" name="email" placeholder="メールアドレスを入力してください" value="{{ old('email') }}" />
+        </div>
+
+        <button type="submit" class="botten">パスワード再設定メールを送信</button>
+
+      </form>
+
+      <div class="login-prompt">
+        <p><a href="{{ route('login') }}"><span>ログインページに戻る</span></a></p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
 </div>
 @endsection

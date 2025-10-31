@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 
   // ログアウト
-  Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+  Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
   // DM詳細ページ（チャット部屋）
   Route::get('/dm/{dm}', [PairController::class, 'show'])->name('dm.show');
@@ -157,7 +157,7 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 
   Route::post('login', [AdministratorController::class, 'login']);
 
-  Route::post('logout', [AdministratorController::class, 'logout'])->name('logout');
+  Route::get('logout', [AdministratorController::class, 'logout'])->name('logout');
 
   // ログイン後
   Route::middleware('auth:admin')->group(function () {
@@ -188,6 +188,10 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 
     // 投稿通報詳細
     Route::get('post-reports/{report}', [AdministratorController::class, 'postReportDetail'])->name('post.report.detail');
+
+    // 投稿削除（管理者用）
+Route::delete('post/{post}/delete', [AdministratorController::class, 'postDestroy'])->name('post.delete');
+
 
     // 通報ステータス更新（対応済）
     Route::put('post-reports/{report}/resolve', [AdministratorController::class, 'postReportResolve'])->name('post.report.resolve');
@@ -224,10 +228,39 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
 
     // 譲渡成立一覧
     Route::get('transfer', [AdministratorController::class, 'transferList'])->name('transfer');
+
+    //管理者退会
+    Route::delete('account/delete', [AdministratorController::class, 'destroy'])->name('user.delete');
   });
 });
 
-// Firewallデバッグ用
+
+
+
+
+// =====================================デバック用============================================
+// エラーハンドリング（デバック用）
+// Route::get('/test403', function () {
+//     abort(403);
+// })->name('test.403');
+
+// Route::get('/test404', function () {
+//     abort(404);
+// })->name('test.404');
+
+// Route::get('/test419', function () {
+//     abort(419);
+// })->name('test.419');
+
+// Route::get('/test500', function () {
+//     abort(500);
+// })->name('test.500');
+
+// Route::get('/test503', function () {
+//     abort(503);
+// })->name('test.503');
+
+// Firewall（IPアドレスデバック用）
 // Route::get('/debug/ip', function (\Illuminate\Http\Request $request) {
 //     return response()->json([
 //         'client_ip' => $request->ip(),
