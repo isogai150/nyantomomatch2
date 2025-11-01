@@ -27,6 +27,41 @@ a {
   cursor: pointer;
 }
 
+/* ===================================== */
+/* 肉球カーソル：通常／ホバー／クリック対応 */
+/* ===================================== */
+
+/* 通常時：肉球カーソル */
+body {
+  cursor: url("/images/cursor-paw.png") 16 16, auto;
+}
+
+/* リンク・ボタン上：少し明るく拡大 */
+a:hover,
+button:hover,
+.btn:hover,
+.favorite-btn:hover,
+input[type="submit"]:hover,
+select:hover,
+label:hover {
+  cursor: url("/images/cursor-paw.png") 16 16, pointer !important;
+  filter: brightness(1.1);
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+/* クリック時：ぷにっと縮む */
+a:active,
+button:active,
+.btn:active,
+.favorite-btn:active,
+input[type="submit"]:active {
+  cursor: url("/images/cursor-paw.png") 16 16, pointer !important;
+  transform: scale(0.92);
+  filter: brightness(0.95);
+  transition: all 0.1s ease;
+}
+
 /* ==================================================== */
 /* header */
 /* ==================================================== */
