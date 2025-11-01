@@ -16,7 +16,7 @@
   font-size: 80px;
   margin-bottom: 10px;
   font-weight: bold;
-  color: #503322;
+  color: #fff;
 }
 .title span {
   color: #F6D8B3;
@@ -27,16 +27,17 @@
   font-size: 24px;
   margin-top: 4%;
   margin-bottom: 30px;
-  color: #503322;
+  color: #fff;
 }
 
 /* 検索・並べ替え */
 .post-searchs {
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 40px;
   gap: 20px;
   padding: 3% 4%;
+  z-index: 2;
+  background: #FFFDF2;
 }
 
 h2 {
@@ -314,6 +315,56 @@ h2 {
     display: none;
 }
 
+.main-top {
+  position: relative;
+  overflow: hidden;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: 100%;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: 0;
+  filter: brightness(0.75);
+  transition: transform 0.4s ease-out, width 0.4s ease-out, height 0.4s ease-out;
+}
+
+/* タイトルを前面に */
+.title {
+  position: relative;
+  z-index: 1;
+  background: none; /* 背景削除 */
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* 見出しの調整 */
+.title h1 {
+  font-size: 80px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.title span {
+  color: #F6D8B3;
+  font-size: 70px;
+}
+
+.title p {
+  font-size: 24px;
+  margin-top: 4%;
+  margin-bottom: 30px;
+}
+
 /* スマホ用 (390px以下) */
 @media screen and (max-width: 390px) {
 
@@ -441,4 +492,11 @@ h2 {
   .br-sp {
       display: block;
   }
+
+
+
+  .hero-video {
+      max-width: 100%;
+  height: 100%;
+}
 }
