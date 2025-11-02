@@ -234,7 +234,8 @@ Route::delete('post/{post}/delete', [AdministratorController::class, 'postDestro
   });
 });
 
-
+//ユーザー認証系
+Auth::routes();
 
 
 
@@ -269,7 +270,3 @@ Route::delete('post/{post}/delete', [AdministratorController::class, 'postDestro
 //         'app_env' => env('APP_ENV'),
 //     ]);
 // });
-
-
-//ユーザー認証系
-Auth::routes();
