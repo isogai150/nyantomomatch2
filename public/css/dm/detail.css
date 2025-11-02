@@ -439,11 +439,12 @@
 /* ==========================
    レスポンシブ対応（スマホ幅）
 ========================== */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 390px) {
   .dm-header {
-    padding: 12% 4% 2%;
+    padding: 18% 4% 2%;
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.5rem;
   }
 
   .dm-user-name {
@@ -474,7 +475,7 @@
   }
 
   .dm-transfer-area .btn-detail {
-    width: 70%;
+    width: 100%;
     margin: 2% auto;
     font-size: 1rem;
   }
