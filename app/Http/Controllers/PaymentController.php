@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Transfer;
+// use App\Models\Pair;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use Illuminate\Support\Facades\Auth;
@@ -109,6 +110,15 @@ class PaymentController extends Controller
 
                 // 投稿ステータスを「譲渡済み（2）」に更新
                 $post->update(['status' => 2]);
+
+                // pairsテーブルのtransfer_statusを更新
+                // $pair = Pair::where('post_id', $post->id)
+                //     ->where('userB_id', $meta->user_id)
+                //     ->first();
+
+                // if ($pair) {
+                // $pair->update(['transfer_status' => 'paid']);
+                // }
             }
 
             // 完了ページを表示

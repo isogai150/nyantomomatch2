@@ -112,6 +112,13 @@ list-item ul:nth-child(even) {
         border-bottom: none;
     }
 
+    /* DMタイトルと最終送信日は通常のブロック表示 */
+    list-item > ul > li:nth-child(2),
+    list-item > ul > li:nth-child(3) {
+        display: block;
+        grid-template-columns: unset;
+    }
+
     .user-info {
         justify-content: flex-start;
         flex-wrap: wrap;

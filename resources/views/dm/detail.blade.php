@@ -125,7 +125,11 @@
 
     {{-- 完了 --}}
     @if($status === 'paid')
-        <p class="dm-status-done">決済が完了しました！</p>
+        @if(!$isPoster)
+            <p class="dm-status-done">決済が完了しました！</p>
+        @else
+            <p class="dm-status-wait">里親様による決済が完了しました！<br>里親様へ譲渡手続きのご連絡をお願いします</p>
+        @endif
     @endif
 </div>
 {{-- ============================= --}}

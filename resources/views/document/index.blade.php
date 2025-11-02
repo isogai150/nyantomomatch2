@@ -121,7 +121,7 @@
 
                             <div class="form-item">
                                 <label for="signed_date">署名日</label>
-                                <input id="signed_date" type="date" name="signed_date" class="input-form" required>
+                                <input id="signed_date" type="date" name="signed_date" class="input-form" min="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
                         <div class="btn-group">
