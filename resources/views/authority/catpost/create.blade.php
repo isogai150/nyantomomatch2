@@ -171,6 +171,7 @@
       @enderror
     </div>
 
+    {{-- 投稿を作成ボタン --}}
     <div class="btn">
       <br><br>
       <button type="submit" class="botten">投稿を作成</button>
@@ -181,5 +182,9 @@
 @endsection
 
 @section('script')
+<script>
+    // バリデーションエラーがある場合のみtrue
+    window.keepStorage = {{ $errors->any() ? 'true' : 'false' }};
+</script>
 <script src="{{ asset('js/authority/catpost/create.js') }}"></script>
 @endsection
