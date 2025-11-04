@@ -107,8 +107,8 @@ class PaymentController extends Controller
             if ($post->status !== 2) {
                 // transfersテーブルに登録
                 Transfer::create([
-                    'userA_id' => $post->user_id, // 投稿者（譲渡する側）
-                    'userB_id' => $meta->user_id, // 支払者（譲渡を受ける側）
+                    'userA_id' => $post->user_id,
+                    'userB_id' => $meta->user_id,
                     'post_id' => $post->id,
                     'confirmed_at' => Carbon::now(),
                     'created_at' => Carbon::now(),
