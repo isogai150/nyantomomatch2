@@ -270,3 +270,15 @@ Auth::routes();
 //         'app_env' => env('APP_ENV'),
 //     ]);
 // });
+
+// 一時ログ確認用ルート（確認後に必ず削除）
+Route::get('/debug-log', function () {
+    $logPath = storage_path('logs/laravel.log');
+    if (!file_exists($logPath)) {
+        return 'ログファイルが存在しません。';
+    }
+
+    $logs = file($logPath);
+    $lastLines = array_slice($logs, -50); // 最後の50行だけ取得
+    return '<pre>' . htmlspecialchars(implode("", $lastLines)) . '</pre>';
+});
