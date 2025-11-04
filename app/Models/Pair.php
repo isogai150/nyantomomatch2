@@ -15,6 +15,7 @@ class Pair extends Model
         'userB_id',
         'post_id',
         'transfer_status',
+        'agreed_user_id',
     ];
 
     protected $dates = ['deleted_at'];
