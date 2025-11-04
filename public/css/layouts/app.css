@@ -31,12 +31,10 @@ a {
 /* 肉球カーソル：通常／ホバー／クリック対応 */
 /* ===================================== */
 
-/* 通常時：肉球カーソル */
 body {
   cursor: url("/images/cursor-paw.png") 16 16, auto;
 }
 
-/* リンク・ボタン上：少し明るく拡大 */
 a:hover,
 button:hover,
 .btn:hover,
@@ -50,7 +48,6 @@ label:hover {
   transition: all 0.2s ease;
 }
 
-/* クリック時：ぷにっと縮む */
 a:active,
 button:active,
 .btn:active,
@@ -114,7 +111,6 @@ input[type="submit"]:active {
   transition: all 0.3s ease;
 }
 
-/* メニュー初期状態 */
 .hamburger-menu nav {
   position: fixed;
   top: 0;
@@ -144,19 +140,16 @@ input[type="submit"]:active {
   color: #503322;
 }
 
-/* 開いた状態 */
 .hamburger-menu nav.open {
   right: 0;
 }
 
-/* ボタンが開いた時 */
 .hamburger.active {
   position: absolute;
 }
 
 .hamburger.active span:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
-  color: #503322;
 }
 
 .hamburger.active span:nth-child(2) {
@@ -171,7 +164,6 @@ main {
   border-bottom: 2px solid #D3C6B7;
   margin-top: 0;
 }
-
 
 /* ==================================================== */
 /* footer */
@@ -207,14 +199,25 @@ main {
 
 .footer-raight ul {
   display: flex;
+  justify-content: flex-end; /* 右寄せ */
+  align-items: center;
+  gap: 5%;
 }
 
 .footer-raight li {
-margin-right: 4%;
+  margin-right: 0;
 }
 
-.footer-raight li:last-child {
-  margin-right: 0;
+.footer-raight li a {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #503322;
+  transition: all 0.2s ease;
+}
+
+.footer-raight li a:hover {
+  color: #E67E22;
+  transform: translateY(-2px);
 }
 
 .footer-bottm {
@@ -223,88 +226,96 @@ margin-right: 4%;
   color: #503322;
 }
 
+/* ==================================================== */
+/* フッターモーダル（利用規約・プライバシー） */
+/* ==================================================== */
+
+.footer-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* 背景スクロール防止 */
+}
+
+.footer-modal-content {
+  background-color: #fff;
+  padding: 5%;
+  border-radius: 2rem;
+  width: 80%;
+  max-width: 480px;
+  text-align: left;
+  position: relative;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  max-height: 80vh; /* 画面の80%まで */
+  overflow-y: auto; /* スクロール可 */
+  scrollbar-width: thin;
+}
+
+.footer-modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.footer-modal-content::-webkit-scrollbar-thumb {
+  background-color: rgba(150, 150, 150, 0.4);
+  border-radius: 4px;
+}
+
+.footer-modal-content::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 100, 100, 0.6);
+}
+
+.footer-modal-content h2 {
+  font-size: 1.2rem;
+  color: #503322;
+  margin-bottom: 1rem;
+}
+
+.footer-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.btn-send {
+  background-color: #E67E22;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.8rem 0;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-send:hover {
+  background-color: #d76915;
+}
+
+/* ==================================================== */
 /* スマホ用 (390px以下) */
+/* ==================================================== */
+
 @media screen and (max-width: 390px) {
-  .header-content {
-    flex-direction: row;
-    align-items: center;
-    padding: 10px 4%;
-  }
-
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .header-logo {
-    width: 36px;
-    height: 36px;
-  }
-
-  .header-text {
-    width: 140px;
-    height: auto;
-  }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-  }
-
-  /* ハンバーガーボタン */
-  .hamburger {
-    width: 30px;
-    height: 22px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-  }
-
-  /* 開いた時（×に変化） */
-  .hamburger.active {
-    position: fixed;
-    top: 16px;
-    right: 16px;
-    z-index: 1200;
-  }
-
-  .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 4px); /* ← translateを調整 */
-  }
-
-  .hamburger.active span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -4px); /* ← translateを調整 */
-  }
-  /* ------------------------------
-    footer
-  ------------------------------ */
   .footer-top {
     flex-direction: column;
     align-items: flex-start;
-    padding: 15px;
-    gap: 10px;
+    padding: 4%;
+    gap: 3%;
   }
 
   .footer-left {
     flex-direction: column;
     align-items: flex-start;
-    gap: 5px;
-  }
-
-  .footer-logo {
-    width: 36px;
-    height: 36px;
-  }
-
-  .footer-text {
-    width: 140px;
-    height: auto;
+    gap: 3%;
   }
 
   .footer-raight {
@@ -313,11 +324,8 @@ margin-right: 4%;
 
   .footer-raight ul {
     flex-direction: column;
+    align-items: flex-start;
     gap: 10px;
-  }
-
-  .footer-raight li {
-    margin-right: 0;
   }
 
   .footer-raight li a {
@@ -326,6 +334,13 @@ margin-right: 4%;
 
   .footer-bottm {
     font-size: 12px;
-    padding: 10px 0;
+    padding: 4% 0;
+  }
+
+  .footer-modal-content {
+    width: 90%;
+    padding: 6%;
+    font-size: 0.85rem;
+    max-height: 80vh;
   }
 }
