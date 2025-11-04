@@ -65,3 +65,6 @@ RUN php artisan optimize:clear
 
 # 起動コマンド
 CMD ["apache2-foreground"]
+
+# Laravelのストレージとキャッシュフォルダに書き込み権限を付与
+RUN chmod -R 777 storage bootstrap/cache
