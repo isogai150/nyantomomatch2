@@ -271,6 +271,7 @@ Auth::routes();
 //     ]);
 // });
 
+
 // 一時ログ確認用ルート（確認後に必ず削除）
 Route::get('/debug-log', function () {
     $logPath = storage_path('logs/laravel.log');
