@@ -51,10 +51,9 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 # RUN php artisan key:generate --show
 
 
-# RUN php artisan migrate:fresh --force
+RUN php artisan migrate:fresh --force
 # RUN php artisan db:seed --force
-# DBマイグレーションを自動実行（初回 or schema変更時のみ）
-RUN php artisan migrate --force
+
 
 
 
