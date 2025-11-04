@@ -54,7 +54,7 @@
 
     <div class="section box">
         <p>年齢：{{ $pair->post->age }}歳</p>
-        <p>性別：{{ $pair->post->gender === 'male' ? 'オス' : 'メス' }}</p>
+        <p>性別：{{ $pair->post->gender === 1 ? 'オス' : 'メス' }}</p>
         <p>品種：{{ $pair->post->breed }}</p>
         <p>譲渡金額：{{ number_format($pair->post->cost) }}円</p>
     </div>
