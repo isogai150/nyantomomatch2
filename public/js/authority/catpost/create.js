@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const $videoPreviewContainer = document.getElementById('video-preview-container');
     const $remainingNumber = document.getElementById('remaining-number');
 
-    const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
-    const MAX_VIDEO_SIZE = 10 * 1024 * 1024;
+    const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
+    const MAX_VIDEO_SIZE = 10 * 1024 * 1024; // 10MB
     const MAX_IMAGES = 3;
 
     let selectedImages = [];
@@ -101,6 +101,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ===============================
+    // ✅ 重要: input要素に選択画像を反映
+    // ===============================
+    function syncImagesToInput() {
+        const dataTransfer = new DataTransfer();
+        selectedImages.forEach(file => dataTransfer.items.add(file));
+        $imageInput.files = dataTransfer.files;
+    }
+
+    // ===============================
     // メディア保存
     // ===============================
     async function saveToSession() {
@@ -139,11 +148,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 btn.onclick = () => {
                     item.remove();
                     selectedImages = selectedImages.filter(f => f !== file);
+                    syncImagesToInput(); // ✅ 削除時もinputを更新
                     updateRemaining();
                 };
                 item.append(img, btn);
                 $previewContainer.appendChild(item);
             });
+            syncImagesToInput(); // ✅ 復元時にinputを更新
         }
 
         // 動画復元
@@ -163,33 +174,41 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.remove();
                 selectedVideo = null;
                 clearVideoDB();
-                $selectVideoBtn.disabled = false;
-                $selectVideoBtn.style.opacity = '1';
+                toggleVideoButton(true);
             };
             item.append(videoElem, btn);
             $videoPreviewContainer.innerHTML = '';
             $videoPreviewContainer.appendChild(item);
-            $selectVideoBtn.disabled = true;
-            $selectVideoBtn.style.opacity = '0.5';
+            toggleVideoButton(false);
         }
 
         updateRemaining();
+    }
+
+    function toggleVideoButton(enabled) {
+        $selectVideoBtn.disabled = !enabled;
+        $selectVideoBtn.style.opacity = enabled ? '1' : '0.5';
     }
 
     // ===============================
     // イベント処理
     // ===============================
     $selectImageBtn.addEventListener('click', () => $imageInput.click());
+
     $imageInput.addEventListener('change', (e) => {
         const files = Array.from(e.target.files);
         const remain = remainingCount();
         if (files.length > remain) {
             alert(`あと${remain}枚までです`);
+            $imageInput.value = ''; // リセット
             return;
         }
+        
+        let hasError = false;
         files.forEach(file => {
             if (file.size > MAX_IMAGE_SIZE) {
                 alert(`${file.name} は ${formatFileSize(MAX_IMAGE_SIZE)} 以下にしてください`);
+                hasError = true;
                 return;
             }
             selectedImages.push(file);
@@ -206,6 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 btn.onclick = () => {
                     item.remove();
                     selectedImages = selectedImages.filter(f => f !== file);
+                    syncImagesToInput(); // ✅ 削除時もinputを更新
                     updateRemaining();
                 };
                 item.append(img, btn);
@@ -213,22 +233,32 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             reader.readAsDataURL(file);
         });
+        
+        if (!hasError) {
+            syncImagesToInput(); // ✅ 画像追加時にinputを更新
+        } else {
+            $imageInput.value = ''; // エラー時はリセット
+        }
         updateRemaining();
     });
 
     $selectVideoBtn.addEventListener('click', () => $videoInput.click());
+
     $videoInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (!file) return;
         if (file.size > MAX_VIDEO_SIZE) {
             alert('動画は10MB以下で選択してください');
+            $videoInput.value = '';
             return;
         }
+
         selectedVideo = file;
         const videoElem = document.createElement('video');
         videoElem.controls = true;
         videoElem.src = URL.createObjectURL(file);
         videoElem.classList.add('preview-video');
+
         const item = document.createElement('div');
         item.className = 'preview-item';
         const btn = document.createElement('button');
@@ -237,15 +267,14 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.onclick = () => {
             item.remove();
             selectedVideo = null;
+            $videoInput.value = ''; // ✅ input要素もクリア
             clearVideoDB();
-            $selectVideoBtn.disabled = false;
-            $selectVideoBtn.style.opacity = '1';
+            toggleVideoButton(true);
         };
         item.append(videoElem, btn);
         $videoPreviewContainer.innerHTML = '';
         $videoPreviewContainer.appendChild(item);
-        $selectVideoBtn.disabled = true;
-        $selectVideoBtn.style.opacity = '0.5';
+        toggleVideoButton(false);
     });
 
     // ===============================
@@ -257,7 +286,13 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('最低1枚の画像を選択してください');
             return;
         }
+
+        // データ保持
         await saveToSession();
+
+        // ✅ 最終的にinput要素を更新してから送信
+        syncImagesToInput();
+        
         $form.submit();
     });
 
