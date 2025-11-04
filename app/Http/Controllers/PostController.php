@@ -14,6 +14,9 @@ class PostController extends Controller
 {
     /**
      * 投稿一覧表示
+     * 
+     * トップページで全投稿を表示する。
+     * タイトルや地域での検索、並び替えにも対応。
      */
     public function index(Request $request)
     {
@@ -27,7 +30,7 @@ class PostController extends Controller
             });
         }
 
-        // 並び替え
+        // 並び替え（新着順・古い順・人気順）
         $sort = $request->get('sort', 'new');
         match ($sort) {
             'old' => $query->orderBy('created_at', 'asc'),
@@ -35,6 +38,7 @@ class PostController extends Controller
             default => $query->orderBy('created_at', 'desc')
         };
 
+        // 画像付き投稿を取得（ページネーション）
         $catposts = $query->with('images')->paginate(10);
 
         return view('home.index', compact('catposts'));
@@ -42,6 +46,9 @@ class PostController extends Controller
 
     /**
      * 投稿詳細表示
+     * 
+     * 投稿の詳細ページを表示。
+     * 投稿者情報、画像、動画をリレーション込みで取得。
      */
     public function detail(Post $post)
     {
@@ -51,6 +58,8 @@ class PostController extends Controller
 
     /**
      * 自分の投稿一覧表示
+     * 
+     * ログイン中ユーザーが投稿した猫一覧を表示。
      */
     public function myCatpost()
     {
@@ -67,12 +76,15 @@ class PostController extends Controller
 
     /**
      * 投稿削除処理
+     * 
+     * 投稿者本人または管理者のみ削除可能。
      */
     public function destroy(Post $post)
     {
         $user = auth()->user();
         $admin = auth('admin')->user();
 
+        // 権限チェック
         if (!$admin && $post->user_id !== $user->id) {
             abort(403, 'この投稿を削除する権限がありません。');
         }
@@ -97,6 +109,8 @@ class PostController extends Controller
 
     /**
      * 投稿保存処理
+     * 
+     * バリデーション済みデータを保存し、画像・動画もS3へアップロード。
      */
     public function store(CatPost $request)
     {
@@ -104,6 +118,7 @@ class PostController extends Controller
             $validated = $request->validated();
             $disk = config('filesystems.default');
 
+            // 投稿データ作成
             $post = new Post();
             $post->fill($validated);
             $post->user_id = Auth::id();
@@ -177,6 +192,8 @@ class PostController extends Controller
 
     /**
      * 編集画面表示
+     * 
+     * 投稿に紐づく画像・動画を読み込み、残りの追加可能枠を計算。
      */
     public function edit($id)
     {
@@ -189,6 +206,8 @@ class PostController extends Controller
 
     /**
      * 投稿更新処理
+     * 
+     * 投稿者本人のみ編集可能。新規メディア追加にも対応。
      */
     public function update(CatPost $request, Post $post)
     {
@@ -201,6 +220,7 @@ class PostController extends Controller
         $validated = $request->validated();
         $disk = config('filesystems.default');
 
+        // 投稿内容を更新
         $post->fill($validated);
         $post->save();
 
@@ -227,6 +247,7 @@ class PostController extends Controller
 
         // ====== 動画更新 ======
         if ($request->hasFile('video')) {
+            // 既存動画を削除してから新規追加
             foreach ($post->videos as $video) {
                 Storage::disk($disk)->delete('post_videos/' . $video->video_path);
                 $video->delete();
@@ -254,6 +275,8 @@ class PostController extends Controller
 
     /**
      * 画像・動画削除処理
+     * 
+     * Ajaxで画像や動画を個別削除。
      */
     public function deleteMedia($type, $id)
     {
