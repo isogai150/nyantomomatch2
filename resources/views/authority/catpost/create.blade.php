@@ -7,7 +7,7 @@
 @section('content')
 <div class="backgroundcolor-position">
   <div class="main-content">
-    <h2>新しい投稿aを作成</h2>
+    <h2>新しい投稿を作成</h2>
     <h3>猫の里親を募集する<br class="br-sp">投稿を作成してください。</h3>
 
     <div class="background-form">
