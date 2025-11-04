@@ -66,9 +66,9 @@
 {{-- ======================================== --}}
 
     <div class="terms-text">
-      <p><a href=""><span>利用規約</span></a>
+      <p><a href="#" class="footer-modal-open" data-target="termsModal"><span>利用規約</span></a>
       <br class="br-sp">と<br class="br-sp">
-      <a href=""><span>プライバシーポリシー</span></a>
+      <a href="#" class="footer-modal-open" data-target="privacyModal"><span>プライバシーポリシー</span></a>
       <br class="br-sp">に同意します</p>
     </div>
 
