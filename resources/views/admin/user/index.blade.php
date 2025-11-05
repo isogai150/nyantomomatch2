@@ -53,12 +53,12 @@
             {{-- BAN / BAN解除 --}}
             <li>
                 @if ($user->is_banned)
-                    <form action="{{ route('admin.user.unban', $user->id) }}" method="POST" class="ok-btn">
+                    <form action="{{ route('admin.user.unban', $user->id) }}" method="POST" class="ok-btn" onsubmit="return confirm('BAN解除しますか？');">
                         @csrf
                         <button>解除</button>
                     </form>
                 @else
-                    <form action="{{ route('admin.user.ban', $user->id) }}" method="POST" class="no-btn">
+                    <form action="{{ route('admin.user.ban', $user->id) }}" method="POST" class="no-btn" onsubmit="return confirm('BANしますか？');">
                         @csrf
                         <button>BAN</button>
                     </form>

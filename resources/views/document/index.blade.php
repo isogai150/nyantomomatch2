@@ -42,7 +42,7 @@
                         <h3>猫情報</h3>
                         <ul class="list">
                             <li>年齢：{{ $pair->post->age }}歳</li>
-                            <li>性別：{{ $pair->post->gender === 'male' ? 'オス' : 'メス' }}</li>
+                            <li>性別：{{ $pair->post->gender === 1 ? 'オス' : 'メス' }}</li>
                             <li>品種：{{ $pair->post->breed }}</li>
                         </ul>
                     </div>
@@ -99,7 +99,7 @@
                 <div class="contract-box">
                     <p>【譲渡対象猫】</p>
                     <p>年齢：{{ $pair->post->age }}歳</p>
-                    <p>性別：{{ $pair->post->gender === 'male' ? 'オス' : 'メス' }}</p>
+                    <p>性別：{{ $pair->post->gender === 1 ? 'オス' : 'メス' }}</p>
                     <p>品種：{{ $pair->post->breed }}</p>
                     <p>譲渡金額：{{ number_format($pair->post->cost) }}円</p>
                 </div>
@@ -121,7 +121,7 @@
 
                             <div class="form-item">
                                 <label for="signed_date">署名日</label>
-                                <input id="signed_date" type="date" name="signed_date" class="input-form" required>
+                                <input id="signed_date" type="date" name="signed_date" class="input-form" min="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
                         <div class="btn-group">

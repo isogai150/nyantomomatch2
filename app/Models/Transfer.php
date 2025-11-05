@@ -35,7 +35,7 @@ class Transfer extends Model
     // 対象の投稿
     public function post()
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Post::class)->withTrashed();;
     }
 
     // 譲渡資料（1対1）
@@ -43,4 +43,5 @@ class Transfer extends Model
     {
         return $this->hasOne(TransferDocument::class);
     }
+
 }

@@ -15,7 +15,7 @@
 .list-header ul,
 list-item ul {
     display: grid;
-    grid-template-columns: minmax(180px, 1.5fr) minmax(200px, 1.6fr) 1fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1.3fr 1fr 1fr;
     align-items: center;
     text-align: center;
     padding: 1rem;
@@ -30,6 +30,11 @@ list-item ul {
 .list-header ul li {
     font-weight: bold;
     color: #503322;
+}
+
+.dot {
+    color: #503322;
+    font-weight: bold;
 }
 
 li {

@@ -169,6 +169,7 @@
   font-size: 1.1rem;
   font-weight: bold;
   color: #503322;
+  line-height: 1.1;
 }
 
 /* ==========================
@@ -435,16 +436,19 @@
   background-color: #e67e22;
 }
 
-
+.br-sp {
+  display: none;
+}
 
 /* ==========================
    レスポンシブ対応（スマホ幅）
 ========================== */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 390px) {
   .dm-header {
-    padding: 12% 4% 2%;
+    padding: 18% 4% 2%;
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.5rem;
   }
 
   .dm-user-name {
@@ -471,11 +475,11 @@
   }
 
   .dm-transfer-area {
-    padding: 4% 0;
+    padding: 4% 6%;
   }
 
   .dm-transfer-area .btn-detail {
-    width: 70%;
+    width: 100%;
     margin: 2% auto;
     font-size: 1rem;
   }
@@ -507,5 +511,9 @@
   .user-image {
   width: 10vw;
   height: 10vw;
+  }
+
+  .br-sp {
+  display: block;
   }
 }

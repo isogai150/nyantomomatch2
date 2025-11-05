@@ -46,7 +46,7 @@
           <input type="email" class="textbox" id="email" name="email" placeholder="メールアドレスを入力してください" value="{{ old('email') }}" />
         </div>
 
-        <button type="submit" class="botten">パスワード再設定メールを送信</button>
+        <button type="submit" class="botten">パスワード再設定メールを<br class="br-sp">送信</button>
 
       </form>
 

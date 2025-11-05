@@ -85,13 +85,17 @@
 
 @if($report->status == 0)
   <div class="button-container">
-    <form action="{{ route('admin.user.ban', $reportedUser->id ?? 0) }}" method="post" style="display: inline;">
-      @csrf
-      @method('post')
-      <button type="submit" class="ban-btn" onclick="return confirm('このユーザーをBANしますか?')">
-        BAN
-      </button>
-    </form>
+@if($reportedUser)
+  <form action="{{ route('admin.user.ban', $reportedUser->id) }}" method="post" style="display: inline;">
+    @csrf
+    <button type="submit" class="ban-btn" onclick="return confirm('このユーザーをBANしますか?')">
+      投稿者BAN
+    </button>
+  </form>
+@else
+
+@endif
+
 
     @if($reportedMessage)
   @php
@@ -101,8 +105,9 @@
   <form action="{{ route('admin.dm.message.delete', ['dm' => $dmId, 'message' => $reportedMessage->id]) }}" method="post" style="display: inline;">
     @csrf
     @method('delete')
-    <button type="submit" class="delete-btn" onclick="return confirm('このメッセージを削除しますか?')">
-      削除
+    <input type="hidden" name="from" value="report_detail">
+    <button type="submit" class="delete-btn" onclick="return confirm('このメッセージを削除しますか?\n⚠️ユーザーBANもする場合はBANボタンを先にクリックしてください。')">
+      メッセージ削除
     </button>
   </form>
 @else

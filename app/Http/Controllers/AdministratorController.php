@@ -12,6 +12,7 @@ use App\Models\Authority;
 use App\Models\PostReport;
 use App\Models\MessageReport;
 use App\Models\Transfer;
+use Illuminate\Support\Facades\Storage;
 
 class AdministratorController extends Controller
 {
@@ -70,8 +71,12 @@ class AdministratorController extends Controller
         }
 
         return view('admin.dashboard.index', compact(
-            'userCount', 'dmCount', 'messageCount', 'postCount',
-            'userData', 'postData'
+            'userCount',
+            'dmCount',
+            'messageCount',
+            'postCount',
+            'userData',
+            'postData'
         ));
     }
 
@@ -110,13 +115,14 @@ class AdministratorController extends Controller
         return view('admin.authority.detail', compact('authority'));
     }
 
-    // DM 関連
+    // DM一覧表示
     public function dmList()
     {
         $dms = Pair::whereNull('deleted_at')->get();
         return view('admin.dm.index', compact('dms'));
     }
 
+    // DM詳細表示
     public function detail($id)
     {
         $dm = Pair::with(['userA', 'userB'])->findOrFail($id);
@@ -128,7 +134,7 @@ class AdministratorController extends Controller
         return view('admin.dm.detail', compact('dm', 'messages'));
     }
 
-    // 投稿通報関連
+    // 投稿通報一覧表示
     public function postReports()
     {
         $reports = PostReport::with(['user', 'post'])
@@ -139,11 +145,34 @@ class AdministratorController extends Controller
         return view('admin.report.post.index', compact('reports'));
     }
 
-    public function postReportDetail($id)
-    {
-        $report = PostReport::with(['user', 'post'])->findOrFail($id);
-        return view('admin.report.post.detail', compact('report'));
+// 投稿通報詳細表示
+public function postReportDetail($id)
+{
+    $report = PostReport::with(['user', 'post.user', 'post.images', 'post.videos'])->findOrFail($id);
+
+    // 投稿が削除済み（論理削除）または存在しない場合は null 扱いにする
+    if (!$report->post || $report->post->trashed()) {
+        $report->post = null;
     }
+
+    return view('admin.report.post.detail', compact('report'));
+}
+
+
+
+    // 投稿削除（管理者用）
+    public function postDestroy(Post $post)
+    {
+        // 関連する譲渡データがあるか確認
+        if ($post->transfers()->exists()) {
+            return redirect()->back()->with('warning', 'この投稿は譲渡成立済みのため削除できません。');
+        }
+
+        $post->delete();
+        return redirect()->route('admin.post.reports')->with('success', '投稿を削除しました');
+    }
+
+
 
     public function postReportResolve($id)
     {
@@ -159,7 +188,7 @@ class AdministratorController extends Controller
         return redirect()->route('admin.post.reports');
     }
 
-    // BAN関連
+    // ユーザーBAN
     public function userBan($id)
     {
         $user = User::findOrFail($id);
@@ -168,6 +197,7 @@ class AdministratorController extends Controller
         return redirect()->back();
     }
 
+    // BAN解除
     public function userUnban($id)
     {
         $user = User::findOrFail($id);
@@ -176,7 +206,7 @@ class AdministratorController extends Controller
         return redirect()->back();
     }
 
-    // DM通報関連
+    // DM通報一覧表示
     public function dmReportList()
     {
         $reports = MessageReport::with('user')
@@ -203,21 +233,33 @@ class AdministratorController extends Controller
         return redirect()->route('admin.report');
     }
 
+    // DM通報詳細表示
     public function dmReportDetail($id)
     {
         $report = MessageReport::with('user')->findOrFail($id);
         return view('admin.report.dm.detail', compact('report'));
     }
 
-    // メッセージ削除（管理者用）
-    public function messageDestroy($dm, $message)
+    // メッセージ削除
+    public function messageDestroy(Request $request, $dm, $message)
     {
         $messageModel = Message::findOrFail($message);
-
-        // 削除処理
         $messageModel->delete();
 
-        return redirect()->route('admin.report')->with('success', 'メッセージを削除しました');
+        if ($request->input('from') === 'report_detail') {
+            // DM通報詳細ページに戻る
+            $report = MessageReport::where('message_id', $message)->first();
+            if ($report) {
+                return redirect()
+                    ->route('admin.report.detail', ['id' => $report->id])
+                    ->with('success', 'メッセージを削除しました');
+            }
+        }
+
+        // 通常はDM一覧に戻す
+        return redirect()
+            ->route('admin.dm.detail', ['dm' => $dm])
+            ->with('success', 'メッセージを削除しました');
     }
 
     // ユーザー一覧
@@ -228,37 +270,47 @@ class AdministratorController extends Controller
     }
 
     // ユーザー詳細
-public function userDetail($id)
-{
-    $user = User::findOrFail($id);
+    public function userDetail($id)
+    {
+        $user = User::findOrFail($id);
 
-    // 投稿数
-    $postCount = Post::where('user_id', $user->id)->count();
+        // 投稿数
+        $postCount = Post::where('user_id', $user->id)->count();
 
-    // メッセージ送信数 ← 修正！
-    $messageCount = Message::where('user_id', $user->id)->count();
+        // メッセージ送信数 ← 修正！
+        $messageCount = Message::where('user_id', $user->id)->count();
 
-    // 通報数
-$dmReportCount = MessageReport::where('user_id', $user->id)->count();
+        // 通報数
+        $dmReportCount = MessageReport::where('user_id', $user->id)->count();
 
-$postReportCount = PostReport::whereHas('post', function ($q) use ($user) {
-    $q->where('user_id', $user->id);
-})->count();
+        $postReportCount = PostReport::whereHas('post', function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+        })->count();
 
-$reportCount = $dmReportCount + $postReportCount;
+        $reportCount = $dmReportCount + $postReportCount;
 
-    return view('admin.user.detail', compact(
-        'user',
-        'postCount',
-        'messageCount',
-        'reportCount'
-    ));
-}
+        return view('admin.user.detail', compact(
+            'user',
+            'postCount',
+            'messageCount',
+            'reportCount'
+        ));
+    }
 
-public function transferList()
-{
-    $transfers = Transfer::orderBy('id')->get();
+    // 譲渡成立一覧表示
+    public function transferList()
+    {
+        $transfers = Transfer::orderBy('id')->get();
         return view('admin.transfer.index', compact('transfers'));
-}
+    }
 
+    // 管理者退会
+    public function destroy(Request $request)
+    {
+        $admin = Auth::guard('admin')->user();
+        $admin->delete();
+        Auth::guard('admin')->logout();
+
+        return redirect('/admin/login')->with('success', '退会が完了しました');
+    }
 }

@@ -329,6 +329,49 @@ list-item ul li h3 {
     margin: 0;
 }
 
+/* ==========================
+   メッセージ時間＋削除ボタン配置
+========================== */
+.message-time {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+  gap: 8px;
+}
+
+/* 左右の配置を逆転 */
+.time-left {
+  flex-direction: row-reverse; /* 削除 → 時間 */
+}
+
+.time-right {
+  flex-direction: row; /* 時間 → 削除 */
+}
+
+.message-time p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #705840;
+}
+
+/* 削除ボタン */
+.message-time .report-btn {
+  background-color: #f39c12;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.message-time .report-btn:hover {
+  background-color: #e67e22;
+  transform: scale(1.05);
+}
+
 /* ===================================================================== */
 
 /* =============================

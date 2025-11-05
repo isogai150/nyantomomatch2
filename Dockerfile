@@ -55,6 +55,18 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 # RUN php artisan db:seed --force
 
 
-RUN php artisan config:clear && \
-    php artisan cache:clear
-#   php artisan config:cache 
+
+
+RUN php artisan config:clear
+RUN php artisan cache:clear
+RUN php artisan route:clear
+RUN php artisan optimize:clear
+
+
+# 起動コマンド
+CMD ["apache2-foreground"]
+
+RUN echo "upload_max_filesize = 20M" >> /usr/local/etc/php/conf.d/uploads.ini && \
+    echo "post_max_size = 20M" >> /usr/local/etc/php/conf.d/uploads.ini
+
+

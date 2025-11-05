@@ -80,57 +80,73 @@
             </div>
         @endif
 
-{{-- ============================= --}}
-{{-- 譲渡関連ボタン --}}
-{{-- ============================= --}}
-<div class="dm-transfer-area">
-    @php
-        $status = $dm->transfer_status;
-        $isPoster = Auth::id() === $post->user_id;
-    @endphp
+        {{-- ============================= --}}
+        {{-- 譲渡関連ボタン --}}
+        {{-- ============================= --}}
 
-    {{-- 資料を渡す（投稿者のみ / none） --}}
-    @if($isPoster && $status === 'none')
-        <form action="{{ route('transfer.send', $dm->id) }}" method="POST">
-            @csrf
-            <button type="submit" class="btn-detail">資料を渡す</button>
-        </form>
-    @endif
+        <div class="dm-transfer-area">
+            @php
+                $status = $dm->transfer_status;
+                $isPoster = Auth::id() === $post->user_id;
+            @endphp
 
-    {{-- 里親希望者のみ表示（資料確認ボタン） --}}
-    @if(!$isPoster && $status === 'sent')
-        <a href="{{ route('document.show', $dm->id) }}" class="btn-detail">資料を確認する</a>
-    @endif
+            {{-- 資料を渡す（投稿者のみ / none） --}}
+            @if($isPoster && $status === 'none')
+                <form action="{{ route('transfer.send', $dm->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn-detail">資料を渡す</button>
+                </form>
+            @endif
 
-    {{-- 合意する（submitted / agreed_wait） --}}
-    @if(in_array($status, ['submitted', 'agreed_wait']))
-        <form action="{{ route('transfer.agree', $dm->id) }}" method="POST">
-            @csrf
-            <button type="submit" class="btn-detail">合意する</button>
-        </form>
+            {{-- 里親希望者のみ表示（資料確認ボタン） --}}
+            @if(!$isPoster && $status === 'sent')
+                <a href="{{ route('document.show', $dm->id) }}" class="btn-detail">資料を確認する</a>
+            @endif
 
-        @if($status === 'agreed_wait')
-            <p class="dm-status-wait">相手の合意をお待ちください…</p>
-        @endif
-    @endif
+            {{-- 合意する（submitted のみ） --}}
+            @if($status === 'submitted')
+                <form action="{{ route('transfer.agree', $dm->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn-detail">合意する</button>
+                </form>
+            @endif
 
-    {{-- 決済フェーズ --}}
-    @if($status === 'agreed')
-        @if(!$isPoster)
-            <a href="{{ route('payment.cart', $post->id) }}" class="btn-detail">決済へ進む</a>
-        @else
-            <p class="dm-status-wait">里親様の決済をお待ちください…</p>
-        @endif
-    @endif
+            {{-- 合意待ち（agreed_wait） --}}
+            @if($status === 'agreed_wait')
+                @if($dm->agreed_user_id === Auth::id())
+                    {{-- 自分が先に合意した場合 --}}
+                    <p class="dm-status-wait">相手の合意をお待ちください…</p>
+                @else
+                    {{-- 相手が先に合意した場合 --}}
+                    <form action="{{ route('transfer.agree', $dm->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn-detail">合意する</button>
+                    </form>
+                @endif
+            @endif
 
-    {{-- 完了 --}}
-    @if($status === 'paid')
-        <p class="dm-status-done">決済が完了しました！</p>
-    @endif
-</div>
-{{-- ============================= --}}
-{{-- 譲渡関連ボタンここまで --}}
-{{-- ============================= --}}
+            {{-- 決済フェーズ --}}
+            @if($status === 'agreed')
+                @if(!$isPoster)
+                    <a href="{{ route('payment.cart', $post->id) }}" class="btn-detail">決済へ進む</a>
+                @else
+                    <p class="dm-status-wait">里親様の決済をお待ちください…</p>
+                @endif
+            @endif
+
+            {{-- 完了 --}}
+            @if($status === 'paid')
+                @if(!$isPoster)
+                    <p class="dm-status-done">決済が完了しました！</p>
+                @else
+                    <p class="dm-status-wait">里親様による決済が完了しました！<br>里親様へ譲渡手続きのご連絡を<br class="br-sp">お願いします</p>
+                @endif
+            @endif
+        </div>
+
+        {{-- ============================= --}}
+        {{-- 譲渡関連ボタンここまで --}}
+        {{-- ============================= --}}
 
 {{-- ======= メッセージ一覧 ======= --}}
 <div id="dm-messages" class="dm-messages">
