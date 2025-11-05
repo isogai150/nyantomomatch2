@@ -28,6 +28,7 @@
         @csrf
         <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}">
         <input type="hidden" name="post_id" value="{{ $post->id }}">
+
         <div class="form-group">
           <label for="name">お名前（フルネーム）</label>
           <input type="text" id="name" name="name" placeholder="例: 山田 太郎">
@@ -50,12 +51,23 @@
         </div>
 
         {{-- ▼ Stripe Elements 挿入ポイント --}}
-        {{-- カード番号・有効期限・CVC などのフォームをStripeが自動生成する --}}
+        {{-- カード番号・有効期限・CVC をそれぞれ別の要素として表示 --}}
         <div class="form-group">
-          <label>クレジットカード情報</label>
-          <div id="card-element" class="stripe-card-element"></div>
-          <div id="card-errors" role="alert" class="error-message"></div>
+          <label for="card-number">カード番号</label>
+          <div id="card-number" class="stripe-card-element"></div>
         </div>
+
+        <div class="form-group">
+          <label for="card-expiry">有効期限</label>
+          <div id="card-expiry" class="stripe-card-element"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="card-cvc">セキュリティコード</label>
+          <div id="card-cvc" class="stripe-card-element"></div>
+        </div>
+
+        <div id="card-errors" role="alert" class="error-message"></div>
         {{-- ▲ Stripe Elements 挿入ポイント --}}
 
         <button type="submit" class="payment-btn">支払う</button>
