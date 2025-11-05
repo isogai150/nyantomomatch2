@@ -49,4 +49,4 @@ RUN php artisan config:clear && \
 #   php artisan config:cache 
 
 # 起動コマンド
-# CMD ["apache2-foreground"]
+CMD ["apache2-foreground"]
