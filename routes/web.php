@@ -21,13 +21,7 @@ use App\Http\Controllers\DompdfController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\MessageReportController;
 use App\Http\Controllers\AiChatController;
-
-Route::get('/chat', function () {
-    return view('chat.index');
-});
-
-Route::post('/ask-gemini', [AiChatController::class, 'ask'])->name('ask.gemini');
-
+use App\Http\Controllers\ChatController;
 
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
@@ -156,6 +150,12 @@ Route::middleware('auth')->group(function () {
 
   // メッセージ通報機能
   Route::post('/dm/{dm}/message/{message}/report', [MessageReportController::class, 'store'])->name('report.message');
+
+  // チャット画面表示
+  Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+
+  // チャット送信
+  Route::post('/ask-gemini', [ChatController::class, 'ask'])->name('ask.gemini');
 });
 
 // 管理者ログイン関連
@@ -198,7 +198,7 @@ Route::prefix('admin')->name('admin.')->middleware('firewall')->group(function (
     Route::get('post-reports/{report}', [AdministratorController::class, 'postReportDetail'])->name('post.report.detail');
 
     // 投稿削除（管理者用）
-Route::delete('post/{post}/delete', [AdministratorController::class, 'postDestroy'])->name('post.delete');
+    Route::delete('post/{post}/delete', [AdministratorController::class, 'postDestroy'])->name('post.delete');
 
 
     // 通報ステータス更新（対応済）
@@ -281,13 +281,13 @@ Auth::routes();
 
 
 // 一時ログ確認用ルート（確認後に必ず削除）
-Route::get('/debug-log', function () {
-    $logPath = storage_path('logs/laravel.log');
-    if (!file_exists($logPath)) {
-        return 'ログファイルが存在しません。';
-    }
+// Route::get('/debug-log', function () {
+//     $logPath = storage_path('logs/laravel.log');
+//     if (!file_exists($logPath)) {
+//         return 'ログファイルが存在しません。';
+//     }
 
-    $logs = file($logPath);
-    $lastLines = array_slice($logs, -50); // 最後の50行だけ取得
-    return '<pre>' . htmlspecialchars(implode("", $lastLines)) . '</pre>';
-});
+//     $logs = file($logPath);
+//     $lastLines = array_slice($logs, -50); // 最後の50行だけ取得
+//     return '<pre>' . htmlspecialchars(implode("", $lastLines)) . '</pre>';
+// });
