@@ -20,6 +20,14 @@ use App\Http\Controllers\PostReportController;
 use App\Http\Controllers\DompdfController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\MessageReportController;
+use App\Http\Controllers\AiChatController;
+
+Route::get('/chat', function () {
+    return view('chat.index');
+});
+
+Route::post('/ask-gemini', [AiChatController::class, 'ask'])->name('ask.gemini');
+
 
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
