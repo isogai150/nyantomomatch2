@@ -365,6 +365,31 @@ h2 {
   margin-bottom: 30px;
 }
 
+
+/* ボタン本体 */
+.ai-consult-btn {
+  position: fixed;         /* 画面右下に固定 */
+  bottom: 4%;              /* 画面下からの距離（%で可変対応） */
+  right: 3%;               /* 画面右からの距離 */
+  background-color: #a67b5b;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 1em 1.5em;
+  border-radius: 2em;
+  box-shadow: 0 0.5rem 1rem rgba(80, 50, 30, 0.3);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  z-index: 3000;           /* モーダルなどより上に表示 */
+}
+
+/* ホバー時のアクション */
+.ai-consult-btn:hover {
+  background-color: #8f674e;
+  transform: scale(1.05);
+}
+
+
 /* スマホ用 (390px以下) */
 @media screen and (max-width: 390px) {
 
@@ -499,4 +524,11 @@ h2 {
       max-width: 100%;
   height: 100%;
 }
+
+  .ai-consult-btn {
+    bottom: 6%;
+    right: 5%;
+    font-size: 0.9rem;
+    padding: 0.8em 1.2em;
+  }
 }

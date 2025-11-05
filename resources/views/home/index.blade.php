@@ -42,16 +42,12 @@
         </div>
 
         <div class="main-center">
-            {{-- @dd($catposts) --}}
+            {{-- 投稿カード一覧 --}}
             @foreach ($catposts as $catpost)
-                {{-- @dd($catpost); --}}
                 <div class="catpost-card">
                     <div class="post-image">
                         {{-- 投稿画像（最初の1枚を表示） --}}
                         @if ($catpost->images->isNotEmpty())
-                            {{-- Seeder時（開発中） --}}
-                            {{-- <img src="{{ asset(str_replace('public/', '', $catpost->images->first()->image_path)) }}" alt="投稿画像"> --}}
-                            {{-- 本番用（storage:linkを使用してストレージパスへ変更予定） --}}
                             <img src="{{ Storage::disk(config('filesystems.default'))->url('post_images/' . $catpost->images->first()->image_path) }}"
                                 alt="投稿画像">
                         @else
@@ -72,6 +68,7 @@
                         @endif
                     </div>
 
+                    {{-- 投稿情報 --}}
                     <div class="post-information">
                         <div class="post-information-top">
                             <h3>{{ $catpost->title }}</h3>
@@ -88,10 +85,8 @@
 
                         {{-- 詳細ボタン --}}
                         @if (Auth::check())
-                            {{-- ログイン済み：通常遷移 --}}
                             <a href="{{ route('posts.detail', $catpost->id) }}" class="detail-btn">詳細を見る</a>
                         @else
-                            {{-- 未ログイン：モーダル表示 --}}
                             <button type="button" class="detail-btn modal-open"
                                 data-id="{{ $catpost->id }}">詳細を見る</button>
                         @endif
@@ -118,6 +113,11 @@
             <a href="{{ route('register') }}" class="btn">新規登録</a>
         </div>
     </div>
+
+    {{-- ===== 右下固定の「AIに相談」ボタン ===== --}}
+    <a href="{{ route('chat.index') }}" class="ai-consult-btn">
+        AIに相談
+    </a>
 @endsection
 
 @section('script')
