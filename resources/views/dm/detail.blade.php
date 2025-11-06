@@ -208,10 +208,16 @@
 @endsection
 
 @section('script')
-    <div id="dm-config" data-fetch-url="{{ route('dm.message.fetch', $dm->id) }}"
-        data-send-url="{{ route('dm.message.send', $dm->id) }}" data-csrf-token="{{ csrf_token() }}"
-        data-auth-id="{{ auth()->id() }}">
-    </div>
+<div id="dm-config"
+    data-fetch-url="{{ route('dm.message.fetch', $dm->id) }}"
+    data-send-url="{{ route('dm.message.send', $dm->id) }}"
+    data-csrf-token="{{ csrf_token() }}"
+    data-auth-id="{{ auth()->id() }}"
+    data-dm-id="{{ $dm->id }}"
+    data-post-id="{{ $post->id }}"
+></div>
+
+
 
     <script src="{{ asset('js/dm/detail.js') }}"></script>
 @endsection
