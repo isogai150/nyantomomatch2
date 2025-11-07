@@ -15,7 +15,10 @@ class TransferController extends Controller
      */
     public function send($dm)
     {
+        // dd($dm);
         $pair = Pair::with('post')->findOrFail($dm);
+
+        // dd($pair);
 
         if ($pair->post->user_id !== Auth::id()) {
             return back()->with('error', 'この操作を行う権限がありません。');

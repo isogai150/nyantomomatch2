@@ -92,7 +92,7 @@
 
             {{-- 資料を渡す（投稿者のみ / none） --}}
             @if($isPoster && $status === 'none')
-                <form action="{{ route('transfer.send', $dm->id) }}" method="POST">
+                <form action="{{ route('transfer.send', $dm) }}" method="POST">
                     @csrf
                     <button type="submit" class="btn-detail">資料を渡す</button>
                 </form>
@@ -100,12 +100,12 @@
 
             {{-- 里親希望者のみ表示（資料確認ボタン） --}}
             @if(!$isPoster && $status === 'sent')
-                <a href="{{ route('document.show', $dm->id) }}" class="btn-detail">資料を確認する</a>
+                <a href="{{ route('document.show', $dm) }}" class="btn-detail">資料を確認する</a>
             @endif
 
             {{-- 合意する（submitted のみ） --}}
             @if($status === 'submitted')
-                <form action="{{ route('transfer.agree', $dm->id) }}" method="POST">
+                <form action="{{ route('transfer.agree', $dm) }}" method="POST">
                     @csrf
                     <button type="submit" class="btn-detail">合意する</button>
                 </form>
@@ -118,7 +118,7 @@
                     <p class="dm-status-wait">相手の合意をお待ちください…</p>
                 @else
                     {{-- 相手が先に合意した場合 --}}
-                    <form action="{{ route('transfer.agree', $dm->id) }}" method="POST">
+                    <form action="{{ route('transfer.agree', $dm) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn-detail">合意する</button>
                     </form>
