@@ -23,6 +23,7 @@ use App\Http\Controllers\MessageReportController;
 use App\Http\Controllers\AiChatController;
 use App\Http\Controllers\ChatController;
 
+
 // ホーム
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
 

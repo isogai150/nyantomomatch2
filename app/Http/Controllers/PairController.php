@@ -20,10 +20,11 @@ class PairController extends Controller
     {
         // Pairテーブルから対象のDMを取得（関連データも一括で）
         // → N+1問題を防ぐために with() でリレーションも同時取得
-        $dm = Pair::with(['userA', 'userB', 'post.images'])->findOrFail($dm);
+        $dmId = Pair::with(['userA', 'userB', 'post.images'])->findOrFail($dm);
+        // dd($dm);
 
         // 現在ログインしているユーザーと userA_id を比較して相手を特定
-        $partner = $dm->userA->id === auth()->id() ? $dm->userB : $dm->userA;
+        $partner = $dmId->userA->id === auth()->id() ? $dmId->userB : $dmId->userA;
 
         // 現在のユーザー
         $user = auth()->user();
@@ -38,15 +39,15 @@ class PairController extends Controller
         $isBlockedBy = $user->isBlockedBy($partner->id);
 
         // このDMに紐づくメッセージを古い順で取得
-        $messages = $dm->messages()
+        $messages = $dmId->messages()
             ->orderBy('created_at', 'asc')
             ->get();
 
         // 投稿データを取得（このDMがどの投稿に紐づくか）
-        $post = $dm->post;
+        $post = $dmId->post;
 
         // Bladeへデータを渡して画面表示
-        return view('dm.detail', compact('dm', 'partner', 'post', 'messages', 'isBlocking', 'isBlockedBy'));
+        return view('dm.detail', compact('dmId', 'partner', 'post', 'messages', 'isBlocking', 'isBlockedBy'));
     }
 
 
