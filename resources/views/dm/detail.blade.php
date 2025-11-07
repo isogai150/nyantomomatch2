@@ -128,7 +128,7 @@
             {{-- 決済フェーズ --}}
             @if($status === 'agreed')
                 @if(!$isPoster)
-                    <a href="{{ route('payment.cart', $post->id) }}" class="btn-detail">決済へ進む</a>
+                    <a href="{{ route('payment.cart', $post) }}" class="btn-detail">決済へ進む</a>
                 @else
                     <p class="dm-status-wait">里親様の決済をお待ちください…</p>
                 @endif
