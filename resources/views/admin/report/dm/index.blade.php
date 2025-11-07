@@ -51,33 +51,31 @@
                         @endif
                     </li>
 
+                {{-- アクションボタン --}}
+                <li class="action-btn">
+                    @if($report->status == 0)
+                        <div class="ok-btn">
+                            <form action="{{ route('admin.report.resolve', $report->id) }}" method="POST">
+                                @csrf
+                                @method('POST')
+                                <button type="submit" onclick="return confirm('解決済みにしますか？')">対応済み</button>
+                            </form>
+                        </div>
+                        <div class="no-btn">
+                            <form action="{{ route('admin.report.reject', $report->id) }}" method="POST">
+                                @csrf
+                                @method('POST')
+                                <button type="submit" onclick="return confirm('却下しますか？')">却下</button>
+                            </form>
+                        </div>
+                    @else
+                        <span style="color: #999;">処理済み</span>
+                    @endif
+                </li>
                     {{-- 詳細表示 --}}
                     <li>
                         <a href="{{ route('admin.report.detail', $report->id) }}" class="discription-btn">詳細表示</a>
                     </li>
-
-                    {{-- アクションボタン --}}
-                    <li class="action-btn">
-                        @if ($report->status == 0)
-                            <div class="ok-btn">
-                                <form action="{{ route('admin.report.resolve', $report->id) }}" method="POST">
-                                    @csrf
-                                    @method('POST')
-                                    <button type="submit" onclick="return confirm('解決済みにしますか？')">対応済み</button>
-                                </form>
-                            </div>
-                            <div class="no-btn">
-                                <form action="{{ route('admin.report.reject', $report->id) }}" method="POST">
-                                    @csrf
-                                    @method('POST')
-                                    <button type="submit" onclick="return confirm('却下しますか？')">却下</button>
-                                </form>
-                            </div>
-                        @else
-                            <span style="color: #999;">処理済み</span>
-                        @endif
-                    </li>
-
 
                 </ul>
             </list-item>

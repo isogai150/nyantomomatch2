@@ -128,7 +128,8 @@
             {{-- 決済フェーズ --}}
             @if($status === 'agreed')
                 @if(!$isPoster)
-                    <a href="{{ route('payment.cart', $post->id) }}" class="btn-detail">決済へ進む</a>
+                    <a href="{{ route('payment.cart', $post) }}" class="btn-detail">決済へ進む</a>
+
                 @else
                     <p class="dm-status-wait">里親様の決済をお待ちください…</p>
                 @endif
@@ -208,10 +209,16 @@
 @endsection
 
 @section('script')
-    <div id="dm-config" data-fetch-url="{{ route('dm.message.fetch', $dmId->id) }}"
-        data-send-url="{{ route('dm.message.send', $dmId->id) }}" data-csrf-token="{{ csrf_token() }}"
-        data-auth-id="{{ auth()->id() }}">
-    </div>
+<div id="dm-config"
+    data-fetch-url="{{ route('dm.message.fetch', $dm->id) }}"
+    data-send-url="{{ route('dm.message.send', $dm->id) }}"
+    data-csrf-token="{{ csrf_token() }}"
+    data-auth-id="{{ auth()->id() }}"
+    data-dm-id="{{ $dm->id }}"
+    data-post-id="{{ $post->id }}"
+></div>
+
+
 
     <script src="{{ asset('js/dm/detail.js') }}"></script>
 @endsection

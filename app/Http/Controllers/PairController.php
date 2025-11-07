@@ -52,25 +52,39 @@ class PairController extends Controller
 
 
     // Ajaxでメッセージを取得（3秒ごと）
-public function fetch($dm)
-{
-    $dm = Pair::findOrFail($dm);
+    public function fetch($dm)
+    {
+        $dm = Pair::with('post')->findOrFail($dm); // ← post を取得（ステータスに必要）
 
-    $messages = $dm->messages()
-        ->orderBy('created_at', 'asc')
-        ->get()
-        ->map(function ($msg) use ($dm) {
-            return [
-                'id' => $msg->id,
-                'user_id' => $msg->user_id,
-                'content' => $msg->content,
-                'created_at' => $msg->created_at->format('Y年m月d日 H:i'),
-                'pair_id' => $dm->id, // ← これを追加！
-            ];
-        });
+        $messages = $dm->messages()
+            ->orderBy('created_at', 'asc')
+            ->get()
+            ->map(function ($msg) use ($dm) {
+                return [
+                    'id' => $msg->id,
+                    'user_id' => $msg->user_id,
+                    'content' => $msg->content,
+                    'created_at' => $msg->created_at->format('Y年m月d日 H:i'),
+                    'pair_id' => $dm->id, // ← これを追加！
+                ];
+            });
 
-    return response()->json(['messages' => $messages]);
-}
+        // Blade 内で表示している資料送信・確認・合意・決済ボタンは transfer_status によって決まるため、
+        // fetch のレスポンスにステータスを含めないと Ajax 更新できない。
+        return response()->json([
+            'messages' => $messages,
+
+            // 譲渡ステータス（UIが自動で切り替わる）
+            'transfer_status' => $dm->transfer_status,
+
+            // 誰が合意したか（合意待ち画面に必要）
+            'agreed_user_id' => $dm->agreed_user_id,
+
+            // 投稿者かどうか（ボタンの出し分けに必要）
+            'is_poster' => $dm->post->user_id === Auth::id(),
+        ]);
+    }
+
 
     // Ajaxでメッセージ送信
     public function send(MessageSendRequest $request, $dm)
@@ -120,7 +134,7 @@ public function fetch($dm)
         ]);
     }
 
-    // // Ajaxでメッセージを削除（DELETE通信）
+    // Ajaxでメッセージを削除（DELETE通信）
     public function destroy(Message $message)
     {
         // 自分以外のメッセージを削除しようとした場合は403エラー
@@ -134,6 +148,7 @@ public function fetch($dm)
         // フロント側で非表示にできるよう成功レスポンスを返す
         return response()->json(['success' => true]);
     }
+
 
     // DM一覧表示
     public function index(DmSearchRequest $request)

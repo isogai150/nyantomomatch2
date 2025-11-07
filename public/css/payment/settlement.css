@@ -73,7 +73,7 @@
 
 .form-header {
   text-align: center;
-  margin-bottom: 6%;
+  margin-bottom: 2.5em;
 }
 
 .form-header h2 {
@@ -92,13 +92,13 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.5em;
+  gap: 1.8em;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.4em;
+  gap: 0.5em;
 }
 
 .form-group label {
@@ -108,13 +108,14 @@
 
 .form-group input {
   width: 100%;
-  padding: 0.8em 1em;
+  padding: 0.9em 1em;
   border-radius: 0.5em;
   border: 1px solid #ccc;
   font-size: 1em;
   background-color: #fff;
   color: #503322;
   transition: border-color 0.3s;
+  box-sizing: border-box;
 }
 
 .form-group input:focus {
@@ -134,20 +135,37 @@
 
 /* ------- Stripe Elementsエリア ------- */
 .stripe-card-element {
-  margin: 2em 0;
   padding: 1em;
   border: 1px solid #ccc;
   border-radius: 0.5em;
   background-color: #fff;
+  transition: border-color 0.3s;
 }
 
-/* ------- ボタン ------- */
+.stripe-card-element:focus-within {
+  border-color: #C9A063;
+}
+
+#card-number,
+#card-expiry,
+#card-cvc {
+  margin-top: 0.4em;
+}
+
+#card-errors {
+  font-size: 0.9em;
+  color: #E5424D;
+  margin-top: -0.5em;
+  min-height: 1.2em;
+}
+
+/* ------- ボタンエリア ------- */
 .form-actions {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   flex-wrap: wrap;
 }
 
@@ -155,10 +173,11 @@
 .payment-btn {
   background-color: #F6D8B3;
   color: #503322;
-  padding: 0.8rem 2rem;
+  padding: 0.9rem 2rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  font-size: 1em;
   transition: 0.2s;
 }
 
@@ -166,9 +185,10 @@
 .cancel-btn {
   background-color: #E9E9E9;
   color: red;
-  padding: 0.8rem 2rem;
+  padding: 0.9rem 2rem;
   border-radius: 8px;
   text-decoration: none;
+  font-size: 1em;
   transition: 0.2s;
   text-align: center;
 }
@@ -193,15 +213,15 @@
 
 .payment__summary h2 {
   font-size: 1.3em;
-  margin-bottom: 1.5em;
+  margin-bottom: 1.8em;
   border-left: 0.3em solid #C9A063;
-  padding-left: 0.5em;
+  padding-left: 0.6em;
 }
 
 .summary-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 2em 0;
+  margin: 0 0 2.5em 0;
 }
 
 .summary-list li {
@@ -209,9 +229,9 @@
   justify-content: space-between;
   align-items: center;
   font-size: 1em;
-  margin-bottom: 0.8em;
+  margin-bottom: 1em;
   border-bottom: 0.05em dotted #ccc;
-  padding-bottom: 0.4em;
+  padding-bottom: 0.5em;
 }
 
 .summary-list span {
@@ -227,7 +247,7 @@
 .total-box p {
   font-size: 1.1em;
   font-weight: 700;
-  margin: 0.2em 0;
+  margin: 0.3em 0;
 }
 
 .total-amount {
@@ -237,7 +257,8 @@
 
 /* ------- セキュリティ情報 ------- */
 .security-section {
-  margin-top: 2em;
+  margin-top: 2.5em;
+  line-height: 1.6;
 }
 
 .security-section ul {
@@ -282,13 +303,13 @@
   .main-top {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5em;
+    gap: 0.6em;
   }
 
   .main-center {
     flex-direction: column;
     padding: 8% 6%;
-    gap: 2em;
+    gap: 2.5em;
   }
 
   .payment__form-area,
@@ -297,13 +318,17 @@
     padding: 7%;
   }
 
-  .form-row {
-    flex-direction: column;
-    gap: 1em;
+  .form-header p {
+    text-align: left;
   }
 
-  .form-header p {
-  text-align: left;
+  .payment-form {
+    gap: 1.5em;
+  }
+
+  .stripe-card-element {
+    padding: 0.9em;
+    margin-top: 0.5em;
   }
 
   .payment-btn {
@@ -313,6 +338,7 @@
 
   .form-actions {
     flex-direction: column;
+    gap: 0.8em;
   }
 
   .payment-btn,
