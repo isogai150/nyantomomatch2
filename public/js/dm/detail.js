@@ -13,6 +13,9 @@ $(function () {
   const csrfToken = config.csrfToken;   // CSRFトークン（POST通信時に必須）
   const authId = config.authId;         // 現在ログインしているユーザーID
 
+  // dm_id を取得（URLから抽出）
+  const dmId = fetchUrl.split('/')[2];
+
   // 編集中判定フラグ
   // 編集中はfetchMessages()による再描画を停止して、入力内容を保持する。
   let isEditing = false;
@@ -111,6 +114,12 @@ $(function () {
           // それ以外の場合はユーザーの閲覧位置を維持（画面が上下しない）
           $messageArea.scrollTop(scrollPos);
         }
+
+// 譲渡UIをリアルタイム更新する
+        if (res.transfer_status !== undefined) {
+          updateTransferUI(res.transfer_status, res.is_poster, res.agreed_user_id);
+        }
+
       },
       error: function () {
         console.error('メッセージ取得に失敗しました。');
@@ -144,6 +153,75 @@ $(function () {
         </div>
       </div>
     `);
+  }
+
+  // 新規追加：譲渡ステータスに応じてUIをリアルタイム更新する関数
+  function updateTransferUI(status, isPoster, agreedUserId) {
+
+    const area = $('.dm-transfer-area');
+    area.html(''); // 一度初期化
+
+    // ====== Blade のロジックに完全一致（あなたのコードを忠実に再現）=======
+
+    if (isPoster && status === 'none') {
+      area.append(`
+        <form action="/dm/${dmId}/transfer/send" method="POST">
+          <input type="hidden" name="_token" value="${csrfToken}">
+          <button type="submit" class="btn-detail">資料を渡す</button>
+        </form>
+      `);
+      return;
+    }
+
+    if (!isPoster && status === 'sent') {
+      area.append(`
+        <a href="/dm/${dmId}/document" class="btn-detail">資料を確認する</a>
+      `);
+      return;
+    }
+
+    if (status === 'submitted') {
+      area.append(`
+        <form action="/dm/${dmId}/transfer/agree" method="POST">
+          <input type="hidden" name="_token" value="${csrfToken}">
+          <button type="submit" class="btn-detail">合意する</button>
+        </form>
+      `);
+      return;
+    }
+
+    if (status === 'agreed_wait') {
+
+      if (agreedUserId == authId) {
+        area.append(`<p class="dm-status-wait">相手の合意をお待ちください…</p>`);
+      } else {
+        area.append(`
+          <form action="/dm/${dmId}/transfer/agree" method="POST">
+            <input type="hidden" name="_token" value="${csrfToken}">
+            <button type="submit" class="btn-detail">合意する</button>
+          </form>
+        `);
+      }
+      return;
+    }
+
+    if (status === 'agreed') {
+      if (!isPoster) {
+        area.append(`<a href="/checkout/${dmId}" class="btn-detail">決済へ進む</a>`);
+      } else {
+        area.append(`<p class="dm-status-wait">里親様の決済をお待ちください…</p>`);
+      }
+      return;
+    }
+
+    if (status === 'paid') {
+      if (!isPoster) {
+        area.append(`<p class="dm-status-done">決済が完了しました！</p>`);
+      } else {
+        area.append(`<p class="dm-status-wait">里親様による決済が完了しました！<br>里親様へ譲渡手続きのご連絡をお願いします</p>`);
+      }
+      return;
+    }
   }
 
   // ======================
