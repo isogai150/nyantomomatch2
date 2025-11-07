@@ -13,10 +13,11 @@ class TransferController extends Controller
     /**
      * 資料を渡す（投稿者のみ）
      */
-    public function send($dm)
+    public function send(Pair $dm)
     {
-        // dd($dm);
-        $pair = Pair::with('post')->findOrFail($dm);
+        // $dm は Pair モデルとして取得される
+        $pair = $dm->load('post');
+
 
         // dd($pair);
 
@@ -31,9 +32,9 @@ class TransferController extends Controller
     /**
      * 資料確認ページ表示
      */
-    public function showDocument($dm)
+    public function showDocument(Pair $dm)
     {
-        $pair = Pair::with('post')->findOrFail($dm);
+        $pair = $dm->load('post');
 
         if ($pair->post->user_id == Auth::id()) {
             return back()->with('error', '資料閲覧権限がありません。');
@@ -75,9 +76,10 @@ class TransferController extends Controller
     /**
      * 双方合意（両者押下で成立）
      */
-    public function agree($dm)
+    public function agree(Pair $dm)
     {
-        $pair = Pair::findOrFail($dm);
+        $pair = $dm;
+
         $currentUser = Auth::id();
 
         if (!in_array($currentUser, [$pair->userA_id, $pair->userB_id])) {

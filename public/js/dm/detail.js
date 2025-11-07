@@ -13,8 +13,8 @@ $(function () {
   const csrfToken = config.csrfToken;   // CSRFトークン（POST通信時に必須）
   const authId = config.authId;         // 現在ログインしているユーザーID
 
-  // dm_id を取得（URLから抽出）
-  const dmId = fetchUrl.split('/')[2];
+ const dmId = config.dmId;
+
 
   // 編集中判定フラグ
   // 編集中はfetchMessages()による再描画を停止して、入力内容を保持する。
@@ -115,7 +115,7 @@ $(function () {
           $messageArea.scrollTop(scrollPos);
         }
 
-// 譲渡UIをリアルタイム更新する
+        // 譲渡UIをリアルタイム更新する
         if (res.transfer_status !== undefined) {
           updateTransferUI(res.transfer_status, res.is_poster, res.agreed_user_id);
         }
@@ -139,17 +139,17 @@ $(function () {
         <div class="dm-time">${msg.created_at}</div>
         <div class="dm-actions">
           ${isMine
-            ? `
+        ? `
               <button class="edit-btn">編集</button>
               <button class="delete-btn">削除</button>
             `
-            : `
+        : `
               <form action="/dm/${msg.pair_id}/message/${msg.id}/report" method="POST" onsubmit="return confirm('このメッセージを通報しますか？');">
                 <input type="hidden" name="_token" value="${csrfToken}">
                 <button type="submit" class="report-btn">通報</button>
               </form>
             `
-          }
+      }
         </div>
       </div>
     `);
@@ -206,13 +206,17 @@ $(function () {
     }
 
     if (status === 'agreed') {
+
+      const postId = $('#dm-config').data('postId');
+
       if (!isPoster) {
-        area.append(`<a href="/checkout/${dmId}" class="btn-detail">決済へ進む</a>`);
+        area.append(`<a href="/payment/cart/${postId}" class="btn-detail">決済へ進む</a>`);
       } else {
         area.append(`<p class="dm-status-wait">里親様の決済をお待ちください…</p>`);
       }
       return;
     }
+
 
     if (status === 'paid') {
       if (!isPoster) {
