@@ -86,13 +86,13 @@
 
         <div class="dm-transfer-area">
             @php
-                $status = $dm->transfer_status;
+                $status = $dmId->transfer_status;
                 $isPoster = Auth::id() === $post->user_id;
             @endphp
 
             {{-- 資料を渡す（投稿者のみ / none） --}}
             @if($isPoster && $status === 'none')
-                <form action="{{ route('transfer.send', $dm->id) }}" method="POST">
+                <form action="{{ route('transfer.send', $dmId->id) }}" method="POST">
                     @csrf
                     <button type="submit" class="btn-detail">資料を渡す</button>
                 </form>
@@ -100,12 +100,12 @@
 
             {{-- 里親希望者のみ表示（資料確認ボタン） --}}
             @if(!$isPoster && $status === 'sent')
-                <a href="{{ route('document.show', $dm->id) }}" class="btn-detail">資料を確認する</a>
+                <a href="{{ route('document.show', $dmId->id) }}" class="btn-detail">資料を確認する</a>
             @endif
 
             {{-- 合意する（submitted のみ） --}}
             @if($status === 'submitted')
-                <form action="{{ route('transfer.agree', $dm->id) }}" method="POST">
+                <form action="{{ route('transfer.agree', $dmId->id) }}" method="POST">
                     @csrf
                     <button type="submit" class="btn-detail">合意する</button>
                 </form>
@@ -113,12 +113,12 @@
 
             {{-- 合意待ち（agreed_wait） --}}
             @if($status === 'agreed_wait')
-                @if($dm->agreed_user_id === Auth::id())
+                @if($dmId->agreed_user_id === Auth::id())
                     {{-- 自分が先に合意した場合 --}}
                     <p class="dm-status-wait">相手の合意をお待ちください…</p>
                 @else
                     {{-- 相手が先に合意した場合 --}}
-                    <form action="{{ route('transfer.agree', $dm->id) }}" method="POST">
+                    <form action="{{ route('transfer.agree', $dmId->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn-detail">合意する</button>
                     </form>
@@ -163,7 +163,7 @@
                 </div>
             @else
     <div class="dm-actions">
-        <form action="{{ route('report.message', ['dm' => $dm->id, 'message' => $message->id]) }}" method="POST" onsubmit="return confirm('このメッセージを通報しますか？');">
+        <form action="{{ route('report.message', ['dm' => $dmId->id, 'message' => $message->id]) }}" method="POST" onsubmit="return confirm('このメッセージを通報しますか？');">
             @csrf
             <button type="submit" class="report-btn">通報</button>
         </form>
@@ -208,8 +208,8 @@
 @endsection
 
 @section('script')
-    <div id="dm-config" data-fetch-url="{{ route('dm.message.fetch', $dm->id) }}"
-        data-send-url="{{ route('dm.message.send', $dm->id) }}" data-csrf-token="{{ csrf_token() }}"
+    <div id="dm-config" data-fetch-url="{{ route('dm.message.fetch', $dmId->id) }}"
+        data-send-url="{{ route('dm.message.send', $dmId->id) }}" data-csrf-token="{{ csrf_token() }}"
         data-auth-id="{{ auth()->id() }}">
     </div>
 
