@@ -82,9 +82,64 @@
   </div>
 
     {{-- ページネーション --}}
-    @if(method_exists($catposts, 'links'))
+    @if(isset($catposts) && $catposts->lastPage() > 1)
       <div class="pagination">
-        {{ $catposts->links() }}
+        <ul class="pagination-list">
+          {{-- 前へ --}}
+          @if($catposts->currentPage() > 1)
+            <li class="pagination-item">
+              <a href="{{ $catposts->previousPageUrl() }}" class="pagination-link pagination-prev">
+                prev ←
+              </a>
+            </li>
+          @endif
+
+          {{-- 最初のページ --}}
+          @if($catposts->currentPage() > 3)
+            <li class="pagination-item">
+              <a href="{{ $catposts->url(1) }}" class="pagination-link">1</a>
+            </li>
+            @if($catposts->currentPage() > 4)
+              <li class="pagination-item">
+                <span class="pagination-dots">...</span>
+              </li>
+            @endif
+          @endif
+
+          {{-- 現在ページ周辺 --}}
+          @for($i = max(1, $catposts->currentPage() - 2); $i <= min($catposts->lastPage(), $catposts->currentPage() + 2); $i++)
+            @if($i == $catposts->currentPage())
+              <li class="pagination-item">
+                <span class="pagination-link pagination-current">{{ $i }}</span>
+              </li>
+            @else
+              <li class="pagination-item">
+                <a href="{{ $catposts->url($i) }}" class="pagination-link">{{ $i }}</a>
+              </li>
+            @endif
+          @endfor
+
+          {{-- 最後のページ --}}
+          @if($catposts->currentPage() < $catposts->lastPage() - 2)
+            @if($catposts->currentPage() < $catposts->lastPage() - 3)
+              <li class="pagination-item">
+                <span class="pagination-dots">...</span>
+              </li>
+            @endif
+            <li class="pagination-item">
+              <a href="{{ $catposts->url($catposts->lastPage()) }}" class="pagination-link">{{ $catposts->lastPage() }}</a>
+            </li>
+          @endif
+
+          {{-- 次へ --}}
+          @if($catposts->hasMorePages())
+            <li class="pagination-item">
+              <a href="{{ $catposts->nextPageUrl() }}" class="pagination-link pagination-next">
+                next →
+              </a>
+            </li>
+          @endif
+        </ul>
       </div>
     @endif
 

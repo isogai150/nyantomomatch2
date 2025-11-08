@@ -39,7 +39,7 @@ class PostController extends Controller
         };
 
         // 画像付き投稿を取得（ページネーション）
-        $catposts = $query->with('images')->paginate(10);
+        $catposts = $query->with('images')->paginate(12);
 
         return view('home.index', compact('catposts'));
     }
