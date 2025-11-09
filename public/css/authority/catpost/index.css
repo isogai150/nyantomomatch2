@@ -332,8 +332,8 @@
     /* 画像部分 */
     .post-image img,
     .no-image {
-    max-height: 100vh;
-    height: auto;
+        max-height: 100vh;
+        height: auto;
     }
 
     .post-body {
@@ -342,26 +342,26 @@
 
     /* 編集ボタン */
     .btn-edit {
-    padding: 3vh 10vw;
+        padding: 1vh 10vw;
     }
 
 
     /* 削除ボタン */
     .btn-delete {
-    padding: 3vh 10vw;
+        padding: 1vh 10vw;
     }
 
 
     /* 詳細ボタン */
     .btn-detail {
-    padding: 4vh 20vw;
+        padding: 1vh 20vw;
     }
 
 
     /* 里親募集中・お見合い中・譲渡成立 */
     .post-information-top p {
-    padding: 3% 4%;
-    font-size: 3vw;
+        padding: 3% 4%;
+        font-size: 3vw;
     }
 
 }
